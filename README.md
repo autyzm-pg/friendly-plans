@@ -1,4 +1,4 @@
-# [Friendly Plans](http://autyzm.eti.pg.gda.pl/mroza/)
+# [Friendly Plans](http://autyzm.eti.pg.gda.pl/przyjaznyplan/)
 Supporting system of behavioral therapy of people with autism
 
 Documentation: work in progress...
