@@ -1,0 +1,114 @@
+<!--
+  ~ Copyright (c) 2016. Wydział Elektroniki, Telekomunikacji i Informatyki, Politechnika Gdańska
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or   (at your option) any later version.
+  ~
+  ~ Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:background="@color/white"
+    android:layout_height="fill_parent" >
+
+    <TextView
+        android:id="@+id/basicview_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/breakButton"
+        android:layout_marginTop="20dp"
+        android:focusable="false"
+        android:textSize="80dp"
+        android:textColor="#000000"
+        android:inputType="textFilter|textMultiLine|textNoSuggestions|"
+        android:text="" >
+    </TextView>
+
+    <ImageView
+        android:id="@+id/basicview_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_above="@id/basicview_description"
+        android:layout_centerHorizontal="true"
+
+        android:src="@drawable/t1" />
+    <ImageButton
+        android:id="@+id/basivview_redbutton"
+        android:onClick="onClickRedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@null"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/rarrow"/>
+    <ImageButton
+        android:id="@+id/basivview_greenbutton"
+        android:onClick="onClickGreenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@null"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/garrow" />
+
+    <ImageButton
+        android:id="@+id/basicview_soundTube"
+
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="5dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:onClick="onBasicSoundTubeClick"
+        android:src="@drawable/soundtube" />
+    <RelativeLayout
+        android:id="@+id/time_str"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="fitXY"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:background="@null">
+        <ImageView
+            android:id="@+id/basicview_czasButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal"
+            android:onClick="onTimerClick"
+            android:src="@drawable/timer"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 s"
+            android:id="@+id/ad_v_timer"
+            android:onClick="onTimerClick"
+            android:textSize="30dp"
+            android:gravity="center_horizontal"
+            android:clickable="true"
+            android:layout_below="@+id/basicview_czasButton"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <Button
+        android:onClick="onClick"
+        android:id="@+id/breakButton"
+        android:layout_width="250dp"
+        android:layout_height="75dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="#00CC33"
+        android:text="PRZERWA"
+        android:textSize="25dp"
+        android:textColor="#FFFFFF"
+        android:scaleType="fitXY"
+        />
+
+</RelativeLayout>

@@ -1,0 +1,23 @@
+<!--
+  ~ Copyright (c) 2016. Wydział Elektroniki, Telekomunikacji i Informatyki, Politechnika Gdańska
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or   (at your option) any later version.
+  ~
+  ~ Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".MainActivity">
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/activityListView"
+        tools:listitem="@android:layout/simple_list_item_2"
+        android:layout_marginBottom="10dp"
+        android:background="#000000"
+        android:divider="#b5b5b5"
+        android:dividerHeight="1dp" />
+
+</RelativeLayout>

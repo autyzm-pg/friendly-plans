@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016. Wydział Elektroniki, Telekomunikacji i Informatyki, Politechnika Gdańska
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or   (at your option) any later version.
+  ~
+  ~ Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name"
+                android:textSize="25sp"
+                android:id="@+id/textView"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText"
+                android:layout_toRightOf="@+id/textView"
+                android:layout_alignBottom="@+id/textView"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="5dp" />
+        </LinearLayout>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            >
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                android:layout_width="fill_parent"
+                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_save"
+                android:onClick="saveTemplate"
+                android:id="@+id/button4"
+                android:layout_below="@+id/button3"
+                android:layout_alignRight="@+id/button3"
+                android:layout_alignLeft="@+id/button3"
+                        android:layout_span="2" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:layout_width="fill_parent"
+                        android:textSize="15sp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add_activity"
+                        android:onClick="addActivityClick"
+                        android:id="@+id/button"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true" />
+
+                    <Button
+                android:layout_width="wrap_content"
+                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                android:text="@string/browse_break_activity"
+                android:id="@+id/button2"
+                android:onClick="browseBreakActivityClick"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/button" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                android:layout_width="wrap_content"
+                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                android:text="@string/add_activity_from_plan"
+                android:onClick="addFromPlanClick"
+                android:id="@+id/button56"
+                android:layout_below="@+id/button"
+                android:layout_alignRight="@+id/button"
+                android:layout_alignLeft="@+id/button" />
+
+                    <Button
+                android:layout_width="wrap_content"
+                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                android:text="@string/browse_gallery_activity"
+                android:onClick="browseGalleryActivityClick"
+                android:id="@+id/button3"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true" />
+
+                </TableRow>
+
+            </TableLayout>
+
+        </RelativeLayout>
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView"
+            android:listSelector="@android:color/transparent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:divider="#b5b5b5"
+            android:dividerHeight="1dp"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true" />
+
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,17 @@
+<!--
+  ~ Copyright (c) 2016. Wydział Elektroniki, Telekomunikacji i Informatyki, Politechnika Gdańska
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or   (at your option) any later version.
+  ~
+  ~ Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
+  -->
+
+<resources>
+
+    <string name="app_name">Przyjazny Plan</string>
+    <string name="Next_button">Następny</string>
+    <string name="Prev_button">Poprzedni</string>
+    <string name="ActivityDesc_example">Lorem ipsum blablabla</string>
+	<string name="finished_btt_activity">Koniec</string>
+    <color name="white">#FFFFFF</color>
+
+</resources>

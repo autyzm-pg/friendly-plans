@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016. Wydział Elektroniki, Telekomunikacji i Informatyki, Politechnika Gdańska
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or   (at your option) any later version.
+  ~
+  ~ Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    <RelativeLayout
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/relativeLayout">
+        <ImageView
+            android:id="@+id/basicview_czasButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal"
+            android:onClick="onTimerClick"
+            android:src="@drawable/timer"
+            android:visibility="invisible"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 s"
+            android:id="@+id/ad_v_timer"
+            android:onClick="onTimerClick"
+            android:textSize="30dp"
+            android:visibility="invisible"
+            android:gravity="center_horizontal"
+            android:clickable="true"
+            android:layout_below="@+id/basicview_czasButton"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/iconGridNormal"
+        android:background="@color/white"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:padding="0dp"
+        android:verticalSpacing="0dp"
+        android:listSelector="@android:color/transparent"
+
+        android:scrollingCache="false"
+        android:animationCache="false"
+
+        android:horizontalSpacing="0dp"
+        android:numColumns="2"
+        android:stretchMode="columnWidth"
+
+        android:gravity="center"
+        />
+</RelativeLayout>

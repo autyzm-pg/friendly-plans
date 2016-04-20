@@ -1,0 +1,32 @@
+/*
+ * Copyright (c) 2016. Wydział Elektroniki, Telekomunikacji i Informatyki, Politechnika Gdańska
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or   (at your option) any later version.
+ *
+ * Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
+ */
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion '23.0.2'
+    defaultConfig {
+
+        minSdkVersion 7
+        targetSdkVersion 7
+        versionCode 1
+        versionName '1.0'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile files('src/opencsv-2.3.jar')
+    compile files('src/commons-io-2.4.jar')
+}

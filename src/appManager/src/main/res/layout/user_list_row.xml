@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016. Wydział Elektroniki, Telekomunikacji i Informatyki, Politechnika Gdańska
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or   (at your option) any later version.
+  ~
+  ~ Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:padding="6dip">
+    <!-- Item Name -->
+
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="4dp"
+        android:gravity="center_horizontal"
+        android:onClick="editUser"
+        android:src="@android:drawable/ic_menu_edit" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="4dp"
+        android:gravity="center_horizontal"
+        android:onClick="deleteUser"
+        android:src="@android:drawable/ic_menu_delete" />
+
+
+    <TextView
+        android:id="@+id/nameUser"
+
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+
+        android:textSize="25sp"
+        android:text="@string/user"
+        android:textStyle="bold"
+        android:singleLine="true"
+
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center" />
+
+
+</LinearLayout>

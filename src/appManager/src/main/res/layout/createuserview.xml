@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016. Wydział Elektroniki, Telekomunikacji i Informatyki, Politechnika Gdańska
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or   (at your option) any later version.
+  ~
+  ~ Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="TWORZENIE NOWEGO UŻYTKOWNIKA"
+        android:id="@+id/ctitleEditView"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:gravity="center_horizontal" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <EditText android:id="@+id/c_edit_imie"
+
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Imię"
+            android:inputType="text" />
+
+        <EditText android:id="@+id/c_edit_nazwisko"
+
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Nazwisko"
+            android:layout_gravity="center_horizontal"
+            android:inputType="text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tryb wyświetlania aktywności"
+            android:id="@+id/c_textView10" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/c_rb_aktywnoscTypeView">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Duży"
+                android:id="@+id/c_rb_bigView"
+                android:layout_marginLeft="10dp" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Średni"
+                android:id="@+id/c_rb_mediumView"
+                android:layout_marginLeft="10dp" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mały"
+                android:id="@+id/c_rb_smallView"
+                android:layout_marginLeft="10dp" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tryb wyświetlania czynności"
+            android:id="@+id/c_textView11" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/c_rbg_czynnoscTypeView"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Zaawansowany"
+                android:id="@+id/c_rb_advancedView"
+                android:layout_marginLeft="10dp" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Podstawowy"
+                android:id="@+id/c_rb_basicView"
+                android:layout_marginLeft="10dp" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dźwięk timera:"
+            android:id="@+id/c_textView7" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Odsłuchaj"
+            android:onClick="listenTimer"
+            android:id="@+id/c_odsluchajBtn"
+            android:visibility="invisible" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wybierz..."
+            android:id="@+id/c_button12"
+            android:layout_marginLeft="15dp"
+            android:onClick="chooseTimerPathCreate" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/c_edit_pathToTimer"
+            android:visibility="invisible" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Widok planu aktywności:"
+            android:id="@+id/c_textViewWidokPlanuAktywnosci" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/c_rbg_planTypeView"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lista"
+                android:id="@+id/c_rb_planListView"
+                android:layout_marginLeft="10dp" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Slajd"
+                android:id="@+id/c_rb_planSlideView"
+                android:layout_marginLeft="10dp" />
+        </RadioGroup>
+        </LinearLayout>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Zapisz"
+        android:onClick="addUserDB"
+        android:id="@+id/c_button13"
+        android:layout_marginTop="15dp" />
+
+
+</LinearLayout>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2016. Wydział Elektroniki, Telekomunikacji i Informatyki, Politechnika Gdańska
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or   (at your option) any later version.
+  ~
+  ~ Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
+  -->
+<TableLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TableRow
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:weightSum="100"/>
+
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:weightSum="100">
+
+        <Button
+            android:text="Zarządzanie planami"
+            android:layout_height="150dp"
+            android:layout_width="wrap_content"/>
+        <Button
+            android:text="Zarządzanie aktywnosciami"
+            android:layout_height="150dp"
+            android:layout_width="wrap_content"/>
+        <Button
+            android:text="Planowanie"
+            android:layout_height="150dp"
+            android:layout_width="wrap_content"/>
+
+    </TableRow>
+
+    <TableRow
+        android:weightSum="2.0"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_horizontal"
+        >
+        <Button
+            android:text="Zarządzanie użytkownikami"
+            android:layout_height="150dp"
+            android:layout_width="wrap_content"/>
+        <Button
+            android:text="Import"
+            android:layout_height="10dp"
+            android:layout_width="wrap_content"/>
+        <Button  android:text="Eksport"
+            android:layout_height="10dp"
+            android:layout_width="wrap_content"/>
+
+
+    </TableRow>
+</TableLayout>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2016. Wydział Elektroniki, Telekomunikacji i Informatyki, Politechnika Gdańska
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or   (at your option) any later version.
+  ~
+  ~ Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fadeScrollbars="false">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical" android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:orientation="vertical" android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/relativeLayout">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView"
+                    android:src="@drawable/planicon"
+                    android:layout_alignBottom="@+id/imageView6"
+                    android:layout_centerHorizontal="true" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView2"
+                    android:src="@drawable/planmanagericon"
+                    android:layout_alignBottom="@+id/imageView7"
+                    android:layout_centerHorizontal="true" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView3"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/emorg"
+                    android:layout_alignBottom="@+id/imageView6" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/imageView4"
+                    android:src="@drawable/eti"
+                    android:layout_below="@+id/imageView3"
+                    android:layout_alignParentLeft="true" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView6"
+                    android:src="@drawable/pg"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/imageView4" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView7"
+                    android:src="@drawable/kio"
+                    android:layout_marginBottom="9dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignBottom="@+id/imageView4"
+                    android:layout_toRightOf="@+id/imageView4" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView8"
+                    android:src="@drawable/iwrd"
+                    android:layout_above="@+id/imageView7"
+                    android:layout_alignParentRight="true" />
+                </RelativeLayout>
+
+                <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/friendly_plan"
+                android:id="@+id/textView2"
+                android:layout_below="@+id/relativeLayout"
+                android:layout_centerHorizontal="true"
+                android:textColor="#202020"
+                    android:gravity="center_horizontal"
+                    android:textStyle="bold"
+                    android:textSize="25sp" />
+
+                <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/version"
+                android:id="@+id/textView3"
+                android:layout_below="@+id/textView2"
+                android:layout_centerHorizontal="true"
+                android:textColor="#202020"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal" />
+
+                <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                    android:text="@string/app_description"
+                android:id="@+id/textView4"
+                android:layout_below="@+id/textView3"
+                android:layout_centerHorizontal="true"
+                android:textColor="#202020"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="http://autyzm.eti.pg.gda.pl/przyjaznyplan/"
+                    android:id="@+id/textView12"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="#3b5d7e"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:autoLink="web"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016. Wydział Elektroniki, Telekomunikacji i Informatyki, Politechnika Gdańska
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or   (at your option) any later version.
+  ~
+  ~ Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
+  -->
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:background="#000000"
+      >
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:background="#ffffff"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            >
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+        <ImageView
+            android:layout_width="226dp"
+            android:layout_height="190dp"
+            android:id="@+id/con"
+            android:src="@drawable/ic_launcher"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:id="@+id/con3"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal"
+            android:onClick="playSound"
+            android:src="@drawable/soundtube"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="fill_parent"
+            android:layout_height="206dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal|bottom"
+            android:text="@+id/label"
+            android:maxLines="3"
+            android:textSize="40dp"
+            android:layout_below="@+id/con"
+            android:gravity="center|center_vertical|center_horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true" />
+            </RelativeLayout>
+        </FrameLayout>
+    </FrameLayout>
+</RelativeLayout>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016. Wydział Elektroniki, Telekomunikacji i Informatyki, Politechnika Gdańska
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or   (at your option) any later version.
+  ~
+  ~ Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/current_plan"
+            android:textSize="25sp"
+            android:id="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:textSize="15sp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_activity_from_pattern"
+                    android:onClick="activityAddFromTemplateClick"
+                    android:id="@+id/button85"
+                    android:layout_alignParentLeft="true" />
+
+                <Button
+                android:layout_width="wrap_content"
+                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_clean_plan"
+                android:id="@+id/button86"
+                android:onClick="planClearClick"
+                android:layout_above="@+id/button"
+                android:layout_toRightOf="@+id/button85" />
+
+                <Button
+                android:layout_width="wrap_content"
+                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_clean_exec"
+                android:id="@+id/button7"
+                android:layout_alignTop="@id/button85"
+                android:onClick="cleanFullExecution"
+                android:layout_toRightOf="@+id/button86" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                android:layout_width="wrap_content"
+                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                android:text="@string/add_activity_1"
+                android:onClick="addActivityClick"
+                android:id="@+id/button"
+                android:layout_below="@id/button85"
+                android:layout_alignParentLeft="true" />
+
+                <Button
+                android:layout_width="wrap_content"
+                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                android:text="@string/browse_break_activity"
+                android:layout_alignTop="@id/button"
+                android:id="@+id/button2"
+                android:onClick="browseBreakActivityClick"
+                android:layout_toRightOf="@+id/button" />
+
+                <Button
+                android:layout_width="wrap_content"
+                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/button"
+                android:text="@string/browse_gallery_activity"
+                android:onClick="browseGalleryActivityClick"
+                android:id="@+id/button3"
+                android:layout_toRightOf="@+id/button2" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                android:layout_width="wrap_content"
+                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_save"
+                android:onClick="saveTemplate"
+                android:id="@+id/button4"
+                android:layout_below="@id/button3"
+                    android:layout_span="3" />
+            </TableRow>
+        </TableLayout>
+
+        <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView"
+            android:listSelector="@android:color/transparent"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentLeft="true"
+            android:divider="#b5b5b5"
+            android:dividerHeight="1dp" />
+
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,93 @@
+<!--
+  ~ Copyright (c) 2016. Wydział Elektroniki, Telekomunikacji i Informatyki, Politechnika Gdańska
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or   (at your option) any later version.
+  ~
+  ~ Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:background="@color/white"
+    android:layout_height="fill_parent" >
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+
+        android:layout_below="@+id/imageView1"
+        android:layout_marginTop="20dp"
+        android:focusable="false"
+        android:textSize="40sp"
+        android:inputType="textFilter|textMultiLine|textNoSuggestions|"
+        android:text="@string/ActivityDesc_example" >
+    </EditText>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginTop="100dp"
+
+        android:src="@drawable/elephant" />
+
+    <ImageButton
+        android:id="@+id/button2"
+        android:onClick="onClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button1"
+        android:layout_alignBottom="@+id/button1"
+        android:layout_toRightOf="@+id/imageView1"
+        android:background="@null"
+        android:src="@drawable/garrow" />
+
+    <ImageButton
+        android:id="@+id/button1"
+        android:onClick="onClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="34dp"
+        android:layout_marginRight="15dp"
+        android:layout_toLeftOf="@+id/imageView1"
+        android:background="@null"
+        android:src="@drawable/rarrow"/>
+
+    <ImageButton
+        android:id="@+id/imageButton1"
+
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="5dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:onClick="playSound"
+        android:src="@drawable/soundtube" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/timerText"
+        android:layout_alignTop="@+id/imageButton1"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/czas"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/timer" />
+
+</RelativeLayout>

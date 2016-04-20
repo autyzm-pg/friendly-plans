@@ -1,0 +1,87 @@
+<!--
+  ~ Copyright (c) 2016. Wydział Elektroniki, Telekomunikacji i Informatyki, Politechnika Gdańska
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or   (at your option) any later version.
+  ~
+  ~ Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
+  -->
+
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:baselineAligned="true"
+    android:paddingTop="2dip"
+    android:paddingBottom="3dip">
+
+    <ImageView
+        android:id="@+id/con3"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="4dp"
+        android:gravity="center_horizontal"
+        android:onClick="playSound"
+        android:src="@drawable/aoundtube" />
+
+
+
+    <ImageView
+        android:id="@+id/con"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:gravity="center_horizontal"
+        android:src="@drawable/ic_launcher" />
+
+
+    <ImageView
+        android:id="@+id/con2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:gravity="center_horizontal"
+        android:src="@drawable/icon_timer"
+        android:adjustViewBounds="true" />
+
+    <ImageView
+        android:id="@+id/przesunwgore"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="4dp"
+        android:gravity="center_horizontal"
+        android:src="@drawable/arrowgora"/>
+
+    <ImageView
+        android:id="@+id/przesunwdol"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="4dp"
+        android:gravity="center_horizontal"
+        android:src="@drawable/arrow" />
+
+    <ImageView
+        android:id="@+id/edytuj"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="4dp"
+        android:gravity="center_horizontal"
+        android:onClick="editSlide"
+        android:src="@android:drawable/ic_menu_edit" />
+
+    <ImageView
+        android:id="@+id/usun"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="4dp"
+        android:gravity="center_horizontal"
+        android:onClick="removeSlide"
+        android:src="@android:drawable/ic_menu_delete"
+        android:contentDescription="" />
+
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|left"
+        android:text="@+id/label"
+        android:textSize="25sp"
+        android:layout_marginLeft="10dp" />
+
+
+</LinearLayout>

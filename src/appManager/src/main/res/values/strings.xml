@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016. Wydział Elektroniki, Telekomunikacji i Informatyki, Politechnika Gdańska
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or   (at your option) any later version.
+  ~
+  ~ Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
+  -->
+
+<resources>
+
+    <string name='about_app'>O aplikacji</string>
+    <string name="action_in_activity">Czynności w aktywności</string>
+    <string name="action_settings">Settings</string>
+    <string name="activities_added">Dodano aktywności</string>
+    <string name="activities">Aktywności</string>
+    <string name="activities_break">Aktywności przerwy</string>
+    <string name="activities_gallery">Aktywności typu GA</string>
+    <string name="activity_added">Dodano aktywność</string>
+    <string name="activity_break_added">Dodano aktywność przerwy</string>
+    <string name="activity_context_remove">kontekstach i zostanie usunieta rowniez z nich.</string>
+    <string name="activity_edited">Edytowano aktywność</string>
+    <string name="activity_gallery_added">Dodano aktywność typu galeria aktywności</string>
+    <string name="activity_gallery">Galeria aktywności</string>
+    <string name="activity_is_used">Dana aktywność używana jest w</string>
+    <string name='activity_management'>Zarządzanie aktywnościami</string>
+    <string name="activity_number">Liczba czynności</string>
+    <string name="add_activity_1">Dodaj aktywność</string>
+    <string name='add_activity'>Dodaj nową aktywność</string>
+    <string name="add_activity_from_pattern">Dodaj aktywności z szablonu planu</string>
+    <string name="add_activity_from_plan">Dodaj wybrane z planu</string>
+    <string name="add_break_activity">Dodaj aktywność przerwy</string>
+    <string name="add_existing_activity">Dodaj istniejącą aktywność</string>
+    <string name="add_gallery_activity">Dodaj aktywność typu galeria aktywnosci</string>
+    <string name="add_new_action_btn">Dodaj nową czynność</string>
+    <string name="add_new_user_btn">Dodaj nowego użytkownika</string>
+    <string name='add_plan'>Dodaj nowy plan</string>
+    <string name="app_description">Aplikacja \'Przyjazny Plan\' jest rozwijana we współpracy Wydziału Elektroniki, Telekomunikacji i Informatyki Politechniki Gdańskiej oraz Instytutem Wspomagania i Rozwoju Dziecka w Gdańsku. Pierwsza wersja powstała w ramach przedmiotu \'Projekt Grupowy\' prowadzonego na kierunku Informatyka w latach 2014/2015. Mamy nadzieję, że aplikacja choć w drobnym stopniu pomogą dzieciom chorym na autyzm jak i ich opiekunom w trudnościach dnia codziennego.\n\nAplikacje wytwarzane w ramach projketu są udostępniane bezpłatnie na licencji Open Source (GPLv3).\n\n Więcej informacji na stronie projektu: </string>
+    <string name="app_name">Plan Manager</string>
+    <string name="break_activities">Aktywności przerwy</string>
+    <string name="browse_break_activity">Przeglądaj aktywności przerwy</string>
+    <string name="browse_gallery_activity">Przeglądaj aktywności typu galeria aktywności</string>
+    <string name="btn_clean_exec">Wyczyść całościowe wykonanie</string>
+    <string name="btn_clean_plan">Wyczyść plan</string>
+    <string name="btn_manage_activities">Zarządzanie czynnościami</string>
+    <string name="btn_save">Zapisz</string>
+    <string name="btn_set_picture">Ustaw obraz</string>
+    <string name="btn_set_sound">Ustaw dźwięk</string>
+    <string name="current_plan">Aktualny plan</string>
+    <string name='delete_activity'>Usuń aktywność</string>
+    <string name='delete_plan'>Usuń plan</string>
+    <string name='edit_activity'>Edytuj aktywność</string>
+    <string name='edit_plan'>Edytuj plan</string>
+    <string name='edit_user_plan'>Przydziel / Edytuj aktualny plan</string>
+    <string name="filter_btn">Filtruj</string>
+    <string name="friendly_plan">Przyjazny Plan</string>
+    <string name="gallery_activities">Aktywności galerii aktywności</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="main_picture">Obrazek główny</string>
+    <string name="name">Nazwa</string>
+    <string name="no">Nie</string>
+    <string name='plans_pattern'>Szablon planów</string>
+    <string name="searching_for">Szukam</string>
+    <string name="set_up_template_name">Ustaw nazwę szablonu</string>
+    <string name='show_user_plan'>Przegladaj aktualny plan</string>
+    <string name="sound">Dźwięk</string>
+    <string name="sure_to_remove">Czy na pewno skasować aktywność</string>
+    <string name="time">Czas</string>
+    <string name="title_activity_plan_main_view">PlanMainView</string>
+    <string name="user_list">Lista użytkowników</string>
+    <string name='user_management'>Zarządzanie użytkownikami</string>
+    <string name='user_plans_management'>Zarządzanie planami użytkownika</string>
+    <string name="user">Użytkownik</string>
+    <string name="version">Wersja 1.0.9</string>
+    <string name="yes">Tak</string>
+
+
+</resources>

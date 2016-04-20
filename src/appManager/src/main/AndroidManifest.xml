@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016. Wydział Elektroniki, Telekomunikacji i Informatyki, Politechnika Gdańska
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or   (at your option) any later version.
+  ~
+  ~ Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
+  -->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.przyjaznyplanDisplayer.mymodule.appmanager" >
+    <uses-sdk
+        android:minSdkVersion="7"
+        android:targetSdkVersion="7" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/planmanagericon"
+        android:label="@string/app_name" >
+        <activity
+            android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden"
+            android:name="com.przyjaznyplanDisplayer.mymodule.appmanager.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Aktywnosci.AcitvityMainView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name=".Aktywnosci.ActivityEditView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name=".Czynnosci.ActionAddEditView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name=".Czynnosci.ActionList" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name=".Aktywnosci.ActivityFindView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name=".Plany.PlanTemplatesMainView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name=".Plany.PlanEditView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name=".Plany.PlanAddActivityView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name=".Informacje.AboutView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name="com.przyjaznyplanDisplayer.mymodule.appmanager.Plany.PlanyDodajWybraneView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name=".Plany.PlanBrowseActivity" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name=".Plany.PlanFindView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name="com.przyjaznyplanDisplayer.mymodule.appmanager.Plany.PlanyDodawanieGAPrzerwy" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name=".PlanyZarzadzanie.UserPlansMainView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name="com.przyjaznyplanDisplayer.mymodule.appmanager.PlanyZarzadzanie.PrzegladajAktualnyPlan" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name=".PlanyZarzadzanie.PlanCurrentEditView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name="com.przyjaznyplanDisplayer.mymodule.appmanager.Users.UserListView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden"></activity>
+        <activity android:name="com.przyjaznyplanDisplayer.mymodule.appmanager.Users.CreateUserView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden"></activity>
+        <activity android:name="com.przyjaznyplanDisplayer.mymodule.appmanager.Users.EditUserView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden"></activity>
+    </application>
+
+</manifest>

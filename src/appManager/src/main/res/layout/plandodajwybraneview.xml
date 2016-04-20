@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016. Wydział Elektroniki, Telekomunikacji i Informatyki, Politechnika Gdańska
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or   (at your option) any later version.
+  ~
+  ~ Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    >
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Nazwa:"
+        android:textSize="40dp"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:layout_width="700dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/nazwaPlanu"
+        android:textSize="40dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Nazwa"
+        android:layout_toRightOf="@+id/textView"
+        android:layout_alignBottom="@+id/textView"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:id="@+id/listView"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:listSelector="@android:color/transparent"
+        android:layout_marginBottom="80dp"/>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fadeScrollbars="false"
+        android:layout_alignParentBottom="true">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            >
+            <Button
+                android:layout_width="300dp"
+                android:textSize="25dp"
+                android:layout_height="75dp"
+                android:text="Wybierz aktywności GA"
+                android:onClick="wybierzGA"
+                android:id="@+id/button46"
+                android:layout_alignParentLeft="true"/>
+            <Button
+                android:layout_width="300dp"
+                android:textSize="25dp"
+                android:layout_height="75dp"
+                android:text="Wybierz przerwy"
+                android:onClick="wybierzPrzerwy"
+                android:id="@+id/button47"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+            <Button
+                android:layout_width="300dp"
+                android:textSize="25dp"
+                android:layout_height="75dp"
+                android:text="Zapisz"
+                android:onClick="saveTemplate"
+                android:id="@+id/button4"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

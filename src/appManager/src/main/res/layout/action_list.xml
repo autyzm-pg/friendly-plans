@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2016. Wydział Elektroniki, Telekomunikacji i Informatyki, Politechnika Gdańska
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or   (at your option) any later version.
+  ~
+  ~ Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/action_in_activity"
+            android:textSize="20sp"
+            android:id="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
+            android:background="#1e1e1e"
+            android:gravity="center_vertical" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:id="@+id/listView"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:contextClickable="false"
+            android:divider="#b5b5b5"
+            android:dividerHeight="1dp" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="*">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_new_action_btn"
+                    android:onClick="dodajNowaCzynnoscClick"
+                    android:id="@+id/button2"
+                    android:textSize="15sp"
+                    android:layout_column="0" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_save"
+                    android:textSize="15sp"
+                    android:id="@+id/button3"
+                    android:onClick="saveTemplate" />
+            </TableRow>
+
+        </TableLayout>
+
+    </LinearLayout>
+</RelativeLayout>
