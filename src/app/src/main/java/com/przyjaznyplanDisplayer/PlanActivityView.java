@@ -202,7 +202,7 @@ public class PlanActivityView  extends Activity implements OnItemClickListener, 
             slide = listAdapter.getItem(position);
         }
         if(slide.getSlides().size()>0){
-            goToActivity(slide,currentPosition);
+            goToActivity(slide, currentPosition);
             return;
         }
         if(slide.getTime()==-1){
@@ -329,7 +329,7 @@ public class PlanActivityView  extends Activity implements OnItemClickListener, 
             newChildGallery.setNumber(ac.getNumber());
             listAdapter.changeChildActivity(ac,newChildGallery);
         } else{
-            activityDao.setActivityAsUndone(BusinessLogic.SYSTEM_CURRENT_PLAN_ID,ac.getNumber(), ac.getTypeFlag());
+            activityDao.setActivityAsUndone(BusinessLogic.SYSTEM_CURRENT_PLAN_ID, ac.getNumber(), ac.getTypeFlag());
             ac.setStatus(com.przyjaznyplan.models.Activity.ActivityStatus.NEW.toString());
         }
         setCurrentActivityIndex();

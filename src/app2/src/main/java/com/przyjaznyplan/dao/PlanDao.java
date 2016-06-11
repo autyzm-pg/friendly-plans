@@ -43,7 +43,7 @@ public class PlanDao extends AbstractDao<PlanDto> {
         return values;
     }
 
-    private void addOrUpdateActivitiesFromPlan(String planId, List<Activity> aktywnosci, List<Activity> aktywnosciGA , List<Activity> aktywnosciPrzerwy){
+    public void addOrUpdateActivitiesFromPlan(String planId, List<Activity> aktywnosci, List<Activity> aktywnosciGA , List<Activity> aktywnosciPrzerwy){
         String flag = null;
         for(int i=0; i<aktywnosci.size(); i++){
             if(aktywnosci.get(i).getTypeFlag()!= null && aktywnosci.get(i).getTypeFlag().equals(Activity.TypeFlag.TEMP_ACTIVITY_GALLERY.toString())){

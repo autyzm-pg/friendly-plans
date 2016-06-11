@@ -46,6 +46,15 @@ public class Activity extends BaseModel {
 
     }
 
+    public Activity(String title, TypeFlag typeFlag) {
+        this.title = title;
+        this.typeFlag = typeFlag + "";
+        this.Status = ActivityStatus.NEW + "";
+        this.number = 0;
+        this.lastSlideNumber = 0;
+        this.time = 0;
+    }
+
     public String getDate() {
         return date;
     }
