@@ -48,8 +48,6 @@ public class UserAdapter extends ArrayAdapter<User> {
         sort();
         arrayToShow = new ArrayList<User>();
         arrayToShow.addAll(objects);
-
-
     }
 
     private void sort(){
@@ -57,7 +55,6 @@ public class UserAdapter extends ArrayAdapter<User> {
             @Override
             public int compare(User user, User user2) {
                 return c.compare(user.getSurname(),user2.getSurname());
-
             }
         });
     }
@@ -99,15 +96,11 @@ public class UserAdapter extends ArrayAdapter<User> {
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
-
         View v = convertView;
-
-
         if (v == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = inflater.inflate(R.layout.user_list_row, null);
         }
-
 
         User u = arrayToShow.get(position);
 
@@ -125,14 +118,9 @@ public class UserAdapter extends ArrayAdapter<User> {
             }else{
                 layout.setBackgroundColor(Color.BLACK);
             }
-
-
         }
         return v;
     }
-
-
-
 
 
     @Override
@@ -155,11 +143,8 @@ public class UserAdapter extends ArrayAdapter<User> {
 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-
                 FilterResults results = new FilterResults();
                 ArrayList<User> FilteredArrayNames = new ArrayList<User>();
-
-
 
                 constraint = constraint.toString().toLowerCase();
                 for (int i = 0; i < objects.size(); i++) {
@@ -172,15 +157,10 @@ public class UserAdapter extends ArrayAdapter<User> {
                 results.count = FilteredArrayNames.size();
                 results.values = FilteredArrayNames;
 
-
                 return results;
             }
         };
 
         return filter;
     }
-
-
-
-
 }

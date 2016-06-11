@@ -7,10 +7,6 @@
 
 package com.przyjaznyplan.dao;
 
-
-
-
-
 import android.database.sqlite.SQLiteDatabase;
 
 import com.przyjaznyplan.interfaces.DaoSql;

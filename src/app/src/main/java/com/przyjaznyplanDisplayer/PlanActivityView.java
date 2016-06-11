@@ -119,7 +119,6 @@ public class PlanActivityView  extends Activity implements OnItemClickListener, 
 
             updateViewAfterTimerHit();
 
-
             if(time>0) {
                 handler.postDelayed(timer, 1000);
             }else{
@@ -495,20 +494,10 @@ public class PlanActivityView  extends Activity implements OnItemClickListener, 
 
     private void goToActivity(com.przyjaznyplan.models.Activity item, int position){
         Log.i("PlanActivity", "onItemClick: " + position);
-        //Toast.makeText(this, item.getTitle() + " selected", Toast.LENGTH_LONG).show();
         com.przyjaznyplan.models.Activity ca = item;
         Intent intent = null;
 
-
         User user = Globals.GetUser();
-
-
-        if(user.getName().equals(Globals.DEFAULT_USER_NAME))
-        {
-
-            //Toast.makeText(this,"Ustaw użytkownika w celu zastosowania dedykowanych ustawień. Użyto domyślne ustawienia.",Toast.LENGTH_LONG).show();
-            ;
-        }
 
         if(ca.getTypeFlag().equals(com.przyjaznyplan.models.Activity.TypeFlag.TEMP_ACTIVITY_GALLERY.toString())) {
             intent = new Intent(this, ActivityGalleryView.class);
@@ -587,61 +576,9 @@ public class PlanActivityView  extends Activity implements OnItemClickListener, 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    // Check which request we're responding to
-	    if (requestCode == ACTIVITY_CHOSEN) {
-	        // Make sure the request was successful
-	        if (resultCode == RESULT_OK) {
-	            // The user picked a contact.
-	            // The Intent's data Uri identifies which contact was selected.
-	        	//String reward = data.getExtras().getString("REWARD");
-	        	//Log.i("PlanActivity", "onActivityResult: " + reward);
-	        	//int size = mainListView.getAdapter().getCount();
-	        	//ArrayList<String> list = new ArrayList<String>();
-	        	//for(int i=0;i  < size;i++){
-	        		
-	        	//	list.add(mainListView.getAdapter().getItem(i).toString());
-	        	//	if(i==LAST_ACTIVITY){
-	        	//		list.add(reward);
-	        	//	}
-	        	//}
-	        	
-	        	//listAdapter = new ArrayAdapter<String>(this, R.layout.rowlistlayout,R.id.label, list);
-	        	//mainListView.setAdapter(listAdapter);
-	        	
-	        	
-	        	
-	        	
-	        	//Intent i = new Intent(this, ActivityView.class);
-	        	//i.putExtra("ID",LAST_ACTIVITY+1);
-	        	//i.putExtra("NAME", reward);
-	        	//startActivityForResult(i, ACTIVITY_DONE);
-	        	
-	        	 //
-	            // Do something with the contact here (bigger example below)
-	        }
-	       
-	    } else if(requestCode == ACTIVITY_DONE)
-        {
-	    	//if(data == null) return;
-	    	//if(data.getExtras()==null) return;
-	    	//int id = data.getExtras().getInt("ID");
-	    	//String stat = data.getExtras().getString("STATE");
-	    	//if(stat.equals("FINISHED")){
-	    		
-	    		//states[id]=true;
-	    		
-	    		
-	    	} else if(requestCode ==12341) {
+	    if(requestCode ==12341) {
             super.finish();
         }
-	    	
-	    	//int size = 	mainListView.getChildCount();
-		    //for(int i =0;i<size;i++){
-	    	//	if(states[i]){
-	    		
-	    	//	TextView txtView = (TextView)((LinearLayout)mainListView.getChildAt(i)).getChildAt(2);
-	    	//	 txtView.setPaintFlags( txtView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-	    	//	}
-	    	//}
     }
 
     private void showFinalScreen(){
@@ -669,7 +606,6 @@ public class PlanActivityView  extends Activity implements OnItemClickListener, 
     }
 
     //only for basic view
-
     private void initData() {
         if(setCurrentActivityIndex()==false){
             return;
@@ -832,7 +768,6 @@ public class PlanActivityView  extends Activity implements OnItemClickListener, 
 
 
     public void onClickGreenButton(View view){
-        //++currentPosition;
         buttonToNextSlide.setVisibility(View.INVISIBLE);
         goToActivity(list.get(currentPosition),currentPosition);
     }
@@ -860,9 +795,4 @@ public class PlanActivityView  extends Activity implements OnItemClickListener, 
             }
         }
     }
-
-    //end of basic view
-	    
-
-
 }

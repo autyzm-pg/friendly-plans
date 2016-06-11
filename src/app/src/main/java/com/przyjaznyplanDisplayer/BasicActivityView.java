@@ -45,13 +45,9 @@ import java.util.List;
 
 public class BasicActivityView extends Activity implements View.OnLongClickListener{
 
-    //
-
-
     //model variables
     private com.przyjaznyplan.models.Activity activity;
     private List<Slide> slides;
-
 
     //other
     private int currentPosition;
@@ -78,10 +74,8 @@ public class BasicActivityView extends Activity implements View.OnLongClickListe
         initData();
 
        if(dataInitialized) {
-           initListeners();
            updateAllView();
        }
-
     }
 
     //implementacja timera
@@ -182,15 +176,6 @@ public class BasicActivityView extends Activity implements View.OnLongClickListe
 
     private void timerResume(ExtendedRunnable timer){
         handler.postDelayed(timer,1000);
-    }
-
-
-
-
-    private void initListeners() {
-
-        //timerIcon.setOnLongClickListener(this);
-
     }
 
     private void initScreen() {
@@ -329,17 +314,13 @@ public class BasicActivityView extends Activity implements View.OnLongClickListe
             image.setVisibility(View.VISIBLE);
         }
 
-
         //ikonkaTImera
-        if(currentSlide.getTime()==0){
+        if (currentSlide.getTime()==0){
             timerIcon.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             timerIcon.setVisibility(View.VISIBLE);
         }
-
         updateArrowsView();
-
-
     }
 
     public void onTimerLongClick (){
@@ -534,9 +515,6 @@ public class BasicActivityView extends Activity implements View.OnLongClickListe
             //firstly set number to activity gallery form temp activity gallery(sort by number limit 1)
             //after that - delete temp activity gallery(sort by number limit 1)
             //refresh plan activity
-
-
-
         }
         activityDao.setActivityAsDone(BusinessLogic.SYSTEM_CURRENT_PLAN_ID,this.activity.getNumber(), this.activity.getTypeFlag());
         finish();

@@ -4,27 +4,17 @@
  *
  * Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
  */
+
 package com.przyjaznyplanDisplayer;
 
+import android.app.Application;
+import android.test.ApplicationTestCase;
 
-
-public abstract class ExtendedRunnable implements Runnable {
-
-
-    protected int time;
-
-    public boolean isRunning = false;
-
-
-    public ExtendedRunnable(){}
-
-
-
-    public int getTime() {
-        return time;
-    }
-
-    public void setTime(int time) {
-        this.time = time;
+/**
+ * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
+ */
+public class ApplicationTest extends ApplicationTestCase<Application> {
+    public ApplicationTest() {
+        super(Application.class);
     }
 }

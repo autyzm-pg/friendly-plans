@@ -86,9 +86,6 @@ public abstract class BaseSQL implements SqlCreate {
      * @param attributes other attributes like PRIMARY_KEY/PRIMARY_KEY_AUTOINCREMENT or NOT_NULL or REFERENCES(...,...)
      * @return self
      */
-
-
-
     public final BaseSQL addField(String name, String... attributes){
         create_sql_statetment.append(name).append(" ");
 
@@ -102,8 +99,6 @@ public abstract class BaseSQL implements SqlCreate {
             }
 
         }
-
-
 
         return this;
     }

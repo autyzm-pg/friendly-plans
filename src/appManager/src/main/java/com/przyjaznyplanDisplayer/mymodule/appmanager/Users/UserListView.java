@@ -52,7 +52,6 @@ public class UserListView extends Activity implements  TextWatcher, AdapterView.
     @Override
     protected void onRestart() {
         super.onRestart();
-
     }
 
     @Override
@@ -69,12 +68,9 @@ public class UserListView extends Activity implements  TextWatcher, AdapterView.
         }
         mainListView = (ListView) findViewById(R.id.listView2);
 
-
-
         loadUsers();
         initSearching();
     }
-
 
 
     private void initSearching() {
@@ -130,7 +126,6 @@ public class UserListView extends Activity implements  TextWatcher, AdapterView.
 
     public void editUser(View view) {
         try {
-
             LinearLayout parent = (LinearLayout) view.getParent();
             int pos = mainListView.getPositionForView(parent);
             User user = adapter.getItem(pos);
@@ -141,9 +136,6 @@ public class UserListView extends Activity implements  TextWatcher, AdapterView.
             intent.putExtra("user", user);
 
             startActivityForResult(intent, RequestCodes.USER_EDIT);
-
-
-
         }catch(Exception e){
             System.out.println(e.getMessage());
 
@@ -174,14 +166,10 @@ public class UserListView extends Activity implements  TextWatcher, AdapterView.
                 oldUser.setSurname(user.getSurname());
                 oldUser.setPreferences(user.getPreferences());
 
-
                 adapter.notifyDataSetChanged();
 
-
                 Toast.makeText(this, "Edycja przebiegła pomyślnie", Toast.LENGTH_LONG).show();
-            }
-            else
-            {
+            } else {
                 Toast.makeText(this, "Edycja nie przebiegła pomyślnie!", Toast.LENGTH_LONG).show();
             }
         }
@@ -197,7 +185,6 @@ public class UserListView extends Activity implements  TextWatcher, AdapterView.
                 adapter.add(user);
 
             }else{
-
                 Toast.makeText(this, "Nie udało się stworzyć użytkownika!", Toast.LENGTH_LONG).show();
             }
 

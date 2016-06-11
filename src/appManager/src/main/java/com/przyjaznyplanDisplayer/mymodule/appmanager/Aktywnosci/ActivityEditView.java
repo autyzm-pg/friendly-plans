@@ -96,23 +96,6 @@ public class ActivityEditView extends Activity {
     }
 
     public void setPicture(View v){
-        //Intent intent = new Intent(this, FileDialogView.class);
-        //startActivityForResult(intent,DODAJ_OBRAZ);
-       /* File mPath = new File(Environment.getExternalStorageDirectory()+"");
-        FileDialog fileDialog = new FileDialog(this, mPath);
-        //fileDialog.setFileEndsWith(".txt");
-        fileDialog.addFileListener(new FileDialog.FileSelectedListener() {
-            public void fileSelected(File file) {
-                Log.d(getClass().getName(), "selected file " + file.toString());
-                pathToPicture=file.toString();
-                try {
-                    setBMP(pathToPicture);
-                }catch (Exception e){
-
-                }
-            }
-        });
-        fileDialog.showDialog();*/
         Intent intent = new Intent(this, FileChooser.class);
         ArrayList<String> extensions = new ArrayList<String>();
         extensions.add(".jpg");
@@ -124,24 +107,6 @@ public class ActivityEditView extends Activity {
     }
 
     public void setSound(View v){
-        //Intent intent = new Intent(this, FileDialogView.class);
-        //startActivityForResult(intent,DODAJ_OBRAZ);
-       /* File mPath = new File(Environment.getExternalStorageDirectory()+"");
-        FileDialog fileDialog = new FileDialog(this, mPath);
-        fileDialog.setFileEndsWith(".mp3");
-        fileDialog.addFileListener(new FileDialog.FileSelectedListener() {
-            public void fileSelected(File file) {
-                Log.d(getClass().getName(), "selected file " + file.toString());
-                try {
-                    planActivity.setAudioPath(file.toString());
-                    ImageView usunDzwiekIcon = (ImageView) (findViewById(R.id.imageView3));
-                    usunDzwiekIcon.setVisibility(View.VISIBLE);
-                }catch (Exception e){
-
-                }
-            }
-        });
-        fileDialog.showDialog();*/
         Intent intent = new Intent(this, FileChooser.class);
         ArrayList<String> extensions = new ArrayList<String>();
         extensions.add(".mp3");

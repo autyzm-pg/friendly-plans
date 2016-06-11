@@ -38,22 +38,15 @@ public class UserDao extends AbstractDao<UserDto> {
     @Override
     public void create(UserDto object) {
         UserDto userDto = object;
-       
 
         try {
-
-
             object.getUser().setId(PKGen.GenPK());
 
             long id = db.insert(userDto.getTable().getTableName(), null, object.getContentValues());
             if(id<0){
                 throw new Exception("User sie nie dodal do bazy");
             }
-
             createPreference(object);
-            
-            
-
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
@@ -65,7 +58,6 @@ public class UserDao extends AbstractDao<UserDto> {
     public UserDto read(UserDto object) {
         Cursor cursor = null;
         try {
-
             cursor = db.query(object.getTable().getTableName(), object.getColumnsToRead(), object.getSelectionString(), object.getSelectionArgs(), object.groupBy(), object.having(),object.orderBy());
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -92,8 +84,6 @@ public class UserDao extends AbstractDao<UserDto> {
     public UserDto readUserPreferences(UserDto object){
         Cursor cursor = null;
         try {
-
-
             String query="SELECT t2.ID, t2.A_VIEW_TYPE, t2.C_VIEW_TYPE, t2.TIMER_SOUND_PATH, t2.P_VIEW_TYPE FROM UST_USER t1 " +
                     "JOIN USTAWIENIA_UZYTKOWNIKA t2 " +
                     "ON t1.ID_USTAWIENIA = t2.ID " +
@@ -116,9 +106,6 @@ public class UserDao extends AbstractDao<UserDto> {
 
             object.getUser().setPreferences(preferences);
             return object;
-
-
-
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -135,7 +122,6 @@ public class UserDao extends AbstractDao<UserDto> {
         UserPreferences preferences = object.getUser().getPreferences();
         try {
             ContentValues contentValues = new ContentValues();
-
 
             contentValues.put(UstawieniaUzytkownika.TIMER_SOUND_PATH,preferences.getTimerSoundPath());
             contentValues.put(UstawieniaUzytkownika.TYP_WIDOK_AKTYWNOSCI,preferences.getTypyWidokuAktywnosci().toString());
@@ -167,9 +153,8 @@ public class UserDao extends AbstractDao<UserDto> {
 
             if(idPref<0){
                 throw new Exception("ustawienia sie nie dodaly w " + UstawieniaUzytkownika.TABLE_NAME);
-            };
+            }
 
-            
             ContentValues contentValuesUSTUSER = new ContentValues();
 
             contentValuesUSTUSER.put(UST_USER.ID_USER,user.getId());

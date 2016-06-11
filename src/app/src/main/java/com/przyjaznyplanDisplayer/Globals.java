@@ -7,7 +7,6 @@
 
 package com.przyjaznyplanDisplayer;
 
-import com.example.przyjaznyplan.*;
 import com.example.przyjaznyplan.R;
 import com.przyjaznyplan.dao.ChoosenUserDao;
 import com.przyjaznyplan.models.TypyWidokuAktywnosci;
@@ -23,16 +22,12 @@ public class Globals {
     public static final String DEFAULT_USER_NAME="default";
 
     public static User GetUser(){
-
-
-
         User user = new ChoosenUserDao ().getChoosenUser();
         if(user==null) return GenDefaultUser();
         else return user;
     }
 
     public static User GenDefaultUser(){
-
         User user = new User();
 
         UserPreferences preferences = new UserPreferences();
@@ -46,7 +41,6 @@ public class Globals {
         user.setPreferences(preferences);
 
         return user;
-
     }
 
     public static int getListTypeForPlanActivity(){
@@ -108,8 +102,6 @@ public class Globals {
 
         if(user.getPreferences().getTypWidokuCzynnosci().equals(TypyWidokuCzynnosci.advanced)) {
 
-
-
             switch (typ) {
                 case big:
                     return com.example.przyjaznyplan.R.layout.advbigview;
@@ -132,10 +124,6 @@ public class Globals {
                 default:
                     return R.layout.basicmediumview;
             }
-
-
         }
-
-
     }
 }

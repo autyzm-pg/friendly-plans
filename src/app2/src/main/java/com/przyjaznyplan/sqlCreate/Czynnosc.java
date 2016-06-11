@@ -19,9 +19,6 @@ public final class Czynnosc extends BaseSQL{
 
     public static final String[] COLUMN_SLIDE_ALL_COLUMNS = {ID, TEXT, AUDIO, TIMER, IMAGE, STATUS};
 
-
-
-
     @Override
     public String createSql() {
         return createTable(TABLE_NAME)
@@ -34,7 +31,6 @@ public final class Czynnosc extends BaseSQL{
                 .finishCreateSql();
 
     }
-
 
     @Override
     public String getTableName() {

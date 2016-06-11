@@ -46,8 +46,7 @@ import java.util.EventListener;
 import java.util.List;
 
 
-public class
-        ActivityView extends android.app.Activity implements EventListener {
+public class  ActivityView extends android.app.Activity implements EventListener {
 
 
     private Activity activity;
@@ -125,9 +124,6 @@ public class
             //firstly set number to activity gallery form temp activity gallery(sort by number limit 1)
             //after that - delete temp activity gallery(sort by number limit 1)
             //refresh plan activity
-
-
-
         }
         activityDao.setActivityAsDone(BusinessLogic.SYSTEM_CURRENT_PLAN_ID,this.activity.getNumber(), this.activity.getTypeFlag());
         finish();
@@ -136,7 +132,6 @@ public class
     private void displaySlide(Slide slide) {
 
         try {
-            // slide_id_editText.setText("ID SLAJDU:" + (int) slides.get(this.slidePointer).getId());
             if (slide.getText() == null || slide.getText().equals("")) {
                 description.setVisibility(View.INVISIBLE);
             } else {
@@ -174,7 +169,6 @@ public class
             updateView();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
@@ -220,7 +214,7 @@ public class
 
 
         activity = (Activity) getIntent().getExtras().get("ACTIVITY");
-        slides = activity.getSlides();//slideDao.getAllActivitySlides(activity.getId()+"");
+        slides = activity.getSlides();
         this.slidePointer = activity.getLastSlideNumber();
 
         String name = getIntent().getExtras().getString("NAME");
@@ -234,9 +228,6 @@ public class
         soundTube = (ImageButton) findViewById(R.id.imageButton1);
         timerText = (TextView) findViewById(R.id.timerText);
         timerText.setTextColor(Color.BLACK);
-
-
-        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     }
 
@@ -330,25 +321,11 @@ public class
 
     @Override
     public void finish() {
-        /*if (!this.activity.getStatus().toString().equals(Activity.ActivityStatus.FINISHED.toString())) {
-            activity.setStatus(Activity.ActivityStatus.STARTED.toString());
-
-        }
-
-        activity.setLastSlideNumber(this.slidePointer);
-
-        ActivityDto adto = new ActivityDto();
-        adto.setActivity(activity);
-        activityDao.update(adto);
-        zapisywany progress
-        */
         super.finish();
     }
 
     void updateView() {
         Slide slide = slides.get(this.slidePointer);
-        //slide_id_editText.setText("ID SLAJDU:" + (int) slide.getId());
-
         if (timerThread == null) {
             timerText.setVisibility(View.INVISIBLE);
             if (slide.getTime() > 0) {
@@ -382,18 +359,6 @@ public class
 
         } else {
             buttonToNextSlide.setImageResource(R.drawable.garrow);
-            /*TimerThread.Types t = this.timerThread.getType();
-             buttonToNextSlide.setImageResource(R.drawable.garrow);
-             if(this.timerThread != null && this.timerThread.getType().equals(TimerThread.Types.SLIDE)){
-             buttonToNextSlide.setEnabled(false);
-             buttonToNextSlide.setVisibility(View.INVISIBLE);
-
-             }
-             else{
-             buttonToNextSlide.setEnabled(true);
-             buttonToNextSlide.setVisibility(View.VISIBLE);
-             }*/
-
         }
 
 

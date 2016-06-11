@@ -11,5 +11,5 @@ import android.view.View;
 
 
 public interface OnTimerClickInterface {
-    public void onLongTimerClickFromAdapter(View view);
+    void onLongTimerClickFromAdapter(View view);
 }

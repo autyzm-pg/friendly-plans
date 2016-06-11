@@ -30,7 +30,6 @@ public class UserPlansMainView extends Activity {
         usersPlansListView = (ListView) findViewById(R.id.plansListView);
         ArrayList<String> patternsListArray = new ArrayList<String>();
         patternsListArray.add(getResources().getString(R.string.edit_user_plan));
-        // TODO: patternsListArray.add(getResources().getString(R.string.show_user_plan));
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, patternsListArray);
         usersPlansListView.setAdapter(adapter);
         adapter.notifyDataSetChanged();

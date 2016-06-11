@@ -75,8 +75,6 @@ public class ActionAddEditView extends Activity {
     }
 
     public void setPicture(View v){
-        //Intent intent = new Intent(this, FileDialogView.class);
-        //startActivityForResult(intent,DODAJ_OBRAZ);
         Intent intent = new Intent(this, FileChooser.class);
         ArrayList<String> extensions = new ArrayList<String>();
         extensions.add(".jpg");
@@ -88,8 +86,6 @@ public class ActionAddEditView extends Activity {
     }
 
     public void setSound(View v){
-        //Intent intent = new Intent(this, FileDialogView.class);
-        //startActivityForResult(intent,DODAJ_OBRAZ);
         Intent intent = new Intent(this, FileChooser.class);
         ArrayList<String> extensions = new ArrayList<String>();
         extensions.add(".mp3");

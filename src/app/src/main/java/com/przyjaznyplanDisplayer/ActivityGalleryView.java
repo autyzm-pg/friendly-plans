@@ -140,9 +140,7 @@ public class ActivityGalleryView  extends Activity implements OnItemClickListene
         else{
             return;
         }
-
     }
-
 
     @Override
     protected void onPause() {
@@ -204,11 +202,8 @@ public class ActivityGalleryView  extends Activity implements OnItemClickListene
         timerIcon.setVisibility(View.INVISIBLE);
         timerText.setVisibility(View.INVISIBLE);
 
-        //
-        //mainListView = (ListView) findViewById(R.id.listBreakTime);
         activityDao = new ActivityDao(MySQLiteHelper.getDb());
-        //list = activityDAO.getAllActivities();
-
+        
         grid.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
@@ -354,19 +349,10 @@ public class ActivityGalleryView  extends Activity implements OnItemClickListene
     }
 
     protected void initListOfActivities() {
-
         list = activityDao.getActivityGalleryFromPlan(BusinessLogic.SYSTEM_CURRENT_PLAN_ID, Globals.getNumberOfIconsInGridForUser());
-
-        //listAdapter = new PlanActivityAdapter(this, R.layout.rowlistlayout, R.id.label, list);
-
         gridAdapter = new GridCustomAdapter(this, R.layout.gridiconlayout, R.id.label, list, selectedActivity);
 
-        //mainListView.setAdapter(listAdapter);
-
         grid.setAdapter(gridAdapter);
-
-        //mainListView.setOnItemClickListener((OnItemClickListener) this);
-
         grid.setOnItemClickListener((OnItemClickListener)this);
 
         try{
@@ -402,9 +388,6 @@ public class ActivityGalleryView  extends Activity implements OnItemClickListene
         }else if(mp.isPlaying()){
             mp.stop();
             mp.reset();
-            /*if(slides.get(currentPosition).getTime()==-1){
-                slides.get(currentPosition).setTime(0);
-            }*/
         }
 
     }

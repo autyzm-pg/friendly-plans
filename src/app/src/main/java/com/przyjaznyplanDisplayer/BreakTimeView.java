@@ -203,10 +203,7 @@ public class BreakTimeView extends Activity implements OnItemClickListener {
         timerIcon.setVisibility(View.INVISIBLE);
         timerText.setVisibility(View.INVISIBLE);
 
-        //
-        //mainListView = (ListView) findViewById(R.id.listBreakTime);
         activityDao = new ActivityDao(MySQLiteHelper.getDb());
-        //list = activityDAO.getAllActivities();
 
         grid.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -356,16 +353,8 @@ public class BreakTimeView extends Activity implements OnItemClickListener {
 
         list = activityDao.getBreaksFromPlan(BusinessLogic.SYSTEM_CURRENT_PLAN_ID, Globals.getNumberOfIconsInGridForUser());
 
-        //listAdapter = new PlanActivityAdapter(this, R.layout.rowlistlayout, R.id.label, list);
-
         gridAdapter = new GridCustomAdapter(this, R.layout.gridiconlayout, R.id.label, list, selectedActivity);
-
-        //mainListView.setAdapter(listAdapter);
-
         grid.setAdapter(gridAdapter);
-
-        //mainListView.setOnItemClickListener((OnItemClickListener) this);
-
         grid.setOnItemClickListener((OnItemClickListener)this);
 
         try{
@@ -382,7 +371,7 @@ public class BreakTimeView extends Activity implements OnItemClickListener {
 
     public void play(String path, boolean reapeatable){
 
-        if(mp == null || ((mp!=null)&&!mp.isPlaying())) {
+        if (mp == null || ((mp!=null)&&!mp.isPlaying())) {
 
             Uri uri = Uri.parse(path);
             mp = new MediaPlayer();
@@ -394,18 +383,14 @@ public class BreakTimeView extends Activity implements OnItemClickListener {
                 mp.start();
 
 
-            }catch (Exception e){
+            } catch (Exception e){
                 System.out.println(e.getMessage());
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }else if(mp.isPlaying()){
+        } else if(mp.isPlaying()){
             mp.stop();
             mp.reset();
-            /*if(slides.get(currentPosition).getTime()==-1){
-                slides.get(currentPosition).setTime(0);
-            }*/
         }
-
     }
 
     public void playSound(View v) {

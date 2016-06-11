@@ -48,7 +48,6 @@ public class MySQLiteHelper  {
 
     }
 
-    //@Override
     public void onCreate(SQLiteDatabase database) {
 
             new FactoryDataBaseSQL().DropDatabaseSql(database);
@@ -58,7 +57,6 @@ public class MySQLiteHelper  {
 
     }
 
-    //@Override
     public static synchronized void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w(MySQLiteHelper.class.getName(),
                 "Upgrading database from version " + oldVersion + " to "
@@ -72,20 +70,7 @@ public class MySQLiteHelper  {
 
 
     public static synchronized  void insertInitValues(SQLiteDatabase database) {
-
-
-
         new InsertSqlFactory().execInsert(database);
-
-        //przyklad aktywnosci o schemie csv
-        /*CsvConverter csv = new CsvConverter(database);
-        try {
-             csv.open("IWRD_AKTYWNOSCI/CSV ACTIVITY/schemat.csv");
-            csv.CreateSlides();
-        } catch (Exception e) {
-            Log.i("CSV_CONVERTER EXCEPTION", e.getMessage());
-        }
-*/
 
     }
 

@@ -198,7 +198,6 @@ public class AdvancedActivityView extends Activity implements AdapterView.OnItem
                                            int index, long arg3) {
                 longClickedActivity = (Slide) mainList.getAdapter().getItem(index);
                 longpressed=true;
-                //Toast.makeText(v.getContext(),"One more sec!", Toast.LENGTH_LONG).show();
                 return false;
             }
         });
@@ -222,7 +221,6 @@ public class AdvancedActivityView extends Activity implements AdapterView.OnItem
                 if (chosen != null && chosen.getTypeFlag().equals(com.przyjaznyplan.models.Activity.TypeFlag.TEMP_ACTIVITY_GALLERY.toString())) {
                     activityDao.changeGAToActivity(chosen, BusinessLogic.SYSTEM_CURRENT_PLAN_ID,activity);
                 } else {
-                    //Toast.makeText(this, "chosen status mismatched", Toast.LENGTH_LONG).show();
                 }
             }
             activityDao.setActivityAsDone(BusinessLogic.SYSTEM_CURRENT_PLAN_ID,activity.getNumber(), activity.getTypeFlag());
@@ -358,11 +356,9 @@ public class AdvancedActivityView extends Activity implements AdapterView.OnItem
     private void updatePosition(int i){
         timerStop();
         if(i<currentPosition){
-            //Toast.makeText(this,"Już wykonałeś tą czynność",Toast.LENGTH_LONG).show();
             return;
         }
         if(i>currentPosition){
-            //Toast.makeText(this,"Wykonaj poprzednią czynność",Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -374,7 +370,6 @@ public class AdvancedActivityView extends Activity implements AdapterView.OnItem
         adapter.notifyDataSetChanged();
 
         if(currentPosition==adapter.getCount()){
-            //Toast.makeText(this,"Brawo!",Toast.LENGTH_LONG).show();
             clearFlags();
             finish();
         }
@@ -393,29 +388,22 @@ public class AdvancedActivityView extends Activity implements AdapterView.OnItem
             com.przyjaznyplan.models.Activity chosen = dao.getChosenChildActivity();
             if (chosen != null && chosen.getTypeFlag().equals(com.przyjaznyplan.models.Activity.TypeFlag.TEMP_ACTIVITY_GALLERY.toString())) {
                 dao.changeGAToActivity(chosen, BusinessLogic.SYSTEM_CURRENT_PLAN_ID,activity);
-            } else {
-               // Toast.makeText(this, "chosen status mismatched", Toast.LENGTH_LONG).show();
             }
             //firstly set number to activity gallery form temp activity gallery(sort by number limit 1)
             //after that - delete temp activity gallery(sort by number limit 1)
             //refresh plan activity
-
         }
 
         dao.setActivityAsDone(BusinessLogic.SYSTEM_CURRENT_PLAN_ID,activity.getNumber(), activity.getTypeFlag());
-
-
 
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         if(i<currentPosition){
-            //Toast.makeText(this,"Już wykonałeś tą czynność",Toast.LENGTH_LONG).show();
             return;
         }
         if(i>currentPosition){
-            //Toast.makeText(this,"Wykonaj poprzednią czynność",Toast.LENGTH_LONG).show();
             return;
         }
         if(adapter.getItem(currentPosition).getTime()==-1){
