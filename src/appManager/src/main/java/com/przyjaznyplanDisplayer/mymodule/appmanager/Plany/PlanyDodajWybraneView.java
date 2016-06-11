@@ -118,7 +118,7 @@ public class PlanyDodajWybraneView extends Activity implements AdapterView.OnIte
         startActivityForResult(intent,RequestCodes.ADD_FROM_PLAN_BREAK);
     }
 
-    public void zapisz (View v){
+    public void saveTemplate (View v){
         Intent intent = new Intent();
         for(com.przyjaznyplan.models.Activity ac : wybrane){
             ac.setStatus(com.przyjaznyplan.models.Activity.ActivityStatus.NEW.toString());

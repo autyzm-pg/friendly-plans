@@ -60,14 +60,14 @@ public class ActionList extends Activity {
         startActivityForResult(intent, RequestCodes.ACTION_ADD_NEW);
     }
 
-    public void zapisz(View v) {
+    public void saveTemplate(View v) {
         Intent intent = new Intent();
         intent.putExtra("ACTIVITY", this.activity);
         setResult(RequestCodes.ACTIVITY_MANAGEMENT, intent);
         super.finish();
     }
 
-    public void edytujSlajd(View v){
+    public void editSlide(View v){
         Intent intent = new Intent(this, ActionAddEditView.class);
         int position = Integer.parseInt(v.getTag().toString());
         intent.putExtra("SLIDE",activity.getSlides().get(position));
@@ -75,7 +75,7 @@ public class ActionList extends Activity {
         startActivityForResult(intent,RequestCodes.ACTION_EDIT);
     }
 
-    public void usunSlajd(View v){
+    public void removeSlide(View v){
         int position = Integer.parseInt(v.getTag().toString());
         listAdapter.remove(position);
     }

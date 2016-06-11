@@ -83,7 +83,7 @@ public class PlanyDodawanieGAPrzerwy extends Activity implements AdapterView.OnI
         }
     }
 
-    public void zapisz (View v){
+    public void saveTemplate (View v){
         Intent intent = new Intent();
         intent.putExtra("ACTIVITIES", wybrane);
         setResult(1, intent);

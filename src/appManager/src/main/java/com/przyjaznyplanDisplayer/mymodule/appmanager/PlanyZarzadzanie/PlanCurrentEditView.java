@@ -81,7 +81,7 @@ public class PlanCurrentEditView extends Activity implements AdapterView.OnItemC
         startActivityForResult(intent,RequestCodes.PLAN_ADD_ACTIVITY);
     }
 
-    public void slideEdit(View v){
+    public void editSlide(View v){
         Intent intent = new Intent(this, ActivityEditView.class);
         int position = Integer.parseInt(v.getTag().toString());
         com.przyjaznyplan.models.Activity activity = plan.getActivities().get(position);
@@ -93,7 +93,7 @@ public class PlanCurrentEditView extends Activity implements AdapterView.OnItemC
         }
     }
 
-    public void slideRemove(View v){
+    public void removeSlide(View v){
         int position = Integer.parseInt(v.getTag().toString());
         com.przyjaznyplan.models.Activity activity = plan.getActivities().get(position);
         if(activity.getId().equals(BusinessLogic.SYSTEM_ACTIVITY_GALLERY_ID) || (activity.getTypeFlag()!=null && activity.getTypeFlag().equals(com.przyjaznyplan.models.Activity.TypeFlag.FINISHED_ACTIVITY_GALLERY.toString())) ){
@@ -185,7 +185,7 @@ public class PlanCurrentEditView extends Activity implements AdapterView.OnItemC
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
-    public void save(View v){
+    public void saveTemplate(View v){
         PlanDto pdto = new PlanDto();
         pdto.setPlan(this.plan);
         try{

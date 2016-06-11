@@ -186,7 +186,7 @@ public class ActivityEditView extends Activity {
         startActivityForResult(intent, RequestCodes.ACTIVITY_MANAGEMENT);
     }
 
-    public void saveActivity(View v){
+    public void saveTemplate(View v){
         String name="";
         int time=0;
         EditText etName = (EditText) findViewById(R.id.editText);

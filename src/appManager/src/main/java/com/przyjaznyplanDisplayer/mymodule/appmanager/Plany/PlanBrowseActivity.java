@@ -71,7 +71,7 @@ public class PlanBrowseActivity extends Activity implements AdapterView.OnItemCl
         mainListView.setOnItemClickListener(this);
     }
 
-    public void edytujSlajd(View v){
+    public void editSlide(View v){
         Intent intent = new Intent(this, ActivityEditView.class);
         int position = Integer.parseInt(v.getTag().toString());
         editedPosition = position;
@@ -80,7 +80,7 @@ public class PlanBrowseActivity extends Activity implements AdapterView.OnItemCl
         startActivityForResult(intent,RequestCodes.ACTIVITY_EDITED);
     }
 
-    public void usunSlajd(View v){
+    public void removeSlide(View v){
         int position = Integer.parseInt(v.getTag().toString());
         com.przyjaznyplan.models.Activity aktywnosc = aList.get(position);
         boolean option = aktywnosc.getStatus()!=null && aktywnosc.getStatus().equals(com.przyjaznyplan.models.Activity.ActivityStatus.FINISHED.toString());

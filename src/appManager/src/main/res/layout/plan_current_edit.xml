@@ -84,7 +84,7 @@
                 android:text="@string/browse_break_activity"
                 android:layout_alignTop="@id/button"
                 android:id="@+id/button2"
-                android:onClick="browseBreakActivityClick"
+                android:onClick="breakActivityBrowseClick"
                 android:layout_toRightOf="@+id/button" />
 
                 <Button
@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/button"
                 android:text="@string/browse_gallery_activity"
-                android:onClick="browseGalleryActivityClick"
+                android:onClick="galleryActivityBrowseClick"
                 android:id="@+id/button3"
                 android:layout_toRightOf="@+id/button2" />
             </TableRow>
