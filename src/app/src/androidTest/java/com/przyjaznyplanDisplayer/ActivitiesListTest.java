@@ -7,38 +7,59 @@
 
 package com.przyjaznyplanDisplayer;
 
-import android.app.Activity;
-import android.test.ActivityInstrumentationTestCase2;
-import android.widget.ListView;
+import android.support.test.espresso.DataInteraction;
+import android.support.test.rule.ActivityTestRule;
+import android.test.suitebuilder.annotation.LargeTest;
+import android.support.test.runner.AndroidJUnit4;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import static android.support.test.espresso.Espresso.onData;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.CoreMatchers.startsWith;
+import static org.hamcrest.Matchers.hasToString;
 
 import com.example.przyjaznyplan.R;
 import com.przyjaznyplan.repositories.DatabaseUtils;
-import com.przyjaznyplanDisplayer.Utils.PlanActivityAdapter;
 
-
-public class ActivitiesListTest extends ActivityInstrumentationTestCase2<PlanActivityView> {
+@RunWith(AndroidJUnit4.class)
+@LargeTest
+public class ActivitiesListTest {
 
     private final int ACTIVITIES_NUMBER = 4;
 
-    public ActivitiesListTest() {
-        super(PlanActivityView.class);
-    }
+    @Rule
+    public ActivityTestRule<PlanActivityView> mActivityRule = new ActivityTestRule<>(PlanActivityView.class);
 
-    protected void setUp() throws Exception {
-
+    @Before
+    public void setUp() throws Exception {
         DatabaseUtils.rebuildDatabaseWithInitData();
         TestUtils.setUpCurrentPlanWithActivities(ACTIVITIES_NUMBER);
     }
 
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         DatabaseUtils.rebuildDatabaseWithInitData();
     }
 
+    @Test
     public void testActivitiesListDisplay() {
-        Activity mainActivity = this.getActivity();
-        ListView listActivities = (ListView) mainActivity.findViewById(R.id.list);
-        PlanActivityAdapter planActivityAdapter = (PlanActivityAdapter) listActivities.getAdapter();
-        assertEquals(ACTIVITIES_NUMBER, planActivityAdapter.getCount());
+        onView(withId(R.id.imageView)).perform(click());
+        onView(withId(R.id.imageView)).perform(click());
+        onView(withId(R.id.imageView)).perform(click());
+        onView(withId(R.id.list)).check(matches(isDisplayed()));
+        for (int activityNumber = 0; activityNumber < ACTIVITIES_NUMBER; activityNumber++)
+            getActivitiesListElement(activityNumber).check(matches(isDisplayed()));
     }
 
+    private DataInteraction getActivitiesListElement(int elementNumber) {
+        return onData(hasToString(startsWith(TestUtils.ACTIVITY_BASE_NAME)))
+                .inAdapterView(withId(R.id.list)).atPosition(elementNumber);
+    }
 }

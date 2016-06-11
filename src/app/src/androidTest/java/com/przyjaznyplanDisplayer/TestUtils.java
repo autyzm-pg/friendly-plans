@@ -20,9 +20,9 @@ import java.util.List;
 
 public class TestUtils {
 
-    public static void setUpCurrentPlanWithActivities(int activitiesNumber) {
-        final String ACTIVITY_BASE_NAME = "Aktywność";
+    public static final String ACTIVITY_BASE_NAME = "Aktywność";
 
+    public static void setUpCurrentPlanWithActivities(int activitiesNumber) {
         List<Activity> activities = new ArrayList<>();
         for (int activityNumber = 0; activityNumber < activitiesNumber; activityNumber++)
             activities.add(new Activity(
