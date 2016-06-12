@@ -27,6 +27,16 @@ public class TestUtils {
 
     public static final String ACTIVITY_BASE_NAME = "Aktywność";
 
+    public static final TypyWidokuPlanuAktywnosci DONT_CHANGE_PLAN_VIEW_TYPE = null;
+    public static final TypyWidokuAktywnosci DONT_CHANGE_ACTIVITY_VIEW_TYPE = null;
+    public static final TypyWidokuCzynnosci DONT_CHANGE_ACTION_VIEW_TYPE = null;
+
+    public static final int FIRST_ACTIVITY_NUMBER = 0;
+    public static final int SECOND_ACTIVITY_NUMBER = 1;
+    public static final float BIG_ACTIVITY_NAMES_TEXT_SIZE = 80;
+    public static final float MEDIUM_ACTIVITY_NAMES_TEXT_SIZE = 40;
+    public static final float SMALL_ACTIVITY_NAMES_TEXT_SIZE = 20;
+
     public static void setUpCurrentPlanWithActivities(int activitiesNumber) {
         List<Activity> activities = new ArrayList<>();
         for (int activityNumber = 0; activityNumber < activitiesNumber; activityNumber++)

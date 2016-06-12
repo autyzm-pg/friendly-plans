@@ -55,17 +55,6 @@ import java.util.List;
 public class ActivitiesListTest {
 
     private final int ACTIVITIES_NUMBER = 4;
-    private final int FIRST_ACTIVITY_NUMBER = 0;
-    private final int SECOND_ACTIVITY_NUMBER = 1;
-    private final float BIG_ACTIVITY_NAMES_TEXT_SIZE = 80;
-    private final float MEDIUM_ACTIVITY_NAMES_TEXT_SIZE = 40;
-    private final float SMALL_ACTIVITY_NAMES_TEXT_SIZE = 20;
-
-
-    private final TypyWidokuPlanuAktywnosci DONT_CHANGE_PLAN_VIEW_TYPE = null;
-    private final TypyWidokuAktywnosci DONT_CHANGE_ACTIVITY_VIEW_TYPE = null;
-    private final TypyWidokuCzynnosci DONT_CHANGE_ACTION_VIEW_TYPE = null;
-
 
     @Rule
     public ActivityTestRule<PlanActivityView> activityRule = new ActivityTestRule<>(PlanActivityView.class, true, false);
@@ -92,11 +81,11 @@ public class ActivitiesListTest {
     @Test
     public void testDoingSomeActivities() {
         runActivity();
-        getActivitiesListElement(FIRST_ACTIVITY_NUMBER).perform(click());
-        getActivitiesListElement(SECOND_ACTIVITY_NUMBER).perform(click());
+        getActivitiesListElement(TestUtils.FIRST_ACTIVITY_NUMBER).perform(click());
+        getActivitiesListElement(TestUtils.SECOND_ACTIVITY_NUMBER).perform(click());
 
-        getActivitiesListLabelElement(FIRST_ACTIVITY_NUMBER).check(isActivityDone());
-        getActivitiesListLabelElement(SECOND_ACTIVITY_NUMBER).check(isActivityDone());
+        getActivitiesListLabelElement(TestUtils.FIRST_ACTIVITY_NUMBER).check(isActivityDone());
+        getActivitiesListLabelElement(TestUtils.SECOND_ACTIVITY_NUMBER).check(isActivityDone());
 
         Activity activity = ActivityRepository.getActivityByTitleFromCurrentPlan(TestUtils.ACTIVITY_BASE_NAME + "1");
         assertThat("Activity should exists in database", activity, is(notNullValue()));
@@ -111,28 +100,44 @@ public class ActivitiesListTest {
         onView(withId(R.id.imageView)).check(matches(isDisplayed()));
         List<Activity> activities = ActivityRepository.getAllActivitiesFromCurrentPlan();
         for (Activity activity : activities)
-            assertThat("Activity should be done", activity.getStatus(), is(Matchers.equalTo(Activity.ActivityStatus.FINISHED.toString())));
+            assertThat("Activity should be done",
+                    activity.getStatus(), is(Matchers.equalTo(Activity.ActivityStatus.FINISHED.toString())));
     }
 
     @Test
     public void testDisplayingBigActivitiesNames() {
-        TestUtils.setCurrentUserPreferences(DONT_CHANGE_PLAN_VIEW_TYPE, TypyWidokuAktywnosci.big, DONT_CHANGE_ACTION_VIEW_TYPE);
+        TestUtils.setCurrentUserPreferences(
+                TestUtils.DONT_CHANGE_PLAN_VIEW_TYPE,
+                TypyWidokuAktywnosci.big,
+                TestUtils.DONT_CHANGE_ACTION_VIEW_TYPE
+        );
         runActivity();
-        getActivitiesListLabelElement(FIRST_ACTIVITY_NUMBER).check(matches(withTextSize(BIG_ACTIVITY_NAMES_TEXT_SIZE)));
+        DataInteraction firstActivityLabel = getActivitiesListLabelElement(TestUtils.FIRST_ACTIVITY_NUMBER);
+        firstActivityLabel.check(matches(withTextSize(TestUtils.BIG_ACTIVITY_NAMES_TEXT_SIZE)));
     }
 
     @Test
     public void testDisplayingMediumActivitiesNames() {
-        TestUtils.setCurrentUserPreferences(DONT_CHANGE_PLAN_VIEW_TYPE, TypyWidokuAktywnosci.medium, DONT_CHANGE_ACTION_VIEW_TYPE);
+        TestUtils.setCurrentUserPreferences(
+                TestUtils.DONT_CHANGE_PLAN_VIEW_TYPE,
+                TypyWidokuAktywnosci.medium,
+                TestUtils.DONT_CHANGE_ACTION_VIEW_TYPE
+        );
         runActivity();
-        getActivitiesListLabelElement(FIRST_ACTIVITY_NUMBER).check(matches(withTextSize(MEDIUM_ACTIVITY_NAMES_TEXT_SIZE)));
+        DataInteraction firstActivityLabel = getActivitiesListLabelElement(TestUtils.FIRST_ACTIVITY_NUMBER);
+        firstActivityLabel.check(matches(withTextSize(TestUtils.MEDIUM_ACTIVITY_NAMES_TEXT_SIZE)));
     }
 
     @Test
     public void testDisplayingSmallActivitiesNames() {
-        TestUtils.setCurrentUserPreferences(DONT_CHANGE_PLAN_VIEW_TYPE, TypyWidokuAktywnosci.small, DONT_CHANGE_ACTION_VIEW_TYPE);
+        TestUtils.setCurrentUserPreferences(
+                TestUtils.DONT_CHANGE_PLAN_VIEW_TYPE,
+                TypyWidokuAktywnosci.small,
+                TestUtils.DONT_CHANGE_ACTION_VIEW_TYPE
+        );
         runActivity();
-        getActivitiesListLabelElement(FIRST_ACTIVITY_NUMBER).check(matches(withTextSize(SMALL_ACTIVITY_NAMES_TEXT_SIZE)));
+        DataInteraction firstActivityLabel = getActivitiesListLabelElement(TestUtils.FIRST_ACTIVITY_NUMBER);
+        firstActivityLabel.check(matches(withTextSize(TestUtils.SMALL_ACTIVITY_NAMES_TEXT_SIZE)));
     }
 
     private void runActivity() {
