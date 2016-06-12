@@ -7,25 +7,22 @@
  *
  */
 
-package com.przyjaznyplanDisplayer;
+package com.przyjaznyplanDisplayer.SlideView;
 
 import android.content.Intent;
-import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.espresso.matcher.ViewMatchers;
-import android.support.test.internal.util.Checks;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
-import android.view.View;
-import android.widget.TextView;
 
 import com.example.przyjaznyplan.R;
 import com.przyjaznyplan.models.TypyWidokuAktywnosci;
 import com.przyjaznyplan.models.TypyWidokuPlanuAktywnosci;
 import com.przyjaznyplan.repositories.DatabaseUtils;
+import com.przyjaznyplanDisplayer.PlanActivityView;
+import com.przyjaznyplanDisplayer.Utils.TestUtils;
+import com.przyjaznyplanDisplayer.Utils.Matcher;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -121,7 +118,7 @@ public class SlideViewTest {
         onView(withId(R.id.basicview_description)).check(matches(withText(TestUtils.ACTIVITY_BASE_NAME + TestUtils.SECOND_ACTIVITY_NUMBER)));
         onView(withId(R.id.basivview_greenbutton)).check(matches(isDisplayed()));
         onView(withId(R.id.basivview_redbutton)).check(matches(isDisplayed()));
-        onView(withId(R.id.basicview_description)).check(matches(withTextSize(TestUtils.BIG_ACTIVITY_NAMES_TEXT_SIZE)));
+        onView(withId(R.id.basicview_description)).check(matches(Matcher.withTextSize(TestUtils.BIG_ACTIVITY_NAMES_TEXT_SIZE)));
     }
 
     @Test
@@ -142,7 +139,7 @@ public class SlideViewTest {
         onView(withId(R.id.basicview_description)).check(matches(withText(TestUtils.ACTIVITY_BASE_NAME + TestUtils.SECOND_ACTIVITY_NUMBER)));
         onView(withId(R.id.basivview_greenbutton)).check(matches(isDisplayed()));
         onView(withId(R.id.basivview_redbutton)).check(matches(isDisplayed()));
-        onView(withId(R.id.basicview_description)).check(matches(withTextSize(TestUtils.MEDIUM_ACTIVITY_NAMES_TEXT_SIZE)));
+        onView(withId(R.id.basicview_description)).check(matches(Matcher.withTextSize(TestUtils.MEDIUM_ACTIVITY_NAMES_TEXT_SIZE)));
     }
 
     @Test
@@ -163,28 +160,11 @@ public class SlideViewTest {
         onView(withId(R.id.basicview_description)).check(matches(withText(TestUtils.ACTIVITY_BASE_NAME + TestUtils.SECOND_ACTIVITY_NUMBER)));
         onView(withId(R.id.basivview_greenbutton)).check(matches(isDisplayed()));
         onView(withId(R.id.basivview_redbutton)).check(matches(isDisplayed()));
-        onView(withId(R.id.basicview_description)).check(matches(withTextSize(TestUtils.SMALL_ACTIVITY_NAMES_TEXT_SIZE)));
+        onView(withId(R.id.basicview_description)).check(matches(Matcher.withTextSize(TestUtils.SMALL_ACTIVITY_NAMES_TEXT_SIZE)));
     }
 
     private void runActivity() {
         activityRule.launchActivity(new Intent());
-    }
-
-    public static Matcher<View> withTextSize(final float textSize) {
-        Checks.checkNotNull(textSize);
-
-        return new BoundedMatcher<View, TextView>(TextView.class) {
-
-            @Override
-            public boolean matchesSafely(TextView label) {
-                return label.getTextSize() == textSize;
-            }
-
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("With text size: " + textSize);
-            }
-        };
     }
 
 }

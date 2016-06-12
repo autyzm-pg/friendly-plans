@@ -5,22 +5,16 @@
  * Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-package com.przyjaznyplanDisplayer;
+package com.przyjaznyplanDisplayer.ListView;
 
 import android.content.Intent;
 import android.graphics.Paint;
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewAssertion;
-import android.support.test.espresso.matcher.BoundedMatcher;
-import android.support.test.internal.util.Checks;
 import android.support.test.rule.ActivityTestRule;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.View;
-import android.widget.TextView;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
@@ -43,10 +37,11 @@ import static org.hamcrest.Matchers.is;
 import com.example.przyjaznyplan.R;
 import com.przyjaznyplan.models.Activity;
 import com.przyjaznyplan.models.TypyWidokuAktywnosci;
-import com.przyjaznyplan.models.TypyWidokuCzynnosci;
-import com.przyjaznyplan.models.TypyWidokuPlanuAktywnosci;
 import com.przyjaznyplan.repositories.ActivityRepository;
 import com.przyjaznyplan.repositories.DatabaseUtils;
+import com.przyjaznyplanDisplayer.PlanActivityView;
+import com.przyjaznyplanDisplayer.Utils.TestUtils;
+import com.przyjaznyplanDisplayer.Utils.Matcher;
 
 import java.util.List;
 
@@ -113,7 +108,7 @@ public class ActivitiesListTest {
         );
         runActivity();
         DataInteraction firstActivityLabel = getActivitiesListLabelElement(TestUtils.FIRST_ACTIVITY_NUMBER);
-        firstActivityLabel.check(matches(withTextSize(TestUtils.BIG_ACTIVITY_NAMES_TEXT_SIZE)));
+        firstActivityLabel.check(matches(Matcher.withTextSize(TestUtils.BIG_ACTIVITY_NAMES_TEXT_SIZE)));
     }
 
     @Test
@@ -125,7 +120,7 @@ public class ActivitiesListTest {
         );
         runActivity();
         DataInteraction firstActivityLabel = getActivitiesListLabelElement(TestUtils.FIRST_ACTIVITY_NUMBER);
-        firstActivityLabel.check(matches(withTextSize(TestUtils.MEDIUM_ACTIVITY_NAMES_TEXT_SIZE)));
+        firstActivityLabel.check(matches(Matcher.withTextSize(TestUtils.MEDIUM_ACTIVITY_NAMES_TEXT_SIZE)));
     }
 
     @Test
@@ -137,7 +132,7 @@ public class ActivitiesListTest {
         );
         runActivity();
         DataInteraction firstActivityLabel = getActivitiesListLabelElement(TestUtils.FIRST_ACTIVITY_NUMBER);
-        firstActivityLabel.check(matches(withTextSize(TestUtils.SMALL_ACTIVITY_NAMES_TEXT_SIZE)));
+        firstActivityLabel.check(matches(Matcher.withTextSize(TestUtils.SMALL_ACTIVITY_NAMES_TEXT_SIZE)));
     }
 
     private void runActivity() {
@@ -154,40 +149,6 @@ public class ActivitiesListTest {
     }
 
     private ViewAssertion isActivityDone() {
-        return matches(withTextPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG));
-    }
-
-    public static Matcher<View> withTextPaintFlags(final int paintFlag) {
-        Checks.checkNotNull(paintFlag);
-
-        return new BoundedMatcher<View, TextView>(TextView.class) {
-
-            @Override
-            public boolean matchesSafely(TextView label) {
-                return (paintFlag & label.getPaintFlags()) > 0;
-            }
-
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("with paint flag: ");
-            }
-        };
-    }
-
-    public static Matcher<View> withTextSize(final float textSize) {
-        Checks.checkNotNull(textSize);
-
-        return new BoundedMatcher<View, TextView>(TextView.class) {
-
-            @Override
-            public boolean matchesSafely(TextView label) {
-                return label.getTextSize() == textSize;
-            }
-
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("With text size: " + textSize);
-            }
-        };
+        return matches(Matcher.withTextPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG));
     }
 }

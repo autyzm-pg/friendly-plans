@@ -7,7 +7,7 @@
  *
  */
 
-package com.przyjaznyplanDisplayer;
+package com.przyjaznyplanDisplayer.Utils;
 
 import com.przyjaznyplan.models.Activity;
 import com.przyjaznyplan.models.Plan;
