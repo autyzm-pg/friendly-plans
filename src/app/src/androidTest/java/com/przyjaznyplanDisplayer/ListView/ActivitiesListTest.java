@@ -82,7 +82,7 @@ public class ActivitiesListTest {
         getActivitiesListLabelElement(TestUtils.FIRST_ACTIVITY_NUMBER).check(isActivityDone());
         getActivitiesListLabelElement(TestUtils.SECOND_ACTIVITY_NUMBER).check(isActivityDone());
 
-        Activity activity = ActivityRepository.getActivityByTitleFromCurrentPlan(TestUtils.ACTIVITY_BASE_NAME + "1");
+        Activity activity = ActivityRepository.getActivityByTitleFromCurrentPlan(TestUtils.ACTIVITY_BASE_NAME + TestUtils.SECOND_ACTIVITY_NUMBER);
         assertThat("Activity should exists in database", activity, is(notNullValue()));
         assertThat("Activity should be done", activity.getStatus(), is(equalTo(Activity.ActivityStatus.FINISHED.toString())));
     }

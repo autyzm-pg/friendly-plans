@@ -30,6 +30,16 @@ public class Slide extends BaseModel {
         public int getValue(){return value;}
     } ;
 
+    public Slide() {
+
+    }
+
+    public Slide(String text, int position) {
+        this.text = text;
+        this.position = position;
+        this.status =  SlideStatus.NEW.getValue();
+    }
+
     public String getIdActivity() {
         return idActivity;
     }
