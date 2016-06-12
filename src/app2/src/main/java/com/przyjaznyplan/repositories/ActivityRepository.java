@@ -13,8 +13,11 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.przyjaznyplan.DbHelper.MySQLiteHelper;
 import com.przyjaznyplan.dao.ActivityDao;
+import com.przyjaznyplan.dao.PlanDao;
 import com.przyjaznyplan.dto.ActivityDto;
 import com.przyjaznyplan.models.Activity;
+import com.przyjaznyplan.models.Plan;
+import com.przyjaznyplan.utils.BusinessLogic;
 
 import java.util.List;
 
@@ -35,6 +38,15 @@ public class ActivityRepository {
             activityDto.setActivity(activity);
             activityDao.create(activityDto);
         }
+    }
+
+    public static Activity getActivityByTitleFromCurrentPlan(String activityTitle) {
+        List<Activity> activities = activityDao.getActivitiesAndTempAGFromPlan(BusinessLogic.SYSTEM_CURRENT_PLAN_ID);
+        for (Activity activity : activities) {
+            if (activity.getTitle().equals(activityTitle))
+                return activity;
+        }
+        return null;
     }
 
 }
