@@ -47,6 +47,8 @@ import com.przyjaznyplan.models.Activity;
 import com.przyjaznyplan.repositories.ActivityRepository;
 import com.przyjaznyplan.repositories.DatabaseUtils;
 
+import java.util.List;
+
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class ActivitiesListTest {
@@ -90,6 +92,17 @@ public class ActivitiesListTest {
         Activity activity = ActivityRepository.getActivityByTitleFromCurrentPlan(TestUtils.ACTIVITY_BASE_NAME + "1");
         assertThat("Activity should exists in database", activity, is(notNullValue()));
         assertThat("Activity should be done", activity.getStatus(), is(equalTo(Activity.ActivityStatus.FINISHED.toString())));
+    }
+
+    @Test
+    public void testDoingAllActivities() {
+        switchFromFinalScreenToActivitiesList();
+        for (int activityNumber = 0; activityNumber < ACTIVITIES_NUMBER; activityNumber++)
+            getActivitiesListElement(activityNumber).perform(click());
+        onView(withId(R.id.imageView)).check(matches(isDisplayed()));
+        List<Activity> activities = ActivityRepository.getAllActivitiesFromCurrentPlan();
+        for (Activity activity : activities)
+            assertThat("Activity should be done", activity.getStatus(), is(Matchers.equalTo(Activity.ActivityStatus.FINISHED.toString())));
     }
 
     private void switchFromFinalScreenToActivitiesList() {

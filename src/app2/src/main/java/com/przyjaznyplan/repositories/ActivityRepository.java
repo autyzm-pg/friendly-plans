@@ -41,7 +41,7 @@ public class ActivityRepository {
     }
 
     public static Activity getActivityByTitleFromCurrentPlan(String activityTitle) {
-        List<Activity> activities = activityDao.getActivitiesAndTempAGFromPlan(BusinessLogic.SYSTEM_CURRENT_PLAN_ID);
+        List<Activity> activities = getAllActivitiesFromCurrentPlan();
         for (Activity activity : activities) {
             if (activity.getTitle().equals(activityTitle))
                 return activity;
@@ -49,4 +49,7 @@ public class ActivityRepository {
         return null;
     }
 
+    public static List<Activity> getAllActivitiesFromCurrentPlan() {
+        return activityDao.getActivitiesAndTempAGFromPlan(BusinessLogic.SYSTEM_CURRENT_PLAN_ID);
+    }
 }
