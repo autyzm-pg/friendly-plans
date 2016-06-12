@@ -7,8 +7,8 @@
 
 package com.przyjaznyplanDisplayer;
 
+import android.content.Intent;
 import android.graphics.Paint;
-import android.graphics.drawable.ColorDrawable;
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewAssertion;
 import android.support.test.espresso.matcher.BoundedMatcher;
@@ -17,13 +17,11 @@ import android.support.test.rule.ActivityTestRule;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
-import org.hamcrest.core.IsEqual;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -44,6 +42,9 @@ import static org.hamcrest.Matchers.is;
 
 import com.example.przyjaznyplan.R;
 import com.przyjaznyplan.models.Activity;
+import com.przyjaznyplan.models.TypyWidokuAktywnosci;
+import com.przyjaznyplan.models.TypyWidokuCzynnosci;
+import com.przyjaznyplan.models.TypyWidokuPlanuAktywnosci;
 import com.przyjaznyplan.repositories.ActivityRepository;
 import com.przyjaznyplan.repositories.DatabaseUtils;
 
@@ -56,10 +57,18 @@ public class ActivitiesListTest {
     private final int ACTIVITIES_NUMBER = 4;
     private final int FIRST_ACTIVITY_NUMBER = 0;
     private final int SECOND_ACTIVITY_NUMBER = 1;
+    private final float BIG_ACTIVITY_NAMES_TEXT_SIZE = 80;
+    private final float MEDIUM_ACTIVITY_NAMES_TEXT_SIZE = 40;
+    private final float SMALL_ACTIVITY_NAMES_TEXT_SIZE = 20;
+
+
+    private final TypyWidokuPlanuAktywnosci DONT_CHANGE_PLAN_VIEW_TYPE = null;
+    private final TypyWidokuAktywnosci DONT_CHANGE_ACTIVITY_VIEW_TYPE = null;
+    private final TypyWidokuCzynnosci DONT_CHANGE_ACTION_VIEW_TYPE = null;
 
 
     @Rule
-    public ActivityTestRule<PlanActivityView> mActivityRule = new ActivityTestRule<>(PlanActivityView.class);
+    public ActivityTestRule<PlanActivityView> activityRule = new ActivityTestRule<>(PlanActivityView.class, true, false);
 
     @Before
     public void setUp() throws Exception {
@@ -74,7 +83,7 @@ public class ActivitiesListTest {
 
     @Test
     public void testActivitiesListDisplay() {
-        switchFromFinalScreenToActivitiesList();
+        runActivity();
         onView(withId(R.id.list)).check(matches(isDisplayed()));
         for (int activityNumber = 0; activityNumber < ACTIVITIES_NUMBER; activityNumber++)
             getActivitiesListElement(activityNumber).check(matches(isDisplayed()));
@@ -82,7 +91,7 @@ public class ActivitiesListTest {
 
     @Test
     public void testDoingSomeActivities() {
-        switchFromFinalScreenToActivitiesList();
+        runActivity();
         getActivitiesListElement(FIRST_ACTIVITY_NUMBER).perform(click());
         getActivitiesListElement(SECOND_ACTIVITY_NUMBER).perform(click());
 
@@ -96,7 +105,7 @@ public class ActivitiesListTest {
 
     @Test
     public void testDoingAllActivities() {
-        switchFromFinalScreenToActivitiesList();
+        runActivity();
         for (int activityNumber = 0; activityNumber < ACTIVITIES_NUMBER; activityNumber++)
             getActivitiesListElement(activityNumber).perform(click());
         onView(withId(R.id.imageView)).check(matches(isDisplayed()));
@@ -105,10 +114,29 @@ public class ActivitiesListTest {
             assertThat("Activity should be done", activity.getStatus(), is(Matchers.equalTo(Activity.ActivityStatus.FINISHED.toString())));
     }
 
-    private void switchFromFinalScreenToActivitiesList() {
-        onView(withId(R.id.imageView)).perform(click());
-        onView(withId(R.id.imageView)).perform(click());
-        onView(withId(R.id.imageView)).perform(click());
+    @Test
+    public void testDisplayingBigActivitiesNames() {
+        TestUtils.setCurrentUserPreferences(DONT_CHANGE_PLAN_VIEW_TYPE, TypyWidokuAktywnosci.big, DONT_CHANGE_ACTION_VIEW_TYPE);
+        runActivity();
+        getActivitiesListLabelElement(FIRST_ACTIVITY_NUMBER).check(matches(withTextSize(BIG_ACTIVITY_NAMES_TEXT_SIZE)));
+    }
+
+    @Test
+    public void testDisplayingMediumActivitiesNames() {
+        TestUtils.setCurrentUserPreferences(DONT_CHANGE_PLAN_VIEW_TYPE, TypyWidokuAktywnosci.medium, DONT_CHANGE_ACTION_VIEW_TYPE);
+        runActivity();
+        getActivitiesListLabelElement(FIRST_ACTIVITY_NUMBER).check(matches(withTextSize(MEDIUM_ACTIVITY_NAMES_TEXT_SIZE)));
+    }
+
+    @Test
+    public void testDisplayingSmallActivitiesNames() {
+        TestUtils.setCurrentUserPreferences(DONT_CHANGE_PLAN_VIEW_TYPE, TypyWidokuAktywnosci.small, DONT_CHANGE_ACTION_VIEW_TYPE);
+        runActivity();
+        getActivitiesListLabelElement(FIRST_ACTIVITY_NUMBER).check(matches(withTextSize(SMALL_ACTIVITY_NAMES_TEXT_SIZE)));
+    }
+
+    private void runActivity() {
+        activityRule.launchActivity(new Intent());
     }
 
     private DataInteraction getActivitiesListElement(int elementNumber) {
@@ -137,6 +165,23 @@ public class ActivitiesListTest {
             @Override
             public void describeTo(Description description) {
                 description.appendText("with paint flag: ");
+            }
+        };
+    }
+
+    public static Matcher<View> withTextSize(final float textSize) {
+        Checks.checkNotNull(textSize);
+
+        return new BoundedMatcher<View, TextView>(TextView.class) {
+
+            @Override
+            public boolean matchesSafely(TextView label) {
+                return label.getTextSize() == textSize;
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("With text size: " + textSize);
             }
         };
     }

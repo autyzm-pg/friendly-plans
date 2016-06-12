@@ -11,8 +11,13 @@ package com.przyjaznyplanDisplayer;
 
 import com.przyjaznyplan.models.Activity;
 import com.przyjaznyplan.models.Plan;
+import com.przyjaznyplan.models.TypyWidokuAktywnosci;
+import com.przyjaznyplan.models.TypyWidokuCzynnosci;
+import com.przyjaznyplan.models.TypyWidokuPlanuAktywnosci;
+import com.przyjaznyplan.models.User;
 import com.przyjaznyplan.repositories.ActivityRepository;
 import com.przyjaznyplan.repositories.PlanRepository;
+import com.przyjaznyplan.repositories.UserRepository;
 import com.przyjaznyplan.utils.BusinessLogic;
 
 import java.util.ArrayList;
@@ -32,6 +37,17 @@ public class TestUtils {
         ActivityRepository.insertActivitiesWithActions(activities);
         Plan currentPlan = PlanRepository.getPlanById(BusinessLogic.SYSTEM_CURRENT_PLAN_ID);
         PlanRepository.assignActivitiesToPlan(currentPlan, activities);
+    }
+
+    public static void setCurrentUserPreferences(
+            TypyWidokuPlanuAktywnosci planViewType, TypyWidokuAktywnosci activityViewType, TypyWidokuCzynnosci actionViewType) {
+        User currentUser = UserRepository.getCurrentUser();
+        if (planViewType != null)
+            UserRepository.setPlanViewTypeForUser(currentUser.getId(), planViewType);
+        if (activityViewType != null)
+            UserRepository.setActivityViewTypeForUser(currentUser.getId(), activityViewType);
+        if (actionViewType != null)
+            UserRepository.setActionViewTypeForUser(currentUser.getId(), actionViewType);
     }
 
 }
