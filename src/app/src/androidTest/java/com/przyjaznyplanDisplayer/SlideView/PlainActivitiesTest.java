@@ -10,7 +10,6 @@
 package com.przyjaznyplanDisplayer.SlideView;
 
 import android.content.Intent;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -32,14 +31,11 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class SlideViewTest {
+public class PlainActivitiesTest {
 
     private final int ACTIVITIES_NUMBER = 6;
 
@@ -65,9 +61,7 @@ public class SlideViewTest {
     @Test
     public void testDisplayingActivity() {
         runActivity();
-        onView(withId(R.id.basicview_description)).check(matches(withText(TestUtils.ACTIVITY_BASE_NAME + TestUtils.FIRST_ACTIVITY_NUMBER)));
-        onView(withId(R.id.basivview_greenbutton)).check(matches(isDisplayed()));
-        onView(withId(R.id.basivview_redbutton)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
+        SlideViewUtils.assertIsOnActivitiesFirstPage();
     }
 
     @Test
@@ -75,9 +69,7 @@ public class SlideViewTest {
         runActivity();
         onView(withId(R.id.basivview_greenbutton)).perform(click());
 
-        onView(withId(R.id.basicview_description)).check(matches(withText(TestUtils.ACTIVITY_BASE_NAME + TestUtils.SECOND_ACTIVITY_NUMBER)));
-        onView(withId(R.id.basivview_greenbutton)).check(matches(isDisplayed()));
-        onView(withId(R.id.basivview_redbutton)).check(matches(isDisplayed()));
+        SlideViewUtils.assertIsOnActivitiesSecondPage();
     }
 
     @Test
@@ -86,9 +78,7 @@ public class SlideViewTest {
         onView(withId(R.id.basivview_greenbutton)).perform(click());
         onView(withId(R.id.basivview_redbutton)).perform(click());
 
-        onView(withId(R.id.basicview_description)).check(matches(withText(TestUtils.ACTIVITY_BASE_NAME + TestUtils.FIRST_ACTIVITY_NUMBER)));
-        onView(withId(R.id.basivview_greenbutton)).check(matches(isDisplayed()));
-        onView(withId(R.id.basivview_redbutton)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
+        SlideViewUtils.assertIsOnActivitiesFirstPage();
     }
 
     @Test
@@ -97,7 +87,7 @@ public class SlideViewTest {
         for (int activityNumber = 0; activityNumber < ACTIVITIES_NUMBER; activityNumber++)
             onView(withId(R.id.basivview_greenbutton)).perform(click());
 
-        onView(withId(R.id.imageView)).check(matches(isDisplayed()));
+        SlideViewUtils.assertIsOnFinishedPage();
     }
 
     @Test
@@ -109,15 +99,14 @@ public class SlideViewTest {
         );
         runActivity();
 
-        onView(withId(R.id.basivview_redbutton)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
+        SlideViewUtils.assertIsOnActivitiesFirstPage();
+        onView(withId(R.id.basicview_description)).check(matches(Matcher.withTextSize(TestUtils.BIG_ACTIVITY_NAMES_TEXT_SIZE)));
 
         onView(withId(R.id.basivview_greenbutton)).perform(click());
         onView(withId(R.id.basivview_greenbutton)).perform(click());
         onView(withId(R.id.basivview_redbutton)).perform(click());
 
-        onView(withId(R.id.basicview_description)).check(matches(withText(TestUtils.ACTIVITY_BASE_NAME + TestUtils.SECOND_ACTIVITY_NUMBER)));
-        onView(withId(R.id.basivview_greenbutton)).check(matches(isDisplayed()));
-        onView(withId(R.id.basivview_redbutton)).check(matches(isDisplayed()));
+        SlideViewUtils.assertIsOnActivitiesSecondPage();
         onView(withId(R.id.basicview_description)).check(matches(Matcher.withTextSize(TestUtils.BIG_ACTIVITY_NAMES_TEXT_SIZE)));
     }
 
@@ -130,15 +119,14 @@ public class SlideViewTest {
         );
         runActivity();
 
-        onView(withId(R.id.basivview_redbutton)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
+        SlideViewUtils.assertIsOnActivitiesFirstPage();
+        onView(withId(R.id.basicview_description)).check(matches(Matcher.withTextSize(TestUtils.MEDIUM_ACTIVITY_NAMES_TEXT_SIZE)));
 
         onView(withId(R.id.basivview_greenbutton)).perform(click());
         onView(withId(R.id.basivview_greenbutton)).perform(click());
         onView(withId(R.id.basivview_redbutton)).perform(click());
 
-        onView(withId(R.id.basicview_description)).check(matches(withText(TestUtils.ACTIVITY_BASE_NAME + TestUtils.SECOND_ACTIVITY_NUMBER)));
-        onView(withId(R.id.basivview_greenbutton)).check(matches(isDisplayed()));
-        onView(withId(R.id.basivview_redbutton)).check(matches(isDisplayed()));
+        SlideViewUtils.assertIsOnActivitiesSecondPage();
         onView(withId(R.id.basicview_description)).check(matches(Matcher.withTextSize(TestUtils.MEDIUM_ACTIVITY_NAMES_TEXT_SIZE)));
     }
 
@@ -151,20 +139,21 @@ public class SlideViewTest {
         );
         runActivity();
 
-        onView(withId(R.id.basivview_redbutton)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
+        SlideViewUtils.assertIsOnActivitiesFirstPage();
+        onView(withId(R.id.basicview_description)).check(matches(Matcher.withTextSize(TestUtils.SMALL_ACTIVITY_NAMES_TEXT_SIZE)));
 
         onView(withId(R.id.basivview_greenbutton)).perform(click());
         onView(withId(R.id.basivview_greenbutton)).perform(click());
         onView(withId(R.id.basivview_redbutton)).perform(click());
 
-        onView(withId(R.id.basicview_description)).check(matches(withText(TestUtils.ACTIVITY_BASE_NAME + TestUtils.SECOND_ACTIVITY_NUMBER)));
-        onView(withId(R.id.basivview_greenbutton)).check(matches(isDisplayed()));
-        onView(withId(R.id.basivview_redbutton)).check(matches(isDisplayed()));
+        SlideViewUtils.assertIsOnActivitiesSecondPage();
         onView(withId(R.id.basicview_description)).check(matches(Matcher.withTextSize(TestUtils.SMALL_ACTIVITY_NAMES_TEXT_SIZE)));
     }
 
     private void runActivity() {
         activityRule.launchActivity(new Intent());
     }
+
+
 
 }

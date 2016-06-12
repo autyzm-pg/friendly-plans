@@ -10,15 +10,12 @@
 package com.przyjaznyplanDisplayer.SlideView;
 
 import android.content.Intent;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 
 import com.example.przyjaznyplan.R;
-import com.przyjaznyplan.models.Activity;
 import com.przyjaznyplan.models.TypyWidokuAktywnosci;
 import com.przyjaznyplan.models.TypyWidokuCzynnosci;
 import com.przyjaznyplan.models.TypyWidokuPlanuAktywnosci;
-import com.przyjaznyplan.repositories.ActivityRepository;
 import com.przyjaznyplan.repositories.DatabaseUtils;
 import com.przyjaznyplanDisplayer.PlanActivityView;
 import com.przyjaznyplanDisplayer.Utils.Matcher;
@@ -32,15 +29,9 @@ import org.junit.Test;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.Matchers.is;
 
-public class ActionsWithActivitiesTest {
+public class ActivitiesWithActionsTest {
 
     private final int ACTIVITIES_NUMBER = 3;
     private final int ACTIONS_NUMBER = 3;
@@ -69,7 +60,7 @@ public class ActionsWithActivitiesTest {
         runActivity();
         onView(withId(R.id.basivview_greenbutton)).perform(click());
 
-        assertIsOnActionsFirstPage();
+        SlideViewUtils.assertIsOnActionsFirstPage();
     }
 
     @Test
@@ -78,7 +69,7 @@ public class ActionsWithActivitiesTest {
         onView(withId(R.id.basivview_greenbutton)).perform(click());
         onView(withId(R.id.basivview_greenbutton)).perform(click());
 
-        assertIsOnActionsSecondPage();
+        SlideViewUtils.assertIsOnActionsSecondPage();
     }
 
     @Test
@@ -88,7 +79,7 @@ public class ActionsWithActivitiesTest {
         onView(withId(R.id.basivview_greenbutton)).perform(click());
         onView(withId(R.id.basivview_redbutton)).perform(click());
 
-        assertIsOnActionsFirstPage();
+        SlideViewUtils.assertIsOnActionsFirstPage();
     }
 
     @Test
@@ -100,11 +91,11 @@ public class ActionsWithActivitiesTest {
 
         onView(withId(R.id.basivview_redbutton)).perform(click());
 
-        assertIsOnActivitiesFirstPage();
+        SlideViewUtils.assertIsOnActivitiesFirstPage();
 
         onView(withId(R.id.basivview_greenbutton)).perform(click());
 
-        assertIsOnActionsFirstPage();
+        SlideViewUtils.assertIsOnActionsFirstPage();
     }
 
     @Test
@@ -114,7 +105,7 @@ public class ActionsWithActivitiesTest {
         for (int actionNumber = 0; actionNumber < ACTIONS_NUMBER; actionNumber++)
             onView(withId(R.id.basivview_greenbutton)).perform(click());
 
-        assertIsOnActivitiesSecondPage();
+        SlideViewUtils.assertIsOnActivitiesSecondPage();
     }
 
     @Test
@@ -125,7 +116,7 @@ public class ActionsWithActivitiesTest {
             onView(withId(R.id.basivview_greenbutton)).perform(click());
         onView(withId(R.id.basivview_redbutton)).perform(click());
 
-        assertIsOnActivitiesFirstPage();
+        SlideViewUtils.assertIsOnActivitiesFirstPage();
     }
 
     @Test
@@ -136,7 +127,7 @@ public class ActionsWithActivitiesTest {
             for (int actionNumber = 0; actionNumber < ACTIONS_NUMBER; actionNumber++)
                 onView(withId(R.id.basivview_greenbutton)).perform(click());
         }
-        assertIsOnLastPage();
+        SlideViewUtils.assertIsOnFinishedPage();
     }
 
     @Test
@@ -151,7 +142,7 @@ public class ActionsWithActivitiesTest {
         onView(withId(R.id.basivview_greenbutton)).perform(click());
         onView(withId(R.id.basivview_greenbutton)).perform(click());
 
-        assertIsOnActionsSecondPage();
+        SlideViewUtils.assertIsOnActionsSecondPage();
         onView(withId(R.id.basicview_description)).check(matches(Matcher.withTextSize(TestUtils.BIG_ACTION_NAMES_TEXT_SIZE)));
     }
 
@@ -168,7 +159,7 @@ public class ActionsWithActivitiesTest {
         for (int actionNumber = 0; actionNumber < ACTIONS_NUMBER; actionNumber++)
             onView(withId(R.id.basivview_greenbutton)).perform(click());
 
-        assertIsOnActivitiesSecondPage();
+        SlideViewUtils.assertIsOnActivitiesSecondPage();
         onView(withId(R.id.basicview_description)).check(matches(Matcher.withTextSize(TestUtils.BIG_ACTIVITY_NAMES_TEXT_SIZE)));
     }
 
@@ -186,7 +177,7 @@ public class ActionsWithActivitiesTest {
             onView(withId(R.id.basivview_greenbutton)).perform(click());
         onView(withId(R.id.basivview_redbutton)).perform(click());
 
-        assertIsOnActivitiesFirstPage();
+        SlideViewUtils.assertIsOnActivitiesFirstPage();
         onView(withId(R.id.basicview_description)).check(matches(Matcher.withTextSize(TestUtils.BIG_ACTIVITY_NAMES_TEXT_SIZE)));
     }
 
@@ -202,7 +193,7 @@ public class ActionsWithActivitiesTest {
         onView(withId(R.id.basivview_greenbutton)).perform(click());
         onView(withId(R.id.basivview_greenbutton)).perform(click());
 
-        assertIsOnActionsSecondPage();
+        SlideViewUtils.assertIsOnActionsSecondPage();
         onView(withId(R.id.basicview_description)).check(matches(Matcher.withTextSize(TestUtils.MEDIUM_ACTION_NAMES_TEXT_SIZE)));
     }
 
@@ -219,7 +210,7 @@ public class ActionsWithActivitiesTest {
         for (int actionNumber = 0; actionNumber < ACTIONS_NUMBER; actionNumber++)
             onView(withId(R.id.basivview_greenbutton)).perform(click());
 
-        assertIsOnActivitiesSecondPage();
+        SlideViewUtils.assertIsOnActivitiesSecondPage();
         onView(withId(R.id.basicview_description)).check(matches(Matcher.withTextSize(TestUtils.MEDIUM_ACTIVITY_NAMES_TEXT_SIZE)));
     }
 
@@ -237,7 +228,7 @@ public class ActionsWithActivitiesTest {
             onView(withId(R.id.basivview_greenbutton)).perform(click());
         onView(withId(R.id.basivview_redbutton)).perform(click());
 
-        assertIsOnActivitiesFirstPage();
+        SlideViewUtils.assertIsOnActivitiesFirstPage();
         onView(withId(R.id.basicview_description)).check(matches(Matcher.withTextSize(TestUtils.MEDIUM_ACTIVITY_NAMES_TEXT_SIZE)));
     }
 
@@ -253,7 +244,7 @@ public class ActionsWithActivitiesTest {
         onView(withId(R.id.basivview_greenbutton)).perform(click());
         onView(withId(R.id.basivview_greenbutton)).perform(click());
 
-        assertIsOnActionsSecondPage();
+        SlideViewUtils.assertIsOnActionsSecondPage();
         onView(withId(R.id.basicview_description)).check(matches(Matcher.withTextSize(TestUtils.SMALL_ACTION_NAMES_TEXT_SIZE)));
     }
 
@@ -270,7 +261,7 @@ public class ActionsWithActivitiesTest {
         for (int actionNumber = 0; actionNumber < ACTIONS_NUMBER; actionNumber++)
             onView(withId(R.id.basivview_greenbutton)).perform(click());
 
-        assertIsOnActivitiesSecondPage();
+        SlideViewUtils.assertIsOnActivitiesSecondPage();
         onView(withId(R.id.basicview_description)).check(matches(Matcher.withTextSize(TestUtils.SMALL_ACTIVITY_NAMES_TEXT_SIZE)));
     }
 
@@ -288,60 +279,11 @@ public class ActionsWithActivitiesTest {
             onView(withId(R.id.basivview_greenbutton)).perform(click());
         onView(withId(R.id.basivview_redbutton)).perform(click());
 
-        assertIsOnActivitiesFirstPage();
+        SlideViewUtils.assertIsOnActivitiesFirstPage();
         onView(withId(R.id.basicview_description)).check(matches(Matcher.withTextSize(TestUtils.SMALL_ACTIVITY_NAMES_TEXT_SIZE)));
     }
 
     private void runActivity() {
         activityRule.launchActivity(new Intent());
     }
-
-    private void assertIsOnActionsFirstPage() {
-        onView(withId(R.id.basicview_description)).check(matches(withText(TestUtils.ACTION_BASE_NAME + TestUtils.FIRST_ACTION_NUMBER)));
-        onView(withId(R.id.basivview_greenbutton)).check(matches(isDisplayed()));
-        onView(withId(R.id.basivview_redbutton)).check(matches(isDisplayed()));
-
-        Activity activity = ActivityRepository.getActivityByTitleFromCurrentPlan(TestUtils.ACTIVITY_BASE_NAME + TestUtils.FIRST_ACTION_NUMBER);
-        assertIsActivityNotDone(activity);
-    }
-
-    private void assertIsOnActionsSecondPage() {
-        onView(withId(R.id.basicview_description)).check(matches(withText(TestUtils.ACTION_BASE_NAME + TestUtils.SECOND_ACTION_NUMBER)));
-        onView(withId(R.id.basivview_greenbutton)).check(matches(isDisplayed()));
-        onView(withId(R.id.basivview_redbutton)).check(matches(isDisplayed()));
-
-        Activity activity = ActivityRepository.getActivityByTitleFromCurrentPlan(TestUtils.ACTIVITY_BASE_NAME + TestUtils.FIRST_ACTION_NUMBER);
-        assertIsActivityNotDone(activity);
-    }
-
-    private void assertIsOnActivitiesFirstPage() {
-        onView(withId(R.id.basicview_description)).check(matches(withText(TestUtils.ACTIVITY_BASE_NAME + TestUtils.FIRST_ACTIVITY_NUMBER)));
-        onView(withId(R.id.basivview_greenbutton)).check(matches(isDisplayed()));
-        onView(withId(R.id.basivview_redbutton)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
-
-        Activity activity = ActivityRepository.getActivityByTitleFromCurrentPlan(TestUtils.ACTIVITY_BASE_NAME + TestUtils.FIRST_ACTION_NUMBER);
-        assertIsActivityNotDone(activity);
-    }
-
-    private void assertIsOnActivitiesSecondPage() {
-        onView(withId(R.id.basicview_description)).check(matches(withText(TestUtils.ACTIVITY_BASE_NAME + TestUtils.SECOND_ACTIVITY_NUMBER)));
-        onView(withId(R.id.basivview_greenbutton)).check(matches(isDisplayed()));
-        onView(withId(R.id.basivview_redbutton)).check(matches(isDisplayed()));
-
-        Activity activity = ActivityRepository.getActivityByTitleFromCurrentPlan(TestUtils.ACTIVITY_BASE_NAME + TestUtils.FIRST_ACTION_NUMBER);
-        assertIsActivityDone(activity);
-    }
-
-    private void assertIsOnLastPage() {
-        onView(withId(R.id.imageView)).check(matches(isDisplayed()));
-    }
-
-    private void assertIsActivityDone(Activity activity) {
-        assertThat("Activity should be done", activity.getStatus(), is(equalTo(Activity.ActivityStatus.FINISHED.toString())));
-    }
-
-    private void assertIsActivityNotDone(Activity activity) {
-        assertThat("Activity should not be done", activity.getStatus(), is(equalTo(Activity.ActivityStatus.NEW.toString())));
-    }
-
 }

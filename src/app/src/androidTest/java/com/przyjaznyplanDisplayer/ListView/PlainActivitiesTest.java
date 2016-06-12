@@ -47,7 +47,7 @@ import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class ActivitiesListTest {
+public class PlainActivitiesTest {
 
     private final int ACTIVITIES_NUMBER = 4;
 
@@ -95,8 +95,7 @@ public class ActivitiesListTest {
         onView(withId(R.id.imageView)).check(matches(isDisplayed()));
         List<Activity> activities = ActivityRepository.getAllActivitiesFromCurrentPlan();
         for (Activity activity : activities)
-            assertThat("Activity should be done",
-                    activity.getStatus(), is(Matchers.equalTo(Activity.ActivityStatus.FINISHED.toString())));
+            assertThat("Activity should be done", activity.getStatus(), is(Matchers.equalTo(Activity.ActivityStatus.FINISHED.toString())));
     }
 
     @Test
