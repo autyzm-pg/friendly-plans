@@ -9,9 +9,7 @@
 
 package com.przyjaznyplan.repositories;
 
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.przyjaznyplan.DbHelper.MySQLiteHelper;
 import com.przyjaznyplan.dao.ChoosenUserDao;
 import com.przyjaznyplan.dao.UserDao;
@@ -21,10 +19,6 @@ import com.przyjaznyplan.models.TypyWidokuCzynnosci;
 import com.przyjaznyplan.models.TypyWidokuPlanuAktywnosci;
 import com.przyjaznyplan.models.User;
 import com.przyjaznyplan.models.UserPreferences;
-
-import static com.przyjaznyplan.models.TypyWidokuAktywnosci.big;
-import static com.przyjaznyplan.models.TypyWidokuAktywnosci.medium;
-import static com.przyjaznyplan.models.TypyWidokuAktywnosci.small;
 
 public class UserRepository {
 

@@ -1,14 +1,10 @@
 package com.przyjaznyplanDisplayer.mymodule.appmanager.Users;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
-import android.text.Editable;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.przyjaznyplan.models.TypyWidokuAktywnosci;
 import com.przyjaznyplan.models.TypyWidokuCzynnosci;
