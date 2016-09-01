@@ -98,7 +98,7 @@ public class EditUserView extends Activity {
 
     private void initView() {
         setContentView(R.layout.edituserview);
-        timerPath = (TextView)findViewById(R.id.edit_pathToTimer);
+        timerPath = (TextView)findViewById(R.id.pathToTimer);
 
         if(!user.getPreferences().getTimerSoundPath().equals("")){
             Button odsluchajBtn = (Button)findViewById(R.id.odsluchajBtn);
@@ -171,7 +171,7 @@ public class EditUserView extends Activity {
         if ((requestCode ==  RequestCodes.FILE_CHOOSER) && (resultCode == -1)) {
             String fileSelected = data.getStringExtra("fileSelected");
             timerPath.setText(fileSelected);
-            if(!("".equals(fileSelected))){
+            if(!fileSelected.equals("")){
                 setTimerPath();
                 Button odsluchajBtn = (Button)findViewById(R.id.odsluchajBtn);
                 odsluchajBtn.setVisibility(View.VISIBLE);
@@ -204,7 +204,7 @@ public class EditUserView extends Activity {
     }
 
     private void setTimerPath() {
-        if(!"".equals(timerPath.getText())) {
+        if(!timerPath.getText().equals("")) {
             user.getPreferences().setTimerSoundPath(timerPath.getText().toString());
         }
     }

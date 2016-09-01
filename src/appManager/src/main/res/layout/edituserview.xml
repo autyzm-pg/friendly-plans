@@ -152,7 +152,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/edit_pathToTimer"
+            android:id="@+id/pathToTimer"
             android:visibility="invisible" />
 
     </LinearLayout>
