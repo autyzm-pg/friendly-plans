@@ -13,13 +13,16 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -34,8 +37,9 @@ import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.RequestCodes;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.UserAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class UserListView extends Activity implements  TextWatcher, AdapterView.OnItemClickListener{
+public class UserListView extends Activity implements AdapterView.OnItemClickListener{
 
     private UserDao userDao;
     private ListView mainListView;
@@ -75,8 +79,24 @@ public class UserListView extends Activity implements  TextWatcher, AdapterView.
 
     private void initSearching() {
         searchInput = (EditText)findViewById(R.id.um_searchInput);
-        searchInput.addTextChangedListener(this);
+        searchInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                adapter.getFilter().filter(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
+
 
     private void loadUsers(){
 
@@ -189,21 +209,6 @@ public class UserListView extends Activity implements  TextWatcher, AdapterView.
             }
 
         }
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        adapter.getFilter().filter(charSequence);
-    }
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-
     }
 
     @Override

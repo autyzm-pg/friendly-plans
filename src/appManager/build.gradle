@@ -40,5 +40,5 @@ dependencies {
     androidTestCompile 'org.hamcrest:hamcrest-library:1.+'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.+'
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.+'
-    
+
 }
