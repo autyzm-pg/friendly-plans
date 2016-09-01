@@ -9,6 +9,7 @@
 
 package com.przyjaznyplan.repositories;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.przyjaznyplan.DbHelper.MySQLiteHelper;
@@ -21,11 +22,28 @@ import com.przyjaznyplan.models.TypyWidokuPlanuAktywnosci;
 import com.przyjaznyplan.models.User;
 import com.przyjaznyplan.models.UserPreferences;
 
+import static com.przyjaznyplan.models.TypyWidokuAktywnosci.big;
+import static com.przyjaznyplan.models.TypyWidokuAktywnosci.medium;
+import static com.przyjaznyplan.models.TypyWidokuAktywnosci.small;
+
 public class UserRepository {
 
     private static SQLiteDatabase databaseConnection = MySQLiteHelper.getDb();
     private static UserDao userDao = new UserDao(databaseConnection);
     private static ChoosenUserDao chosenUserDao = new ChoosenUserDao();
+
+    public static User insertUser(String name, String surname, UserPreferences userPreferences){
+        User user = new User();
+        user.setName(name);
+        user.setSurname(surname);
+        user.setPreferences(userPreferences);
+
+        UserDto userDto = new UserDto();
+        userDto.setUser(user);
+
+        userDao.create(userDto);
+        return user;
+    }
 
     public static User getUserById(String userId) {
         User tempUser = new User();
