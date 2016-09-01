@@ -147,10 +147,10 @@ public class UserAdapter extends ArrayAdapter<User> {
                 ArrayList<User> FilteredArrayNames = new ArrayList<User>();
 
                 constraint = constraint.toString().toLowerCase();
-                for (int i = 0; i < objects.size(); i++) {
-                    String dataNames = objects.get(i).getSurname()+" "+objects.get(i).getName();
-                    if (dataNames.toLowerCase().startsWith(constraint.toString()))  {
-                        FilteredArrayNames.add(objects.get(i));
+
+                for(User user : objects){
+                    if(user.getName().toLowerCase().startsWith(constraint.toString()) || user.getSurname().toLowerCase().startsWith(constraint.toString())){
+                        FilteredArrayNames.add(user);
                     }
                 }
 
