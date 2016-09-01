@@ -48,7 +48,6 @@
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionSearch"
             android:id="@+id/um_searchInput" />
     </LinearLayout>
 

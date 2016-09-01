@@ -132,13 +132,9 @@ public class UserAdapter extends ArrayAdapter<User> {
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
 
-                if (results.count == 0) {
-                    notifyDataSetInvalidated();
-                } else {
-                    arrayToShow.clear();
-                    arrayToShow.addAll((java.util.Collection<? extends User>) results.values);
-                    notifyDataSetChanged();
-                }
+                arrayToShow.clear();
+                arrayToShow.addAll((java.util.Collection<? extends User>) results.values);
+                notifyDataSetChanged();
             }
 
             @Override
