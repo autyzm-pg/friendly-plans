@@ -159,7 +159,7 @@ public class UserListView extends Activity implements AdapterView.OnItemClickLis
     }
 
     public void addUser(View view) {
-        Intent intent = new Intent(this, CreateUserView.class);
+        Intent intent = new Intent(this, EditUserView.class);
         startActivityForResult(intent, RequestCodes.USER_ADD_NEW);
     }
 
@@ -192,7 +192,7 @@ public class UserListView extends Activity implements AdapterView.OnItemClickLis
 
             if(resultCode==RESULT_OK){
 
-                User user = (User)data.getSerializableExtra("newUser");
+                User user = (User)data.getSerializableExtra("user");
                 UserDto dto = new UserDto();
                 dto.setUser(user);
                 userDao.create(dto);

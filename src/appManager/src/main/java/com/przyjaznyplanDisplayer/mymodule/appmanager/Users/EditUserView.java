@@ -54,13 +54,31 @@ public class EditUserView extends Activity {
 
         user = (User)getIntent().getSerializableExtra("user");
 
+        if(user == null) {
+            createDefaultUser();
+        }
+
         initView();
         initNameSurnameFields();
         initActivityTypeViewRadioButtons();
         initCzynnoscTypeViewRadioButtons();
         initPlanTypewViewRadioButtons();
 
+
     }
+
+    private void createDefaultUser() {
+        user = new User();
+        user.setName("Imię");
+        user.setSurname("Nazwisko");
+        UserPreferences userPreferences = new UserPreferences();
+        userPreferences.setTimerSoundPath("");
+        userPreferences.setTypyWidokuAktywnosci(TypyWidokuAktywnosci.big);
+        userPreferences.setTypWidokuPlanuAtywnosci(TypyWidokuPlanuAktywnosci.list);
+        userPreferences.setTypWidokuCzynnosci(TypyWidokuCzynnosci.advanced);
+        user.setPreferences(userPreferences);
+    }
+
     private void initPlanTypewViewRadioButtons(){
 
         UserPreferences preferences = user.getPreferences();
@@ -80,8 +98,6 @@ public class EditUserView extends Activity {
 
     private void initView() {
         setContentView(R.layout.edituserview);
-
-
         timerPath = (TextView)findViewById(R.id.edit_pathToTimer);
 
         if(!user.getPreferences().getTimerSoundPath().equals("")){
@@ -106,7 +122,6 @@ public class EditUserView extends Activity {
         }
     }
 
-
     private void initActivityTypeViewRadioButtons() {
         UserPreferences preferences = user.getPreferences();
         TypyWidokuAktywnosci typ = preferences.getTypyWidokuAktywnosci();
@@ -129,15 +144,12 @@ public class EditUserView extends Activity {
         }
     }
 
-
     private void initNameSurnameFields() {
         nameField = (EditText)findViewById(R.id.edit_imie);
         surnameField = (EditText)findViewById(R.id.edit_nazwisko);
         nameField.setText(user.getName());
         surnameField.setText(user.getSurname());
     }
-
-
 
     @Override
     protected void onStart() {
@@ -180,7 +192,6 @@ public class EditUserView extends Activity {
         setResult(RESULT_OK,data);
 
         finish();
-
     }
 
     @Override
@@ -197,8 +208,6 @@ public class EditUserView extends Activity {
             user.getPreferences().setTimerSoundPath(timerPath.getText().toString());
         }
     }
-
-
 
     private void setTypeViewsPreferences() {
 

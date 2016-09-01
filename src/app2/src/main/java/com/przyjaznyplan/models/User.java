@@ -11,7 +11,6 @@ public class User extends BaseModel {
     private String name;
     private String surname;
 
-
     private UserPreferences preferences;
 
     public UserPreferences getPreferences() {
