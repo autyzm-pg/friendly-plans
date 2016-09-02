@@ -133,6 +133,13 @@
             android:text="Dźwięk timera:"
             android:id="@+id/textView7" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pathToTimer"
+            android:visibility="visible"
+            android:textColor="@android:color/white"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -149,11 +156,6 @@
             android:layout_marginLeft="15dp"
             android:onClick="chooseTimerPath" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/pathToTimer"
-            android:visibility="invisible" />
 
     </LinearLayout>
 

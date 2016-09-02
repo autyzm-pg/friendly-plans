@@ -99,11 +99,12 @@ public class EditUserView extends Activity {
     private void initView() {
         setContentView(R.layout.edituserview);
         timerPath = (TextView)findViewById(R.id.pathToTimer);
+        String timerSoundPath = user.getPreferences().getTimerSoundPath();
 
-        if(!user.getPreferences().getTimerSoundPath().equals("")){
+        if(!timerSoundPath.equals("")){
             Button odsluchajBtn = (Button)findViewById(R.id.odsluchajBtn);
             odsluchajBtn.setVisibility(View.VISIBLE);
-            timerPath.setText(user.getPreferences().getTimerSoundPath());
+            timerPath.setText(timerSoundPath);
         }
 
 

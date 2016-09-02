@@ -20,6 +20,8 @@ import com.przyjaznyplan.models.TypyWidokuPlanuAktywnosci;
 import com.przyjaznyplan.models.User;
 import com.przyjaznyplan.models.UserPreferences;
 
+import java.util.List;
+
 public class UserRepository {
 
     private static SQLiteDatabase databaseConnection = MySQLiteHelper.getDb();
@@ -83,6 +85,10 @@ public class UserRepository {
         UserDto userDto = new UserDto();
         userDto.setUser(persistentUser);
         userDao.updatePreferences(userDto);
+    }
+
+    public static List<User> getAllUsers(){
+        return userDao.findAll();
     }
 
 
