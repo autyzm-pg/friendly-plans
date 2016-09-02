@@ -67,9 +67,9 @@ public class EditUserViewTest {
 
         onView(withId(R.id.pathToTimer)).check(matches(withText(resource.getString(R.string.default_empty_timer_path))));
         onView(withId(R.id.editName)).check(matches(withText(resource.getString(R.string.default_user_name))));
-        onView(withId(R.id.editNazwisko)).check(matches(withText(resource.getString(R.string.default_user_surname))));
-        onView(withId(R.id.rb_bigView)).check(matches(isChecked()));
-        onView(withId(R.id.advancedStepTypeRadioButton)).check(matches(isChecked()));
+        onView(withId(R.id.editSurname)).check(matches(withText(resource.getString(R.string.default_user_surname))));
+        onView(withId(R.id.bigPlanActivityTypeRadioButton)).check(matches(isChecked()));
+        onView(withId(R.id.advancedPlanActionTypeRadioButton)).check(matches(isChecked()));
         onView(withId(R.id.listPlanTypeRadioButton)).check(matches(isChecked()));
     }
 
@@ -78,11 +78,11 @@ public class EditUserViewTest {
         activityRule.launchActivity(new Intent());
 
         onView(withId(R.id.editName)).perform(clearText(), typeText(expectedNewUser.getName()));
-        onView(withId(R.id.editNazwisko)).perform(clearText(), typeText(expectedNewUser.getSurname()));
+        onView(withId(R.id.editSurname)).perform(clearText(), typeText(expectedNewUser.getSurname()));
         Espresso.closeSoftKeyboard();
 
-        onView(withId(R.id.rb_smallView)).perform(click());
-        onView(withId(R.id.basicStepTypeRadioButton)).perform(click());
+        onView(withId(R.id.smallPlanActivityTypeRadioButton)).perform(click());
+        onView(withId(R.id.basicPlanActionTypeRadioButton)).perform(click());
         onView(withId(R.id.slidePlanTypeRadioButton)).perform(click());
         onView(withId(R.id.button13)).perform(click());
 
@@ -113,9 +113,9 @@ public class EditUserViewTest {
                 activityRule.getActivity().getResources().getString(R.string.edit_user_header))));
         onView(withId(R.id.pathToTimer)).check(matches(withText(expectedUser.getPreferences().getTimerSoundPath())));
         onView(withId(R.id.editName)).check(matches(withText(expectedUser.getName())));
-        onView(withId(R.id.editNazwisko)).check(matches(withText(expectedUser.getSurname())));
-        onView(withId(R.id.rb_smallView)).check(matches(isChecked()));
-        onView(withId(R.id.basicStepTypeRadioButton)).check(matches(isChecked()));
+        onView(withId(R.id.editSurname)).check(matches(withText(expectedUser.getSurname())));
+        onView(withId(R.id.smallPlanActivityTypeRadioButton)).check(matches(isChecked()));
+        onView(withId(R.id.basicPlanActionTypeRadioButton)).check(matches(isChecked()));
         onView(withId(R.id.slidePlanTypeRadioButton)).check(matches(isChecked()));
     }
 
@@ -126,8 +126,8 @@ public class EditUserViewTest {
         intent.putExtra("user", expectedUser);
         activityRule.launchActivity(intent);
 
-        onView(withId(R.id.rb_bigView)).perform(click());
-        onView(withId(R.id.advancedStepTypeRadioButton)).perform(click());
+        onView(withId(R.id.bigPlanActivityTypeRadioButton)).perform(click());
+        onView(withId(R.id.advancedPlanActionTypeRadioButton)).perform(click());
         onView(withId(R.id.listPlanTypeRadioButton)).perform(click());
         onView(withId(R.id.button13)).perform(click());
 

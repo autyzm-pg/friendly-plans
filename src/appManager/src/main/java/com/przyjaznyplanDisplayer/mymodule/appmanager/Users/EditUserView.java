@@ -43,8 +43,8 @@ public class EditUserView extends Activity {
     private EditText nameField;
     private EditText surnameField;
     private TextView timerPath;
-    private RadioGroup radioGroupActivityTypeView;
-    private RadioGroup radioGroupCzynnoscTypeView;
+    private RadioGroup radioGroupPlanActivityTypeView;
+    private RadioGroup radioGroupPlanActionTypeView;
     private RadioGroup radioGroupPlanActivityView;
     MediaPlayer player;
 
@@ -67,8 +67,8 @@ public class EditUserView extends Activity {
         initHeader();
         initTimer();
         initNameSurnameFields();
-        initActivityTypeViewRadioButtons();
-        initStepTypeViewRadioButtons();
+        initPlanActivityTypeViewRadioButtons();
+        initPlanActionTypeViewRadioButtons();
         initPlanTypeViewRadioButtons();
 
     }
@@ -96,11 +96,11 @@ public class EditUserView extends Activity {
     private void initPlanTypeViewRadioButtons(){
 
         UserPreferences preferences = user.getPreferences();
-        TypyWidokuPlanuAktywnosci typ = preferences.getTypWidokuPlanuAtywnosci();
-        radioGroupPlanActivityView = (RadioGroup)findViewById(R.id.e_rbg_planTypeView);
+        TypyWidokuPlanuAktywnosci type = preferences.getTypWidokuPlanuAtywnosci();
+        radioGroupPlanActivityView = (RadioGroup)findViewById(R.id.planTypeRadioGroup);
         ((RadioButton)radioGroupPlanActivityView.getChildAt(0)).setChecked(true);
 
-        switch(typ){
+        switch(type){
             case list:
                 setRadioButton(radioGroupPlanActivityView.findViewById(R.id.listPlanTypeRadioButton),true);return;
             case slide:
@@ -125,31 +125,31 @@ public class EditUserView extends Activity {
         }
     }
 
-    private void initStepTypeViewRadioButtons(){
+    private void initPlanActionTypeViewRadioButtons(){
         UserPreferences preferences = user.getPreferences();
         TypyWidokuCzynnosci type = preferences.getTypWidokuCzynnosci();
-        radioGroupCzynnoscTypeView = (RadioGroup)findViewById(R.id.rbg_czynnoscTypeView);
+        radioGroupPlanActionTypeView = (RadioGroup)findViewById(R.id.planActionTypeRadioGroup);
 
         switch(type){
             case basic:
-                setRadioButton(radioGroupCzynnoscTypeView.findViewById(R.id.basicStepTypeRadioButton),true);return;
+                setRadioButton(radioGroupPlanActionTypeView.findViewById(R.id.basicPlanActionTypeRadioButton),true);return;
             case advanced:
-                setRadioButton(radioGroupCzynnoscTypeView.findViewById(R.id.advancedStepTypeRadioButton),true);return;
+                setRadioButton(radioGroupPlanActionTypeView.findViewById(R.id.advancedPlanActionTypeRadioButton),true);return;
         }
     }
 
-    private void initActivityTypeViewRadioButtons() {
+    private void initPlanActivityTypeViewRadioButtons() {
         UserPreferences preferences = user.getPreferences();
         TypyWidokuAktywnosci typ = preferences.getTypyWidokuAktywnosci();
-        radioGroupActivityTypeView = (RadioGroup)findViewById(R.id.rb_aktywnoscTypeView);
+        radioGroupPlanActivityTypeView = (RadioGroup)findViewById(R.id.planActivityTypeRadioGroup);
 
         switch(typ){
             case small:
-                setRadioButton(radioGroupActivityTypeView.findViewById(R.id.rb_smallView),true); return;
+                setRadioButton(radioGroupPlanActivityTypeView.findViewById(R.id.smallPlanActivityTypeRadioButton),true); return;
             case medium:
-                setRadioButton(radioGroupActivityTypeView.findViewById(R.id.rb_mediumView),true); return;
+                setRadioButton(radioGroupPlanActivityTypeView.findViewById(R.id.mediumPlanActivityTypeRadioButton),true); return;
             case big:
-                setRadioButton(radioGroupActivityTypeView.findViewById(R.id.rb_bigView),true); return;
+                setRadioButton(radioGroupPlanActivityTypeView.findViewById(R.id.bigPlanActivityTypeRadioButton),true); return;
         }
     }
 
@@ -162,7 +162,7 @@ public class EditUserView extends Activity {
 
     private void initNameSurnameFields() {
         nameField = (EditText)findViewById(R.id.editName);
-        surnameField = (EditText)findViewById(R.id.editNazwisko);
+        surnameField = (EditText)findViewById(R.id.editSurname);
         nameField.setText(user.getName());
         surnameField.setText(user.getSurname());
     }
@@ -246,23 +246,23 @@ public class EditUserView extends Activity {
 
     private void setTypeViewsPreferences() {
 
-        int activityTypeView = radioGroupActivityTypeView.getCheckedRadioButtonId();
+        int activityTypeView = radioGroupPlanActivityTypeView.getCheckedRadioButtonId();
 
         switch (activityTypeView){
-            case R.id.rb_smallView:
+            case R.id.smallPlanActivityTypeRadioButton:
                 user.getPreferences().setTypyWidokuAktywnosci(small);break;
-            case R.id.rb_mediumView:
+            case R.id.mediumPlanActivityTypeRadioButton:
                 user.getPreferences().setTypyWidokuAktywnosci(medium);break;
-            case R.id.rb_bigView:
+            case R.id.bigPlanActivityTypeRadioButton:
                 user.getPreferences().setTypyWidokuAktywnosci(big);break;
         }
 
-        int czynnoscTypeView = radioGroupCzynnoscTypeView.getCheckedRadioButtonId();
+        int czynnoscTypeView = radioGroupPlanActionTypeView.getCheckedRadioButtonId();
 
         switch (czynnoscTypeView){
-            case R.id.basicStepTypeRadioButton:
+            case R.id.basicPlanActionTypeRadioButton:
                 user.getPreferences().setTypWidokuCzynnosci(TypyWidokuCzynnosci.basic);break;
-            case R.id.advancedStepTypeRadioButton:
+            case R.id.advancedPlanActionTypeRadioButton:
                 user.getPreferences().setTypWidokuCzynnosci(TypyWidokuCzynnosci.advanced);break;
         }
 

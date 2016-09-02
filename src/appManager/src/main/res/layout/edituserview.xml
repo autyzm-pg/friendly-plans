@@ -34,7 +34,7 @@
             android:text="Imię"
             android:inputType="text" />
 
-        <EditText android:id="@+id/editNazwisko"
+        <EditText android:id="@+id/editSurname"
 
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -61,27 +61,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:id="@+id/rb_aktywnoscTypeView">
+            android:id="@+id/planActivityTypeRadioGroup">
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Duży"
-                android:id="@+id/rb_bigView"
+                android:id="@+id/bigPlanActivityTypeRadioButton"
                 android:layout_marginLeft="10dp" />
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Średni"
-                android:id="@+id/rb_mediumView"
+                android:id="@+id/mediumPlanActivityTypeRadioButton"
                 android:layout_marginLeft="10dp" />
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mały"
-                android:id="@+id/rb_smallView"
+                android:id="@+id/smallPlanActivityTypeRadioButton"
                 android:layout_marginLeft="10dp" />
         </RadioGroup>
 
@@ -101,21 +101,21 @@
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/rbg_czynnoscTypeView"
+            android:id="@+id/planActionTypeRadioGroup"
             android:orientation="horizontal">
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Zaawansowany"
-                android:id="@+id/advancedStepTypeRadioButton"
+                android:id="@+id/advancedPlanActionTypeRadioButton"
                 android:layout_marginLeft="10dp" />
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Podstawowy"
-                android:id="@+id/basicStepTypeRadioButton"
+                android:id="@+id/basicPlanActionTypeRadioButton"
                 android:layout_marginLeft="10dp" />
         </RadioGroup>
 
@@ -171,7 +171,7 @@
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/e_rbg_planTypeView"
+            android:id="@+id/planTypeRadioGroup"
             android:orientation="horizontal">
 
             <RadioButton
