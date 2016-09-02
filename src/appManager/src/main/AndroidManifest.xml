@@ -76,7 +76,6 @@
         </activity>
 
         <activity android:name="com.przyjaznyplanDisplayer.mymodule.appmanager.Users.UserListView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden"></activity>
-        <activity android:name="com.przyjaznyplanDisplayer.mymodule.appmanager.Users.CreateUserView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name="com.przyjaznyplanDisplayer.mymodule.appmanager.Users.EditUserView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden"></activity>
     </application>
 
