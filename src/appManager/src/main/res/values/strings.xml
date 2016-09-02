@@ -74,4 +74,16 @@
     <string name="yes">Tak</string>
 
 
+    <string name="create_user_header">TWORZENIE UŻYTKOWNIKA</string>
+    <string name="edit_user_header">EDYCJA UŻYTKOWNIKA</string>
+    <string name="default_user_name">Imię</string>
+    <string name="default_user_surname">Nazwisko</string>
+    <string name="default_empty_timer_path"></string>
+    <string name="play_timer">Odsłuchaj</string>
+    <string name="stop_timer">Stop</string>
+    <string name="operation_execute_error">Operacja nie została wykonana</string>
+    <string name="create_user_error">Nie udało się stworzyć użytkownika!</string>
+    <string name="create_user_success">"Dodano użytkownika: "</string>
+    <string name="edit_user_error">Edycja nie przebiegła pomyślnie!</string>
+    <string name="edit_user_success">Edycja przebiegła pomyślnie</string>
 </resources>

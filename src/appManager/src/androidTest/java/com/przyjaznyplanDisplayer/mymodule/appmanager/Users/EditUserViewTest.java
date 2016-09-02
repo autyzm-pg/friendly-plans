@@ -1,14 +1,11 @@
 package com.przyjaznyplanDisplayer.mymodule.appmanager.Users;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.LargeTest;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.TextView;
 
 import com.przyjaznyplan.models.TypyWidokuAktywnosci;
 import com.przyjaznyplan.models.TypyWidokuCzynnosci;
@@ -39,40 +36,45 @@ import static org.junit.Assert.assertNotEquals;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class EditUserViewTest{
+public class EditUserViewTest {
 
     @Rule
     public ActivityTestRule<EditUserView> activityRule = new ActivityTestRule<>(EditUserView.class, true, false);
     private User expectedUser;
     private User expectedNewUser;
+    private final String expectedTimeoutPath = "/path/to/file";
 
     @Before
     public void setUp() throws Exception {
         DatabaseUtils.rebuildDatabaseWithInitData();
         expectedUser = TestUtils.createUser("NAME", "SURNAME",
-                TestUtils.createUserPerferences("/path/to/file", TypyWidokuAktywnosci.small, TypyWidokuCzynnosci.basic, TypyWidokuPlanuAktywnosci.slide));
+                TestUtils.createUserPerferences(expectedTimeoutPath, TypyWidokuAktywnosci.small, TypyWidokuCzynnosci.basic, TypyWidokuPlanuAktywnosci.slide));
         expectedNewUser = new User();
         expectedNewUser.setName("NEW_NAME");
         expectedNewUser.setSurname("NEW SURNAME");
-        expectedNewUser.setPreferences(TestUtils.createUserPerferences("/path/to/file", TypyWidokuAktywnosci.small,
+        expectedNewUser.setPreferences(TestUtils.createUserPerferences(expectedTimeoutPath, TypyWidokuAktywnosci.small,
                 TypyWidokuCzynnosci.basic, TypyWidokuPlanuAktywnosci.slide));
+
     }
 
     @Test
-    public void createUserShowDefaultDataTest(){
+    public void createUserShowDefaultDataTest() {
         activityRule.launchActivity(new Intent());
-        onView(withId(R.id.titleEditView)).check(matches(withText("TWORZENIE UŻYTKOWNIKA")));
+        Resources resource = activityRule.getActivity().getResources();
 
-        onView(withId(R.id.pathToTimer)).check(matches(withText("")));
-        onView(withId(R.id.edit_imie)).check(matches(withText("Imię")));
-        onView(withId(R.id.edit_nazwisko)).check(matches(withText("Nazwisko")));
+        onView(withId(R.id.titleEditView)).check(matches(withText(
+                resource.getString(R.string.create_user_header))));
+
+        onView(withId(R.id.pathToTimer)).check(matches(withText(resource.getString(R.string.default_empty_timer_path))));
+        onView(withId(R.id.edit_imie)).check(matches(withText(resource.getString(R.string.default_user_name))));
+        onView(withId(R.id.edit_nazwisko)).check(matches(withText(resource.getString(R.string.default_user_surname))));
         onView(withId(R.id.rb_bigView)).check(matches(isChecked()));
         onView(withId(R.id.rb_advancedView)).check(matches(isChecked()));
         onView(withId(R.id.e_rb_planListView)).check(matches(isChecked()));
     }
 
     @Test
-    public void createUserTest(){
+    public void createUserTest() {
         activityRule.launchActivity(new Intent());
 
         onView(withId(R.id.edit_imie)).perform(clearText(), typeText(expectedNewUser.getName()));
@@ -88,26 +90,27 @@ public class EditUserViewTest{
 
         User addedUser = null;
 
-        for(User user : allUsers){
-            if(user.getName().equals(expectedNewUser.getName()) && user.getSurname().equals(expectedNewUser.getSurname())){
+        for (User user : allUsers) {
+            if (user.getName().equals(expectedNewUser.getName()) && user.getSurname().equals(expectedNewUser.getSurname())) {
                 addedUser = user;
             }
         }
 
         assertNotEquals("New user should be added", null, addedUser);
-        assertEquals("New user should have set activity view to small", TypyWidokuAktywnosci.small , addedUser.getPreferences().getTypyWidokuAktywnosci());
-        assertEquals("New user should have set task view to basic", TypyWidokuCzynnosci.basic , addedUser.getPreferences().getTypWidokuCzynnosci());
-        assertEquals("New user should have set view to slide", TypyWidokuPlanuAktywnosci.slide , addedUser.getPreferences().getTypWidokuPlanuAtywnosci());
+        assertEquals("New user should have set activity view to small", TypyWidokuAktywnosci.small, addedUser.getPreferences().getTypyWidokuAktywnosci());
+        assertEquals("New user should have set task view to basic", TypyWidokuCzynnosci.basic, addedUser.getPreferences().getTypWidokuCzynnosci());
+        assertEquals("New user should have set view to slide", TypyWidokuPlanuAktywnosci.slide, addedUser.getPreferences().getTypWidokuPlanuAtywnosci());
 
     }
 
     @Test
-    public void editUserShowUsersDataTest(){
+    public void editUserShowUsersDataTest() {
         Intent intent = new Intent();
         intent.putExtra("user", expectedUser);
         activityRule.launchActivity(intent);
 
-        onView(withId(R.id.titleEditView)).check(matches(withText("EDYCJA UŻYTKOWNIKA")));
+        onView(withId(R.id.titleEditView)).check(matches(withText(
+                activityRule.getActivity().getResources().getString(R.string.edit_user_header))));
         onView(withId(R.id.pathToTimer)).check(matches(withText(expectedUser.getPreferences().getTimerSoundPath())));
         onView(withId(R.id.edit_imie)).check(matches(withText(expectedUser.getName())));
         onView(withId(R.id.edit_nazwisko)).check(matches(withText(expectedUser.getSurname())));
@@ -132,16 +135,16 @@ public class EditUserViewTest{
 
         User editedUser = null;
 
-        for(User user : allUsers){
-            if(user.getName().equals(expectedUser.getName()) && user.getSurname().equals(expectedUser.getSurname())){
+        for (User user : allUsers) {
+            if (user.getName().equals(expectedUser.getName()) && user.getSurname().equals(expectedUser.getSurname())) {
                 editedUser = user;
             }
         }
 
         assertNotEquals("New user should be added", null, editedUser);
-        assertEquals("New user should have set activity view to big", TypyWidokuAktywnosci.big , editedUser.getPreferences().getTypyWidokuAktywnosci());
-        assertEquals("New user should have set task view to advanced", TypyWidokuCzynnosci.advanced , editedUser.getPreferences().getTypWidokuCzynnosci());
-        assertEquals("New user should have set view to list", TypyWidokuPlanuAktywnosci.list , editedUser.getPreferences().getTypWidokuPlanuAtywnosci());
+        assertEquals("New user should have set activity view to big", TypyWidokuAktywnosci.big, editedUser.getPreferences().getTypyWidokuAktywnosci());
+        assertEquals("New user should have set task view to advanced", TypyWidokuCzynnosci.advanced, editedUser.getPreferences().getTypWidokuCzynnosci());
+        assertEquals("New user should have set view to list", TypyWidokuPlanuAktywnosci.list, editedUser.getPreferences().getTypWidokuPlanuAtywnosci());
 
 
     }

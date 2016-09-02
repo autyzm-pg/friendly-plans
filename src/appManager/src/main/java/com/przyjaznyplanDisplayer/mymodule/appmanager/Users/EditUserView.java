@@ -21,7 +21,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.przyjaznyplan.dto.UserDto;
 import com.przyjaznyplan.models.TypyWidokuAktywnosci;
 import com.przyjaznyplan.models.TypyWidokuCzynnosci;
 import com.przyjaznyplan.models.TypyWidokuPlanuAktywnosci;
@@ -74,23 +73,19 @@ public class EditUserView extends Activity {
     }
 
     private void initHeader() {
-
-        String headerValue;
-        if(actualViewType == ViewType.CREATE)
-            headerValue = "TWORZENIE UŻYTKOWNIKA";
-        else
-            headerValue = "EDYCJA UŻYTKOWNIKA";
-
         TextView header = (TextView) findViewById(R.id.titleEditView);
-        header.setText(headerValue);
+        if(actualViewType == ViewType.CREATE)
+            header.setText(R.string.create_user_header);
+        else
+            header.setText(R.string.edit_user_header);
     }
 
     private void createDefaultUser() {
         user = new User();
-        user.setName("Imię");
-        user.setSurname("Nazwisko");
+        user.setName(getResources().getString(R.string.default_user_name));
+        user.setSurname(getResources().getString(R.string.default_user_surname));
         UserPreferences userPreferences = new UserPreferences();
-        userPreferences.setTimerSoundPath("");
+        userPreferences.setTimerSoundPath(getResources().getString(R.string.default_empty_timer_path));
         userPreferences.setTypyWidokuAktywnosci(TypyWidokuAktywnosci.big);
         userPreferences.setTypWidokuPlanuAtywnosci(TypyWidokuPlanuAktywnosci.list);
         userPreferences.setTypWidokuCzynnosci(TypyWidokuCzynnosci.advanced);
@@ -122,7 +117,7 @@ public class EditUserView extends Activity {
         timerPath = (TextView)findViewById(R.id.pathToTimer);
         String timerSoundPath = user.getPreferences().getTimerSoundPath();
 
-        if(!timerSoundPath.equals("")){
+        if(!timerSoundPath.equals(R.string.default_empty_timer_path)){
             Button odsluchajBtn = (Button)findViewById(R.id.odsluchajBtn);
             odsluchajBtn.setVisibility(View.VISIBLE);
             timerPath.setText(timerSoundPath);
@@ -209,26 +204,26 @@ public class EditUserView extends Activity {
 
               try {
                   user = UserRepository.updateUser(user);
-                  Toast.makeText(this, "Edycja przebiegła pomyślnie", Toast.LENGTH_LONG).show();
+                  Toast.makeText(this, R.string.edit_user_success, Toast.LENGTH_LONG).show();
                   finish();
               }
               catch (Exception ex) {
-                  Toast.makeText(this, "Edycja nie przebiegła pomyślnie!", Toast.LENGTH_LONG).show();
+                  Toast.makeText(this, R.string.edit_user_error, Toast.LENGTH_LONG).show();
               }
         }
         else if(actualViewType == ViewType.CREATE){
 
             try {
                 user  = UserRepository.insertUser(user);
-                Toast.makeText(this, "Dodano użytkownika: " + user.getName() + " " + user.getSurname(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.create_user_success) + user.getName() + " " + user.getSurname(), Toast.LENGTH_LONG).show();
                 finish();
             }
             catch(Exception ex) {
-                Toast.makeText(this, "Nie udało się stworzyć użytkownika!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.create_user_error, Toast.LENGTH_LONG).show();
             }
 
         }else{
-            Toast.makeText(this, "Operacja nie została wykonana", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.operation_execute_error, Toast.LENGTH_LONG).show();
         }
 
     }
@@ -243,7 +238,7 @@ public class EditUserView extends Activity {
     }
 
     private void setTimerPath() {
-        if(!timerPath.getText().equals("")) {
+        if(!timerPath.getText().equals(R.string.default_empty_timer_path)) {
             user.getPreferences().setTimerSoundPath(timerPath.getText().toString());
         }
     }
@@ -290,7 +285,7 @@ public class EditUserView extends Activity {
 
     public void listenTimer(View view) {
 
-        Button odsluchajBtn = (Button)findViewById(R.id.odsluchajBtn);
+        Button listenButton = (Button)findViewById(R.id.odsluchajBtn);
 
         if(player == null || ((player!=null)&&!player.isPlaying())) {
             Uri uri = Uri.parse(user.getPreferences().getTimerSoundPath());
@@ -300,7 +295,7 @@ public class EditUserView extends Activity {
                 player.setDataSource(getApplicationContext(), uri);
                 player.prepare();
                 player.start();
-                odsluchajBtn.setText("Stop");
+                listenButton.setText(R.string.stop_timer);
 
             }catch (Exception e){
                 System.out.println(e.getMessage());
@@ -309,7 +304,7 @@ public class EditUserView extends Activity {
         }else if(player.isPlaying()){
             player.stop();
             player.reset();
-            odsluchajBtn.setText("Odsłuchaj");
+            listenButton.setText(R.string.play_timer);
         }
 
     }
