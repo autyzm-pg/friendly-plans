@@ -66,24 +66,24 @@ public class EditUserViewTest {
                 resource.getString(R.string.create_user_header))));
 
         onView(withId(R.id.pathToTimer)).check(matches(withText(resource.getString(R.string.default_empty_timer_path))));
-        onView(withId(R.id.edit_imie)).check(matches(withText(resource.getString(R.string.default_user_name))));
-        onView(withId(R.id.edit_nazwisko)).check(matches(withText(resource.getString(R.string.default_user_surname))));
+        onView(withId(R.id.editName)).check(matches(withText(resource.getString(R.string.default_user_name))));
+        onView(withId(R.id.editNazwisko)).check(matches(withText(resource.getString(R.string.default_user_surname))));
         onView(withId(R.id.rb_bigView)).check(matches(isChecked()));
-        onView(withId(R.id.rb_advancedView)).check(matches(isChecked()));
-        onView(withId(R.id.e_rb_planListView)).check(matches(isChecked()));
+        onView(withId(R.id.advancedStepTypeRadioButton)).check(matches(isChecked()));
+        onView(withId(R.id.listPlanTypeRadioButton)).check(matches(isChecked()));
     }
 
     @Test
     public void createUserTest() {
         activityRule.launchActivity(new Intent());
 
-        onView(withId(R.id.edit_imie)).perform(clearText(), typeText(expectedNewUser.getName()));
-        onView(withId(R.id.edit_nazwisko)).perform(clearText(), typeText(expectedNewUser.getSurname()));
+        onView(withId(R.id.editName)).perform(clearText(), typeText(expectedNewUser.getName()));
+        onView(withId(R.id.editNazwisko)).perform(clearText(), typeText(expectedNewUser.getSurname()));
         Espresso.closeSoftKeyboard();
 
         onView(withId(R.id.rb_smallView)).perform(click());
-        onView(withId(R.id.rb_basicView)).perform(click());
-        onView(withId(R.id.e_rb_planSlideView)).perform(click());
+        onView(withId(R.id.basicStepTypeRadioButton)).perform(click());
+        onView(withId(R.id.slidePlanTypeRadioButton)).perform(click());
         onView(withId(R.id.button13)).perform(click());
 
         List<User> allUsers = UserRepository.getAllUsers();
@@ -112,11 +112,11 @@ public class EditUserViewTest {
         onView(withId(R.id.titleEditView)).check(matches(withText(
                 activityRule.getActivity().getResources().getString(R.string.edit_user_header))));
         onView(withId(R.id.pathToTimer)).check(matches(withText(expectedUser.getPreferences().getTimerSoundPath())));
-        onView(withId(R.id.edit_imie)).check(matches(withText(expectedUser.getName())));
-        onView(withId(R.id.edit_nazwisko)).check(matches(withText(expectedUser.getSurname())));
+        onView(withId(R.id.editName)).check(matches(withText(expectedUser.getName())));
+        onView(withId(R.id.editNazwisko)).check(matches(withText(expectedUser.getSurname())));
         onView(withId(R.id.rb_smallView)).check(matches(isChecked()));
-        onView(withId(R.id.rb_basicView)).check(matches(isChecked()));
-        onView(withId(R.id.e_rb_planSlideView)).check(matches(isChecked()));
+        onView(withId(R.id.basicStepTypeRadioButton)).check(matches(isChecked()));
+        onView(withId(R.id.slidePlanTypeRadioButton)).check(matches(isChecked()));
     }
 
     @Test
@@ -127,8 +127,8 @@ public class EditUserViewTest {
         activityRule.launchActivity(intent);
 
         onView(withId(R.id.rb_bigView)).perform(click());
-        onView(withId(R.id.rb_advancedView)).perform(click());
-        onView(withId(R.id.e_rb_planListView)).perform(click());
+        onView(withId(R.id.advancedStepTypeRadioButton)).perform(click());
+        onView(withId(R.id.listPlanTypeRadioButton)).perform(click());
         onView(withId(R.id.button13)).perform(click());
 
         List<User> allUsers = UserRepository.getAllUsers();

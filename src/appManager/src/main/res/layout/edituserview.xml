@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
 
-        <EditText android:id="@+id/edit_imie"
+        <EditText android:id="@+id/editName"
 
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -34,7 +34,7 @@
             android:text="Imię"
             android:inputType="text" />
 
-        <EditText android:id="@+id/edit_nazwisko"
+        <EditText android:id="@+id/editNazwisko"
 
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -108,14 +108,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Zaawansowany"
-                android:id="@+id/rb_advancedView"
+                android:id="@+id/advancedStepTypeRadioButton"
                 android:layout_marginLeft="10dp" />
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Podstawowy"
-                android:id="@+id/rb_basicView"
+                android:id="@+id/basicStepTypeRadioButton"
                 android:layout_marginLeft="10dp" />
         </RadioGroup>
 
@@ -144,7 +144,7 @@
             android:layout_height="wrap_content"
             android:text="Odsłuchaj"
             android:onClick="listenTimer"
-            android:id="@+id/odsluchajBtn"
+            android:id="@+id/listenButton"
             android:visibility="invisible" />
 
         <Button
@@ -178,14 +178,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Lista"
-                android:id="@+id/e_rb_planListView"
+                android:id="@+id/listPlanTypeRadioButton"
                 android:layout_marginLeft="10dp" />
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Slajd"
-                android:id="@+id/e_rb_planSlideView"
+                android:id="@+id/slidePlanTypeRadioButton"
                 android:layout_marginLeft="10dp" />
         </RadioGroup>
     </LinearLayout>

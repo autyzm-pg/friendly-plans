@@ -38,6 +38,7 @@ import static com.przyjaznyplan.models.TypyWidokuAktywnosci.*;
 
 public class EditUserView extends Activity {
 
+    public static final String MP3_FILE_EXTENSION = ".mp3";
     private User user;
     private EditText nameField;
     private EditText surnameField;
@@ -67,8 +68,8 @@ public class EditUserView extends Activity {
         initTimer();
         initNameSurnameFields();
         initActivityTypeViewRadioButtons();
-        initCzynnoscTypeViewRadioButtons();
-        initPlanTypewViewRadioButtons();
+        initStepTypeViewRadioButtons();
+        initPlanTypeViewRadioButtons();
 
     }
 
@@ -92,7 +93,7 @@ public class EditUserView extends Activity {
         user.setPreferences(userPreferences);
     }
 
-    private void initPlanTypewViewRadioButtons(){
+    private void initPlanTypeViewRadioButtons(){
 
         UserPreferences preferences = user.getPreferences();
         TypyWidokuPlanuAktywnosci typ = preferences.getTypWidokuPlanuAtywnosci();
@@ -101,9 +102,9 @@ public class EditUserView extends Activity {
 
         switch(typ){
             case list:
-                setRadioButton(radioGroupPlanActivityView.findViewById(R.id.e_rb_planListView),true);return;
+                setRadioButton(radioGroupPlanActivityView.findViewById(R.id.listPlanTypeRadioButton),true);return;
             case slide:
-                setRadioButton(radioGroupPlanActivityView.findViewById(R.id.e_rb_planSlideView),true);return;
+                setRadioButton(radioGroupPlanActivityView.findViewById(R.id.slidePlanTypeRadioButton),true);return;
         }
 
 
@@ -118,22 +119,22 @@ public class EditUserView extends Activity {
         String timerSoundPath = user.getPreferences().getTimerSoundPath();
 
         if(!timerSoundPath.equals(R.string.default_empty_timer_path)){
-            Button odsluchajBtn = (Button)findViewById(R.id.odsluchajBtn);
-            odsluchajBtn.setVisibility(View.VISIBLE);
+            Button listenButton = (Button)findViewById(R.id.listenButton);
+            listenButton.setVisibility(View.VISIBLE);
             timerPath.setText(timerSoundPath);
         }
     }
 
-    private void initCzynnoscTypeViewRadioButtons(){
+    private void initStepTypeViewRadioButtons(){
         UserPreferences preferences = user.getPreferences();
-        TypyWidokuCzynnosci typ = preferences.getTypWidokuCzynnosci();
+        TypyWidokuCzynnosci type = preferences.getTypWidokuCzynnosci();
         radioGroupCzynnoscTypeView = (RadioGroup)findViewById(R.id.rbg_czynnoscTypeView);
 
-        switch(typ){
+        switch(type){
             case basic:
-                setRadioButton(radioGroupCzynnoscTypeView.findViewById(R.id.rb_basicView),true);return;
+                setRadioButton(radioGroupCzynnoscTypeView.findViewById(R.id.basicStepTypeRadioButton),true);return;
             case advanced:
-                setRadioButton(radioGroupCzynnoscTypeView.findViewById(R.id.rb_advancedView),true);return;
+                setRadioButton(radioGroupCzynnoscTypeView.findViewById(R.id.advancedStepTypeRadioButton),true);return;
         }
     }
 
@@ -160,8 +161,8 @@ public class EditUserView extends Activity {
     }
 
     private void initNameSurnameFields() {
-        nameField = (EditText)findViewById(R.id.edit_imie);
-        surnameField = (EditText)findViewById(R.id.edit_nazwisko);
+        nameField = (EditText)findViewById(R.id.editName);
+        surnameField = (EditText)findViewById(R.id.editNazwisko);
         nameField.setText(user.getName());
         surnameField.setText(user.getSurname());
     }
@@ -175,7 +176,7 @@ public class EditUserView extends Activity {
 
         Intent intent = new Intent(this, FileChooser.class);
         ArrayList<String> extensions = new ArrayList<String>();
-        extensions.add(".mp3");
+        extensions.add(MP3_FILE_EXTENSION);
         intent.putExtra("fileStartPath", Environment.getExternalStorageDirectory());
         intent.putStringArrayListExtra("filterFileExtension", extensions);
         startActivityForResult(intent, RequestCodes.FILE_CHOOSER);
@@ -186,10 +187,10 @@ public class EditUserView extends Activity {
         if ((requestCode ==  RequestCodes.FILE_CHOOSER) && (resultCode == -1)) {
             String fileSelected = data.getStringExtra("fileSelected");
             timerPath.setText(fileSelected);
-            if(!fileSelected.equals("")){
+            if(!fileSelected.equals(R.string.default_empty_timer_path)){
                 setTimerPath();
-                Button odsluchajBtn = (Button)findViewById(R.id.odsluchajBtn);
-                odsluchajBtn.setVisibility(View.VISIBLE);
+                Button listenButton = (Button)findViewById(R.id.listenButton);
+                listenButton.setVisibility(View.VISIBLE);
             }
             Toast.makeText(this, fileSelected, Toast.LENGTH_SHORT).show();
         }
@@ -259,19 +260,19 @@ public class EditUserView extends Activity {
         int czynnoscTypeView = radioGroupCzynnoscTypeView.getCheckedRadioButtonId();
 
         switch (czynnoscTypeView){
-            case R.id.rb_basicView:
+            case R.id.basicStepTypeRadioButton:
                 user.getPreferences().setTypWidokuCzynnosci(TypyWidokuCzynnosci.basic);break;
-            case R.id.rb_advancedView:
+            case R.id.advancedStepTypeRadioButton:
                 user.getPreferences().setTypWidokuCzynnosci(TypyWidokuCzynnosci.advanced);break;
         }
 
         int planActivityView = radioGroupPlanActivityView.getCheckedRadioButtonId();
 
         switch(planActivityView){
-            case R.id.e_rb_planListView:
+            case R.id.listPlanTypeRadioButton:
                 user.getPreferences().setTypWidokuPlanuAtywnosci(TypyWidokuPlanuAktywnosci.list);
                 break;
-            case R.id.e_rb_planSlideView:
+            case R.id.slidePlanTypeRadioButton:
                 user.getPreferences().setTypWidokuPlanuAtywnosci(TypyWidokuPlanuAktywnosci.slide);
                 break;
         }
@@ -285,7 +286,7 @@ public class EditUserView extends Activity {
 
     public void listenTimer(View view) {
 
-        Button listenButton = (Button)findViewById(R.id.odsluchajBtn);
+        Button listenButton = (Button)findViewById(R.id.listenButton);
 
         if(player == null || ((player!=null)&&!player.isPlaying())) {
             Uri uri = Uri.parse(user.getPreferences().getTimerSoundPath());
