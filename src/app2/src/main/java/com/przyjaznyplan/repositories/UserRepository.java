@@ -28,6 +28,15 @@ public class UserRepository {
     private static UserDao userDao = new UserDao(databaseConnection);
     private static ChoosenUserDao chosenUserDao = new ChoosenUserDao();
 
+    public static User insertUser(User user) {
+
+        UserDto userDto = new UserDto();
+        userDto.setUser(user);
+
+        userDao.create(userDto);
+        return user;
+    }
+
     public static User insertUser(String name, String surname, UserPreferences userPreferences){
         User user = new User();
         user.setName(name);
@@ -38,6 +47,13 @@ public class UserRepository {
         userDto.setUser(user);
 
         userDao.create(userDto);
+        return user;
+    }
+
+    public static User updateUser(User user){
+        UserDto dto = new UserDto();
+        dto.setUser(user);
+        userDao.update(dto);
         return user;
     }
 
@@ -87,9 +103,8 @@ public class UserRepository {
         userDao.updatePreferences(userDto);
     }
 
+
     public static List<User> getAllUsers(){
         return userDao.findAll();
     }
-
-
 }

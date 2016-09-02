@@ -32,7 +32,6 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertEquals;
@@ -128,11 +127,6 @@ public class EditUserViewTest{
         onView(withId(R.id.rb_advancedView)).perform(click());
         onView(withId(R.id.e_rb_planListView)).perform(click());
         onView(withId(R.id.button13)).perform(click());
-
-        Espresso.pressBack();
-        onView(withId(R.id.listView2)).check(matches(isDisplayed()));
-
-        Thread.sleep(1500);
 
         List<User> allUsers = UserRepository.getAllUsers();
 

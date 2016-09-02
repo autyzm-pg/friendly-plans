@@ -165,45 +165,7 @@ public class UserListView extends Activity implements AdapterView.OnItemClickLis
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==RequestCodes.USER_EDIT){
-
-            if(resultCode==RESULT_OK) {
-                User user = (User) data.getSerializableExtra("user");
-                UserDto dto = new UserDto();
-                dto.setUser(user);
-                userDao.update(dto);
-
-                int pos=data.getIntExtra("positionOldUser",-1);
-
-                User oldUser = adapter.getItem(pos);
-
-                oldUser.setName(user.getName());
-                oldUser.setSurname(user.getSurname());
-                oldUser.setPreferences(user.getPreferences());
-
-                adapter.notifyDataSetChanged();
-
-                Toast.makeText(this, "Edycja przebiegła pomyślnie", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "Edycja nie przebiegła pomyślnie!", Toast.LENGTH_LONG).show();
-            }
-        }
-        else if(requestCode==RequestCodes.USER_ADD_NEW){
-
-            if(resultCode==RESULT_OK){
-
-                User user = (User)data.getSerializableExtra("user");
-                UserDto dto = new UserDto();
-                dto.setUser(user);
-                userDao.create(dto);
-                Toast.makeText(this, "Dodano użytkownika: "+user.getName()+" "+user.getSurname(), Toast.LENGTH_LONG).show();
-                adapter.add(user);
-
-            }else{
-                Toast.makeText(this, "Nie udało się stworzyć użytkownika!", Toast.LENGTH_LONG).show();
-            }
-
-        }
+        loadUsers();
     }
 
     @Override

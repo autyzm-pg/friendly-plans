@@ -21,11 +21,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.przyjaznyplan.dto.UserDto;
 import com.przyjaznyplan.models.TypyWidokuAktywnosci;
 import com.przyjaznyplan.models.TypyWidokuCzynnosci;
 import com.przyjaznyplan.models.TypyWidokuPlanuAktywnosci;
 import com.przyjaznyplan.models.User;
 import com.przyjaznyplan.models.UserPreferences;
+import com.przyjaznyplan.repositories.UserRepository;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.R;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.RequestCodes;
 
@@ -46,6 +48,8 @@ public class EditUserView extends Activity {
     private RadioGroup radioGroupPlanActivityView;
     MediaPlayer player;
 
+    enum ViewType { CREATE, EDIT }
+    private ViewType actualViewType = ViewType.EDIT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,15 +60,29 @@ public class EditUserView extends Activity {
 
         if(user == null) {
             createDefaultUser();
+            actualViewType =  ViewType.CREATE;
         }
 
         initView();
+        initHeader();
+        initTimer();
         initNameSurnameFields();
         initActivityTypeViewRadioButtons();
         initCzynnoscTypeViewRadioButtons();
         initPlanTypewViewRadioButtons();
 
+    }
 
+    private void initHeader() {
+
+        String headerValue;
+        if(actualViewType == ViewType.CREATE)
+            headerValue = "TWORZENIE UŻYTKOWNIKA";
+        else
+            headerValue = "EDYCJA UŻYTKOWNIKA";
+
+        TextView header = (TextView) findViewById(R.id.titleEditView);
+        header.setText(headerValue);
     }
 
     private void createDefaultUser() {
@@ -98,6 +116,9 @@ public class EditUserView extends Activity {
 
     private void initView() {
         setContentView(R.layout.edituserview);
+    }
+
+    private void initTimer(){
         timerPath = (TextView)findViewById(R.id.pathToTimer);
         String timerSoundPath = user.getPreferences().getTimerSoundPath();
 
@@ -106,8 +127,6 @@ public class EditUserView extends Activity {
             odsluchajBtn.setVisibility(View.VISIBLE);
             timerPath.setText(timerSoundPath);
         }
-
-
     }
 
     private void initCzynnoscTypeViewRadioButtons(){
@@ -186,13 +205,32 @@ public class EditUserView extends Activity {
         setTypeViewsPreferences();
         setTimerPath();
 
+        if(actualViewType == ViewType.EDIT){
 
-        Intent data = new Intent();
-        data.putExtra("user",user);
-        data.putExtra("positionOldUser",getIntent().getIntExtra("positionOldUser",-1));
-        setResult(RESULT_OK,data);
+              try {
+                  user = UserRepository.updateUser(user);
+                  Toast.makeText(this, "Edycja przebiegła pomyślnie", Toast.LENGTH_LONG).show();
+                  finish();
+              }
+              catch (Exception ex) {
+                  Toast.makeText(this, "Edycja nie przebiegła pomyślnie!", Toast.LENGTH_LONG).show();
+              }
+        }
+        else if(actualViewType == ViewType.CREATE){
 
-        finish();
+            try {
+                user  = UserRepository.insertUser(user);
+                Toast.makeText(this, "Dodano użytkownika: " + user.getName() + " " + user.getSurname(), Toast.LENGTH_LONG).show();
+                finish();
+            }
+            catch(Exception ex) {
+                Toast.makeText(this, "Nie udało się stworzyć użytkownika!", Toast.LENGTH_LONG).show();
+            }
+
+        }else{
+            Toast.makeText(this, "Operacja nie została wykonana", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     @Override
@@ -248,7 +286,6 @@ public class EditUserView extends Activity {
     private void setNameSurname() {
         user.setName(nameField.getText().toString());
         user.setSurname(surnameField.getText().toString());
-
     }
 
     public void listenTimer(View view) {
