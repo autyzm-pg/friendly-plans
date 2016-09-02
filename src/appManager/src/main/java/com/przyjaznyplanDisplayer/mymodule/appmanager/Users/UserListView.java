@@ -65,7 +65,7 @@ public class UserListView extends Activity implements AdapterView.OnItemClickLis
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
             super.finish();
         }
-        mainListView = (ListView) findViewById(R.id.listView2);
+        mainListView = (ListView) findViewById(R.id.usersListView);
 
         loadUsers();
         initSearching();
@@ -73,7 +73,7 @@ public class UserListView extends Activity implements AdapterView.OnItemClickLis
 
 
     private void initSearching() {
-        searchInput = (EditText)findViewById(R.id.um_searchInput);
+        searchInput = (EditText)findViewById(R.id.searchUserInput);
         searchInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

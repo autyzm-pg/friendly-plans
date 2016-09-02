@@ -22,7 +22,13 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.clearText;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -32,28 +38,60 @@ public class UserListViewTest {
     @Rule
     public ActivityTestRule<UserListView> activityRule = new ActivityTestRule<>(UserListView.class, true, false);
     private List<User> expectedUsers;
+    private User expectedUser;
 
     @Before
     public void setUp() throws Exception {
         DatabaseUtils.rebuildDatabaseWithInitData();
         expectedUsers = TestUtils.createUsers(3, "NAME", "SURNAME",
                 TestUtils.createUserPerferences("empty", TypyWidokuAktywnosci.small, TypyWidokuCzynnosci.basic, TypyWidokuPlanuAktywnosci.list));
+        expectedUser = expectedUsers.get(0);
     }
 
     @Test
     public void testUserListDisplay() {
         runActivity();
 
-        ListView listView = (ListView) activityRule.getActivity().findViewById(R.id.listView2);
+        ListView listView = (ListView) activityRule.getActivity().findViewById(R.id.usersListView);
 
         UserAdapter userAdapter = (UserAdapter) listView.getAdapter();
-        assertEquals("Users list should have two elements", userAdapter.getCount(), (expectedUsers.size() + DEFAULT_USER));
+        assertEquals("Users list should have four elements", userAdapter.getCount(), (expectedUsers.size() + DEFAULT_USER));
 
         for(User expectedUser : expectedUsers){
             User user = userAdapter.getItem(expectedUsers.indexOf(expectedUser) + DEFAULT_USER);
             assertEquals(expectedUser.getName(), user.getName());
             assertEquals(expectedUser.getSurname(), user.getSurname());
         }
+
+    }
+
+    @Test
+    public void testFilterBySurnameUsers() {
+        runActivity();
+
+        onView(withId(R.id.searchUserInput)).perform(clearText(), typeText(expectedUser.getSurname()));
+        ListView listView = (ListView) activityRule.getActivity().findViewById(R.id.usersListView);
+
+        UserAdapter userAdapter = (UserAdapter) listView.getAdapter();
+        assertEquals("Users list should have one elements", userAdapter.getCount(), 1);
+
+        User filteredUser = userAdapter.getItem(0);
+        assertEquals("Filtered user should have expected surname", expectedUser.getSurname(), filteredUser.getSurname());
+
+    }
+
+    @Test
+    public void testFilterByNameUsers() {
+        runActivity();
+
+        onView(withId(R.id.searchUserInput)).perform(clearText(), typeText(expectedUser.getName()));
+        ListView listView = (ListView) activityRule.getActivity().findViewById(R.id.usersListView);
+
+        UserAdapter userAdapter = (UserAdapter) listView.getAdapter();
+        assertEquals("Users list should have one elements", userAdapter.getCount(), 1);
+
+        User filteredUser = userAdapter.getItem(0);
+        assertEquals("Filtered user should have expected name", expectedUser.getName(), filteredUser.getName());
 
     }
 

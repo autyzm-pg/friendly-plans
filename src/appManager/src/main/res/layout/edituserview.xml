@@ -195,7 +195,7 @@
         android:layout_height="wrap_content"
         android:text="Zapisz"
         android:onClick="saveEdition"
-        android:id="@+id/button13"
+        android:id="@+id/saveUserButton"
         android:layout_marginTop="15dp" />
 
 

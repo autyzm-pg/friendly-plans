@@ -84,7 +84,7 @@ public class EditUserViewTest {
         onView(withId(R.id.smallPlanActivityTypeRadioButton)).perform(click());
         onView(withId(R.id.basicPlanActionTypeRadioButton)).perform(click());
         onView(withId(R.id.slidePlanTypeRadioButton)).perform(click());
-        onView(withId(R.id.button13)).perform(click());
+        onView(withId(R.id.saveUserButton)).perform(click());
 
         List<User> allUsers = UserRepository.getAllUsers();
 
@@ -129,7 +129,7 @@ public class EditUserViewTest {
         onView(withId(R.id.bigPlanActivityTypeRadioButton)).perform(click());
         onView(withId(R.id.advancedPlanActionTypeRadioButton)).perform(click());
         onView(withId(R.id.listPlanTypeRadioButton)).perform(click());
-        onView(withId(R.id.button13)).perform(click());
+        onView(withId(R.id.saveUserButton)).perform(click());
 
         List<User> allUsers = UserRepository.getAllUsers();
 

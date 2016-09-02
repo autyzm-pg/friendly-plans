@@ -48,13 +48,13 @@
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/um_searchInput" />
+            android:id="@+id/searchUserInput" />
     </LinearLayout>
 
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/listView2"
+        android:id="@+id/usersListView"
         android:divider="#b5b5b5"
         android:dividerHeight="1dp" />
 
