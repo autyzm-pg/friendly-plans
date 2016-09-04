@@ -15,6 +15,7 @@ import com.przyjaznyplanDisplayer.mymodule.appmanager.R;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.TestUtils;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.UserAdapter;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -66,7 +67,7 @@ public class UserListViewTest {
     }
 
     @Test
-    public void testFilterBySurnameUsers() {
+    public void testFilterUsersBySurname() {
         runActivity();
 
         onView(withId(R.id.searchUserInput)).perform(clearText(), typeText(expectedUser.getSurname()));
@@ -81,7 +82,7 @@ public class UserListViewTest {
     }
 
     @Test
-    public void testFilterByNameUsers() {
+    public void testFilterUsersByName() {
         runActivity();
 
         onView(withId(R.id.searchUserInput)).perform(clearText(), typeText(expectedUser.getName()));
@@ -97,6 +98,11 @@ public class UserListViewTest {
 
     private void runActivity() {
         activityRule.launchActivity(new Intent());
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        DatabaseUtils.rebuildDatabaseWithInitData();
     }
 
 }

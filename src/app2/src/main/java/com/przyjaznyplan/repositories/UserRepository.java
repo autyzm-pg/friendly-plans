@@ -37,19 +37,6 @@ public class UserRepository {
         return user;
     }
 
-    public static User insertUser(String name, String surname, UserPreferences userPreferences){
-        User user = new User();
-        user.setName(name);
-        user.setSurname(surname);
-        user.setPreferences(userPreferences);
-
-        UserDto userDto = new UserDto();
-        userDto.setUser(user);
-
-        userDao.create(userDto);
-        return user;
-    }
-
     public static User updateUser(User user){
         UserDto dto = new UserDto();
         dto.setUser(user);

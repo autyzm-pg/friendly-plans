@@ -16,6 +16,7 @@ import com.przyjaznyplan.repositories.UserRepository;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.R;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.TestUtils;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -51,7 +52,7 @@ public class EditUserViewTest {
                 TestUtils.createUserPerferences(expectedTimeoutPath, TypyWidokuAktywnosci.small, TypyWidokuCzynnosci.basic, TypyWidokuPlanuAktywnosci.slide));
         expectedNewUser = new User();
         expectedNewUser.setName("NEW_NAME");
-        expectedNewUser.setSurname("NEW SURNAME");
+        expectedNewUser.setSurname("NEW_SURNAME");
         expectedNewUser.setPreferences(TestUtils.createUserPerferences(expectedTimeoutPath, TypyWidokuAktywnosci.small,
                 TypyWidokuCzynnosci.basic, TypyWidokuPlanuAktywnosci.slide));
 
@@ -78,6 +79,8 @@ public class EditUserViewTest {
         activityRule.launchActivity(new Intent());
 
         onView(withId(R.id.editName)).perform(clearText(), typeText(expectedNewUser.getName()));
+        Espresso.closeSoftKeyboard();
+
         onView(withId(R.id.editSurname)).perform(clearText(), typeText(expectedNewUser.getSurname()));
         Espresso.closeSoftKeyboard();
 
@@ -148,5 +151,11 @@ public class EditUserViewTest {
 
 
     }
+
+    @After
+    public void tearDown() throws Exception {
+        DatabaseUtils.rebuildDatabaseWithInitData();
+    }
+
 
 }
