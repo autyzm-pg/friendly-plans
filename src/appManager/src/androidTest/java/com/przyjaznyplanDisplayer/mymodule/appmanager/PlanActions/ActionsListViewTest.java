@@ -9,13 +9,13 @@ import android.widget.ListView;
 import com.przyjaznyplan.models.Activity;
 import com.przyjaznyplan.models.Slide;
 import com.przyjaznyplan.repositories.ActionRepository;
-import com.przyjaznyplan.repositories.ActivityRepository;
 import com.przyjaznyplan.repositories.DatabaseUtils;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Czynnosci.ActionListView;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.R;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.TestUtils;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.SlidesAdapter;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,6 +37,10 @@ public class ActionsListViewTest {
 
     @Rule
     public ActivityTestRule<ActionListView> activityRule = new ActivityTestRule<>(ActionListView.class, true, false);
+
+    public static final int FIRST = 0;
+    public static final int SECOND = 1;
+
     private Activity activity;
     private final int NUMBER_OF_ACTION = 2;
 
@@ -71,5 +75,29 @@ public class ActionsListViewTest {
         List<Slide> actions = ActionRepository.getActionsByActivityId(activity.getId());
 
         assertEquals("Action should be deleted",1,actions.size());
+    }
+
+    @Test
+    public void changeOrderTest(){
+        Intent intent = new Intent();
+        intent.putExtra("ACTIVITY", activity);
+        activityRule.launchActivity(intent);
+
+        onView(allOf(withId(R.id.przesunwdol), hasSibling(withText("ACTION0")))).perform(click());
+        onView(withId(R.id.button3)).perform(click());
+
+        List<Slide> actions = ActionRepository.getActionsByActivityId(activity.getId());
+
+        for(Slide action : actions){
+            if(action.getText().equals("ACTION0"))
+                assertEquals("Action should have changed order", SECOND, action.getPosition());
+            else
+                assertEquals("Action should have changed order", FIRST, action.getPosition());
+        }
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        DatabaseUtils.rebuildDatabaseWithInitData();
     }
 }
