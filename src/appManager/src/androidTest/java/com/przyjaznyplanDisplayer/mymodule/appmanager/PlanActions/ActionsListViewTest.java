@@ -96,6 +96,21 @@ public class ActionsListViewTest {
         }
     }
 
+    @Test
+    public void showEmptyActionList(){
+
+        Intent intent = new Intent();
+        activity.setSlides(null);
+        intent.putExtra("ACTIVITY", activity);
+        activityRule.launchActivity(intent);
+
+        ListView listView = (ListView) activityRule.getActivity().findViewById(R.id.actionsListView);
+
+        SlidesAdapter slidesAdapter = (SlidesAdapter) listView.getAdapter();
+        assertEquals("List should be empty",0,slidesAdapter.getCount());
+
+    }
+
     @After
     public void tearDown() throws Exception {
         DatabaseUtils.rebuildDatabaseWithInitData();

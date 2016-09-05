@@ -61,7 +61,7 @@
         android:layout_height="40dp"
         android:layout_marginLeft="4dp"
         android:gravity="center_horizontal"
-        android:onClick="editSlide"
+        android:onClick="editAction"
         android:src="@android:drawable/ic_menu_edit" />
 
     <ImageView
@@ -70,7 +70,7 @@
         android:layout_height="40dp"
         android:layout_marginLeft="4dp"
         android:gravity="center_horizontal"
-        android:onClick="removeSlide"
+        android:onClick="removeAction"
         android:src="@android:drawable/ic_menu_delete"
         android:contentDescription="" />
 
