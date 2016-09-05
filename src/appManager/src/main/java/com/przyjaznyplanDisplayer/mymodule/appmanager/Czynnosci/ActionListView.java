@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.przyjaznyplan.models.Slide;
+import com.przyjaznyplan.repositories.ActivityRepository;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.R;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.RequestCodes;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.SlidesAdapter;
@@ -23,7 +24,7 @@ import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.SlidesAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionList extends Activity {
+public class ActionListView extends Activity {
     private SlidesAdapter listAdapter ;
     private com.przyjaznyplan.models.Activity activity;
     private int activityMode;
@@ -36,7 +37,7 @@ public class ActionList extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.action_list);
         activity = (com.przyjaznyplan.models.Activity)getIntent().getExtras().get("ACTIVITY");
-        mainListView = (ListView) findViewById(R.id.listView);
+        mainListView = (ListView) findViewById(R.id.actionsListView);
         if(this.activity.getSlides()==null){
             List<Slide> ls = new ArrayList<Slide>();
             this.activity.setSlides(ls);
@@ -61,6 +62,7 @@ public class ActionList extends Activity {
     }
 
     public void saveTemplate(View v) {
+        ActivityRepository.updateWithActions(this.activity);
         Intent intent = new Intent();
         intent.putExtra("ACTIVITY", this.activity);
         setResult(RequestCodes.ACTIVITY_MANAGEMENT, intent);

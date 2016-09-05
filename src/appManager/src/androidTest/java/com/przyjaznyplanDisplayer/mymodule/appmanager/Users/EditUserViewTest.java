@@ -49,11 +49,11 @@ public class EditUserViewTest {
     public void setUp() throws Exception {
         DatabaseUtils.rebuildDatabaseWithInitData();
         expectedUser = TestUtils.createUser("NAME", "SURNAME",
-                TestUtils.createUserPerferences(expectedTimeoutPath, TypyWidokuAktywnosci.small, TypyWidokuCzynnosci.basic, TypyWidokuPlanuAktywnosci.slide));
+                TestUtils.createUserPreferences(expectedTimeoutPath, TypyWidokuAktywnosci.small, TypyWidokuCzynnosci.basic, TypyWidokuPlanuAktywnosci.slide));
         expectedNewUser = new User();
         expectedNewUser.setName("NEW_NAME");
         expectedNewUser.setSurname("NEW_SURNAME");
-        expectedNewUser.setPreferences(TestUtils.createUserPerferences(expectedTimeoutPath, TypyWidokuAktywnosci.small,
+        expectedNewUser.setPreferences(TestUtils.createUserPreferences(expectedTimeoutPath, TypyWidokuAktywnosci.small,
                 TypyWidokuCzynnosci.basic, TypyWidokuPlanuAktywnosci.slide));
 
     }

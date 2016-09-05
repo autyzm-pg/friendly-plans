@@ -52,4 +52,10 @@ public class ActivityRepository {
     public static List<Activity> getAllActivitiesFromCurrentPlan() {
         return activityDao.getActivitiesAndTempAGFromPlan(BusinessLogic.SYSTEM_CURRENT_PLAN_ID);
     }
+
+    public static void updateWithActions(Activity activity) {
+        ActivityDto activityDto = new ActivityDto();
+        activityDto.setActivity(activity);
+        activityDao.update(activityDto);
+    }
 }
