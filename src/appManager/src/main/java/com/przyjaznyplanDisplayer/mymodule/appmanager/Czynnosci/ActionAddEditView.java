@@ -18,46 +18,71 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.przyjaznyplan.models.Slide;
+import com.przyjaznyplan.repositories.ActionRepository;
+import com.przyjaznyplan.repositories.ActivityRepository;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.R;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.RequestCodes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import br.com.thinkti.android.filechooser.FileChooser;
 
 public class ActionAddEditView extends Activity {
+
+
+    private com.przyjaznyplan.models.Activity activity;
+
+    enum ViewType { CREATE, EDIT }
+    private ViewType viewType = ViewType.CREATE;
     int mode;
     private Slide slide;
-    private int position;
     String pathToPicture="";
     MediaPlayer mp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.action_edit_view);
-        if(getIntent().getExtras()!=null && getIntent().getExtras().get("SLIDE")!=null){
-            mode= RequestCodes.SLIDE_EDITED;
+
+        if(getIntent().getExtras().get("ACTIVITY")!=null){
+            this.activity = (com.przyjaznyplan.models.Activity)getIntent().getExtras().get("ACTIVITY");
+        }
+
+        if(getIntent().getExtras().get("SLIDE")!=null){
+            viewType = ViewType.EDIT;
             this.slide=(Slide)getIntent().getExtras().get("SLIDE");
-            this.position = Integer.parseInt(getIntent().getExtras().get("POSITION").toString());
-            if(this.slide.getImagePath()!=null && !this.slide.getImagePath().equals("")){
-                setBMP(this.slide.getImagePath());
-            }
-            if(slide.getAudioPath()!=null && !slide.getAudioPath().equals("")){
-                ImageView usunDzwiekIcon = (ImageView) (findViewById(R.id.imageView3));
-                usunDzwiekIcon.setVisibility(View.VISIBLE);
-            }
-            EditText etName = (EditText) findViewById(R.id.editText);
-            etName.setText(this.slide.getText());
-            EditText etTime = (EditText) findViewById(R.id.editText2);
-            etTime.setText(String.valueOf(this.slide.getTime()));
+            initEditView();
         } else {
-            mode= RequestCodes.SLIDE_ADDED;
             this.slide = new Slide();
         }
+    }
+
+    private void initEditView() {
+
+        if(this.slide.getImagePath()!=null && !this.slide.getImagePath().equals("")){
+            setBMP(this.slide.getImagePath());
+        }
+
+        if(slide.getAudioPath()!=null && !slide.getAudioPath().equals("")){
+            ImageView playSoundIcon = (ImageView) (findViewById(R.id.imageView2));
+            playSoundIcon.setVisibility(View.VISIBLE);
+            ImageView deleteSoundIcon = (ImageView) (findViewById(R.id.deleteSound));
+            deleteSoundIcon.setVisibility(View.VISIBLE);
+            TextView soundPath = (TextView) findViewById(R.id.soundPath);
+            soundPath.setText(this.slide.getAudioPath());
+
+        }
+        EditText actionTitle = (EditText) findViewById(R.id.editText);
+        actionTitle.setText(this.slide.getText());
+
+        EditText actionTime = (EditText) findViewById(R.id.editText2);
+        actionTime.setText(String.valueOf(this.slide.getTime()));
     }
 
     public void setBMP(String pathToPicture){
@@ -104,7 +129,14 @@ public class ActionAddEditView extends Activity {
 
     public void removeSound(View v){
         slide.setAudioPath(null);
-        ImageView usunDzwiekIcon = (ImageView) (findViewById(R.id.imageView3));
+
+        ImageView playSoundIcon = (ImageView) (findViewById(R.id.imageView3));
+        playSoundIcon.setVisibility(View.INVISIBLE);
+
+        TextView soundPath = (TextView) findViewById(R.id.soundPath);
+        soundPath.setText("");
+
+        ImageView usunDzwiekIcon = (ImageView) (findViewById(R.id.deleteSound));
         usunDzwiekIcon.setVisibility(View.INVISIBLE);
     }
 
@@ -126,37 +158,38 @@ public class ActionAddEditView extends Activity {
     }
 
     public void saveTemplate(View v){
-        String name="";
-        int time=0;
-        EditText etName = (EditText) findViewById(R.id.editText);
-        try {
-            name = etName.getText().toString();
-        } catch (Exception e){
 
-        }
-        EditText etTime = (EditText) findViewById(R.id.editText2);
-        try {
-            time = Integer.parseInt(etTime.getText().toString());
-        } catch (Exception e){
-
-        }
         try{
-            if(name.length()!=0){
-                slide.setText(name);
-            } else
-            {
-                slide.setText("");
-            }
-            slide.setTime(time);
-            Intent intent = new Intent();
-            intent.putExtra("SLIDE", this.slide);
-            if(mode== RequestCodes.SLIDE_EDITED){
-                intent.putExtra("POSITION", this.position);
-            }
-            setResult(mode , intent);
+            String timeValue;
+
+            EditText etName = (EditText) findViewById(R.id.editText);
+            this.slide.setText(etName.getText().toString());
+
+            EditText etTime = (EditText) findViewById(R.id.editText2);
+            timeValue = etTime.getText().toString();
+            if(timeValue == null || timeValue.equals(""))
+                timeValue = "0";
+
+            this.slide.setTime(Integer.parseInt(timeValue));
+
+            if(viewType == viewType.CREATE)
+                this.activity.setSlides(new ArrayList<Slide>(){{ add(slide); }});
+            else
+                for(Slide slide : this.activity.getSlides()){
+                    if(slide.getId().equals(this.slide.getId())) {
+                        this.activity.getSlides().remove(slide);
+                        this.activity.getSlides().add(this.slide);
+                    }
+                }
+
+            ActivityRepository.updateWithActions(activity);
+
+            Toast.makeText(this, R.string.save_action_success, Toast.LENGTH_LONG).show();
+
             super.finish();
         } catch(Exception e){
 
+            Toast.makeText(this, R.string.save_action_error, Toast.LENGTH_LONG).show();
         }
     }
 

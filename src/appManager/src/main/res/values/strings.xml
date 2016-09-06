@@ -86,4 +86,6 @@
     <string name="create_user_success">"Dodano użytkownika: "</string>
     <string name="edit_user_error">Edycja nie przebiegła pomyślnie!</string>
     <string name="edit_user_success">Edycja przebiegła pomyślnie</string>
+    <string name="save_action_error">Błąd zapisu czynnosci.</string>
+    <string name="save_action_success">Czynnosc została zapisana.</string>
 </resources>

@@ -47,6 +47,7 @@ public class ActionListView extends Activity {
     }
 
     public void initList(){
+        activity = ActivityRepository.getActivityById(activity.getId());
         if(activity.getSlides() == null)
             activity.setSlides(new ArrayList<Slide>());
         listAdapter = new SlidesAdapter(this, R.layout.row_list_layout,R.id.label, activity.getSlides());
@@ -56,6 +57,7 @@ public class ActionListView extends Activity {
 
     public void addNewAction(View v) {
         Intent intent = new Intent(this, ActionAddEditView.class);
+        intent.putExtra("ACTIVITY", activity);
         startActivityForResult(intent, RequestCodes.ACTION_ADD_NEW);
     }
 
@@ -73,7 +75,7 @@ public class ActionListView extends Activity {
         int position = Integer.parseInt(v.getTag().toString());
         Intent intent = new Intent(this, ActionAddEditView.class);
         intent.putExtra("SLIDE", activity.getSlides().get(position));
-        intent.putExtra("POSITION", position);
+        intent.putExtra("ACTIVITY", activity);
         startActivityForResult(intent, RequestCodes.ACTION_EDIT);
     }
 
@@ -102,12 +104,12 @@ public class ActionListView extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==RequestCodes.ACTION_EDIT && resultCode == RequestCodes.SLIDE_EDITED){
-            activity.getSlides().set(Integer.parseInt(data.getExtras().get("POSITION").toString()),(Slide)data.getExtras().get("SLIDE"));
-        }
-        if(requestCode==RequestCodes.ACTION_ADD_NEW && resultCode == RequestCodes.SLIDE_ADDED){
-            activity.getSlides().add((Slide)data.getExtras().get("SLIDE"));
-        }
+//        if(requestCode==RequestCodes.ACTION_EDIT && resultCode == RequestCodes.SLIDE_EDITED){
+//            activity.getSlides().set(Integer.parseInt(data.getExtras().get("POSITION").toString()),(Slide)data.getExtras().get("SLIDE"));
+//        }
+//        if(requestCode==RequestCodes.ACTION_ADD_NEW && resultCode == RequestCodes.SLIDE_ADDED){
+//            activity.getSlides().add((Slide)data.getExtras().get("SLIDE"));
+//        }
         initList();
     }
 }

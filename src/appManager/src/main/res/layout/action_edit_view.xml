@@ -69,18 +69,7 @@
                     android:visibility="invisible"
                     android:onClick="removePicture"
                     android:src="@drawable/x_mark"
-                    android:layout_alignTop="@+id/textView2"
-                    android:layout_toRightOf="@+id/imageView3" />
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:visibility="invisible"
-                        android:id="@+id/imageView3"
-                        android:onClick="removeSound"
-                        android:src="@drawable/x_mark"
-                        android:layout_alignTop="@+id/imageView2"
-                        android:layout_alignRight="@+id/editText2" />
+                    android:layout_toRightOf="@+id/textView2" />
 
                     <Button
                         android:layout_width="wrap_content"
@@ -139,7 +128,28 @@
                     android:layout_toRightOf="@+id/textView6"
                     android:src="@drawable/aoundtube"
                     android:layout_below="@+id/editText2"
-                        android:layout_span="2" />
+                        android:layout_span="2"
+                        android:visibility="invisible"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:id="@+id/soundPath"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toRightOf="@+id/imageView2"
+                        android:layout_below="@+id/editText2" />
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/deleteSound"
+                        android:onClick="removeSound"
+                        android:src="@drawable/x_mark"
+                        android:layout_toRightOf="@+id/soundPath"
+                        android:layout_below="@+id/editText2"
+                        android:layout_span="2"
+                        android:visibility="invisible"/>
 
                     <Button
                     android:layout_width="wrap_content"
