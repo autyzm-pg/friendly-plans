@@ -39,7 +39,6 @@ public class ActionAddEditView extends Activity {
 
     enum ViewType { CREATE, EDIT }
     private ViewType viewType = ViewType.CREATE;
-    int mode;
     private Slide slide;
     String pathToPicture="";
     MediaPlayer mp;
@@ -69,20 +68,25 @@ public class ActionAddEditView extends Activity {
             setBMP(this.slide.getImagePath());
         }
 
-        if(slide.getAudioPath()!=null && !slide.getAudioPath().equals("")){
+        initSounds();
+
+        EditText actionTitle = (EditText) findViewById(R.id.editText);
+        actionTitle.setText(this.slide.getText());
+
+        EditText actionTime = (EditText) findViewById(R.id.editText2);
+        actionTime.setText(String.valueOf(this.slide.getTime()));
+    }
+
+    private void initSounds() {
+        if(slide.getAudioPath()!=null && !slide.getAudioPath().equals("")) {
+
             ImageView playSoundIcon = (ImageView) (findViewById(R.id.imageView2));
             playSoundIcon.setVisibility(View.VISIBLE);
             ImageView deleteSoundIcon = (ImageView) (findViewById(R.id.deleteSound));
             deleteSoundIcon.setVisibility(View.VISIBLE);
             TextView soundPath = (TextView) findViewById(R.id.soundPath);
             soundPath.setText(this.slide.getAudioPath());
-
         }
-        EditText actionTitle = (EditText) findViewById(R.id.editText);
-        actionTitle.setText(this.slide.getText());
-
-        EditText actionTime = (EditText) findViewById(R.id.editText2);
-        actionTime.setText(String.valueOf(this.slide.getTime()));
     }
 
     public void setBMP(String pathToPicture){
@@ -212,8 +216,7 @@ public class ActionAddEditView extends Activity {
             if(!("".equals(fileSelected))){
                 try {
                     slide.setAudioPath(fileSelected.toString());
-                    ImageView usunDzwiekIcon = (ImageView) (findViewById(R.id.imageView3));
-                    usunDzwiekIcon.setVisibility(View.VISIBLE);
+                    initSounds();
                 }catch (Exception e){
 
                 }

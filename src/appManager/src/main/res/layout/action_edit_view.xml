@@ -26,7 +26,7 @@
                 android:stretchColumns="*">
 
                 <TableRow
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="match_parent">
 
                     <TextView
@@ -39,37 +39,50 @@
                         android:layout_alignParentLeft="true" />
 
                     <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/editText"
-                    android:layout_toRightOf="@+id/textView"
-                    android:layout_alignBottom="@+id/textView"
-                    android:layout_alignParentTop="true"
-                        android:layout_span="3" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editText"
+                        android:layout_toRightOf="@+id/textView"
+                        android:layout_alignBottom="@+id/textView"
+                        android:layout_alignParentTop="true"
+                        android:layout_span="4"
+                        android:layout_marginLeft="5dp" />
                 </TableRow>
 
                 <TableRow
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:background="#1e1e1e">
 
                     <TextView
                         android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/main_picture"
-                    android:textSize="20sp"
-                    android:id="@+id/textView2"
-                    android:layout_below="@+id/textView"
-                    android:layout_alignParentLeft="true" />
+                        android:layout_height="wrap_content"
+                        android:text="@string/main_picture"
+                        android:textSize="20sp"
+                        android:id="@+id/textView2"
+                        android:layout_below="@+id/textView"
+                        android:layout_alignParentLeft="true" />
 
                     <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:id="@+id/imageView4"
-                    android:visibility="invisible"
-                    android:onClick="removePicture"
-                    android:src="@drawable/x_mark"
-                    android:layout_toRightOf="@+id/textView2" />
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/imageView"
+                        android:layout_below="@+id/editText"
+                        android:layout_toRightOf="@+id/textView2"
+                        android:layout_marginLeft="5dp"
+                        android:layout_span="2"
+                        />
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/imageView4"
+                        android:visibility="invisible"
+                        android:onClick="removePicture"
+                        android:src="@drawable/x_mark"
+                        android:layout_alignTop="@+id/textView2"
+                        android:layout_toRightOf="@+id/textView5"
+                        />
 
                     <Button
                         android:layout_width="wrap_content"
@@ -83,7 +96,7 @@
                 </TableRow>
 
                 <TableRow
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="match_parent">
 
                     <TextView
@@ -96,39 +109,49 @@
                         android:layout_alignParentLeft="true" />
 
                     <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="time"
-                    android:ems="10"
-                    android:id="@+id/editText2"
-                    android:layout_alignTop="@+id/textView3"
-                    android:layout_toRightOf="@+id/textView3"
-                        android:layout_span="3" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="time"
+                        android:ems="10"
+                        android:id="@+id/editText2"
+                        android:layout_alignTop="@+id/textView3"
+                        android:layout_toRightOf="@+id/textView3"
+                        android:layout_marginLeft="5dp"
+                        android:layout_span="4" />
                 </TableRow>
 
                 <TableRow
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:background="#1e1e1e">
 
                     <TextView
                         android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sound"
-                    android:textSize="20sp"
-                    android:id="@+id/textView6"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/editText2" />
+                        android:layout_height="wrap_content"
+                        android:text="@string/sound"
+                        android:textSize="20sp"
+                        android:id="@+id/textView6"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@+id/editText4" />
 
                     <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:id="@+id/imageView2"
-                    android:onClick="playSound"
-                    android:layout_toRightOf="@+id/textView6"
-                    android:src="@drawable/aoundtube"
-                    android:layout_below="@+id/editText2"
-                        android:layout_span="2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:id="@+id/imageView2"
+                        android:onClick="playSound"
+                        android:layout_toRightOf="@+id/textView6"
+                        android:src="@drawable/aoundtube"
+                        android:layout_below="@+id/textView4"
+                        android:visibility="invisible"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/deleteSound"
+                        android:onClick="removeSound"
+                        android:src="@drawable/x_mark"
+                        android:layout_toRightOf="@+id/soundPath"
+                        android:layout_below="@+id/editText2"
                         android:visibility="invisible"/>
 
                     <TextView
@@ -140,26 +163,15 @@
                         android:layout_toRightOf="@+id/imageView2"
                         android:layout_below="@+id/editText2" />
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:id="@+id/deleteSound"
-                        android:onClick="removeSound"
-                        android:src="@drawable/x_mark"
-                        android:layout_toRightOf="@+id/soundPath"
-                        android:layout_below="@+id/editText2"
-                        android:layout_span="2"
-                        android:visibility="invisible"/>
-
                     <Button
-                    android:layout_width="wrap_content"
-                    android:textSize="15sp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/btn_set_sound"
-                    android:id="@+id/button2"
-                    android:onClick="setSound"
-                    android:layout_below="@+id/button"
-                    android:layout_alignParentRight="true" />
+                        android:layout_width="wrap_content"
+                        android:textSize="15sp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/btn_set_sound"
+                        android:id="@+id/button2"
+                        android:onClick="setSound"
+                        android:layout_below="@+id/editText2"
+                        android:layout_alignParentRight="true" />
                 </TableRow>
             </TableLayout>
 
@@ -173,13 +185,6 @@
             android:layout_alignTop="@+id/imageView4"
             android:layout_alignParentRight="true" />
 
-            <ImageView
-            android:layout_marginTop="10dp"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:id="@+id/imageView"
-            android:layout_below="@+id/editText"
-            android:layout_toRightOf="@+id/textView2" />
         </LinearLayout>
 
     </RelativeLayout>
