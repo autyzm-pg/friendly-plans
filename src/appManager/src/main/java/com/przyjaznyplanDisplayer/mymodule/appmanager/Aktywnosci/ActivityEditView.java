@@ -200,11 +200,9 @@ public class ActivityEditView extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == RequestCodes.ACTIVITY_MANAGEMENT && resultCode == RequestCodes.ACTIVITY_MANAGEMENT) {
             com.przyjaznyplan.models.Activity result = (com.przyjaznyplan.models.Activity) data.getExtras().get("ACTIVITY");
-            this.planActivity = ActivityRepository.getActivityById(result.getId());
-            TextView tv = (TextView) findViewById(R.id.textView5);
-            tv.setText(this.planActivity.getSlides().size() + "");
+            refreshView(result.getId());
         }
-        if(requestCode == RequestCodes.FILE_CHOOSER_PIC && resultCode == -1){
+        else if(requestCode == RequestCodes.FILE_CHOOSER_PIC && resultCode == -1){
             String fileSelected = data.getStringExtra("fileSelected");
             if(!("".equals(fileSelected))){
                 try {
@@ -216,7 +214,7 @@ public class ActivityEditView extends Activity {
             }
             Toast.makeText(this, fileSelected, Toast.LENGTH_SHORT).show();
         }
-        if(requestCode == RequestCodes.FILE_CHOOSER_SOUND && resultCode == -1){
+        else if(requestCode == RequestCodes.FILE_CHOOSER_SOUND && resultCode == -1){
             String fileSelected = data.getStringExtra("fileSelected");
             if(!("".equals(fileSelected))){
                 try {
@@ -229,6 +227,16 @@ public class ActivityEditView extends Activity {
             }
             Toast.makeText(this, fileSelected, Toast.LENGTH_SHORT).show();
         }
+        else{
+            refreshView(this.planActivity.getId());
+        }
+
+    }
+
+    private void refreshView(String id) {
+        this.planActivity = ActivityRepository.getActivityById(id);
+        TextView tv = (TextView) findViewById(R.id.textView5);
+        tv.setText(this.planActivity.getSlides().size() + "");
     }
 
 }
