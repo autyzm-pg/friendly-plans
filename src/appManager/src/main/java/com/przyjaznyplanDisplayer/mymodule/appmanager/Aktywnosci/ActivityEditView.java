@@ -21,9 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.przyjaznyplan.DbHelper.MySQLiteHelper;
-import com.przyjaznyplan.dao.ActivityDao;
-import com.przyjaznyplan.dto.ActivityDto;
 import com.przyjaznyplan.repositories.ActivityRepository;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Czynnosci.ActionListView;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.R;
@@ -37,7 +34,6 @@ public class ActivityEditView extends Activity {
     private String pathToPicture;
     private com.przyjaznyplan.models.Activity planActivity;
     private MediaPlayer mp;
-    private ActivityDao activityDao;
     private int mode = 0;
 
     @Override
@@ -47,32 +43,41 @@ public class ActivityEditView extends Activity {
         if(getIntent().getExtras()!=null && getIntent().getExtras().get("ACTIVITY")!=null){
             mode = RequestCodes.ACTIVITY_EDITED;
             this.planActivity = (com.przyjaznyplan.models.Activity)getIntent().getExtras().get("ACTIVITY");
-            if(this.planActivity.getIconPath()!=null && !this.planActivity.getIconPath().equals("")){
-                setBMP(this.planActivity.getIconPath());
-            }
-            if(planActivity.getAudioPath()!=null && !planActivity.getAudioPath().equals("")){
-                ImageView removeSoundIcon = (ImageView) (findViewById(R.id.imageView3));
-                removeSoundIcon.setVisibility(View.VISIBLE);
-            }
-            EditText etName = (EditText) findViewById(R.id.editText);
-            etName.setText(this.planActivity.getTitle());
-            EditText etTime = (EditText) findViewById(R.id.editText2);
-            etTime.setText(String.valueOf(this.planActivity.getTime()));
-            TextView tv = (TextView) findViewById(R.id.textView5);
-            if(this.planActivity.getSlides()==null){
-                tv.setText("0");
-            } else {
-                tv.setText(this.planActivity.getSlides().size() + "");
-            }
+            initView();
         }
         else {
             mode = RequestCodes.ACTIVITY_ADDED;
             this.planActivity = new com.przyjaznyplan.models.Activity();
         }
-        try {
-            activityDao = new ActivityDao(MySQLiteHelper.getDb());
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+    }
+
+    private void initView() {
+        if(this.planActivity.getIconPath()!=null && !this.planActivity.getIconPath().equals("")){
+            setBMP(this.planActivity.getIconPath());
+        }
+
+        initSounds();
+
+        EditText activityTitle = (EditText) findViewById(R.id.editText);
+        activityTitle.setText(this.planActivity.getTitle());
+
+        EditText timerTime = (EditText) findViewById(R.id.editText2);
+        timerTime.setText(String.valueOf(this.planActivity.getTime()));
+
+        TextView actions = (TextView) findViewById(R.id.textView5);
+        if(this.planActivity.getSlides()==null){
+            actions.setText("0");
+        } else {
+            actions.setText(this.planActivity.getSlides().size() + "");
+        }
+    }
+
+    private void initSounds() {
+        if(planActivity.getAudioPath()!=null && !planActivity.getAudioPath().equals("")){
+            ImageView removeSoundIcon = (ImageView) (findViewById(R.id.imageView3));
+            removeSoundIcon.setVisibility(View.VISIBLE);
+            ImageView deleteSoundIcon = (ImageView) (findViewById(R.id.imageView2));
+            deleteSoundIcon.setVisibility(View.VISIBLE);
         }
     }
 
@@ -87,6 +92,7 @@ public class ActivityEditView extends Activity {
             Bitmap scaledBmp = Bitmap.createScaledBitmap(bmp, 100, 100, false);
             ImageView activityImage = (ImageView) (findViewById(R.id.imageView));
             activityImage.setImageBitmap(scaledBmp);
+            activityImage.setVisibility(View.VISIBLE);
             planActivity.setIconPath(pathToPicture);
             ImageView usunObrazIcon = (ImageView) (findViewById(R.id.imageView4));
             usunObrazIcon.setVisibility(View.VISIBLE);
@@ -219,8 +225,7 @@ public class ActivityEditView extends Activity {
             if(!("".equals(fileSelected))){
                 try {
                     planActivity.setAudioPath(fileSelected.toString());
-                    ImageView usunDzwiekIcon = (ImageView) (findViewById(R.id.imageView3));
-                    usunDzwiekIcon.setVisibility(View.VISIBLE);
+                    initSounds();
                 }catch (Exception e){
 
                 }

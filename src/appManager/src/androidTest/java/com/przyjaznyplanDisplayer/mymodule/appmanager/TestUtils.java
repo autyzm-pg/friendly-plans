@@ -58,6 +58,8 @@ public class TestUtils {
 
         Activity activity = new Activity();
         activity.setTitle(activityTitle);
+        activity.setAudioPath(audioPath);
+        activity.setIconPath(imagePath);
         List<Slide> actions = new ArrayList<>();
         for(int i = 0; i< numberOfAction; i++){
             actions.add(createAction(i, actionName.concat(String.valueOf(i)), audioPath, imagePath));

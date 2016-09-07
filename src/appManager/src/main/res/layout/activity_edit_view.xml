@@ -69,6 +69,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:id="@+id/imageView"
+                        android:visibility="invisible"
                         android:layout_below="@+id/editText"
                         android:layout_toRightOf="@+id/textView2"
                         android:layout_marginLeft="5dp" />
@@ -179,6 +180,7 @@
                         android:layout_height="40dp"
                         android:id="@+id/imageView2"
                         android:onClick="playSound"
+                        android:visibility="invisible"
                         android:layout_toRightOf="@+id/textView6"
                         android:src="@drawable/aoundtube"
                         android:layout_below="@+id/textView4"
