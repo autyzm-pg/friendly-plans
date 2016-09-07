@@ -29,6 +29,7 @@ import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.RequestCodes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.MissingResourceException;
 
 import br.com.thinkti.android.filechooser.FileChooser;
 
@@ -167,7 +168,13 @@ public class ActionAddEditView extends Activity {
             String timeValue;
 
             EditText etName = (EditText) findViewById(R.id.editText);
-            this.slide.setText(etName.getText().toString());
+            String title = etName.getText().toString();
+            if(title.equals("")){
+                throw new RuntimeException();
+            }
+
+            this.slide.setText(title);
+
 
             EditText etTime = (EditText) findViewById(R.id.editText2);
             timeValue = etTime.getText().toString();
@@ -183,8 +190,9 @@ public class ActionAddEditView extends Activity {
             Toast.makeText(this, R.string.save_action_success, Toast.LENGTH_LONG).show();
 
             super.finish();
-        } catch(Exception e){
-
+        }catch (RuntimeException ex){
+            Toast.makeText(this, R.string.missing_title_field, Toast.LENGTH_LONG).show();
+        }catch(Exception e){
             Toast.makeText(this, R.string.save_action_error, Toast.LENGTH_LONG).show();
         }
     }

@@ -29,9 +29,12 @@ import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
@@ -83,6 +86,15 @@ public class EditActionTest {
         List<Slide> actions = ActionRepository.getActionsByActivityId(activityToChange.getId());
         assertEquals("Action should be changed", expectedActionTitle, actions.get(0).getText());
 
+    }
+
+    @Test
+    public void addEmptyActionTest(){
+        runActivity(activity);
+
+        onView(withId(R.id.saveButton)).perform(click());
+
+        onView(withText(R.string.missing_title_field)).inRoot(withDecorView(not(is(activityRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
     }
 
     @Test
