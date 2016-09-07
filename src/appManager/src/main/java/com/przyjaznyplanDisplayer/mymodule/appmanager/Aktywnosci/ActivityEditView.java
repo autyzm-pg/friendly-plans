@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import br.com.thinkti.android.filechooser.FileChooser;
 
 public class ActivityEditView extends Activity {
-    private String pathToPicture;
     private com.przyjaznyplan.models.Activity planActivity;
     private MediaPlayer mp;
     private int mode = 0;
@@ -52,9 +51,7 @@ public class ActivityEditView extends Activity {
     }
 
     private void initView() {
-        if(this.planActivity.getIconPath()!=null && !this.planActivity.getIconPath().equals("")){
-            setBMP(this.planActivity.getIconPath());
-        }
+        initPicture();
 
         initSounds();
 
@@ -74,10 +71,8 @@ public class ActivityEditView extends Activity {
 
     private void initSounds() {
         if(planActivity.getAudioPath()!=null && !planActivity.getAudioPath().equals("")){
-            ImageView removeSoundIcon = (ImageView) (findViewById(R.id.imageView3));
-            removeSoundIcon.setVisibility(View.VISIBLE);
-            ImageView deleteSoundIcon = (ImageView) (findViewById(R.id.imageView2));
-            deleteSoundIcon.setVisibility(View.VISIBLE);
+            setVisibilityOfElementTo(R.id.imageView3, View.VISIBLE);
+            setVisibilityOfElementTo(R.id.imageView2, View.VISIBLE);
         }
     }
 
@@ -86,20 +81,37 @@ public class ActivityEditView extends Activity {
         super.onResume();
     }
 
-    public void setBMP(String pathToPicture){
+
+    private void initPicture(){
+        if(this.planActivity.getIconPath()!=null && !this.planActivity.getIconPath().equals("")){
+            initPicture(this.planActivity.getIconPath());
+        }
+    }
+
+    public void initPicture(String pathToPicture){
         try {
             Bitmap bmp = BitmapFactory.decodeFile(pathToPicture);
             Bitmap scaledBmp = Bitmap.createScaledBitmap(bmp, 100, 100, false);
-            ImageView activityImage = (ImageView) (findViewById(R.id.imageView));
-            activityImage.setImageBitmap(scaledBmp);
-            activityImage.setVisibility(View.VISIBLE);
+
+            setImageVisibility(scaledBmp);
             planActivity.setIconPath(pathToPicture);
-            ImageView usunObrazIcon = (ImageView) (findViewById(R.id.imageView4));
-            usunObrazIcon.setVisibility(View.VISIBLE);
+            setVisibilityOfElementTo(R.id.imageView4, View.VISIBLE);
         }catch (Exception e){
             pathToPicture = "";
             planActivity.setIconPath(pathToPicture);
+            Toast.makeText(this, R.string.display_picture_error, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void setImageVisibility(Bitmap scaledBmp) {
+        ImageView activityImage = (ImageView) (findViewById(R.id.imageView));
+        activityImage.setImageBitmap(scaledBmp);
+        activityImage.setVisibility(View.VISIBLE);
+    }
+
+    private void setVisibilityOfElementTo(int elementId, int visibleOption) {
+        ImageView element = (ImageView) (findViewById(elementId));
+        element.setVisibility(visibleOption);
     }
 
     public void setPicture(View v){
@@ -121,18 +133,17 @@ public class ActivityEditView extends Activity {
         intent.putExtra("fileStartPath", Environment.getExternalStorageDirectory());
         startActivityForResult(intent, RequestCodes.FILE_CHOOSER_SOUND);
     }
+
     public void removePicture(View v) {
         planActivity.setIconPath(null);
         ImageView activityImage = (ImageView) (findViewById(R.id.imageView));
         activityImage.setImageResource(R.drawable.t1);
-        ImageView usunObrazIcon = (ImageView) (findViewById(R.id.imageView4));
-        usunObrazIcon.setVisibility(View.INVISIBLE);
+        setVisibilityOfElementTo(R.id.imageView4, View.INVISIBLE);
     }
 
     public void removeSound(View v){
         planActivity.setAudioPath(null);
-        ImageView usunDzwiekIcon = (ImageView) (findViewById(R.id.imageView3));
-        usunDzwiekIcon.setVisibility(View.INVISIBLE);
+        setVisibilityOfElementTo(R.id.imageView3, View.INVISIBLE);
     }
 
     public void playSound(View v){
@@ -147,7 +158,7 @@ public class ActivityEditView extends Activity {
                     }
                 }
             }catch(Exception e){
-
+                Toast.makeText(this, R.string.play_timer_error, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -211,12 +222,7 @@ public class ActivityEditView extends Activity {
         else if(requestCode == RequestCodes.FILE_CHOOSER_PIC && resultCode == -1){
             String fileSelected = data.getStringExtra("fileSelected");
             if(!("".equals(fileSelected))){
-                try {
-                    pathToPicture=fileSelected;
-                    setBMP(pathToPicture);
-                }catch (Exception e){
-
-                }
+                 initPicture(fileSelected);
             }
             Toast.makeText(this, fileSelected, Toast.LENGTH_SHORT).show();
         }
@@ -240,8 +246,13 @@ public class ActivityEditView extends Activity {
 
     private void refreshView(String id) {
         this.planActivity = ActivityRepository.getActivityById(id);
-        TextView tv = (TextView) findViewById(R.id.textView5);
-        tv.setText(this.planActivity.getSlides().size() + "");
+        initActions();
+        initPicture();
+    }
+
+    private void initActions() {
+        TextView actions = (TextView) findViewById(R.id.textView5);
+        actions.setText(this.planActivity.getSlides().size() + "");
     }
 
 }

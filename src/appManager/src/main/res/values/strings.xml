@@ -91,4 +91,5 @@
     <string name="play_timer_error">Błąd odtwarzania timera.</string>
     <string name="activity_save_error">Błąd zapisu aktywnosci.</string>
     <string name="missing_title_field">Nazwa nie została wprowadzona.</string>
+    <string name="display_picture_error">Błąd wyswietlania obrazka.</string>
 </resources>

@@ -7,14 +7,13 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.przyjaznyplan.models.Activity;
-import com.przyjaznyplan.models.Slide;
-import com.przyjaznyplan.repositories.ActionRepository;
 import com.przyjaznyplan.repositories.ActivityRepository;
 import com.przyjaznyplan.repositories.DatabaseUtils;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Aktywnosci.ActivityEditView;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.R;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.TestUtils;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -101,5 +100,10 @@ public class ActivityEditViewTest {
         Intent intent = new Intent();
         intent.putExtra("ACTIVITY", activity);
         activityRule.launchActivity(intent);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        DatabaseUtils.rebuildDatabaseWithInitData();
     }
 }
