@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.przyjaznyplan.models.Slide;
 import com.przyjaznyplan.repositories.ActivityRepository;
@@ -63,7 +64,6 @@ public class ActionListView extends Activity {
 
     public void saveTemplate(View v) {
         ActivityRepository.updateWithActions(this.activity);
-
         Intent intent = new Intent();
         intent.putExtra("ACTIVITY", this.activity);
         setResult(RequestCodes.ACTIVITY_MANAGEMENT, intent);
@@ -97,19 +97,13 @@ public class ActionListView extends Activity {
                     }
                 }
             }catch(Exception e){
-
+                Toast.makeText(this, R.string.play_timer_error, Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if(requestCode==RequestCodes.ACTION_EDIT && resultCode == RequestCodes.SLIDE_EDITED){
-//            activity.getSlides().set(Integer.parseInt(data.getExtras().get("POSITION").toString()),(Slide)data.getExtras().get("SLIDE"));
-//        }
-//        if(requestCode==RequestCodes.ACTION_ADD_NEW && resultCode == RequestCodes.SLIDE_ADDED){
-//            activity.getSlides().add((Slide)data.getExtras().get("SLIDE"));
-//        }
         initList();
     }
 }

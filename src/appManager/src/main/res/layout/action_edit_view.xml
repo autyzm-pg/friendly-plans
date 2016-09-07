@@ -66,7 +66,7 @@
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:id="@+id/imageView"
+                        android:id="@+id/picture"
                         android:layout_below="@+id/editText"
                         android:layout_toRightOf="@+id/textView2"
                         android:layout_marginLeft="5dp"
@@ -76,7 +76,7 @@
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:id="@+id/imageView4"
+                        android:id="@+id/deletePictureIcon"
                         android:visibility="invisible"
                         android:onClick="removePicture"
                         android:src="@drawable/x_mark"
@@ -105,7 +105,7 @@
                         android:text="@string/time"
                         android:textSize="20sp"
                         android:id="@+id/textView3"
-                        android:layout_below="@+id/imageView"
+                        android:layout_below="@+id/picture"
                         android:layout_alignParentLeft="true" />
 
                     <EditText
@@ -137,7 +137,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
-                        android:id="@+id/imageView2"
+                        android:id="@+id/playSound"
                         android:onClick="playSound"
                         android:layout_toRightOf="@+id/textView6"
                         android:src="@drawable/aoundtube"
@@ -160,7 +160,7 @@
                         android:textSize="20sp"
                         android:id="@+id/soundPath"
                         android:layout_alignParentLeft="true"
-                        android:layout_toRightOf="@+id/imageView2"
+                        android:layout_toRightOf="@+id/deleteSound"
                         android:layout_below="@+id/editText2" />
 
                     <Button
@@ -181,8 +181,8 @@
             android:layout_height="wrap_content"
             android:text="@string/btn_save"
             android:onClick="saveTemplate"
-            android:id="@+id/button4"
-            android:layout_alignTop="@+id/imageView4"
+            android:id="@+id/saveButton"
+            android:layout_alignTop="@+id/deletePictureIcon"
             android:layout_alignParentRight="true" />
 
         </LinearLayout>

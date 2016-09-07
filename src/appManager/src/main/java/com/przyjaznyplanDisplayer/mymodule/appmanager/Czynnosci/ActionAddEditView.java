@@ -80,7 +80,7 @@ public class ActionAddEditView extends Activity {
     private void initSounds() {
         if(slide.getAudioPath()!=null && !slide.getAudioPath().equals("")) {
 
-            ImageView playSoundIcon = (ImageView) (findViewById(R.id.imageView2));
+            ImageView playSoundIcon = (ImageView) (findViewById(R.id.playSound));
             playSoundIcon.setVisibility(View.VISIBLE);
             ImageView deleteSoundIcon = (ImageView) (findViewById(R.id.deleteSound));
             deleteSoundIcon.setVisibility(View.VISIBLE);
@@ -93,11 +93,11 @@ public class ActionAddEditView extends Activity {
         try {
             Bitmap bmp = BitmapFactory.decodeFile(pathToPicture);
             Bitmap scaledBmp = Bitmap.createScaledBitmap(bmp, 100, 100, false);
-            ImageView activityImage = (ImageView) (findViewById(R.id.imageView));
+            ImageView activityImage = (ImageView) (findViewById(R.id.picture));
             activityImage.setImageBitmap(scaledBmp);
             slide.setImagePath(pathToPicture);
-            ImageView usunObrazIcon = (ImageView) (findViewById(R.id.imageView4));
-            usunObrazIcon.setVisibility(View.VISIBLE);
+            ImageView deletePictureIcon = (ImageView) (findViewById(R.id.deletePictureIcon));
+            deletePictureIcon.setVisibility(View.VISIBLE);
         }catch (Exception e){
 
         }
@@ -125,23 +125,23 @@ public class ActionAddEditView extends Activity {
 
     public void removePicture(View v) {
         slide.setImagePath(null);
-        ImageView activityImage = (ImageView) (findViewById(R.id.imageView));
+        ImageView activityImage = (ImageView) (findViewById(R.id.picture));
         activityImage.setImageResource(R.drawable.t1);
-        ImageView usunObrazIcon = (ImageView) (findViewById(R.id.imageView4));
-        usunObrazIcon.setVisibility(View.INVISIBLE);
+        ImageView deletePictureIcon = (ImageView) (findViewById(R.id.deletePictureIcon));
+        deletePictureIcon.setVisibility(View.INVISIBLE);
     }
 
     public void removeSound(View v){
         slide.setAudioPath(null);
 
-        ImageView playSoundIcon = (ImageView) (findViewById(R.id.imageView3));
+        ImageView playSoundIcon = (ImageView) (findViewById(R.id.playSound));
         playSoundIcon.setVisibility(View.INVISIBLE);
 
         TextView soundPath = (TextView) findViewById(R.id.soundPath);
         soundPath.setText("");
 
-        ImageView usunDzwiekIcon = (ImageView) (findViewById(R.id.deleteSound));
-        usunDzwiekIcon.setVisibility(View.INVISIBLE);
+        ImageView deleteSoundIcon = (ImageView) (findViewById(R.id.deleteSound));
+        deleteSoundIcon.setVisibility(View.INVISIBLE);
     }
 
     public void playSound(View v){
@@ -156,7 +156,7 @@ public class ActionAddEditView extends Activity {
                     }
                 }
             }catch(Exception e){
-
+                Toast.makeText(this, R.string.play_timer_error, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -176,15 +176,7 @@ public class ActionAddEditView extends Activity {
 
             this.slide.setTime(Integer.parseInt(timeValue));
 
-            if(viewType == viewType.CREATE)
-                this.activity.setSlides(new ArrayList<Slide>(){{ add(slide); }});
-            else
-                for(Slide slide : this.activity.getSlides()){
-                    if(slide.getId().equals(this.slide.getId())) {
-                        this.activity.getSlides().remove(slide);
-                        this.activity.getSlides().add(this.slide);
-                    }
-                }
+            assignActionToActivity();
 
             ActivityRepository.updateWithActions(activity);
 
@@ -195,6 +187,24 @@ public class ActionAddEditView extends Activity {
 
             Toast.makeText(this, R.string.save_action_error, Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void assignActionToActivity() {
+
+        if(this.activity.getSlides() == null)
+            this.activity.setSlides(new ArrayList<Slide>());
+
+        if(viewType == viewType.EDIT) {
+
+            for (Slide slide : this.activity.getSlides()) {
+                if (slide.getId().equals(this.slide.getId())) {
+                    this.activity.getSlides().remove(slide);
+                }
+            }
+        }
+
+        this.activity.getSlides().add(slide);
+
     }
 
     @Override
