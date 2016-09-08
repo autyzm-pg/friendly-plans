@@ -35,7 +35,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/name"
                         android:textSize="20sp"
-                        android:id="@+id/textView"
+                        android:id="@+id/activityTitleLabel"
                         android:focusable="false"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true" />
@@ -43,9 +43,9 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editText"
-                        android:layout_toRightOf="@+id/textView"
-                        android:layout_alignBottom="@+id/textView"
+                        android:id="@+id/activityTitle"
+                        android:layout_toRightOf="@+id/activityTitleLabel"
+                        android:layout_alignBottom="@+id/activityTitleLabel"
                         android:layout_alignParentTop="true"
                         android:layout_span="3"
                         android:layout_marginLeft="5dp" />
@@ -61,28 +61,28 @@
                         android:layout_height="wrap_content"
                         android:text="@string/main_picture"
                         android:textSize="20sp"
-                        android:id="@+id/textView2"
-                        android:layout_below="@+id/textView"
+                        android:id="@+id/pictureLabel"
+                        android:layout_below="@+id/activityTitleLabel"
                         android:layout_alignParentLeft="true" />
 
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:id="@+id/imageView"
+                        android:id="@+id/picture"
                         android:visibility="invisible"
-                        android:layout_below="@+id/editText"
-                        android:layout_toRightOf="@+id/textView2"
+                        android:layout_below="@+id/activityTitle"
+                        android:layout_toRightOf="@+id/pictureLabel"
                         android:layout_marginLeft="5dp" />
 
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:id="@+id/imageView4"
+                        android:id="@+id/removePictureIcon"
                         android:visibility="invisible"
                         android:onClick="removePicture"
                         android:src="@drawable/x_mark"
-                        android:layout_alignTop="@+id/textView2"
-                        android:layout_toRightOf="@+id/textView5" />
+                        android:layout_alignTop="@+id/pictureLabel"
+                        android:layout_toRightOf="@+id/activityNumber" />
 
                     <Button
                         android:layout_width="wrap_content"
@@ -91,7 +91,7 @@
                         android:text="@string/btn_set_picture"
                         android:onClick="setPicture"
                         android:id="@+id/button"
-                        android:layout_alignTop="@+id/imageView4"
+                        android:layout_alignTop="@+id/removePictureIcon"
                         android:layout_alignParentRight="true" />
                 </TableRow>
 
@@ -104,8 +104,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/time"
                         android:textSize="20sp"
-                        android:id="@+id/textView3"
-                        android:layout_below="@+id/imageView"
+                        android:id="@+id/timeLabel"
+                        android:layout_below="@+id/picture"
                         android:layout_alignParentLeft="true" />
 
                     <EditText
@@ -113,9 +113,9 @@
                         android:layout_height="wrap_content"
                         android:inputType="time"
                         android:ems="10"
-                        android:id="@+id/editText2"
-                        android:layout_alignTop="@+id/textView3"
-                        android:layout_toRightOf="@+id/textView3"
+                        android:id="@+id/timerTime"
+                        android:layout_alignTop="@+id/timeLabel"
+                        android:layout_toRightOf="@+id/timeLabel"
                         android:layout_marginLeft="5dp"
                         android:layout_span="3" />
                 </TableRow>
@@ -132,8 +132,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/activity_number"
                         android:textSize="20sp"
-                        android:id="@+id/textView4"
-                        android:layout_alignTop="@+id/textView5"
+                        android:id="@+id/activityNumberLabel"
+                        android:layout_alignTop="@+id/activityNumber"
                         android:layout_alignParentLeft="true" />
 
                     <TextView
@@ -141,9 +141,9 @@
                         android:layout_height="wrap_content"
                         android:text="0"
                         android:textSize="20dp"
-                        android:id="@+id/textView5"
-                        android:layout_below="@+id/editText2"
-                        android:layout_toRightOf="@+id/textView4"
+                        android:id="@+id/activityNumber"
+                        android:layout_below="@+id/timerTime"
+                        android:layout_toRightOf="@+id/activityNumberLabel"
                         android:layout_marginLeft="5dp"
                         android:layout_span="2" />
 
@@ -154,7 +154,7 @@
                         android:text="@string/btn_manage_activities"
                         android:onClick="activityManageClick"
                         android:id="@+id/button3"
-                        android:layout_below="@+id/textView2"
+                        android:layout_below="@+id/pictureLabel"
                         android:layout_alignLeft="@+id/button" />
                 </TableRow>
 
@@ -171,39 +171,39 @@
                         android:layout_height="wrap_content"
                         android:text="@string/sound"
                         android:textSize="20sp"
-                        android:id="@+id/textView6"
-                        android:layout_below="@+id/textView4"
+                        android:id="@+id/soundLabel"
+                        android:layout_below="@+id/activityNumberLabel"
                         android:layout_alignParentLeft="true" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
-                        android:id="@+id/imageView2"
+                        android:id="@+id/playSoundIcon"
                         android:onClick="playSound"
                         android:visibility="invisible"
-                        android:layout_toRightOf="@+id/textView6"
+                        android:layout_toRightOf="@+id/soundLabel"
                         android:src="@drawable/aoundtube"
-                        android:layout_below="@+id/textView4"
+                        android:layout_below="@+id/activityNumberLabel"
                         android:layout_marginLeft="5dp" />
 
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:id="@+id/imageView3"
+                        android:id="@+id/removeSoundIcon"
                         android:visibility="invisible"
                         android:onClick="removeSound"
                         android:src="@drawable/x_mark"
-                        android:layout_alignTop="@+id/imageView2"
-                        android:layout_alignRight="@+id/editText2" />
+                        android:layout_alignTop="@+id/playSoundIcon"
+                        android:layout_alignRight="@+id/timerTime" />
 
                     <Button
                         android:layout_width="wrap_content"
                         android:textSize="15dp"
                         android:layout_height="wrap_content"
                         android:text="@string/btn_set_sound"
-                        android:id="@+id/button2"
+                        android:id="@+id/setSoundButton"
                         android:onClick="setSound"
-                        android:layout_below="@+id/editText2"
+                        android:layout_below="@+id/timerTime"
                         android:layout_alignParentRight="true" />
                 </TableRow>
 
@@ -218,7 +218,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/btn_save"
                     android:onClick="saveTemplate"
-                    android:id="@+id/button4"
+                    android:id="@+id/saveActivityButton"
                     android:layout_alignParentTop="true" />
 
             </RelativeLayout>

@@ -19,6 +19,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.List;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -54,43 +56,61 @@ public class ActivityEditViewTest {
     }
 
     @Test
-    public void editActionInitValuesTest(){
-        runActivity(activity);
+    public void addPlanActivityWithoutActionsTest(){
+        runActivity();
 
-        onView(withId(R.id.editText)).check(matches(withText("ACTIVITY")));
-
-        onView(withId(R.id.imageView4)).check(matches(not(isDisplayed())));
-        onView(withId(R.id.imageView)).check(matches(not(isDisplayed())));
-
-        onView(withId(R.id.textView5)).check(matches(withText(NUMBER_OF_ACTION_TEXT)));
-
-        onView(withId(R.id.imageView2)).check(matches(isDisplayed()));
-        onView(withId(R.id.imageView3)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void editActionWithoutAudioTest(){
-        runActivity(activityWithoutAudio);
-
-        onView(withId(R.id.editText)).check(matches(withText("ACTIVITY")));
-
-        onView(withId(R.id.imageView4)).check(matches(not(isDisplayed())));
-        onView(withId(R.id.imageView)).check(matches(not(isDisplayed())));
-
-        onView(withId(R.id.textView5)).check(matches(withText(NO_ACTIONS_TEXT)));
-
-        onView(withId(R.id.imageView2)).check(matches(not(isDisplayed())));
-        onView(withId(R.id.imageView3)).check(matches(not(isDisplayed())));
-    }
-
-    @Test
-    public void editActionTest(){
-        runActivity(activity);
-
-        onView(withId(R.id.editText)).perform(clearText(), typeText(NEW_ACTIVITY_TITLE));
+        onView(withId(R.id.activityTitle)).perform(clearText(), typeText(NEW_ACTIVITY_TITLE));
         Espresso.closeSoftKeyboard();
 
-        onView(withId(R.id.button4)).perform(click());
+        onView(withId(R.id.saveActivityButton)).perform(click());
+
+        List<Activity> addedActivities = ActivityRepository.getActivityByTitle(NEW_ACTIVITY_TITLE);
+
+        assertEquals("New activity should be added", 1, addedActivities.size());
+        Activity addedActivity = addedActivities.get(0);
+        assertEquals("New activity should have expected title", NEW_ACTIVITY_TITLE, addedActivity.getTitle());
+        assertEquals("New activity should not have actions", NO_ACTIONS, addedActivity.getSlides().size());
+
+    }
+
+    @Test
+    public void editPlanActivityInitValuesTest(){
+        runActivity(activity);
+
+        onView(withId(R.id.activityTitle)).check(matches(withText("ACTIVITY")));
+
+        onView(withId(R.id.removePictureIcon)).check(matches(not(isDisplayed())));
+        onView(withId(R.id.picture)).check(matches(not(isDisplayed())));
+
+        onView(withId(R.id.activityNumber)).check(matches(withText(NUMBER_OF_ACTION_TEXT)));
+
+        onView(withId(R.id.playSoundIcon)).check(matches(isDisplayed()));
+        onView(withId(R.id.removeSoundIcon)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void editPlanActivityWithoutAudioTest(){
+        runActivity(activityWithoutAudio);
+
+        onView(withId(R.id.activityTitle)).check(matches(withText("ACTIVITY")));
+
+        onView(withId(R.id.removePictureIcon)).check(matches(not(isDisplayed())));
+        onView(withId(R.id.picture)).check(matches(not(isDisplayed())));
+
+        onView(withId(R.id.activityNumber)).check(matches(withText(NO_ACTIONS_TEXT)));
+
+        onView(withId(R.id.playSoundIcon)).check(matches(not(isDisplayed())));
+        onView(withId(R.id.removeSoundIcon)).check(matches(not(isDisplayed())));
+    }
+
+    @Test
+    public void editPlanActivityTest(){
+        runActivity(activity);
+
+        onView(withId(R.id.activityTitle)).perform(clearText(), typeText(NEW_ACTIVITY_TITLE));
+        Espresso.closeSoftKeyboard();
+
+        onView(withId(R.id.saveActivityButton)).perform(click());
 
         Activity editedActivity = ActivityRepository.getActivityById(activity.getId());
         assertEquals("Activity should have been changed", NEW_ACTIVITY_TITLE, editedActivity.getTitle());
@@ -99,6 +119,11 @@ public class ActivityEditViewTest {
     private void runActivity(Activity activity) {
         Intent intent = new Intent();
         intent.putExtra("ACTIVITY", activity);
+        activityRule.launchActivity(intent);
+    }
+
+    private void runActivity() {
+        Intent intent = new Intent();
         activityRule.launchActivity(intent);
     }
 

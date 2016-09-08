@@ -55,13 +55,13 @@ public class ActivityEditView extends Activity {
 
         initSounds();
 
-        EditText activityTitle = (EditText) findViewById(R.id.editText);
+        EditText activityTitle = (EditText) findViewById(R.id.activityTitle);
         activityTitle.setText(this.planActivity.getTitle());
 
-        EditText timerTime = (EditText) findViewById(R.id.editText2);
+        EditText timerTime = (EditText) findViewById(R.id.timerTime);
         timerTime.setText(String.valueOf(this.planActivity.getTime()));
 
-        TextView actions = (TextView) findViewById(R.id.textView5);
+        TextView actions = (TextView) findViewById(R.id.activityNumber);
         if(this.planActivity.getSlides()==null){
             actions.setText("0");
         } else {
@@ -71,8 +71,8 @@ public class ActivityEditView extends Activity {
 
     private void initSounds() {
         if(planActivity.getAudioPath()!=null && !planActivity.getAudioPath().equals("")){
-            setVisibilityOfElementTo(R.id.imageView3, View.VISIBLE);
-            setVisibilityOfElementTo(R.id.imageView2, View.VISIBLE);
+            setVisibilityOfElementTo(R.id.removeSoundIcon, View.VISIBLE);
+            setVisibilityOfElementTo(R.id.playSoundIcon, View.VISIBLE);
         }
     }
 
@@ -95,7 +95,7 @@ public class ActivityEditView extends Activity {
 
             setImageVisibility(scaledBmp);
             planActivity.setIconPath(pathToPicture);
-            setVisibilityOfElementTo(R.id.imageView4, View.VISIBLE);
+            setVisibilityOfElementTo(R.id.removePictureIcon, View.VISIBLE);
         }catch (Exception e){
             pathToPicture = "";
             planActivity.setIconPath(pathToPicture);
@@ -104,7 +104,7 @@ public class ActivityEditView extends Activity {
     }
 
     private void setImageVisibility(Bitmap scaledBmp) {
-        ImageView activityImage = (ImageView) (findViewById(R.id.imageView));
+        ImageView activityImage = (ImageView) (findViewById(R.id.picture));
         activityImage.setImageBitmap(scaledBmp);
         activityImage.setVisibility(View.VISIBLE);
     }
@@ -136,14 +136,14 @@ public class ActivityEditView extends Activity {
 
     public void removePicture(View v) {
         planActivity.setIconPath(null);
-        ImageView activityImage = (ImageView) (findViewById(R.id.imageView));
+        ImageView activityImage = (ImageView) (findViewById(R.id.picture));
         activityImage.setImageResource(R.drawable.t1);
-        setVisibilityOfElementTo(R.id.imageView4, View.INVISIBLE);
+        setVisibilityOfElementTo(R.id.removePictureIcon, View.INVISIBLE);
     }
 
     public void removeSound(View v){
         planActivity.setAudioPath(null);
-        setVisibilityOfElementTo(R.id.imageView3, View.INVISIBLE);
+        setVisibilityOfElementTo(R.id.removeSoundIcon, View.INVISIBLE);
     }
 
     public void playSound(View v){
@@ -177,10 +177,10 @@ public class ActivityEditView extends Activity {
 
     public void saveActivity(){
 
-        EditText etName = (EditText) findViewById(R.id.editText);
+        EditText etName = (EditText) findViewById(R.id.activityTitle);
         this.planActivity.setTitle(etName.getText().toString());
 
-        EditText etTime = (EditText) findViewById(R.id.editText2);
+        EditText etTime = (EditText) findViewById(R.id.timerTime);
         String time = etTime.getText().toString();
         if(time.equals(""))
             time = "0";
@@ -251,7 +251,7 @@ public class ActivityEditView extends Activity {
     }
 
     private void initActions() {
-        TextView actions = (TextView) findViewById(R.id.textView5);
+        TextView actions = (TextView) findViewById(R.id.activityNumber);
         actions.setText(this.planActivity.getSlides().size() + "");
     }
 
