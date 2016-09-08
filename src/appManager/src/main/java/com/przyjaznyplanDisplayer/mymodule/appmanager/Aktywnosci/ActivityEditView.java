@@ -213,7 +213,6 @@ public class ActivityEditView extends Activity {
             intent.putExtra("ACTIVITY", this.planActivity);
             setResult(mode , intent);
             super.finish();
-            super.finish();
         }catch(RuntimeException e){
             Toast.makeText(this, R.string.missing_title_field, Toast.LENGTH_SHORT).show();
 

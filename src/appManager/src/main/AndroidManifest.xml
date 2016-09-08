@@ -27,8 +27,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Aktywnosci.AcitvityMainView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
-        </activity>
 
         <activity android:name=".Aktywnosci.ActivityEditView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
         </activity>

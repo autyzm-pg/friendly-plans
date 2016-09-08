@@ -64,4 +64,10 @@ public class ActivityRepository {
     }
 
     public static List<Activity> getActivityByTitle(String title){ return activityDao.getActivitiesByTitle(title); }
+
+    public static void deleteActivity(Activity activity) {
+        ActivityDto activityDto = new ActivityDto();
+        activityDto.setActivity(activity);
+        activityDao.delete(activityDto);
+    }
 }
