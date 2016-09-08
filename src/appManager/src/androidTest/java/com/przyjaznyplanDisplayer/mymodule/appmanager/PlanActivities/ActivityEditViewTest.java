@@ -13,6 +13,7 @@ import com.przyjaznyplanDisplayer.mymodule.appmanager.Aktywnosci.ActivityEditVie
 import com.przyjaznyplanDisplayer.mymodule.appmanager.R;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.TestUtils;
 
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,9 +27,11 @@ import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
 
@@ -71,6 +74,14 @@ public class ActivityEditViewTest {
         assertEquals("New activity should have expected title", NEW_ACTIVITY_TITLE, addedActivity.getTitle());
         assertEquals("New activity should not have actions", NO_ACTIONS, addedActivity.getSlides().size());
 
+    }
+
+    @Test
+    public void addEmptyPlanActivityTest(){
+        runActivity();
+
+        onView(withId(R.id.saveActivityButton)).perform(click());
+        onView(withText(R.string.missing_title_field)).inRoot(withDecorView(Matchers.not(is(activityRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
     }
 
     @Test

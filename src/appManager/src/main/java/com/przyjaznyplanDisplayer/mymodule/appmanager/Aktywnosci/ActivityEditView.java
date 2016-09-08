@@ -15,6 +15,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,10 +28,12 @@ import com.przyjaznyplanDisplayer.mymodule.appmanager.R;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.RequestCodes;
 
 import java.util.ArrayList;
+import java.util.MissingResourceException;
 
 import br.com.thinkti.android.filechooser.FileChooser;
 
 public class ActivityEditView extends Activity {
+    public static final String EMPTY_VALUE = "";
     private com.przyjaznyplan.models.Activity planActivity;
     private MediaPlayer mp;
     private int mode = 0;
@@ -177,8 +180,11 @@ public class ActivityEditView extends Activity {
 
     public void saveActivity(){
 
-        EditText etName = (EditText) findViewById(R.id.activityTitle);
-        this.planActivity.setTitle(etName.getText().toString());
+        EditText activityTitleEditText = (EditText) findViewById(R.id.activityTitle);
+        String activityTitle = activityTitleEditText.getText().toString();
+        if(activityTitle.equals(EMPTY_VALUE))
+            throw new RuntimeException();
+        this.planActivity.setTitle(activityTitle);
 
         EditText etTime = (EditText) findViewById(R.id.timerTime);
         String time = etTime.getText().toString();
@@ -208,7 +214,10 @@ public class ActivityEditView extends Activity {
             setResult(mode , intent);
             super.finish();
             super.finish();
-        } catch(Exception e){
+        }catch(RuntimeException e){
+            Toast.makeText(this, R.string.missing_title_field, Toast.LENGTH_SHORT).show();
+
+        }catch(Exception e){
             Toast.makeText(this, R.string.activity_save_error, Toast.LENGTH_SHORT).show();
         }
     }
