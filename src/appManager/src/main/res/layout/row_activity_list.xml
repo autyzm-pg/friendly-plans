@@ -9,37 +9,36 @@
 <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:baselineAligned="true"
     android:paddingTop="2dip"
     android:paddingBottom="3dip">
-    
-    <ImageView
-            android:id="@+id/con3"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="4dp"
-            android:gravity="center_horizontal"
-            android:onClick="playSound"
-            android:src="@drawable/aoundtube" />
 
     <ImageView
-            android:id="@+id/con"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:gravity="center_horizontal"
-            android:src="@drawable/ic_launcher" />
+        android:id="@+id/con3"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="4dp"
+        android:gravity="center_horizontal"
+        android:onClick="playSound"
+        android:src="@drawable/aoundtube" />
 
 
     <ImageView
-            android:id="@+id/con2"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:gravity="center_horizontal"
-            android:src="@drawable/icon_timer" />
+        android:id="@+id/con"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:gravity="center_horizontal"
+        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/ic_launcher" />
+
+
+    <ImageView
+        android:id="@+id/con2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:gravity="center_horizontal"
+        android:src="@drawable/icon_timer"
+        android:adjustViewBounds="true" />
 
     <ImageView
             android:id="@+id/editButton"
@@ -62,12 +61,11 @@
 
     <TextView
             android:id="@+id/label"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|left"
-            android:layout_weight="1"
-            android:gravity="left"
+            android:gravity="center_horizontal|left"
             android:text="@+id/label"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp" />
 
 </LinearLayout>

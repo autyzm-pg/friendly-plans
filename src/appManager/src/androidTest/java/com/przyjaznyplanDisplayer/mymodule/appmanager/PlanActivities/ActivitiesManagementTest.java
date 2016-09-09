@@ -14,6 +14,7 @@ import com.przyjaznyplanDisplayer.mymodule.appmanager.TestUtils;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.ActivitySimpleAdapter;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.RequestCodes;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -97,6 +98,11 @@ public class ActivitiesManagementTest {
         activityRule.launchActivity(intent);
 
         onView(allOf(withId(R.id.editButton), hasSibling(withText("ACTIVITY0")))).perform(click());
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        DatabaseUtils.rebuildDatabaseWithInitData();
     }
 
 
