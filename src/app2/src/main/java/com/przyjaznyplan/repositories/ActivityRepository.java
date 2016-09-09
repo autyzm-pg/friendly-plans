@@ -70,4 +70,8 @@ public class ActivityRepository {
         activityDto.setActivity(activity);
         activityDao.delete(activityDto);
     }
+
+    public static Object getActivities() {
+        return activityDao.getActivitiesByTitle("");
+    }
 }

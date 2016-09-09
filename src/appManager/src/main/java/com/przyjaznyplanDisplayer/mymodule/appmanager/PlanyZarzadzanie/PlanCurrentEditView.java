@@ -81,7 +81,7 @@ public class PlanCurrentEditView extends Activity implements AdapterView.OnItemC
         startActivityForResult(intent,RequestCodes.PLAN_ADD_ACTIVITY);
     }
 
-    public void editSlide(View v){
+    public void editAction(View v){
         Intent intent = new Intent(this, ActivityEditView.class);
         int position = Integer.parseInt(v.getTag().toString());
         com.przyjaznyplan.models.Activity activity = plan.getActivities().get(position);
@@ -93,7 +93,7 @@ public class PlanCurrentEditView extends Activity implements AdapterView.OnItemC
         }
     }
 
-    public void removeSlide(View v){
+    public void removeAction(View v){
         int position = Integer.parseInt(v.getTag().toString());
         com.przyjaznyplan.models.Activity activity = plan.getActivities().get(position);
         if(activity.getId().equals(BusinessLogic.SYSTEM_ACTIVITY_GALLERY_ID) || (activity.getTypeFlag()!=null && activity.getTypeFlag().equals(com.przyjaznyplan.models.Activity.TypeFlag.FINISHED_ACTIVITY_GALLERY.toString())) ){

@@ -40,6 +40,9 @@
         <activity android:name=".Aktywnosci.ActivityManagementView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
         </activity>
 
+        <activity android:name=".Aktywnosci.ActivityAssignmentView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
         <activity android:name=".Plany.PlanTemplatesMainView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
         </activity>
 
