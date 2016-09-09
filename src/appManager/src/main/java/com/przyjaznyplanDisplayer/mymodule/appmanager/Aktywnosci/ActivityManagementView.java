@@ -29,7 +29,7 @@ import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.RequestCodes;
 
 import java.util.List;
 
-public class ActivityFindView extends Activity {
+public class ActivityManagementView extends Activity {
     private ActivitySimpleAdapter listAdapter;
     private ListView mainListView;
     private MediaPlayer mp;

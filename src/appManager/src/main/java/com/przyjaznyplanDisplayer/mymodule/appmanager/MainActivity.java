@@ -15,7 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.przyjaznyplanDisplayer.mymodule.appmanager.Aktywnosci.ActivityFindView;
+import com.przyjaznyplanDisplayer.mymodule.appmanager.Aktywnosci.ActivityManagementView;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Informacje.AboutView;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Plany.PlanTemplatesMainView;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.PlanyZarzadzanie.UserPlansMainView;
@@ -77,7 +77,7 @@ public class MainActivity extends Activity {
      * Changes the view to the activity management view
      */
     private void activityManagement() {
-        Intent intent = new Intent(this, ActivityFindView.class);
+        Intent intent = new Intent(this, ActivityManagementView.class);
         intent.putExtra("REQUESTCODE",RequestCodes.ACTIVITY_EDIT);
         startActivityForResult(intent,RequestCodes.ACTIVITY_EDIT);
     }
