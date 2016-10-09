@@ -18,45 +18,75 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.przyjaznyplan.models.Slide;
+import com.przyjaznyplan.repositories.ActionRepository;
+import com.przyjaznyplan.repositories.ActivityRepository;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.R;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.RequestCodes;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.MissingResourceException;
 
 import br.com.thinkti.android.filechooser.FileChooser;
 
 public class ActionAddEditView extends Activity {
-    int mode;
+
+
+    private com.przyjaznyplan.models.Activity activity;
+
+    enum ViewType { CREATE, EDIT }
+    private ViewType viewType = ViewType.CREATE;
     private Slide slide;
-    private int position;
     String pathToPicture="";
     MediaPlayer mp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.action_edit_view);
-        if(getIntent().getExtras()!=null && getIntent().getExtras().get("SLIDE")!=null){
-            mode= RequestCodes.SLIDE_EDITED;
+
+        if(getIntent().getExtras().get("ACTIVITY")!=null){
+            this.activity = (com.przyjaznyplan.models.Activity)getIntent().getExtras().get("ACTIVITY");
+        }
+
+        if(getIntent().getExtras().get("SLIDE")!=null){
+            viewType = ViewType.EDIT;
             this.slide=(Slide)getIntent().getExtras().get("SLIDE");
-            this.position = Integer.parseInt(getIntent().getExtras().get("POSITION").toString());
-            if(this.slide.getImagePath()!=null && !this.slide.getImagePath().equals("")){
-                setBMP(this.slide.getImagePath());
-            }
-            if(slide.getAudioPath()!=null && !slide.getAudioPath().equals("")){
-                ImageView usunDzwiekIcon = (ImageView) (findViewById(R.id.imageView3));
-                usunDzwiekIcon.setVisibility(View.VISIBLE);
-            }
-            EditText etName = (EditText) findViewById(R.id.editText);
-            etName.setText(this.slide.getText());
-            EditText etTime = (EditText) findViewById(R.id.editText2);
-            etTime.setText(String.valueOf(this.slide.getTime()));
+            initEditView();
         } else {
-            mode= RequestCodes.SLIDE_ADDED;
             this.slide = new Slide();
+        }
+    }
+
+    private void initEditView() {
+
+        if(this.slide.getImagePath()!=null && !this.slide.getImagePath().equals("")){
+            setBMP(this.slide.getImagePath());
+        }
+
+        initSounds();
+
+        EditText actionTitle = (EditText) findViewById(R.id.editText);
+        actionTitle.setText(this.slide.getText());
+
+        EditText actionTime = (EditText) findViewById(R.id.editText2);
+        actionTime.setText(String.valueOf(this.slide.getTime()));
+    }
+
+    private void initSounds() {
+        if(slide.getAudioPath()!=null && !slide.getAudioPath().equals("")) {
+
+            ImageView playSoundIcon = (ImageView) (findViewById(R.id.playSound));
+            playSoundIcon.setVisibility(View.VISIBLE);
+            ImageView deleteSoundIcon = (ImageView) (findViewById(R.id.deleteSound));
+            deleteSoundIcon.setVisibility(View.VISIBLE);
+            TextView soundPath = (TextView) findViewById(R.id.soundPath);
+            soundPath.setText(this.slide.getAudioPath());
         }
     }
 
@@ -64,11 +94,11 @@ public class ActionAddEditView extends Activity {
         try {
             Bitmap bmp = BitmapFactory.decodeFile(pathToPicture);
             Bitmap scaledBmp = Bitmap.createScaledBitmap(bmp, 100, 100, false);
-            ImageView activityImage = (ImageView) (findViewById(R.id.imageView));
+            ImageView activityImage = (ImageView) (findViewById(R.id.picture));
             activityImage.setImageBitmap(scaledBmp);
             slide.setImagePath(pathToPicture);
-            ImageView usunObrazIcon = (ImageView) (findViewById(R.id.imageView4));
-            usunObrazIcon.setVisibility(View.VISIBLE);
+            ImageView deletePictureIcon = (ImageView) (findViewById(R.id.deletePictureIcon));
+            deletePictureIcon.setVisibility(View.VISIBLE);
         }catch (Exception e){
 
         }
@@ -96,16 +126,23 @@ public class ActionAddEditView extends Activity {
 
     public void removePicture(View v) {
         slide.setImagePath(null);
-        ImageView activityImage = (ImageView) (findViewById(R.id.imageView));
+        ImageView activityImage = (ImageView) (findViewById(R.id.picture));
         activityImage.setImageResource(R.drawable.t1);
-        ImageView usunObrazIcon = (ImageView) (findViewById(R.id.imageView4));
-        usunObrazIcon.setVisibility(View.INVISIBLE);
+        ImageView deletePictureIcon = (ImageView) (findViewById(R.id.deletePictureIcon));
+        deletePictureIcon.setVisibility(View.INVISIBLE);
     }
 
     public void removeSound(View v){
         slide.setAudioPath(null);
-        ImageView usunDzwiekIcon = (ImageView) (findViewById(R.id.imageView3));
-        usunDzwiekIcon.setVisibility(View.INVISIBLE);
+
+        ImageView playSoundIcon = (ImageView) (findViewById(R.id.playSound));
+        playSoundIcon.setVisibility(View.INVISIBLE);
+
+        TextView soundPath = (TextView) findViewById(R.id.soundPath);
+        soundPath.setText("");
+
+        ImageView deleteSoundIcon = (ImageView) (findViewById(R.id.deleteSound));
+        deleteSoundIcon.setVisibility(View.INVISIBLE);
     }
 
     public void playSound(View v){
@@ -120,44 +157,62 @@ public class ActionAddEditView extends Activity {
                     }
                 }
             }catch(Exception e){
-
+                Toast.makeText(this, R.string.play_timer_error, Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     public void saveTemplate(View v){
-        String name="";
-        int time=0;
-        EditText etName = (EditText) findViewById(R.id.editText);
-        try {
-            name = etName.getText().toString();
-        } catch (Exception e){
 
-        }
-        EditText etTime = (EditText) findViewById(R.id.editText2);
-        try {
-            time = Integer.parseInt(etTime.getText().toString());
-        } catch (Exception e){
-
-        }
         try{
-            if(name.length()!=0){
-                slide.setText(name);
-            } else
-            {
-                slide.setText("");
-            }
-            slide.setTime(time);
-            Intent intent = new Intent();
-            intent.putExtra("SLIDE", this.slide);
-            if(mode== RequestCodes.SLIDE_EDITED){
-                intent.putExtra("POSITION", this.position);
-            }
-            setResult(mode , intent);
-            super.finish();
-        } catch(Exception e){
+            String timeValue;
 
+            EditText etName = (EditText) findViewById(R.id.editText);
+            String title = etName.getText().toString();
+            if(title.equals("")){
+                throw new RuntimeException();
+            }
+
+            this.slide.setText(title);
+
+
+            EditText etTime = (EditText) findViewById(R.id.editText2);
+            timeValue = etTime.getText().toString();
+            if(timeValue == null || timeValue.equals(""))
+                timeValue = "0";
+
+            this.slide.setTime(Integer.parseInt(timeValue));
+
+            assignActionToActivity();
+
+            ActivityRepository.updateWithActions(activity);
+
+            Toast.makeText(this, R.string.save_action_success, Toast.LENGTH_LONG).show();
+
+            super.finish();
+        }catch (RuntimeException ex){
+            Toast.makeText(this, R.string.missing_title_field, Toast.LENGTH_LONG).show();
+        }catch(Exception e){
+            Toast.makeText(this, R.string.save_action_error, Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void assignActionToActivity() {
+
+        if(this.activity.getSlides() == null)
+            this.activity.setSlides(new ArrayList<Slide>());
+
+        if(viewType == viewType.EDIT) {
+
+            for (Slide slide : this.activity.getSlides()) {
+                if (slide.getId().equals(this.slide.getId())) {
+                    this.activity.getSlides().remove(slide);
+                }
+            }
+        }
+
+        this.activity.getSlides().add(slide);
+
     }
 
     @Override
@@ -179,8 +234,7 @@ public class ActionAddEditView extends Activity {
             if(!("".equals(fileSelected))){
                 try {
                     slide.setAudioPath(fileSelected.toString());
-                    ImageView usunDzwiekIcon = (ImageView) (findViewById(R.id.imageView3));
-                    usunDzwiekIcon.setVisibility(View.VISIBLE);
+                    initSounds();
                 }catch (Exception e){
 
                 }

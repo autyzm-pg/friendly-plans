@@ -35,6 +35,7 @@ import static org.hamcrest.core.AllOf.allOf;
 @LargeTest
 public class ActionsListViewTest {
 
+
     @Rule
     public ActivityTestRule<ActionListView> activityRule = new ActivityTestRule<>(ActionListView.class, true, false);
 
@@ -42,17 +43,20 @@ public class ActionsListViewTest {
     public static final int SECOND = 1;
 
     private Activity activity;
+    public static final int EMPTY_ACTIONS = 0;
     private final int NUMBER_OF_ACTION = 2;
+    private Activity emptyActivity;
 
     @Before
     public void setUp() throws Exception {
         DatabaseUtils.rebuildDatabaseWithInitData();
         activity = TestUtils.createActivityWithActions(NUMBER_OF_ACTION, "ACTIVITY", "ACTION", "/path/to/audio", "path/to/image");
+        emptyActivity = TestUtils.createActivityWithActions(EMPTY_ACTIONS, "ACTIVITY", "ACTION", "/path/to/audio", "path/to/image");
     }
 
     @Test
     public void showPlanActionListTest(){
-        runActivity();
+        runActivity(activity);
 
         ListView listView = (ListView) activityRule.getActivity().findViewById(R.id.actionsListView);
 
@@ -63,7 +67,7 @@ public class ActionsListViewTest {
 
     @Test
     public void deleteActionTest(){
-        runActivity();
+        runActivity(activity);
 
         onView(allOf(withId(R.id.usun), hasSibling(withText("ACTION0")))).perform(click());
         onView(withId(R.id.button3)).perform(click());
@@ -75,7 +79,7 @@ public class ActionsListViewTest {
 
     @Test
     public void changeOrderTest(){
-        runActivity();
+        runActivity(activity);
 
         onView(allOf(withId(R.id.przesunwdol), hasSibling(withText("ACTION0")))).perform(click());
         onView(withId(R.id.button3)).perform(click());
@@ -92,8 +96,8 @@ public class ActionsListViewTest {
 
     @Test
     public void showEmptyActionList(){
-        activity.setSlides(null);
-        runActivity();
+
+        runActivity(emptyActivity);
 
         ListView listView = (ListView) activityRule.getActivity().findViewById(R.id.actionsListView);
 
@@ -104,12 +108,12 @@ public class ActionsListViewTest {
 
     @Test
     public void editActionButtonTest(){
-        runActivity();
+        runActivity(activity);
 
         onView(allOf(withId(R.id.edytuj), hasSibling(withText("ACTION0")))).perform(click());
     }
 
-    private void runActivity() {
+    private void runActivity(Activity activity) {
         Intent intent = new Intent();
         intent.putExtra("ACTIVITY", activity);
         activityRule.launchActivity(intent);

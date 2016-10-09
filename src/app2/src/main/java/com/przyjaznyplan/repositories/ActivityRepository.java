@@ -58,4 +58,8 @@ public class ActivityRepository {
         activityDto.setActivity(activity);
         activityDao.update(activityDto);
     }
+
+    public static Activity getActivityById(String id) {
+        return activityDao.getActivityById(id);
+    }
 }

@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.przyjaznyplan.DbHelper.MySQLiteHelper;
 import com.przyjaznyplan.dao.ActivityDao;
 import com.przyjaznyplan.dto.ActivityDto;
+import com.przyjaznyplan.repositories.ActivityRepository;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Czynnosci.ActionListView;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.R;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.RequestCodes;
@@ -146,51 +147,52 @@ public class ActivityEditView extends Activity {
     }
 
     public void activityManageClick(View v){
-        Intent intent = new Intent(this, ActionListView.class);
-        intent.putExtra("ACTIVITY",this.planActivity);
-        startActivityForResult(intent, RequestCodes.ACTIVITY_MANAGEMENT);
+
+        try {
+            saveActivity();
+            Intent intent = new Intent(this, ActionListView.class);
+            intent.putExtra("ACTIVITY", this.planActivity);
+            startActivityForResult(intent, RequestCodes.ACTIVITY_MANAGEMENT);
+        } catch(Exception e){
+            Toast.makeText(this, R.string.activity_save_error, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void saveActivity(){
+
+        EditText etName = (EditText) findViewById(R.id.editText);
+        this.planActivity.setTitle(etName.getText().toString());
+
+        EditText etTime = (EditText) findViewById(R.id.editText2);
+        String time = etTime.getText().toString();
+        if(time.equals(""))
+            time = "0";
+        this.planActivity.setTime(Integer.parseInt(time));
+
+        this.planActivity.setTypeFlag(com.przyjaznyplan.models.Activity.TypeFlag.ACTIVITY + "");
+        this.planActivity.setStatus(com.przyjaznyplan.models.Activity.ActivityStatus.NEW + "");
+
+        if(mode == RequestCodes.ACTIVITY_ADDED){
+            ActivityRepository.insertWithActions(planActivity);
+            mode = RequestCodes.ACTIVITY_EDITED;
+        }
+        if(mode == RequestCodes.ACTIVITY_EDITED){
+            ActivityRepository.updateWithActions(planActivity);
+        }
+
     }
 
     public void saveTemplate(View v){
-        String name="";
-        int time=0;
-        EditText etName = (EditText) findViewById(R.id.editText);
-        try {
-            name = etName.getText().toString();
-        } catch (Exception e){
 
-        }
-        EditText etTime = (EditText) findViewById(R.id.editText2);
-        try {
-            time = Integer.parseInt(etTime.getText().toString());
-        } catch (Exception e){
-
-        }
         try{
-            if(name.length()!=0){
-                planActivity.setTitle(name);
-            } else
-            {
-                return;
-            }
-            planActivity.setTime(time);
-            ActivityDto adto = new ActivityDto();
-            planActivity.setTypeFlag(com.przyjaznyplan.models.Activity.TypeFlag.ACTIVITY + "");
-            planActivity.setStatus(com.przyjaznyplan.models.Activity.ActivityStatus.NEW + "");
-            adto.setActivity(planActivity);
-            if(mode == RequestCodes.ACTIVITY_ADDED){
-                activityDao.create(adto);
-            }
-            if(mode == RequestCodes.ACTIVITY_EDITED){
-                activityDao.update(adto);
-            }
+            saveActivity();
             Intent intent = new Intent();
             intent.putExtra("ACTIVITY", this.planActivity);
             setResult(mode , intent);
             super.finish();
             super.finish();
         } catch(Exception e){
-
+            Toast.makeText(this, R.string.activity_save_error, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -198,11 +200,9 @@ public class ActivityEditView extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == RequestCodes.ACTIVITY_MANAGEMENT && resultCode == RequestCodes.ACTIVITY_MANAGEMENT) {
             com.przyjaznyplan.models.Activity result = (com.przyjaznyplan.models.Activity) data.getExtras().get("ACTIVITY");
-            this.planActivity.setSlides(result.getSlides());
-            TextView tv = (TextView) findViewById(R.id.textView5);
-            tv.setText(this.planActivity.getSlides().size() + "");
+            refreshView(result.getId());
         }
-        if(requestCode == RequestCodes.FILE_CHOOSER_PIC && resultCode == -1){
+        else if(requestCode == RequestCodes.FILE_CHOOSER_PIC && resultCode == -1){
             String fileSelected = data.getStringExtra("fileSelected");
             if(!("".equals(fileSelected))){
                 try {
@@ -214,7 +214,7 @@ public class ActivityEditView extends Activity {
             }
             Toast.makeText(this, fileSelected, Toast.LENGTH_SHORT).show();
         }
-        if(requestCode == RequestCodes.FILE_CHOOSER_SOUND && resultCode == -1){
+        else if(requestCode == RequestCodes.FILE_CHOOSER_SOUND && resultCode == -1){
             String fileSelected = data.getStringExtra("fileSelected");
             if(!("".equals(fileSelected))){
                 try {
@@ -227,5 +227,16 @@ public class ActivityEditView extends Activity {
             }
             Toast.makeText(this, fileSelected, Toast.LENGTH_SHORT).show();
         }
+        else{
+            refreshView(this.planActivity.getId());
+        }
+
     }
+
+    private void refreshView(String id) {
+        this.planActivity = ActivityRepository.getActivityById(id);
+        TextView tv = (TextView) findViewById(R.id.textView5);
+        tv.setText(this.planActivity.getSlides().size() + "");
+    }
+
 }

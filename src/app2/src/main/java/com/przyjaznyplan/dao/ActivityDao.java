@@ -233,7 +233,7 @@ public class ActivityDao extends AbstractDao<ActivityDto> {
         return activities;
     }
 
-    private Activity getActivityById(String activityId){
+    public Activity getActivityById(String activityId){
         Cursor cursor = null;
         try {
             cursor = db.query(Aktywnosc.TABLE_NAME, Aktywnosc.COLUMN_CHILD_ACTIVITY_ALL_COLUMNS,Aktywnosc.ID +" = '"+ activityId +"'", null, null, null, null);
