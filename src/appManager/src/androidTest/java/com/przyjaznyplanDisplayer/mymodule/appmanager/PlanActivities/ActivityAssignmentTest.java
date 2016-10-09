@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
 import android.widget.ListView;
 
-import com.przyjaznyplan.models.Activity;
 import com.przyjaznyplan.repositories.DatabaseUtils;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Aktywnosci.ActivityAssignmentView;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.R;
@@ -16,7 +15,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -30,7 +28,7 @@ public class ActivityAssignmentTest {
     @Before
     public void setUp() throws Exception {
         DatabaseUtils.rebuildDatabaseWithInitData();
-        List<Activity> activities = TestUtils.createActivitiesWithActions(NUMBER_OF_ACTIVITIES, NUMBER_OF_ACTION, "ACTIVITY", "ACTION", "/path/to/audio", "path/to/image");
+        TestUtils.createActivitiesWithActions(NUMBER_OF_ACTIVITIES, NUMBER_OF_ACTION, "ACTIVITY", "ACTION", "/path/to/audio", "path/to/image");
     }
 
     @Test

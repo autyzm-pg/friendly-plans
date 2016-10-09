@@ -2,6 +2,7 @@ package com.przyjaznyplanDisplayer.mymodule.appmanager.PlanActivities;
 
 
 import android.content.Intent;
+import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.widget.ListView;
 
@@ -65,7 +66,8 @@ public class ActivitiesManagementTest {
         intent.putExtra("REQUESTCODE", RequestCodes.ACTIVITY_EDIT);
         activityRule.launchActivity(intent);
 
-        onView(withId(R.id.editText)).perform(clearText(),typeText("ACTIVITY0"));
+        onView(withId(R.id.editText)).perform(clearText(), typeText("ACTIVITY0"));
+        Espresso.closeSoftKeyboard();
         onView(withId(R.id.button)).perform(click());
 
         ListView listView = (ListView) activityRule.getActivity().findViewById(R.id.listView);
