@@ -27,8 +27,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Aktywnosci.AcitvityMainView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
-        </activity>
 
         <activity android:name=".Aktywnosci.ActivityEditView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
         </activity>
@@ -39,7 +37,10 @@
         <activity android:name=".Czynnosci.ActionListView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
         </activity>
 
-        <activity android:name=".Aktywnosci.ActivityFindView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        <activity android:name=".Aktywnosci.ActivityManagementView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name=".Aktywnosci.ActivityAssignmentView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
         </activity>
 
         <activity android:name=".Plany.PlanTemplatesMainView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">

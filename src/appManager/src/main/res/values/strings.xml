@@ -25,7 +25,7 @@
     <string name='activity_management'>Zarządzanie aktywnościami</string>
     <string name="activity_number">Liczba czynności</string>
     <string name="add_activity_1">Dodaj aktywność</string>
-    <string name='add_activity'>Dodaj nową aktywność</string>
+    <string name='add_activity'>Dodaj aktywność</string>
     <string name="add_activity_from_pattern">Dodaj aktywności z szablonu planu</string>
     <string name="add_activity_from_plan">Dodaj wybrane z planu</string>
     <string name="add_break_activity">Dodaj aktywność przerwy</string>
@@ -92,4 +92,5 @@
     <string name="activity_save_error">Błąd zapisu aktywnosci.</string>
     <string name="missing_title_field">Nazwa nie została wprowadzona.</string>
     <string name="display_picture_error">Błąd wyswietlania obrazka.</string>
+    <string name="activity_delete_error">Błąd usuwania aktywnosci.</string>
 </resources>

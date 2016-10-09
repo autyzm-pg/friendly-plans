@@ -14,8 +14,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.przyjaznyplanDisplayer.mymodule.appmanager.Aktywnosci.ActivityAssignmentView;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Aktywnosci.ActivityEditView;
-import com.przyjaznyplanDisplayer.mymodule.appmanager.Aktywnosci.ActivityFindView;
+import com.przyjaznyplanDisplayer.mymodule.appmanager.Aktywnosci.ActivityManagementView;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.R;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.RequestCodes;
 
@@ -63,19 +64,19 @@ public class PlanAddActivityView extends Activity {
     }
 
     public void addExistingActivity() {
-        Intent intent = new Intent(this, ActivityFindView.class);
+        Intent intent = new Intent(this, ActivityAssignmentView.class);
         intent.putExtra("REQUESTCODE", RequestCodes.PLAN_ACTIVITY);
         startActivityForResult(intent,RequestCodes.PLAN_ACTIVITY);
     }
 
     public void addBreakActivity() {
-        Intent intent = new Intent(this, ActivityFindView.class);
+        Intent intent = new Intent(this, ActivityAssignmentView.class);
         intent.putExtra("REQUESTCODE", RequestCodes.PLAN_BREAK);
         startActivityForResult(intent,RequestCodes.PLAN_BREAK);
     }
 
     public void addGalleryActivity() {
-        Intent intent = new Intent(this, ActivityFindView.class);
+        Intent intent = new Intent(this, ActivityAssignmentView.class);
         intent.putExtra("REQUESTCODE", RequestCodes.PLAN_GALLERY);
         startActivityForResult(intent,RequestCodes.PLAN_GALLERY);
     }

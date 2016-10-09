@@ -83,6 +83,10 @@ public class ActivitySimpleAdapter extends ArrayAdapter<Activity> {
         }
     }
 
+    public void refreshList(List<Activity> list) {
+        this.objects = list;
+    }
+
     class BitmapWorkerTask extends AsyncTask<Integer, Void, Bitmap> {
         private final WeakReference<ImageView> imageViewReference;
         private String path;
@@ -218,17 +222,23 @@ public class ActivitySimpleAdapter extends ArrayAdapter<Activity> {
         public final ImageView sound;
         public final ImageView activityImage;
         public final ImageView activityTimer;
+        private final ImageView removeButton;
+        private final ImageView editButton;
 
         public ViewHolder(
                 TextView label,
                 ImageView sound,
                 ImageView activityImage,
                 ImageView activityTimer,
-                Activity activity) {
+                Activity activity,
+                ImageView removeButton,
+                ImageView editButton) {
             this.label=label;
             this.sound=sound;
             this.activityImage=activityImage;
             this.activityTimer=activityTimer;
+            this.removeButton = removeButton;
+            this.editButton = editButton;
         }
     }
 
@@ -239,6 +249,8 @@ public class ActivitySimpleAdapter extends ArrayAdapter<Activity> {
         ImageView sound;
         ImageView activityImage;
         ImageView activityTimer;
+        ImageView removeButton;
+        ImageView editButton;
 
         Activity activity = objects.get(position);
 
@@ -248,7 +260,9 @@ public class ActivitySimpleAdapter extends ArrayAdapter<Activity> {
             sound=(ImageView)(v.findViewById(R.id.con3));
             activityImage=(ImageView)(v.findViewById(R.id.con));
             activityTimer=(ImageView)(v.findViewById(R.id.con2));
-            v.setTag(new ViewHolder(label,sound,activityImage,activityTimer, activity));
+            removeButton=(ImageView)(v.findViewById(R.id.removeButton));
+            editButton=(ImageView)(v.findViewById(R.id.editButton));
+            v.setTag(new ViewHolder(label,sound,activityImage,activityTimer, activity, removeButton, editButton));
         }
         else{
             ViewHolder vh=(ViewHolder)v.getTag();
@@ -256,6 +270,8 @@ public class ActivitySimpleAdapter extends ArrayAdapter<Activity> {
             sound= vh.sound;
             activityImage=vh.activityImage;
             activityTimer=vh.activityTimer;
+            removeButton=vh.removeButton;
+            editButton=vh.editButton;
         }
 
         if (activity != null) {
@@ -294,6 +310,14 @@ public class ActivitySimpleAdapter extends ArrayAdapter<Activity> {
                 }else{
                     activityTimer.setVisibility(View.VISIBLE);
                 }
+            }
+
+            if(removeButton!=null){
+                removeButton.setTag(position);
+            }
+
+            if(editButton!=null){
+                editButton.setTag(position);
             }
 
         }

@@ -49,7 +49,7 @@ public class TestUtils {
     public static List<Activity> createActivitiesWithActions(int numberOfActivity, int numberOfAction, String activityTitle, String actionName, String audioPath, String imagePath) {
         List<Activity> activities = new ArrayList<>();
         for(int i = 0 ; i < numberOfActivity; i++){
-            activities.add(createActivityWithActions(numberOfAction, activityTitle, actionName, audioPath, imagePath));
+            activities.add(createActivityWithActions(numberOfAction, activityTitle.concat(String.valueOf(i)), actionName, audioPath, imagePath));
         }
         return activities;
     }

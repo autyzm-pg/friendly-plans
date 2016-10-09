@@ -91,7 +91,7 @@ public class PlanEditView extends Activity  {
         startActivityForResult(intent,RequestCodes.PLAN_ADD_ACTIVITY);
     }
 
-    public void editSlide(View v){
+    public void editAction(View v){
         Intent intent = new Intent(this, ActivityEditView.class);
         int position = Integer.parseInt(v.getTag().toString());
         com.przyjaznyplan.models.Activity aktywnosc = plan.getActivities().get(position);
@@ -103,7 +103,7 @@ public class PlanEditView extends Activity  {
         }
     }
 
-    public void removeSlide(View v){
+    public void removeAction(View v){
         int position = Integer.parseInt(v.getTag().toString());
         com.przyjaznyplan.models.Activity aktywnosc = plan.getActivities().get(position);
         if(aktywnosc.getId().equals(BusinessLogic.SYSTEM_ACTIVITY_GALLERY_ID)){
