@@ -24,7 +24,7 @@ import android.widget.Toast;
 import com.przyjaznyplan.DbHelper.MySQLiteHelper;
 import com.przyjaznyplan.dao.ActivityDao;
 import com.przyjaznyplan.dto.ActivityDto;
-import com.przyjaznyplanDisplayer.mymodule.appmanager.Czynnosci.ActionList;
+import com.przyjaznyplanDisplayer.mymodule.appmanager.Czynnosci.ActionListView;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.R;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.RequestCodes;
 
@@ -146,7 +146,7 @@ public class ActivityEditView extends Activity {
     }
 
     public void activityManageClick(View v){
-        Intent intent = new Intent(this, ActionList.class);
+        Intent intent = new Intent(this, ActionListView.class);
         intent.putExtra("ACTIVITY",this.planActivity);
         startActivityForResult(intent, RequestCodes.ACTIVITY_MANAGEMENT);
     }

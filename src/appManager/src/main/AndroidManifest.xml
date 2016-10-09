@@ -36,7 +36,7 @@
         <activity android:name=".Czynnosci.ActionAddEditView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
         </activity>
 
-        <activity android:name=".Czynnosci.ActionList" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+        <activity android:name=".Czynnosci.ActionListView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
         </activity>
 
         <activity android:name=".Aktywnosci.ActivityFindView" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">

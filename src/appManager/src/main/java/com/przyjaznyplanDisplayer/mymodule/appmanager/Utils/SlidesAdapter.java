@@ -47,6 +47,7 @@ public class SlidesAdapter extends ArrayAdapter<Slide> {
         this.ctx=ctx;
         mInflater = (LayoutInflater)ctx.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
+
         this.objects = objects;
         mViewResourceId = textViewResourceId;
         TypedArray array = ctx.getTheme().obtainStyledAttributes(new int[] {

@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.przyjaznyplan.models.Slide;
+import com.przyjaznyplan.repositories.ActivityRepository;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.R;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.RequestCodes;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.SlidesAdapter;
@@ -23,10 +24,9 @@ import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.SlidesAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionList extends Activity {
+public class ActionListView extends Activity {
     private SlidesAdapter listAdapter ;
     private com.przyjaznyplan.models.Activity activity;
-    private int activityMode;
     private ListView mainListView;
     private MediaPlayer mp;
 
@@ -36,11 +36,8 @@ public class ActionList extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.action_list);
         activity = (com.przyjaznyplan.models.Activity)getIntent().getExtras().get("ACTIVITY");
-        mainListView = (ListView) findViewById(R.id.listView);
-        if(this.activity.getSlides()==null){
-            List<Slide> ls = new ArrayList<Slide>();
-            this.activity.setSlides(ls);
-        }
+        mainListView = (ListView) findViewById(R.id.actionsListView);
+        initList();
     }
 
     @Override
@@ -50,24 +47,29 @@ public class ActionList extends Activity {
     }
 
     public void initList(){
+        if(activity.getSlides() == null)
+            activity.setSlides(new ArrayList<Slide>());
         listAdapter = new SlidesAdapter(this, R.layout.row_list_layout,R.id.label, activity.getSlides());
         mainListView.setAdapter(listAdapter);
     }
 
 
-    public void dodajNowaCzynnoscClick(View v) {
+    public void addNewAction(View v) {
         Intent intent = new Intent(this, ActionAddEditView.class);
         startActivityForResult(intent, RequestCodes.ACTION_ADD_NEW);
     }
 
     public void saveTemplate(View v) {
+        ActivityRepository.updateWithActions(this.activity);
+
         Intent intent = new Intent();
         intent.putExtra("ACTIVITY", this.activity);
         setResult(RequestCodes.ACTIVITY_MANAGEMENT, intent);
+
         super.finish();
     }
 
-    public void editSlide(View v){
+    public void editAction(View v){
         Intent intent = new Intent(this, ActionAddEditView.class);
         int position = Integer.parseInt(v.getTag().toString());
         intent.putExtra("SLIDE",activity.getSlides().get(position));
@@ -75,7 +77,7 @@ public class ActionList extends Activity {
         startActivityForResult(intent,RequestCodes.ACTION_EDIT);
     }
 
-    public void removeSlide(View v){
+    public void removeAction(View v){
         int position = Integer.parseInt(v.getTag().toString());
         listAdapter.remove(position);
     }

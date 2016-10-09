@@ -1,10 +1,14 @@
 package com.przyjaznyplanDisplayer.mymodule.appmanager;
 
+import com.przyjaznyplan.models.Activity;
+import com.przyjaznyplan.models.Slide;
 import com.przyjaznyplan.models.TypyWidokuAktywnosci;
 import com.przyjaznyplan.models.TypyWidokuCzynnosci;
 import com.przyjaznyplan.models.TypyWidokuPlanuAktywnosci;
 import com.przyjaznyplan.models.User;
 import com.przyjaznyplan.models.UserPreferences;
+import com.przyjaznyplan.repositories.ActionRepository;
+import com.przyjaznyplan.repositories.ActivityRepository;
 import com.przyjaznyplan.repositories.UserRepository;
 
 import java.util.ArrayList;
@@ -29,7 +33,7 @@ public class TestUtils {
         return users;
     }
 
-    public static UserPreferences createUserPerferences(String timeoutPath, TypyWidokuAktywnosci typyWidokuAktywnosci,
+    public static UserPreferences createUserPreferences(String timeoutPath, TypyWidokuAktywnosci typyWidokuAktywnosci,
                                                         TypyWidokuCzynnosci typyWidokuCzynnosci, TypyWidokuPlanuAktywnosci typyWidokuPlanuAktywnosci){
 
         UserPreferences preferences = new UserPreferences();
@@ -42,5 +46,36 @@ public class TestUtils {
         return preferences;
     }
 
+    public static List<Activity> createActivitiesWithActions(int numberOfActivity, int numberOfAction, String activityTitle, String actionName, String audioPath, String imagePath) {
+        List<Activity> activities = new ArrayList<>();
+        for(int i = 0 ; i < numberOfActivity; i++){
+            activities.add(createActivityWithActions(numberOfAction, activityTitle, actionName, audioPath, imagePath));
+        }
+        return activities;
+    }
+
+    public static Activity createActivityWithActions(int numberOfAction, String activityTitle, String actionName, String audioPath, String imagePath){
+
+        Activity activity = new Activity();
+        activity.setTitle(activityTitle);
+        List<Slide> actions = new ArrayList<>();
+        for(int i = 0; i< numberOfAction; i++){
+            actions.add(createAction(i, actionName.concat(String.valueOf(i)), audioPath, imagePath));
+        }
+        activity.setSlides(actions);
+        ActivityRepository.insertWithActions(activity);
+
+        return activity;
+    }
+
+    private static Slide createAction(int position, String actionText, String audioPath, String imagePath) {
+        Slide action = new Slide();
+        action.setText(actionText);
+        action.setAudioPath(audioPath);
+        action.setImagePath(imagePath);
+        action.setPosition(position);
+        action.setStatus(0);
+        return action;
+    }
 }
 

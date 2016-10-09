@@ -45,7 +45,7 @@ public class UserListViewTest {
     public void setUp() throws Exception {
         DatabaseUtils.rebuildDatabaseWithInitData();
         expectedUsers = TestUtils.createUsers(3, "NAME", "SURNAME",
-                TestUtils.createUserPerferences("empty", TypyWidokuAktywnosci.small, TypyWidokuCzynnosci.basic, TypyWidokuPlanuAktywnosci.list));
+                TestUtils.createUserPreferences("empty", TypyWidokuAktywnosci.small, TypyWidokuCzynnosci.basic, TypyWidokuPlanuAktywnosci.list));
         expectedUser = expectedUsers.get(0);
     }
 
