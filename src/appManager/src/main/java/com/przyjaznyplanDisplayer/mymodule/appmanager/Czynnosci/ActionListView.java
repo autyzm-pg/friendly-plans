@@ -70,11 +70,11 @@ public class ActionListView extends Activity {
     }
 
     public void editAction(View v){
-        Intent intent = new Intent(this, ActionAddEditView.class);
         int position = Integer.parseInt(v.getTag().toString());
-        intent.putExtra("SLIDE",activity.getSlides().get(position));
-        intent.putExtra("POSITION",position);
-        startActivityForResult(intent,RequestCodes.ACTION_EDIT);
+        Intent intent = new Intent(this, ActionAddEditView.class);
+        intent.putExtra("SLIDE", activity.getSlides().get(position));
+        intent.putExtra("POSITION", position);
+        startActivityForResult(intent, RequestCodes.ACTION_EDIT);
     }
 
     public void removeAction(View v){

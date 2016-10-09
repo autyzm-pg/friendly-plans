@@ -238,6 +238,7 @@ public class SlidesAdapter extends ArrayAdapter<Slide> {
         public final ImageView przesynwgore;
         public final ImageView przesunwdol;
         public final ImageView usun;
+        private final ImageView edytuj;
 
         public ViewHolder(
                 TextView label,
@@ -248,7 +249,8 @@ public class SlidesAdapter extends ArrayAdapter<Slide> {
                 Button b1,
                 ImageView przesynwgore,
                 ImageView przesunwdol,
-                ImageView usun) {
+                ImageView usun,
+                ImageView edytuj) {
             this.label=label;
             this.sound=sound;
             this.activityImage=activityImage;
@@ -257,7 +259,7 @@ public class SlidesAdapter extends ArrayAdapter<Slide> {
             this.przesynwgore = przesynwgore;
             this.przesunwdol = przesunwdol;
             this.usun = usun;
-
+            this.edytuj = edytuj;
         }
     }
 
@@ -272,6 +274,7 @@ public class SlidesAdapter extends ArrayAdapter<Slide> {
         ImageView przesynwgore;
         ImageView przesunwdol;
         ImageView usun;
+        ImageView edytuj;
 
         Slide activity = objects.get(position);
 
@@ -285,7 +288,8 @@ public class SlidesAdapter extends ArrayAdapter<Slide> {
             przesynwgore = (ImageView)(v.findViewById(R.id.przesunwgore));
             przesunwdol = (ImageView)(v.findViewById(R.id.przesunwdol));
             usun = (ImageView)(v.findViewById(R.id.usun));
-            v.setTag(new ViewHolder(label,sound,activityImage,activityTimer, activity,b1,przesynwgore,przesunwdol,usun));
+            edytuj = (ImageView)(v.findViewById(R.id.edytuj));
+            v.setTag(new ViewHolder(label,sound,activityImage,activityTimer, activity,b1,przesynwgore,przesunwdol,usun, edytuj));
         }
         else{
             ViewHolder vh=(ViewHolder)v.getTag();
@@ -297,6 +301,7 @@ public class SlidesAdapter extends ArrayAdapter<Slide> {
             przesynwgore = vh.przesynwgore;
             przesunwdol = vh.przesunwdol;
             usun = vh.usun;
+            edytuj = vh.edytuj;
         }
 
         if (activity != null) {
@@ -364,6 +369,10 @@ public class SlidesAdapter extends ArrayAdapter<Slide> {
 
             if(usun!=null){
                 usun.setTag(position);
+            }
+
+            if(edytuj!=null){
+                edytuj.setTag(position);
             }
 
         }

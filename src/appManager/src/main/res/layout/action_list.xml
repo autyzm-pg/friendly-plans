@@ -16,35 +16,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/action_in_activity"
-            android:textSize="20sp"
-            android:id="@+id/textView"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentLeft="true"
-            android:background="#1e1e1e"
-            android:gravity="center_vertical" />
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
-            android:id="@+id/actionsListView"
-            android:layout_below="@+id/textView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:contextClickable="false"
-            android:divider="#b5b5b5"
-            android:dividerHeight="1dp" />
+
         <TableLayout
 
 
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:stretchColumns="*">
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"
+
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -70,6 +52,26 @@
 
         </TableLayout>
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/action_in_activity"
+            android:textSize="20sp"
+            android:id="@+id/textView"
+            android:background="#1e1e1e"
+            android:gravity="center_vertical" />
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:id="@+id/actionsListView"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:contextClickable="false"
+            android:divider="#b5b5b5"
+            android:dividerHeight="1dp" />
 
     </LinearLayout>
 </RelativeLayout>

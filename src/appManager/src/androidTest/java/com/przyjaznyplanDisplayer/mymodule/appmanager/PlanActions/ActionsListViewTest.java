@@ -52,9 +52,7 @@ public class ActionsListViewTest {
 
     @Test
     public void showPlanActionListTest(){
-        Intent intent = new Intent();
-        intent.putExtra("ACTIVITY", activity);
-        activityRule.launchActivity(intent);
+        runActivity();
 
         ListView listView = (ListView) activityRule.getActivity().findViewById(R.id.actionsListView);
 
@@ -65,9 +63,7 @@ public class ActionsListViewTest {
 
     @Test
     public void deleteActionTest(){
-        Intent intent = new Intent();
-        intent.putExtra("ACTIVITY", activity);
-        activityRule.launchActivity(intent);
+        runActivity();
 
         onView(allOf(withId(R.id.usun), hasSibling(withText("ACTION0")))).perform(click());
         onView(withId(R.id.button3)).perform(click());
@@ -79,9 +75,7 @@ public class ActionsListViewTest {
 
     @Test
     public void changeOrderTest(){
-        Intent intent = new Intent();
-        intent.putExtra("ACTIVITY", activity);
-        activityRule.launchActivity(intent);
+        runActivity();
 
         onView(allOf(withId(R.id.przesunwdol), hasSibling(withText("ACTION0")))).perform(click());
         onView(withId(R.id.button3)).perform(click());
@@ -98,17 +92,27 @@ public class ActionsListViewTest {
 
     @Test
     public void showEmptyActionList(){
-
-        Intent intent = new Intent();
         activity.setSlides(null);
-        intent.putExtra("ACTIVITY", activity);
-        activityRule.launchActivity(intent);
+        runActivity();
 
         ListView listView = (ListView) activityRule.getActivity().findViewById(R.id.actionsListView);
 
         SlidesAdapter slidesAdapter = (SlidesAdapter) listView.getAdapter();
         assertEquals("List should be empty",0,slidesAdapter.getCount());
 
+    }
+
+    @Test
+    public void editActionButtonTest(){
+        runActivity();
+
+        onView(allOf(withId(R.id.edytuj), hasSibling(withText("ACTION0")))).perform(click());
+    }
+
+    private void runActivity() {
+        Intent intent = new Intent();
+        intent.putExtra("ACTIVITY", activity);
+        activityRule.launchActivity(intent);
     }
 
     @After
