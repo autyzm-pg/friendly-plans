@@ -62,4 +62,6 @@ public class ActivityRepository {
     public static Activity getActivityById(String id) {
         return activityDao.getActivityById(id);
     }
+
+    public static List<Activity> getActivityByTitle(String title){ return activityDao.getActivitiesByTitle(title); }
 }

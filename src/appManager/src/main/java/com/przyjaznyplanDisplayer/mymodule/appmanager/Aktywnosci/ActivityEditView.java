@@ -15,29 +15,27 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.przyjaznyplan.DbHelper.MySQLiteHelper;
-import com.przyjaznyplan.dao.ActivityDao;
-import com.przyjaznyplan.dto.ActivityDto;
 import com.przyjaznyplan.repositories.ActivityRepository;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Czynnosci.ActionListView;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.R;
 import com.przyjaznyplanDisplayer.mymodule.appmanager.Utils.RequestCodes;
 
 import java.util.ArrayList;
+import java.util.MissingResourceException;
 
 import br.com.thinkti.android.filechooser.FileChooser;
 
 public class ActivityEditView extends Activity {
-    private String pathToPicture;
+    public static final String EMPTY_VALUE = "";
     private com.przyjaznyplan.models.Activity planActivity;
     private MediaPlayer mp;
-    private ActivityDao activityDao;
     private int mode = 0;
 
     @Override
@@ -47,32 +45,37 @@ public class ActivityEditView extends Activity {
         if(getIntent().getExtras()!=null && getIntent().getExtras().get("ACTIVITY")!=null){
             mode = RequestCodes.ACTIVITY_EDITED;
             this.planActivity = (com.przyjaznyplan.models.Activity)getIntent().getExtras().get("ACTIVITY");
-            if(this.planActivity.getIconPath()!=null && !this.planActivity.getIconPath().equals("")){
-                setBMP(this.planActivity.getIconPath());
-            }
-            if(planActivity.getAudioPath()!=null && !planActivity.getAudioPath().equals("")){
-                ImageView removeSoundIcon = (ImageView) (findViewById(R.id.imageView3));
-                removeSoundIcon.setVisibility(View.VISIBLE);
-            }
-            EditText etName = (EditText) findViewById(R.id.editText);
-            etName.setText(this.planActivity.getTitle());
-            EditText etTime = (EditText) findViewById(R.id.editText2);
-            etTime.setText(String.valueOf(this.planActivity.getTime()));
-            TextView tv = (TextView) findViewById(R.id.textView5);
-            if(this.planActivity.getSlides()==null){
-                tv.setText("0");
-            } else {
-                tv.setText(this.planActivity.getSlides().size() + "");
-            }
+            initView();
         }
         else {
             mode = RequestCodes.ACTIVITY_ADDED;
             this.planActivity = new com.przyjaznyplan.models.Activity();
         }
-        try {
-            activityDao = new ActivityDao(MySQLiteHelper.getDb());
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+    }
+
+    private void initView() {
+        initPicture();
+
+        initSounds();
+
+        EditText activityTitle = (EditText) findViewById(R.id.activityTitle);
+        activityTitle.setText(this.planActivity.getTitle());
+
+        EditText timerTime = (EditText) findViewById(R.id.timerTime);
+        timerTime.setText(String.valueOf(this.planActivity.getTime()));
+
+        TextView actions = (TextView) findViewById(R.id.activityNumber);
+        if(this.planActivity.getSlides()==null){
+            actions.setText("0");
+        } else {
+            actions.setText(this.planActivity.getSlides().size() + "");
+        }
+    }
+
+    private void initSounds() {
+        if(planActivity.getAudioPath()!=null && !planActivity.getAudioPath().equals("")){
+            setVisibilityOfElementTo(R.id.removeSoundIcon, View.VISIBLE);
+            setVisibilityOfElementTo(R.id.playSoundIcon, View.VISIBLE);
         }
     }
 
@@ -81,19 +84,37 @@ public class ActivityEditView extends Activity {
         super.onResume();
     }
 
-    public void setBMP(String pathToPicture){
+
+    private void initPicture(){
+        if(this.planActivity.getIconPath()!=null && !this.planActivity.getIconPath().equals("")){
+            initPicture(this.planActivity.getIconPath());
+        }
+    }
+
+    public void initPicture(String pathToPicture){
         try {
             Bitmap bmp = BitmapFactory.decodeFile(pathToPicture);
             Bitmap scaledBmp = Bitmap.createScaledBitmap(bmp, 100, 100, false);
-            ImageView activityImage = (ImageView) (findViewById(R.id.imageView));
-            activityImage.setImageBitmap(scaledBmp);
+
+            setImageVisibility(scaledBmp);
             planActivity.setIconPath(pathToPicture);
-            ImageView usunObrazIcon = (ImageView) (findViewById(R.id.imageView4));
-            usunObrazIcon.setVisibility(View.VISIBLE);
+            setVisibilityOfElementTo(R.id.removePictureIcon, View.VISIBLE);
         }catch (Exception e){
             pathToPicture = "";
             planActivity.setIconPath(pathToPicture);
+            Toast.makeText(this, R.string.display_picture_error, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void setImageVisibility(Bitmap scaledBmp) {
+        ImageView activityImage = (ImageView) (findViewById(R.id.picture));
+        activityImage.setImageBitmap(scaledBmp);
+        activityImage.setVisibility(View.VISIBLE);
+    }
+
+    private void setVisibilityOfElementTo(int elementId, int visibleOption) {
+        ImageView element = (ImageView) (findViewById(elementId));
+        element.setVisibility(visibleOption);
     }
 
     public void setPicture(View v){
@@ -115,18 +136,17 @@ public class ActivityEditView extends Activity {
         intent.putExtra("fileStartPath", Environment.getExternalStorageDirectory());
         startActivityForResult(intent, RequestCodes.FILE_CHOOSER_SOUND);
     }
+
     public void removePicture(View v) {
         planActivity.setIconPath(null);
-        ImageView activityImage = (ImageView) (findViewById(R.id.imageView));
+        ImageView activityImage = (ImageView) (findViewById(R.id.picture));
         activityImage.setImageResource(R.drawable.t1);
-        ImageView usunObrazIcon = (ImageView) (findViewById(R.id.imageView4));
-        usunObrazIcon.setVisibility(View.INVISIBLE);
+        setVisibilityOfElementTo(R.id.removePictureIcon, View.INVISIBLE);
     }
 
     public void removeSound(View v){
         planActivity.setAudioPath(null);
-        ImageView usunDzwiekIcon = (ImageView) (findViewById(R.id.imageView3));
-        usunDzwiekIcon.setVisibility(View.INVISIBLE);
+        setVisibilityOfElementTo(R.id.removeSoundIcon, View.INVISIBLE);
     }
 
     public void playSound(View v){
@@ -141,7 +161,7 @@ public class ActivityEditView extends Activity {
                     }
                 }
             }catch(Exception e){
-
+                Toast.makeText(this, R.string.play_timer_error, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -160,10 +180,13 @@ public class ActivityEditView extends Activity {
 
     public void saveActivity(){
 
-        EditText etName = (EditText) findViewById(R.id.editText);
-        this.planActivity.setTitle(etName.getText().toString());
+        EditText activityTitleEditText = (EditText) findViewById(R.id.activityTitle);
+        String activityTitle = activityTitleEditText.getText().toString();
+        if(activityTitle.equals(EMPTY_VALUE))
+            throw new RuntimeException();
+        this.planActivity.setTitle(activityTitle);
 
-        EditText etTime = (EditText) findViewById(R.id.editText2);
+        EditText etTime = (EditText) findViewById(R.id.timerTime);
         String time = etTime.getText().toString();
         if(time.equals(""))
             time = "0";
@@ -191,7 +214,10 @@ public class ActivityEditView extends Activity {
             setResult(mode , intent);
             super.finish();
             super.finish();
-        } catch(Exception e){
+        }catch(RuntimeException e){
+            Toast.makeText(this, R.string.missing_title_field, Toast.LENGTH_SHORT).show();
+
+        }catch(Exception e){
             Toast.makeText(this, R.string.activity_save_error, Toast.LENGTH_SHORT).show();
         }
     }
@@ -205,12 +231,7 @@ public class ActivityEditView extends Activity {
         else if(requestCode == RequestCodes.FILE_CHOOSER_PIC && resultCode == -1){
             String fileSelected = data.getStringExtra("fileSelected");
             if(!("".equals(fileSelected))){
-                try {
-                    pathToPicture=fileSelected;
-                    setBMP(pathToPicture);
-                }catch (Exception e){
-
-                }
+                 initPicture(fileSelected);
             }
             Toast.makeText(this, fileSelected, Toast.LENGTH_SHORT).show();
         }
@@ -219,8 +240,7 @@ public class ActivityEditView extends Activity {
             if(!("".equals(fileSelected))){
                 try {
                     planActivity.setAudioPath(fileSelected.toString());
-                    ImageView usunDzwiekIcon = (ImageView) (findViewById(R.id.imageView3));
-                    usunDzwiekIcon.setVisibility(View.VISIBLE);
+                    initSounds();
                 }catch (Exception e){
 
                 }
@@ -235,8 +255,13 @@ public class ActivityEditView extends Activity {
 
     private void refreshView(String id) {
         this.planActivity = ActivityRepository.getActivityById(id);
-        TextView tv = (TextView) findViewById(R.id.textView5);
-        tv.setText(this.planActivity.getSlides().size() + "");
+        initActions();
+        initPicture();
+    }
+
+    private void initActions() {
+        TextView actions = (TextView) findViewById(R.id.activityNumber);
+        actions.setText(this.planActivity.getSlides().size() + "");
     }
 
 }
