@@ -5,4 +5,4 @@
  * Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-include ':app', ':app2', ':appManager', ':FileChooser'
+include ':PlansRunner', ':Core', ':PlansManager', ':FileChooser'

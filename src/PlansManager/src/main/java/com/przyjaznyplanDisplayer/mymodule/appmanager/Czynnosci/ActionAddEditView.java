@@ -54,7 +54,7 @@ public class ActionAddEditView extends Activity {
             this.activity = (com.przyjaznyplan.models.Activity)getIntent().getExtras().get("ACTIVITY");
         }
 
-        if(getIntent().getExtras().get("SLIDE")!=null){
+        if (getIntent().getExtras().get("SLIDE")!=null){
             viewType = ViewType.EDIT;
             this.slide=(Slide)getIntent().getExtras().get("SLIDE");
             initEditView();
@@ -79,15 +79,17 @@ public class ActionAddEditView extends Activity {
     }
 
     private void initSounds() {
-        if(slide.getAudioPath()!=null && !slide.getAudioPath().equals("")) {
-
-            ImageView playSoundIcon = (ImageView) (findViewById(R.id.playSound));
-            playSoundIcon.setVisibility(View.VISIBLE);
-            ImageView deleteSoundIcon = (ImageView) (findViewById(R.id.deleteSound));
-            deleteSoundIcon.setVisibility(View.VISIBLE);
-            TextView soundPath = (TextView) findViewById(R.id.soundPath);
-            soundPath.setText(this.slide.getAudioPath());
+        if (slide.getAudioPath() == null || slide.getAudioPath().equals("")) {
+            //...
+            return;
         }
+
+        ImageView playSoundIcon = (ImageView) (findViewById(R.id.playSound));
+        playSoundIcon.setVisibility(View.VISIBLE);
+        ImageView deleteSoundIcon = (ImageView) (findViewById(R.id.deleteSound));
+        deleteSoundIcon.setVisibility(View.VISIBLE);
+        TextView soundPath = (TextView) findViewById(R.id.soundPath);
+        soundPath.setText(this.slide.getAudioPath());
     }
 
     public void setBMP(String pathToPicture){
@@ -99,7 +101,7 @@ public class ActionAddEditView extends Activity {
             slide.setImagePath(pathToPicture);
             ImageView deletePictureIcon = (ImageView) (findViewById(R.id.deletePictureIcon));
             deletePictureIcon.setVisibility(View.VISIBLE);
-        }catch (Exception e){
+        } catch (Exception e){
 
         }
     }

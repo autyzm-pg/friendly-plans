@@ -5,15 +5,11 @@
   ~ Copy of GNU General Public License is available at http://www.gnu.org/licenses/gpl-3.0.html
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.przyjaznyplanDisplayer">
+          package="com.przyjaznyplanDisplayer">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
-    <application android:allowBackup="true"
-        android:label="@string/app_name"
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
->
-
-    </application>
-
+    <!-- No need to use strings.xml as this is just a library. Actual strings
+         to be localized are in PlanManager/PlanRunner. -->
 </manifest>

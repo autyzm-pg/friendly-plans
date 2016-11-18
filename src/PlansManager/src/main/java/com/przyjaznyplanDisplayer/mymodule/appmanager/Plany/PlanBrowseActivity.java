@@ -65,13 +65,13 @@ public class PlanBrowseActivity extends Activity implements AdapterView.OnItemCl
         initList();
     }
 
-    public void initList(){
+    public void initList() {
         listAdapter = new ActivityAdapter(this, R.layout.row_list_layout,R.id.label, aList);
         mainListView.setAdapter(listAdapter);
         mainListView.setOnItemClickListener(this);
     }
 
-    public void editSlide(View v){
+    public void editAction(View v) {
         Intent intent = new Intent(this, ActivityEditView.class);
         int position = Integer.parseInt(v.getTag().toString());
         editedPosition = position;
@@ -80,7 +80,7 @@ public class PlanBrowseActivity extends Activity implements AdapterView.OnItemCl
         startActivityForResult(intent,RequestCodes.ACTIVITY_EDITED);
     }
 
-    public void removeSlide(View v){
+    public void removeAction(View v) {
         int position = Integer.parseInt(v.getTag().toString());
         com.przyjaznyplan.models.Activity aktywnosc = aList.get(position);
         boolean option = aktywnosc.getStatus()!=null && aktywnosc.getStatus().equals(com.przyjaznyplan.models.Activity.ActivityStatus.FINISHED.toString());
@@ -102,7 +102,7 @@ public class PlanBrowseActivity extends Activity implements AdapterView.OnItemCl
         listAdapter.remove(position);
     }
 
-    public void playSound(View v){
+    public void playSound(View v) {
         String audioPath=(String)v.getTag();
         if(audioPath!=null && !audioPath.equals("")){
             try {
@@ -119,8 +119,9 @@ public class PlanBrowseActivity extends Activity implements AdapterView.OnItemCl
             }
         }
     }
+
     @Override
-    public void finish(){
+    public void finish() {
         if(mode == RequestCodes.BREAK_BROWSE){
            plan.setActivitiesBreak(this.aList);
         } else {
@@ -132,8 +133,7 @@ public class PlanBrowseActivity extends Activity implements AdapterView.OnItemCl
         super.finish();
     }
 
-
-    private void refreshAllTheSameActivities(com.przyjaznyplan.models.Activity editedActivity){
+    private void refreshAllTheSameActivities(com.przyjaznyplan.models.Activity editedActivity) {
         for(int i = 0;i<this.plan.getActivities().size();i++){
             if(this.plan.getActivities().get(i).getId().equals(editedActivity.getId())){
                 this.plan.getActivities().set(i,editedActivity);
@@ -166,9 +166,8 @@ public class PlanBrowseActivity extends Activity implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if(changeStatusEnabled ==null || changeStatusEnabled == false){
-            return;
-        }
+        if (changeStatusEnabled == null || !changeStatusEnabled) return;
+
         com.przyjaznyplan.models.Activity aktywnosc = (com.przyjaznyplan.models.Activity) mainListView.getAdapter().getItem(i);
         if(aktywnosc.getStatus()!=null && aktywnosc.getStatus().equals(com.przyjaznyplan.models.Activity.ActivityStatus.FINISHED.toString())) {
             aktywnosc.setStatus(com.przyjaznyplan.models.Activity.ActivityStatus.NEW.toString());
