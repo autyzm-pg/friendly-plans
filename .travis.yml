@@ -28,5 +28,6 @@ android:
     - sys-img-armeabi-v7a-android-$ANDROID_API_LEVEL
 
 before_script:
+  - cd Friendly-plans
   - echo no | android create avd --force -n test -t android-$ANDROID_API_LEVEL --abi $ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window &
