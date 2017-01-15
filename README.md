@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/autyzm-pg/friendly-plans.svg?branch=master)
+![Build Status](https://travis-ci.org/autyzm-pg/friendly-plans.svg?branch=master)
 
 #Friendly Plans
 ##About
