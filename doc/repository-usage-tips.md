@@ -1,15 +1,15 @@
 # Repository usage tips:
 
 ## Branches
-Branches naming convention: <issue number>-kebab-case-issue-description
+Branches naming convention: {issue number}-kebab-case-issue-description
 Example: 54-travis-integration
 
 ## Commits
-Commit message convention: <issue number>: <what was done in the commit>
+Commit message convention: {issue number}: {what was done in the commit}
 Example: 54: Change android sdk version
 
 ## Pull requests
-Pull request naming convention: <issue number>: <issue description>
+Pull request naming convention: {issue number}: {issue description}
 
 - Every pull request should contain description what was changed and how it affects the project. Some examples would be nice if code behaviour is not clear.
 - Code changes should be as small as possible and should address issue reported in backlog.
@@ -20,7 +20,7 @@ Pull request naming convention: <issue number>: <issue description>
 If you would like to create pull request for nonexistent issue, please create it before. One of main contributors will add label and milestone for it or it will be discussed to clarify.
 
 ## Issues
-Issue naming convention: <Shortcut of what is the point of issue>
+Issue naming convention: {Shortcut of what is the point of issue}
 
 - Issue description should contain what is the main point of issue and required scenarios to cover.
 - Every issue should have list of cases that should be tested during testing process. All of them should be covered in code.
