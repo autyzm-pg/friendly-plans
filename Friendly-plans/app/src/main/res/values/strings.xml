@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Friendly-plans</string>
+    <string name="title_app_name">Friendly-plans</string>
     <string name="main_create_task">Create Task</string>
     <string name="main_list_of_plans_edit_plan">List of Plans / Edit Plan</string>
     <string name="main_list_of_tasks_edit_task">List of Tasks / Edit Task</string>
