@@ -35,9 +35,6 @@ public class ChildPlan {
     @ToMany(referencedJoinProperty = "childPlanId")
     private List<PlanTask> planTasks;
 
-    @ToMany(referencedJoinProperty = "childPlanId")
-    private List<PlanBreak> planBreaks;
-
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -190,35 +187,6 @@ public class ChildPlan {
     @Generated(hash = 1766030107)
     public synchronized void resetPlanTasks() {
         planTasks = null;
-    }
-
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 635542413)
-    public List<PlanBreak> getPlanBreaks() {
-        if (planBreaks == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            PlanBreakDao targetDao = daoSession.getPlanBreakDao();
-            List<PlanBreak> planBreaksNew = targetDao
-                    ._queryChildPlan_PlanBreaks(id);
-            synchronized (this) {
-                if (planBreaks == null) {
-                    planBreaks = planBreaksNew;
-                }
-            }
-        }
-        return planBreaks;
-    }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 1426024251)
-    public synchronized void resetPlanBreaks() {
-        planBreaks = null;
     }
 
     /**

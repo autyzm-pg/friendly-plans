@@ -18,6 +18,8 @@ public class PlanTaskTemplate {
 
     private int order;
 
+    private boolean isBreak;
+
     @ToOne(joinProperty = "planTemplateId")
     private PlanTemplate planTemplate;
 
@@ -36,11 +38,11 @@ public class PlanTaskTemplate {
     @Generated(hash = 1859491700)
     private transient PlanTaskTemplateDao myDao;
 
-    @Generated(hash = 578832311)
-    public PlanTaskTemplate(long id, int order, long planTemplateId,
-            long taskTemplateId) {
+    @Generated(hash = 1317694570)
+    public PlanTaskTemplate(long id, int order, boolean isBreak, long planTemplateId, long taskTemplateId) {
         this.id = id;
         this.order = order;
+        this.isBreak = isBreak;
         this.planTemplateId = planTemplateId;
         this.taskTemplateId = taskTemplateId;
     }
@@ -189,6 +191,14 @@ public class PlanTaskTemplate {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.update(this);
+    }
+
+    public boolean getIsBreak() {
+        return this.isBreak;
+    }
+
+    public void setIsBreak(boolean isBreak) {
+        this.isBreak = isBreak;
     }
 
     /** called by internal mechanisms, do not call yourself. */

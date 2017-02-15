@@ -33,9 +33,6 @@ public class StepTemplate {
     private long taskTemplateId;
 
     @ToMany(referencedJoinProperty = "stepTemplateId")
-    private List<PlanBreakStep> planBreakSteps;
-
-    @ToMany(referencedJoinProperty = "stepTemplateId")
     private List<PlanTaskStep> planTaskSteps;
 
     /** Used to resolve relations */
@@ -144,35 +141,6 @@ public class StepTemplate {
             taskTemplateId = taskTemplate.getId();
             taskTemplate__resolvedKey = taskTemplateId;
         }
-    }
-
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 48352881)
-    public List<PlanBreakStep> getPlanBreakSteps() {
-        if (planBreakSteps == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            PlanBreakStepDao targetDao = daoSession.getPlanBreakStepDao();
-            List<PlanBreakStep> planBreakStepsNew = targetDao
-                    ._queryStepTemplate_PlanBreakSteps(id);
-            synchronized (this) {
-                if (planBreakSteps == null) {
-                    planBreakSteps = planBreakStepsNew;
-                }
-            }
-        }
-        return planBreakSteps;
-    }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 922214843)
-    public synchronized void resetPlanBreakSteps() {
-        planBreakSteps = null;
     }
 
     /**

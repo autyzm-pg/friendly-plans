@@ -25,9 +25,6 @@ public class PlanTemplate {
     @ToMany(referencedJoinProperty = "planTemplateId")
     private List<PlanTaskTemplate> planTaskTemplates;
 
-    @ToMany(referencedJoinProperty = "planTemplateId")
-    private List<PlanBreakTemplate> planBreakTemplates;
-
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -118,35 +115,6 @@ public class PlanTemplate {
     @Generated(hash = 204970657)
     public synchronized void resetPlanTaskTemplates() {
         planTaskTemplates = null;
-    }
-
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 339961394)
-    public List<PlanBreakTemplate> getPlanBreakTemplates() {
-        if (planBreakTemplates == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            PlanBreakTemplateDao targetDao = daoSession.getPlanBreakTemplateDao();
-            List<PlanBreakTemplate> planBreakTemplatesNew = targetDao
-                    ._queryPlanTemplate_PlanBreakTemplates(id);
-            synchronized (this) {
-                if (planBreakTemplates == null) {
-                    planBreakTemplates = planBreakTemplatesNew;
-                }
-            }
-        }
-        return planBreakTemplates;
-    }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 909771632)
-    public synchronized void resetPlanBreakTemplates() {
-        planBreakTemplates = null;
     }
 
     /**
