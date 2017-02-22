@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:screenOrientation="landscape">
+
+    <fragment
+        android:id="@+id/task_menu"
+        android:name="pg.autyzm.friendly_plans.TaskMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+
+    <fragment
+        android:id="@+id/task_container"
+        android:name="pg.autyzm.friendly_plans.TaskContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
