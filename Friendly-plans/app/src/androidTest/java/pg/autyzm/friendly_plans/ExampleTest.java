@@ -19,6 +19,6 @@ public class ExampleTest {
 
     @Test
     public void exampleTest() {
-        onView(withId(R.id.hello_world)).check(matches(withText("Hello World!")));
+
     }
 }
