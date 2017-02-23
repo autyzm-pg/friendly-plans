@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <!--sound icon-->
+    <ImageView
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        app:srcCompat="@drawable/placeholder" />
+
+    <!--task image-->
+    <ImageView
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        app:srcCompat="@drawable/placeholder" />
+
+    <!--task name-->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:text="Task name" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <!--task duration icon-->
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:srcCompat="@drawable/placeholder" />
+
+        <!--duration time-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:text="5s" />
+    </LinearLayout>
+
+
+</LinearLayout>
