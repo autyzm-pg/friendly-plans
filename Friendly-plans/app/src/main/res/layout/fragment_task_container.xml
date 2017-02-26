@@ -3,11 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:columnCount="5"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="5dp">
 
     <TextView
         android:id="@+id/id_task_create_description"
         android:layout_columnSpan="5"
+        android:background="#cccccc"
         android:text="@string/task_create_description"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
