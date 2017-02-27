@@ -10,13 +10,13 @@
     <ImageView
         android:layout_width="96dp"
         android:layout_height="96dp"
-        app:srcCompat="@drawable/placeholder" />
+        app:srcCompat="@drawable/ic_placeholder" />
 
     <!--task image-->
     <ImageView
         android:layout_width="96dp"
         android:layout_height="96dp"
-        app:srcCompat="@drawable/placeholder" />
+        app:srcCompat="@drawable/ic_placeholder" />
 
     <!--task name-->
     <TextView
@@ -24,8 +24,8 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:textSize="24sp"
-        android:text="Task name" />
+        android:text="Task name"
+        android:textSize="24sp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -37,15 +37,15 @@
         <ImageView
             android:layout_width="48dp"
             android:layout_height="48dp"
-            app:srcCompat="@drawable/placeholder" />
+            app:srcCompat="@drawable/ic_placeholder" />
 
         <!--duration time-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:textSize="16sp"
-            android:text="5s" />
+            android:text="5s"
+            android:textSize="16sp" />
     </LinearLayout>
 
 
