@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/id_task_create_description"
         android:layout_columnSpan="5"
         android:text="@string/task_create_description"
         android:textAppearance="?android:attr/textAppearanceLarge" />
