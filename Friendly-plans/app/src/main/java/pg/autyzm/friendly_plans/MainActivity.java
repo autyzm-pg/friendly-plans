@@ -9,8 +9,6 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String TAG = "MainActivity.java";
-
     private EditText taskName;
     private EditText taskPicture;
     private EditText taskSound;
@@ -33,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // temporary solution
-                taskName.getText().toString();
                 Log.i("taskName :", "{" + taskName.getText().toString() + "}");
                 Log.i("taskPicture :", "{" + taskPicture.getText().toString() + "}");
                 Log.i("taskSound :", "{" + taskSound.getText().toString() + "}");
