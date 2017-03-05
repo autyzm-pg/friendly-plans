@@ -14,6 +14,7 @@ public class ExampleTest {
 
     @Test
     public void exampleTest() {
-
+        onView(withId(R.id.id_task_create_description))
+                .check(matches(withText(R.string.task_create_description)));
     }
 }
