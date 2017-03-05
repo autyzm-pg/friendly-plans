@@ -1,5 +1,16 @@
 <resources>
     <string name="title_app_name">Friendly-plans</string>
+    <string name="basic_info">Basic information</string>
+    <string name="steps">Steps</string>
+    <string name="save">Save</string>
+    <string name="task_create_description">Step 1: Enter task\'s name, duration time, select picture and sound</string>
+    <string name="task_name">Task name:</string>
+    <string name="task_picture">Picture:</string>
+    <string name="select_picture">Select picture</string>
+    <string name="select_sound">Select sound</string>
+    <string name="listen_sound">Listen</string>
+    <string name="duration_time">Duration time:</string>
+    <string name="next">Next</string>
     <string name="main_create_task">Create Task</string>
     <string name="main_list_of_plans_edit_plan">List of Plans / Edit Plan</string>
     <string name="main_list_of_tasks_edit_task">List of Tasks / Edit Task</string>
