@@ -7,9 +7,6 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.NotNull;
 
-/**
- * Created by agoncharenko on 1/25/2017.
- */
 @Entity
 public class PlanTaskStep {
 
@@ -28,11 +25,15 @@ public class PlanTaskStep {
 
     private long planTaskId;
 
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 449450875)
     private transient PlanTaskStepDao myDao;
 
@@ -84,7 +85,9 @@ public class PlanTaskStep {
     @Generated(hash = 112075782)
     private transient Long stepTemplate__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 293884714)
     public StepTemplate getStepTemplate() {
         long __key = this.stepTemplateId;
@@ -104,7 +107,9 @@ public class PlanTaskStep {
         return stepTemplate;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 681850098)
     public void setStepTemplate(@NotNull StepTemplate stepTemplate) {
         if (stepTemplate == null) {
@@ -121,7 +126,9 @@ public class PlanTaskStep {
     @Generated(hash = 304355203)
     private transient Long planTask__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 1599924244)
     public PlanTask getPlanTask() {
         long __key = this.planTaskId;
@@ -140,7 +147,9 @@ public class PlanTaskStep {
         return planTask;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 1918367405)
     public void setPlanTask(@NotNull PlanTask planTask) {
         if (planTask == null) {
@@ -155,8 +164,8 @@ public class PlanTaskStep {
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 128553479)
     public void delete() {
@@ -167,8 +176,8 @@ public class PlanTaskStep {
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 1942392019)
     public void refresh() {
@@ -179,8 +188,8 @@ public class PlanTaskStep {
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 713229351)
     public void update() {

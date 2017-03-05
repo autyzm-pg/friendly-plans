@@ -6,16 +6,13 @@ import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import java.util.List;
+
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.NotNull;
 
-/**
- * Created by agoncharenko on 1/25/2017.
- */
 @Entity
 public class ChildPlan {
-
 
     @Id
     private long id;
@@ -35,11 +32,15 @@ public class ChildPlan {
     @ToMany(referencedJoinProperty = "childPlanId")
     private List<PlanTask> planTasks;
 
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 1654041837)
     private transient ChildPlanDao myDao;
 
@@ -91,7 +92,9 @@ public class ChildPlan {
     @Generated(hash = 1042451417)
     private transient Long child__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 587637870)
     public Child getChild() {
         long __key = this.childId;
@@ -110,7 +113,9 @@ public class ChildPlan {
         return child;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 1377631279)
     public void setChild(@NotNull Child child) {
         if (child == null) {
@@ -127,7 +132,9 @@ public class ChildPlan {
     @Generated(hash = 917413635)
     private transient Long planTemplate__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 1252992241)
     public PlanTemplate getPlanTemplate() {
         long __key = this.planTemplateId;
@@ -147,7 +154,9 @@ public class ChildPlan {
         return planTemplate;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 1841962759)
     public void setPlanTemplate(@NotNull PlanTemplate planTemplate) {
         if (planTemplate == null) {
@@ -162,8 +171,8 @@ public class ChildPlan {
     }
 
     /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
+     * To-many relationship, resolved on first access (and after reset). Changes to to-many
+     * relations are not persisted, make changes to the target entity.
      */
     @Generated(hash = 1216552361)
     public List<PlanTask> getPlanTasks() {
@@ -183,15 +192,17 @@ public class ChildPlan {
         return planTasks;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 1766030107)
     public synchronized void resetPlanTasks() {
         planTasks = null;
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 128553479)
     public void delete() {
@@ -202,8 +213,8 @@ public class ChildPlan {
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 1942392019)
     public void refresh() {
@@ -214,8 +225,8 @@ public class ChildPlan {
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 713229351)
     public void update() {
