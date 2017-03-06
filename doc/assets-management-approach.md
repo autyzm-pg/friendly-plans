@@ -5,11 +5,13 @@ In Friendly Plans app pictures are used as icons and in connection with tasks or
 
 ## Approach description
 
-To ensure that every asset connected with the app will be always available and won't change its name, we make our safe copy of it. Making the copy is part of the concrete element creation/edition process - app make a copy right after user assign asset to the task/step. Copied asset get its own unique file name (SHA-256 hash) and unified extension (e.g. 'JPG' is going to be 'jpg'). All safe copies are being stored in well defined path as app related files. All files names (with extension) are stored in asset table in db and link between tasks, steps, etc. and asset is stored as foreign key reference to that table. If some additional information (e.g. human readable asset name) will be needed, it will be stored in asset table with proper asset. After deletion of link between app's element and asset, copy of asset is going to be removed from the device and connected row from asset table too.
+To ensure that every asset connected with the app will be always available and won't change its name, we make our safe copy of it. Making the copy is part of the concrete element creation/edition process - app make a copy right after user assign asset to the task/step. Copied asset gets its own unique file name (SHA-256 hash from original name and some random value) and unified extension (e.g. 'JPG' is going to be 'jpg'). Adding random part is necessary to avoid colision between two different assets with the same name (e.g. files from different locations or after rename). All safe copies are being stored in well defined path as app related files. All files names (with extension) are stored in asset table in db and link between tasks, steps, etc. and asset is stored as foreign key reference to that table. If some additional information (e.g. human readable asset name) will be needed, it will be stored in asset table with proper asset. After deletion of link between app's element and asset, copy of asset is going to be removed from the device and connected row from asset table too.
 
 ## Additional info
 
+Random generator: java.util.Random class seeded with current timestamp
 Hash algorithm: SHA-256
+Input for hash pattern: {original name}{random value}
 
 Copied filename pattern: {original name hash}.{mapped extension}
 
