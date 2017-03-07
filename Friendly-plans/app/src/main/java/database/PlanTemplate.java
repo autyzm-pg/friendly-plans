@@ -12,8 +12,8 @@ import org.greenrobot.greendao.DaoException;
 @Entity
 public class PlanTemplate {
 
-    @Id
-    private long id;
+    @Id(autoincrement = true)
+    private Long id;
 
     private String name;
 
@@ -35,8 +35,8 @@ public class PlanTemplate {
     @Generated(hash = 667849288)
     private transient PlanTemplateDao myDao;
 
-    @Generated(hash = 1799698846)
-    public PlanTemplate(long id, String name) {
+    @Generated(hash = 643907227)
+    public PlanTemplate(Long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -45,11 +45,12 @@ public class PlanTemplate {
     public PlanTemplate() {
     }
 
-    public long getId() {
+
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

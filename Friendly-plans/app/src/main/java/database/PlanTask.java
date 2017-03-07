@@ -14,8 +14,8 @@ import org.greenrobot.greendao.annotation.NotNull;
 @Entity
 public class PlanTask {
 
-    @Id
-    private long id;
+    @Id(autoincrement = true)
+    private Long id;
 
     private boolean isDone;
 
@@ -44,9 +44,8 @@ public class PlanTask {
     @Generated(hash = 749888002)
     private transient PlanTaskDao myDao;
 
-    @Generated(hash = 1735715283)
-    public PlanTask(long id, boolean isDone, long planTaskTemplateId,
-            long childPlanId) {
+    @Generated(hash = 1494774633)
+    public PlanTask(Long id, boolean isDone, long planTaskTemplateId, long childPlanId) {
         this.id = id;
         this.isDone = isDone;
         this.planTaskTemplateId = planTaskTemplateId;
@@ -57,11 +56,11 @@ public class PlanTask {
     public PlanTask() {
     }
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

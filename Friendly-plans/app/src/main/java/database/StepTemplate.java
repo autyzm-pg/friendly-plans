@@ -14,8 +14,8 @@ import org.greenrobot.greendao.annotation.NotNull;
 @Entity
 public class StepTemplate {
 
-    @Id
-    private long id;
+    @Id(autoincrement = true)
+    private Long id;
 
     private String name;
 
@@ -45,9 +45,8 @@ public class StepTemplate {
     @Generated(hash = 1320587426)
     private transient StepTemplateDao myDao;
 
-    @Generated(hash = 838298633)
-    public StepTemplate(long id, String name, String picture, String sound,
-            int order, long taskTemplateId) {
+    @Generated(hash = 1850431834)
+    public StepTemplate(Long id, String name, String picture, String sound, int order, long taskTemplateId) {
         this.id = id;
         this.name = name;
         this.picture = picture;
@@ -60,11 +59,12 @@ public class StepTemplate {
     public StepTemplate() {
     }
 
-    public long getId() {
+
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

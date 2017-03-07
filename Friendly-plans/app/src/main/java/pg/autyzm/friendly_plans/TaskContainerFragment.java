@@ -8,8 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import dao.TaskTemplateRepository;
+import javax.inject.Inject;
 
 public class TaskContainerFragment extends Fragment {
+
+    @Inject
+    TaskTemplateRepository taskTemplateRepository;
 
     private EditText taskName;
     private EditText taskPicture;
@@ -20,6 +25,7 @@ public class TaskContainerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+        ((App) getActivity().getApplication()).getDaoSessionComponent().inject(this);
         return inflater.inflate(R.layout.fragment_task_container, container, false);
     }
 
@@ -37,6 +43,10 @@ public class TaskContainerFragment extends Fragment {
                 Log.i("taskPicture :", "{" + taskPicture.getText().toString() + "}");
                 Log.i("taskSound :", "{" + taskSound.getText().toString() + "}");
                 Log.i("taskDurTime :", "{" + taskDurTime.getText().toString() + "}");
+
+                long id = taskTemplateRepository.create(taskName.getText().toString(),
+                        Integer.valueOf(taskDurTime.getText().toString()));
+                Log.i("id :", "{" + String.valueOf(id) + "}");
             }
         });
     }

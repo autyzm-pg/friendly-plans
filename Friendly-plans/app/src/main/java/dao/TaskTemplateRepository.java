@@ -2,13 +2,11 @@ package dao;
 
 import database.DaoSession;
 import database.TaskTemplate;
-import javax.inject.Inject;
 
 public class TaskTemplateRepository {
 
     private DaoSession daoSession;
 
-    @Inject
     public TaskTemplateRepository(DaoSession daoSession) {
         this.daoSession = daoSession;
     }

@@ -1,7 +1,6 @@
 package dao;
 
-import android.app.Activity;
-
+import android.content.Context;
 import org.greenrobot.greendao.database.Database;
 
 import javax.inject.Singleton;
@@ -18,9 +17,9 @@ public class DaoSessionModule {
 
     private DaoSession daoSession;
 
-    public DaoSessionModule(Activity activity) {
+    public DaoSessionModule(Context context) {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(
-                activity.getApplicationContext(),
+                context,
                 FRIENDLY_PLANS_DB_NAME);
         Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();

@@ -12,8 +12,8 @@ import org.greenrobot.greendao.DaoException;
 @Entity
 public class Child {
 
-    @Id
-    private long id;
+    @Id(autoincrement = true)
+    private Long id;
 
     private String name;
 
@@ -40,9 +40,9 @@ public class Child {
     @Generated(hash = 1911343815)
     private transient ChildDao myDao;
 
-    @Generated(hash = 1187127662)
-    public Child(long id, String name, String surname, String font_size,
-            String picture_size, String display_mode) {
+    @Generated(hash = 1027982090)
+    public Child(Long id, String name, String surname, String font_size, String picture_size,
+            String display_mode) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -55,11 +55,11 @@ public class Child {
     public Child() {
     }
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

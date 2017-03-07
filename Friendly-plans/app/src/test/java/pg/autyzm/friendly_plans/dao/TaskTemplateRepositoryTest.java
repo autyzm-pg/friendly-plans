@@ -17,6 +17,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -33,10 +35,11 @@ public class TaskTemplateRepositoryTest {
 
     @InjectMocks
     TaskTemplateRepository taskTemplateRepository;
+    private Long randomId;
 
     @Before
     public void setUp() {
-        Long randomId = new Random().nextLong();
+        randomId = new Random().nextLong();
         TaskTemplate taskTemplate = new TaskTemplate();
         taskTemplate.setId(randomId);
         taskTemplate.setName(TASK_NAME);
@@ -48,10 +51,26 @@ public class TaskTemplateRepositoryTest {
     }
 
     @Test
-    public void When_CreatingATask_Expect_FetchItFromDb() {
-        long id = taskTemplateRepository.create(TASK_NAME, DURATION_TIME);
+    public void When_CreatingATaskTemplate_Expect_InsertMethodBeCalled() {
+        taskTemplateRepository.create(TASK_NAME, DURATION_TIME);
+        verify(taskTemplateDao, times(1)).insert(any(TaskTemplate.class));
+    }
 
-        TaskTemplate taskTemplate = taskTemplateRepository.get(id);
+    @Test
+    public void When_CreatingATaskTemplate_Expect_NewIdBeReturned() {
+        long id = taskTemplateRepository.create(TASK_NAME, DURATION_TIME);
+        assertThat(id, is(randomId));
+    }
+
+    @Test
+    public void When_GettingATaskTemplate_Expect_LoadMethodBeCalled() {
+        taskTemplateRepository.get(randomId);
+        verify(taskTemplateDao, times(1)).load(randomId);
+    }
+
+    @Test
+    public void When_GettingATaskTemplate_Expect_TaskTemplateToBeReturned() {
+        TaskTemplate taskTemplate = taskTemplateRepository.get(randomId);
         assertThat(taskTemplate.getName(), is(TASK_NAME));
         assertThat(taskTemplate.getDurationTime(), is(DURATION_TIME));
     }
