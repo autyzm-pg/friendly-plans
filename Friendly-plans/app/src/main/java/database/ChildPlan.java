@@ -21,7 +21,7 @@ public class ChildPlan {
     @Id
     private long id;
 
-    private boolean is_active;
+    private boolean isActive;
 
     @ToOne(joinProperty = "childId")
     private Child child;
@@ -36,6 +36,42 @@ public class ChildPlan {
     @ToMany(referencedJoinProperty = "childPlanId")
     private List<PlanTask> planTasks;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public long getChildId() {
+        return childId;
+    }
+
+    public void setChildId(long childId) {
+        this.childId = childId;
+    }
+
+    public long getPlanTemplateId() {
+        return planTemplateId;
+    }
+
+    public void setPlanTemplateId(long planTemplateId) {
+        this.planTemplateId = planTemplateId;
+    }
+
+    public void setPlanTasks(List<PlanTask> planTasks) {
+        this.planTasks = planTasks;
+    }
+
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -44,49 +80,16 @@ public class ChildPlan {
     @Generated(hash = 1654041837)
     private transient ChildPlanDao myDao;
 
-    @Generated(hash = 239022606)
-    public ChildPlan(long id, boolean is_active, long childId,
-            long planTemplateId) {
+    @Generated(hash = 557129314)
+    public ChildPlan(long id, boolean isActive, long childId, long planTemplateId) {
         this.id = id;
-        this.is_active = is_active;
+        this.isActive = isActive;
         this.childId = childId;
         this.planTemplateId = planTemplateId;
     }
 
     @Generated(hash = 283772284)
     public ChildPlan() {
-    }
-
-    public long getId() {
-        return this.id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public boolean getIs_active() {
-        return this.is_active;
-    }
-
-    public void setIs_active(boolean is_active) {
-        this.is_active = is_active;
-    }
-
-    public long getChildId() {
-        return this.childId;
-    }
-
-    public void setChildId(long childId) {
-        this.childId = childId;
-    }
-
-    public long getPlanTemplateId() {
-        return this.planTemplateId;
-    }
-
-    public void setPlanTemplateId(long planTemplateId) {
-        this.planTemplateId = planTemplateId;
     }
 
     @Generated(hash = 1042451417)
@@ -224,6 +227,14 @@ public class ChildPlan {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.update(this);
+    }
+
+    public boolean getIsActive() {
+        return this.isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
     /** called by internal mechanisms, do not call yourself. */
