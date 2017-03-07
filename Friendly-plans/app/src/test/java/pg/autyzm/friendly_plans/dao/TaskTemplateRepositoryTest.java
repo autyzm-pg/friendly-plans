@@ -74,4 +74,10 @@ public class TaskTemplateRepositoryTest {
         assertThat(taskTemplate.getName(), is(TASK_NAME));
         assertThat(taskTemplate.getDurationTime(), is(DURATION_TIME));
     }
+
+    @Test
+    public void When_DeletingATaskTemplateByName_Expect_DeleteByKeyMethodBeCalled() {
+        taskTemplateRepository.delete(randomId);
+        verify(taskTemplateDao, times(1)).deleteByKey(randomId);
+    }
 }

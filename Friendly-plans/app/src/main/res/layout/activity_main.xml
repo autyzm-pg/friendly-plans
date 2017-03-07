@@ -9,9 +9,68 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="pg.autyzm.friendly_plans.MainActivity">
 
-    <TextView
-        android:id="@+id/hello_world"
+    <Button
+        android:text="@string/main_create_plan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:id="@+id/button_createPlan"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="@string/main_create_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_createTask"
+        android:onClick="eventCreateTask"
+        android:layout_below="@+id/button_createPlan"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"  />
+
+    <Button
+        android:text="@string/main_list_of_plans_edit_plan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_listOfPlans"
+        android:layout_below="@+id/button_createTask"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="@string/main_list_of_tasks_edit_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_listOfTasks"
+        android:layout_below="@+id/button_listOfPlans"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="@string/main_active_child_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_activeChildSettings"
+        android:layout_below="@+id/button_listOfTasks"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="@string/main_add_remove_child"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_addRemoveChild"
+        android:layout_below="@+id/button_activeChildSettings"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="@string/main_change_active_child"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_changeActiveChild"
+        android:layout_below="@+id/button_addRemoveChild"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>

@@ -1,7 +1,9 @@
 package dao;
 
+import database.TaskTemplateDao.Properties;
 import database.DaoSession;
 import database.TaskTemplate;
+import java.util.List;
 
 public class TaskTemplateRepository {
 
@@ -21,5 +23,16 @@ public class TaskTemplateRepository {
 
     public TaskTemplate get(Long id) {
         return daoSession.getTaskTemplateDao().load(id);
+    }
+
+    public List<TaskTemplate> get(String taskTemplateName) {
+        return daoSession.getTaskTemplateDao()
+                .queryBuilder()
+                .where(Properties.Name.eq(taskTemplateName))
+                .list();
+    }
+
+    public void delete(Long id) {
+        daoSession.getTaskTemplateDao().deleteByKey(id);
     }
 }
