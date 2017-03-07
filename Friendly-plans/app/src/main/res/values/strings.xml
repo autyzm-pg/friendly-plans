@@ -12,4 +12,11 @@
   <string name="listen_sound">Listen</string>
   <string name="duration_time">Duration time:</string>
   <string name="next">Next</string>
+  <string name="main_create_task">Create Task</string>
+  <string name="main_list_of_plans_edit_plan">List of Plans / Edit Plan</string>
+  <string name="main_list_of_tasks_edit_task">List of Tasks / Edit Task</string>
+  <string name="main_active_child_settings">Active Child Settings</string>
+  <string name="main_add_remove_child">Add / Remove Child</string>
+  <string name="main_change_active_child">Change Active Child</string>
+  <string name="main_create_plan">Create Plan</string>
 </resources>

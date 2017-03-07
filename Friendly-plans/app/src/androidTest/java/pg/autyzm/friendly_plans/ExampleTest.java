@@ -15,7 +15,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class ExampleTest {
     @Rule
-    public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class, true, true);
+    public ActivityTestRule<TaskCreateActivity> activityRule = new ActivityTestRule<>(TaskCreateActivity.class, true, true);
 
     @Test
     public void exampleTest() {
