@@ -4,8 +4,8 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.NotNull;
+import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by agoncharenko on 1/25/2017.
