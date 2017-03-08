@@ -8,18 +8,21 @@
 
     <!--sound icon-->
     <ImageView
+        android:id="@+id/id_iv_task_sound_icon"
         android:layout_width="96dp"
         android:layout_height="96dp"
         app:srcCompat="@drawable/ic_placeholder" />
 
     <!--task image-->
     <ImageView
+        android:id="@+id/id_iv_task_picture"
         android:layout_width="96dp"
         android:layout_height="96dp"
         app:srcCompat="@drawable/ic_placeholder" />
 
     <!--task name-->
     <TextView
+        android:id="@+id/id_tv_task_name"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -35,12 +38,14 @@
 
         <!--task duration icon-->
         <ImageView
+            android:id="@+id/id_iv_task_duration_icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:srcCompat="@drawable/ic_placeholder" />
 
         <!--duration time-->
         <TextView
+            android:id="@+id/id_tv_task_duration_time"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"

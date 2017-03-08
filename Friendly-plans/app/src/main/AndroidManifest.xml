@@ -18,6 +18,10 @@
         </activity>
         <activity android:name=".TaskCreateActivity">
         </activity>
+      <activity android:name=".TaskListActivity"
+          android:exported="true">
+      </activity>
+
     </application>
 
 </manifest>
