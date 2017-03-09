@@ -12,8 +12,8 @@ import static org.hamcrest.CoreMatchers.is;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import dao.TaskTemplateRepository;
-import database.TaskTemplate;
+import database.repository.TaskTemplateRepository;
+import database.entities.TaskTemplate;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;

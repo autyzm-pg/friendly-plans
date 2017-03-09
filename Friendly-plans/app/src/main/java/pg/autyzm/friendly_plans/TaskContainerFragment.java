@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import dao.TaskTemplateRepository;
+import database.repository.TaskTemplateRepository;
 import javax.inject.Inject;
 
 public class TaskContainerFragment extends Fragment {
@@ -25,7 +25,7 @@ public class TaskContainerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        ((App) getActivity().getApplication()).getDaoSessionComponent().inject(this);
+        ((App) getActivity().getApplication()).getRepositoryComponent().inject(this);
         return inflater.inflate(R.layout.fragment_task_container, container, false);
     }
 

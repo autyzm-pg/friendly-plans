@@ -1,4 +1,4 @@
-package dao;
+package database.repository;
 
 import android.content.Context;
 import org.greenrobot.greendao.database.Database;
@@ -7,8 +7,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import database.DaoMaster;
-import database.DaoSession;
+import database.entities.DaoMaster;
+import database.entities.DaoSession;
 
 @Module
 public class DaoSessionModule {

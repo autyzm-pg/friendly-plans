@@ -1,8 +1,8 @@
 package pg.autyzm.friendly_plans;
 
 import android.content.Context;
-import database.DaoMaster;
-import database.DaoSession;
+import database.entities.DaoMaster;
+import database.entities.DaoSession;
 import org.greenrobot.greendao.database.Database;
 import org.junit.rules.ExternalResource;
 

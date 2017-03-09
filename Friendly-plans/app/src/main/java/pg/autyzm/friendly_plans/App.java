@@ -1,26 +1,26 @@
 package pg.autyzm.friendly_plans;
 
 import android.app.Application;
-import dao.DaggerDaoSessionComponent;
-import dao.DaoSessionComponent;
-import dao.DaoSessionModule;
-import dao.RepositoryModule;
+import database.repository.DaggerRepositoryComponent;
+import database.repository.RepositoryComponent;
+import database.repository.DaoSessionModule;
+import database.repository.RepositoryModule;
 
-public class App extends Application{
+public class App extends Application {
 
-    private DaoSessionComponent daoSessionComponent;
+    private RepositoryComponent repositoryComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        daoSessionComponent = DaggerDaoSessionComponent.builder()
+        repositoryComponent = DaggerRepositoryComponent.builder()
                 .daoSessionModule(new DaoSessionModule(this.getApplicationContext()))
                 .repositoryModule(new RepositoryModule())
                 .build();
 
     }
 
-    public DaoSessionComponent getDaoSessionComponent() {
-        return daoSessionComponent;
+    public RepositoryComponent getRepositoryComponent() {
+        return repositoryComponent;
     }
 }

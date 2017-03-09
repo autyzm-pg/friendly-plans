@@ -1,31 +1,36 @@
-package database;
+package database.entities;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
+
+import java.util.List;
+
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.NotNull;
 
 @Entity
-public class PlanTaskTemplate {
+public class ChildPlan {
 
     @Id(autoincrement = true)
     private Long id;
 
-    private int order;
+    private boolean isActive;
 
-    private boolean isBreak;
+    @ToOne(joinProperty = "childId")
+    private Child child;
+
+    private long childId;
 
     @ToOne(joinProperty = "planTemplateId")
     private PlanTemplate planTemplate;
 
     private long planTemplateId;
 
-    @ToOne(joinProperty = "taskTemplateId")
-    private TaskTemplate taskTemplate;
-
-    private long taskTemplateId;
+    @ToMany(referencedJoinProperty = "childPlanId")
+    private List<PlanTask> planTasks;
 
     /**
      * Used to resolve relations
@@ -36,21 +41,19 @@ public class PlanTaskTemplate {
     /**
      * Used for active entity operations.
      */
-    @Generated(hash = 1859491700)
-    private transient PlanTaskTemplateDao myDao;
+    @Generated(hash = 1654041837)
+    private transient ChildPlanDao myDao;
 
-    @Generated(hash = 733926200)
-    public PlanTaskTemplate(Long id, int order, boolean isBreak, long planTemplateId,
-            long taskTemplateId) {
+    @Generated(hash = 1737725573)
+    public ChildPlan(Long id, boolean isActive, long childId, long planTemplateId) {
         this.id = id;
-        this.order = order;
-        this.isBreak = isBreak;
+        this.isActive = isActive;
+        this.childId = childId;
         this.planTemplateId = planTemplateId;
-        this.taskTemplateId = taskTemplateId;
     }
 
-    @Generated(hash = 2117299161)
-    public PlanTaskTemplate() {
+    @Generated(hash = 283772284)
+    public ChildPlan() {
     }
 
     public Long getId() {
@@ -61,12 +64,20 @@ public class PlanTaskTemplate {
         this.id = id;
     }
 
-    public int getOrder() {
-        return this.order;
+    public boolean getIsActive() {
+        return this.isActive;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public long getChildId() {
+        return this.childId;
+    }
+
+    public void setChildId(long childId) {
+        this.childId = childId;
     }
 
     public long getPlanTemplateId() {
@@ -77,12 +88,44 @@ public class PlanTaskTemplate {
         this.planTemplateId = planTemplateId;
     }
 
-    public long getTaskTemplateId() {
-        return this.taskTemplateId;
+    @Generated(hash = 1042451417)
+    private transient Long child__resolvedKey;
+
+    /**
+     * To-one relationship, resolved on first access.
+     */
+    @Generated(hash = 587637870)
+    public Child getChild() {
+        long __key = this.childId;
+        if (child__resolvedKey == null || !child__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            ChildDao targetDao = daoSession.getChildDao();
+            Child childNew = targetDao.load(__key);
+            synchronized (this) {
+                child = childNew;
+                child__resolvedKey = __key;
+            }
+        }
+        return child;
     }
 
-    public void setTaskTemplateId(long taskTemplateId) {
-        this.taskTemplateId = taskTemplateId;
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
+    @Generated(hash = 1377631279)
+    public void setChild(@NotNull Child child) {
+        if (child == null) {
+            throw new DaoException(
+                    "To-one property 'childId' has not-null constraint; cannot set to-one to null");
+        }
+        synchronized (this) {
+            this.child = child;
+            childId = child.getId();
+            child__resolvedKey = childId;
+        }
     }
 
     @Generated(hash = 917413635)
@@ -126,45 +169,34 @@ public class PlanTaskTemplate {
         }
     }
 
-    @Generated(hash = 309141312)
-    private transient Long taskTemplate__resolvedKey;
-
     /**
-     * To-one relationship, resolved on first access.
+     * To-many relationship, resolved on first access (and after reset). Changes to to-many
+     * relations are not persisted, make changes to the target entity.
      */
-    @Generated(hash = 1498914117)
-    public TaskTemplate getTaskTemplate() {
-        long __key = this.taskTemplateId;
-        if (taskTemplate__resolvedKey == null
-                || !taskTemplate__resolvedKey.equals(__key)) {
+    @Generated(hash = 1216552361)
+    public List<PlanTask> getPlanTasks() {
+        if (planTasks == null) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
-            TaskTemplateDao targetDao = daoSession.getTaskTemplateDao();
-            TaskTemplate taskTemplateNew = targetDao.load(__key);
+            PlanTaskDao targetDao = daoSession.getPlanTaskDao();
+            List<PlanTask> planTasksNew = targetDao._queryChildPlan_PlanTasks(id);
             synchronized (this) {
-                taskTemplate = taskTemplateNew;
-                taskTemplate__resolvedKey = __key;
+                if (planTasks == null) {
+                    planTasks = planTasksNew;
+                }
             }
         }
-        return taskTemplate;
+        return planTasks;
     }
 
     /**
-     * called by internal mechanisms, do not call yourself.
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
      */
-    @Generated(hash = 707519624)
-    public void setTaskTemplate(@NotNull TaskTemplate taskTemplate) {
-        if (taskTemplate == null) {
-            throw new DaoException(
-                    "To-one property 'taskTemplateId' has not-null constraint; cannot set to-one to null");
-        }
-        synchronized (this) {
-            this.taskTemplate = taskTemplate;
-            taskTemplateId = taskTemplate.getId();
-            taskTemplate__resolvedKey = taskTemplateId;
-        }
+    @Generated(hash = 1766030107)
+    public synchronized void resetPlanTasks() {
+        planTasks = null;
     }
 
     /**
@@ -203,19 +235,10 @@ public class PlanTaskTemplate {
         myDao.update(this);
     }
 
-    public boolean getIsBreak() {
-        return this.isBreak;
-    }
-
-    public void setIsBreak(boolean isBreak) {
-        this.isBreak = isBreak;
-    }
-
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 11680655)
+    @Generated(hash = 360762169)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getPlanTaskTemplateDao() : null;
+        myDao = daoSession != null ? daoSession.getChildPlanDao() : null;
     }
-
 }

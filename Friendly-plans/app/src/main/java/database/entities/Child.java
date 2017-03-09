@@ -1,4 +1,4 @@
-package database;
+package database.entities;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
@@ -19,11 +19,11 @@ public class Child {
 
     private String surname;
 
-    private String font_size;
+    private String fontSize;
 
-    private String picture_size;
+    private String pictureSize;
 
-    private String display_mode;
+    private String displayMode;
 
     @ToMany(referencedJoinProperty = "childId")
     private List<ChildPlan> childPlans;
@@ -40,15 +40,15 @@ public class Child {
     @Generated(hash = 1911343815)
     private transient ChildDao myDao;
 
-    @Generated(hash = 1027982090)
-    public Child(Long id, String name, String surname, String font_size, String picture_size,
-            String display_mode) {
+    @Generated(hash = 1302308560)
+    public Child(Long id, String name, String surname, String fontSize, String pictureSize,
+            String displayMode) {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.font_size = font_size;
-        this.picture_size = picture_size;
-        this.display_mode = display_mode;
+        this.fontSize = fontSize;
+        this.pictureSize = pictureSize;
+        this.displayMode = displayMode;
     }
 
     @Generated(hash = 891984724)
@@ -79,28 +79,28 @@ public class Child {
         this.surname = surname;
     }
 
-    public String getFont_size() {
-        return this.font_size;
+    public String getFontSize() {
+        return this.fontSize;
     }
 
-    public void setFont_size(String font_size) {
-        this.font_size = font_size;
+    public void setFontSize(String fontSize) {
+        this.fontSize = fontSize;
     }
 
-    public String getPicture_size() {
-        return this.picture_size;
+    public String getPictureSize() {
+        return this.pictureSize;
     }
 
-    public void setPicture_size(String picture_size) {
-        this.picture_size = picture_size;
+    public void setPictureSize(String pictureSize) {
+        this.pictureSize = pictureSize;
     }
 
-    public String getDisplay_mode() {
-        return this.display_mode;
+    public String getDisplayMode() {
+        return this.displayMode;
     }
 
-    public void setDisplay_mode(String display_mode) {
-        this.display_mode = display_mode;
+    public void setDisplayMode(String displayMode) {
+        this.displayMode = displayMode;
     }
 
     /**

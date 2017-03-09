@@ -1,8 +1,8 @@
-package dao;
+package database.repository;
 
 import dagger.Module;
 import dagger.Provides;
-import database.DaoSession;
+import database.entities.DaoSession;
 import javax.inject.Singleton;
 
 @Module

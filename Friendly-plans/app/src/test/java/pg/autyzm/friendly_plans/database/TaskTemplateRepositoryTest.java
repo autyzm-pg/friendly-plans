@@ -1,13 +1,13 @@
-package pg.autyzm.friendly_plans.dao;
+package pg.autyzm.friendly_plans.database;
 
-import database.DaoSession;
-import database.TaskTemplateDao;
+import database.entities.DaoSession;
+import database.entities.TaskTemplateDao;
 import java.util.Random;
 import org.junit.Before;
 import org.junit.Test;
 
-import dao.TaskTemplateRepository;
-import database.TaskTemplate;
+import database.repository.TaskTemplateRepository;
+import database.entities.TaskTemplate;
 import org.junit.runner.RunWith;
 
 import org.mockito.InjectMocks;
