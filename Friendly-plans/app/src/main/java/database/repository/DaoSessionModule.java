@@ -13,7 +13,7 @@ import database.entities.DaoSession;
 @Module
 public class DaoSessionModule {
 
-    public static final String FRIENDLY_PLANS_DB_NAME = "friendly-plans-db";
+    private static final String FRIENDLY_PLANS_DB_NAME = "friendly-plans-db";
 
     private DaoSession daoSession;
 
