@@ -1,5 +1,6 @@
 package pg.autyzm.friendly_plans;
 
+import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
@@ -43,6 +44,13 @@ public class TaskCreateActivityTest {
                 daoSessionResource.getSession(activityRule.getActivity().getApplicationContext()));
     }
 
+    @After
+    public void tearDown() {
+        if (idToDelete != null) {
+            taskTemplateRepository.delete(idToDelete);
+        }
+    }
+
     @Test
     public void When_TaskCreateActivity_Expect_HeaderAndEmptyFields() {
         onView(withId(R.id.id_task_create_description))
@@ -58,11 +66,15 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_AddingNewTask_Expect_NewTaskAddedToDB() {
+    public void When_AddingNewTask_Expect_NewTaskAddedToDB() throws InterruptedException {
         onView(withId(R.id.id_et_task_name))
                 .perform(replaceText(EXPECTED_NAME));
+        closeKeyboard();
+
         onView(withId(R.id.id_et_task_duration_time))
                 .perform(replaceText("1"));
+        closeKeyboard();
+
         onView(withId(R.id.id_btn_task_next))
                 .perform(click());
 
@@ -74,10 +86,8 @@ public class TaskCreateActivityTest {
         assertThat(taskTemplates.get(0).getDurationTime(), is(1));
     }
 
-    @After
-    public void tearDown() {
-        if (idToDelete != null) {
-            taskTemplateRepository.delete(idToDelete);
-        }
+    private void closeKeyboard() throws InterruptedException {
+        closeSoftKeyboard();
+        Thread.sleep(1000);
     }
 }
