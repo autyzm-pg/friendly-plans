@@ -1,19 +1,5 @@
 package pg.autyzm.friendly_plans.database;
 
-import database.entities.DaoSession;
-import database.entities.TaskTemplateDao;
-import java.util.Random;
-import org.junit.Before;
-import org.junit.Test;
-
-import database.repository.TaskTemplateRepository;
-import database.entities.TaskTemplate;
-import org.junit.runner.RunWith;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
@@ -21,20 +7,29 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import database.entities.DaoSession;
+import database.entities.TaskTemplate;
+import database.entities.TaskTemplateDao;
+import database.repository.TaskTemplateRepository;
+import java.util.Random;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
 @RunWith(MockitoJUnitRunner.class)
 public class TaskTemplateRepositoryTest {
 
     public static final String TASK_NAME = "taskName";
     public static final int DURATION_TIME = 3;
-
-    @Mock
-    private DaoSession daoSession;
-
-    @Mock
-    private TaskTemplateDao taskTemplateDao;
-
     @InjectMocks
     TaskTemplateRepository taskTemplateRepository;
+    @Mock
+    private DaoSession daoSession;
+    @Mock
+    private TaskTemplateDao taskTemplateDao;
     private Long randomId;
 
     @Before
@@ -79,5 +74,11 @@ public class TaskTemplateRepositoryTest {
     public void When_DeletingATaskTemplateByName_Expect_DeleteByKeyMethodBeCalled() {
         taskTemplateRepository.delete(randomId);
         verify(taskTemplateDao, times(1)).deleteByKey(randomId);
+    }
+
+    @Test
+    public void When_GettingAllTaskTemplate_Expect_GetAllMethodBeCalled() {
+        taskTemplateRepository.getAll();
+        verify(taskTemplateDao, times(1));
     }
 }

@@ -1,8 +1,8 @@
 package database.repository;
 
-import database.entities.TaskTemplateDao.Properties;
 import database.entities.DaoSession;
 import database.entities.TaskTemplate;
+import database.entities.TaskTemplateDao.Properties;
 import java.util.List;
 
 public class TaskTemplateRepository {
@@ -30,6 +30,10 @@ public class TaskTemplateRepository {
                 .queryBuilder()
                 .where(Properties.Name.eq(taskTemplateName))
                 .list();
+    }
+
+    public List<TaskTemplate> getAll() {
+        return daoSession.getTaskTemplateDao().loadAll();
     }
 
     public void delete(Long id) {
