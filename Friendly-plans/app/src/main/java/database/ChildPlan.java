@@ -1,11 +1,7 @@
 package database;
 
-import java.util.List;
-import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
@@ -21,7 +17,7 @@ public class ChildPlan {
     @Id(autoincrement = true)
     private Long id;
 
-    private boolean isActive;
+    private boolean is_active;
 
     @ToOne(joinProperty = "childId")
     private Child child;
@@ -62,23 +58,22 @@ public class ChildPlan {
 
     public Long getId() {
         return this.id;
-
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public boolean getIs_active() {
+        return this.is_active;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setIs_active(boolean is_active) {
+        this.is_active = is_active;
     }
 
     public long getChildId() {
-        return childId;
+        return this.childId;
     }
 
     public void setChildId(long childId) {
@@ -86,35 +81,11 @@ public class ChildPlan {
     }
 
     public long getPlanTemplateId() {
-        return planTemplateId;
+        return this.planTemplateId;
     }
 
     public void setPlanTemplateId(long planTemplateId) {
         this.planTemplateId = planTemplateId;
-    }
-
-    public void setPlanTasks(List<PlanTask> planTasks) {
-        this.planTasks = planTasks;
-    }
-
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-
-    /** Used for active entity operations. */
-    @Generated(hash = 1654041837)
-    private transient ChildPlanDao myDao;
-
-    @Generated(hash = 557129314)
-    public ChildPlan(long id, boolean isActive, long childId, long planTemplateId) {
-        this.id = id;
-        this.isActive = isActive;
-        this.childId = childId;
-        this.planTemplateId = planTemplateId;
-    }
-
-    @Generated(hash = 283772284)
-    public ChildPlan() {
     }
 
     @Generated(hash = 1042451417)
@@ -262,14 +233,6 @@ public class ChildPlan {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.update(this);
-    }
-
-    public boolean getIsActive() {
-        return this.isActive;
-    }
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
     }
 
     /** called by internal mechanisms, do not call yourself. */
