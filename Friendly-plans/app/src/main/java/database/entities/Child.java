@@ -1,21 +1,19 @@
-package database;
+package database.entities;
 
-import java.util.List;
-import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
 
-/**
- * Created by agoncharenko on 1/25/2017.
- */
+import java.util.List;
+
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.DaoException;
 
 @Entity
 public class Child {
 
-    @Id
-    private long id;
+    @Id(autoincrement = true)
+    private Long id;
 
     private String name;
 
@@ -30,68 +28,20 @@ public class Child {
     @ToMany(referencedJoinProperty = "childId")
     private List<ChildPlan> childPlans;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getFontSize() {
-        return fontSize;
-    }
-
-    public void setFontSize(String fontSize) {
-        this.fontSize = fontSize;
-    }
-
-    public String getPictureSize() {
-        return pictureSize;
-    }
-
-    public void setPictureSize(String pictureSize) {
-        this.pictureSize = pictureSize;
-    }
-
-    public String getDisplayMode() {
-        return displayMode;
-    }
-
-    public void setDisplayMode(String displayMode) {
-        this.displayMode = displayMode;
-    }
-
-    public void setChildPlans(List<ChildPlan> childPlans) {
-        this.childPlans = childPlans;
-    }
-
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 1911343815)
     private transient ChildDao myDao;
 
-    @Generated(hash = 966481955)
-    public Child(long id, String name, String surname, String fontSize, String pictureSize,
+    @Generated(hash = 1302308560)
+    public Child(Long id, String name, String surname, String fontSize, String pictureSize,
             String displayMode) {
         this.id = id;
         this.name = name;
@@ -105,9 +55,57 @@ public class Child {
     public Child() {
     }
 
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return this.surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getFontSize() {
+        return this.fontSize;
+    }
+
+    public void setFontSize(String fontSize) {
+        this.fontSize = fontSize;
+    }
+
+    public String getPictureSize() {
+        return this.pictureSize;
+    }
+
+    public void setPictureSize(String pictureSize) {
+        this.pictureSize = pictureSize;
+    }
+
+    public String getDisplayMode() {
+        return this.displayMode;
+    }
+
+    public void setDisplayMode(String displayMode) {
+        this.displayMode = displayMode;
+    }
+
     /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
+     * To-many relationship, resolved on first access (and after reset). Changes to to-many
+     * relations are not persisted, make changes to the target entity.
      */
     @Generated(hash = 1396703637)
     public List<ChildPlan> getChildPlans() {
@@ -127,15 +125,17 @@ public class Child {
         return childPlans;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 398907355)
     public synchronized void resetChildPlans() {
         childPlans = null;
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 128553479)
     public void delete() {
@@ -146,8 +146,8 @@ public class Child {
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 1942392019)
     public void refresh() {
@@ -158,8 +158,8 @@ public class Child {
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 713229351)
     public void update() {

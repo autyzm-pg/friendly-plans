@@ -1,23 +1,21 @@
-package database;
+package database.entities;
 
-import java.util.List;
-import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
-/**
- * Created by agoncharenko on 1/25/2017.
- */
+import java.util.List;
+
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.DaoException;
+import org.greenrobot.greendao.annotation.NotNull;
 
 @Entity
 public class PlanTask {
 
-    @Id
-    private long id;
+    @Id(autoincrement = true)
+    private Long id;
 
     private boolean isDone;
 
@@ -34,17 +32,20 @@ public class PlanTask {
     @ToMany(referencedJoinProperty = "planTaskId")
     private List<PlanTaskStep> planTaskSteps;
 
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 749888002)
     private transient PlanTaskDao myDao;
 
-    @Generated(hash = 1735715283)
-    public PlanTask(long id, boolean isDone, long planTaskTemplateId,
-            long childPlanId) {
+    @Generated(hash = 1494774633)
+    public PlanTask(Long id, boolean isDone, long planTaskTemplateId, long childPlanId) {
         this.id = id;
         this.isDone = isDone;
         this.planTaskTemplateId = planTaskTemplateId;
@@ -55,11 +56,11 @@ public class PlanTask {
     public PlanTask() {
     }
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -90,7 +91,9 @@ public class PlanTask {
     @Generated(hash = 2013491899)
     private transient Long planTaskTemplate__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 1521731984)
     public PlanTaskTemplate getPlanTaskTemplate() {
         long __key = this.planTaskTemplateId;
@@ -110,7 +113,9 @@ public class PlanTask {
         return planTaskTemplate;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 1383196550)
     public void setPlanTaskTemplate(@NotNull PlanTaskTemplate planTaskTemplate) {
         if (planTaskTemplate == null) {
@@ -127,7 +132,9 @@ public class PlanTask {
     @Generated(hash = 674687381)
     private transient Long childPlan__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 464786722)
     public ChildPlan getChildPlan() {
         long __key = this.childPlanId;
@@ -147,7 +154,9 @@ public class PlanTask {
         return childPlan;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 105128079)
     public void setChildPlan(@NotNull ChildPlan childPlan) {
         if (childPlan == null) {
@@ -162,8 +171,8 @@ public class PlanTask {
     }
 
     /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
+     * To-many relationship, resolved on first access (and after reset). Changes to to-many
+     * relations are not persisted, make changes to the target entity.
      */
     @Generated(hash = 1347595177)
     public List<PlanTaskStep> getPlanTaskSteps() {
@@ -184,15 +193,17 @@ public class PlanTask {
         return planTaskSteps;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 1658737863)
     public synchronized void resetPlanTaskSteps() {
         planTaskSteps = null;
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 128553479)
     public void delete() {
@@ -203,8 +214,8 @@ public class PlanTask {
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 1942392019)
     public void refresh() {
@@ -215,8 +226,8 @@ public class PlanTask {
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 713229351)
     public void update() {
