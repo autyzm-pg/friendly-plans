@@ -77,8 +77,8 @@ public class TaskTemplateRepositoryTest {
     }
 
     @Test
-    public void When_GettingAllTaskTemplate_Expect_GetAllMethodBeCalled() {
+    public void When_GettingAllTaskTemplate_Expect_LoadAllMethodBeCalled() {
         taskTemplateRepository.getAll();
-        verify(taskTemplateDao, times(1));
+        verify(taskTemplateDao, times(1)).loadAll();
     }
 }
