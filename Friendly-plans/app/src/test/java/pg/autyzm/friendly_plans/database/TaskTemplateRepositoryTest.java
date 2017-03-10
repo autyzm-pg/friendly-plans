@@ -15,6 +15,7 @@ import java.util.Random;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -24,12 +25,14 @@ public class TaskTemplateRepositoryTest {
 
     public static final String TASK_NAME = "taskName";
     public static final int DURATION_TIME = 3;
+
     @InjectMocks
     TaskTemplateRepository taskTemplateRepository;
     @Mock
     private DaoSession daoSession;
     @Mock
     private TaskTemplateDao taskTemplateDao;
+
     private Long randomId;
 
     @Before
