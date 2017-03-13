@@ -29,6 +29,7 @@ public class TaskListActivity extends AppCompatActivity {
         setUpMockList();
 
 
+
     }
 
 
@@ -47,10 +48,14 @@ public class TaskListActivity extends AppCompatActivity {
     private void setUpMockList() {
         List<TaskTemplate> mockTaskList = new ArrayList<>();
         TaskTemplate mockTaskWithoutMedia = new TaskTemplate(1, "name without media", "", "", "");
+        mockTaskList.add(new TaskTemplate(1, "picture, no sound", "picture", "", ""));
+        mockTaskList.add(new TaskTemplate(2, "sound, no picture", "", "sound", ""));
         for (int i = 0; i < 10; i++) {
             mockTaskList.add(new TaskTemplate(i, "name " + i, "picture", "sound", i+":00"));
             mockTaskList.add(mockTaskWithoutMedia);
         }
+
+
 
         taskListAdapter.setTaskItems(mockTaskList);
 

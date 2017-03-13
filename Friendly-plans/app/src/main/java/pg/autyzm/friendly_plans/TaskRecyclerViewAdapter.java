@@ -37,20 +37,22 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
             TaskTemplate taskItem = taskItemList.get(position);
             holder.taskName.setText(taskItem.getName());
             //condition only for mocking purposes -> needs to be changed later
-            if (taskItem.getPicture().length() != 0) {
+            if (!taskItem.getPicture().isEmpty()) {
                 holder.taskPicture.setImageResource(ICON_PLACEHOLDER_ID);
-            } else {
-                holder.taskPicture.setImageResource(android.R.color.transparent);
+                holder.taskPicture.setVisibility(View.VISIBLE);
+            } else  {
                 holder.taskPicture.setVisibility(View.GONE);
             }
-            if (taskItem.getSound().length() != 0) {
+            if (!taskItem.getSound().isEmpty()) {
                 holder.taskSoundIcon.setImageResource(ICON_PLACEHOLDER_ID);
-            } else {
+                holder.taskSoundIcon.setVisibility(View.VISIBLE);
+            } else  {
                 holder.taskSoundIcon.setVisibility(View.GONE);
             }
-            if (taskItem.getTime().length() != 0) {
+            if (!taskItem.getTime().isEmpty()) {
                 holder.taskDurationIcon.setImageResource(ICON_PLACEHOLDER_ID);
                 holder.taskDurationTime.setText(taskItem.getTime());
+                holder.taskDurationIcon.setVisibility(View.VISIBLE);
             } else {
                 holder.taskDurationTime.setText("");
                 holder.taskDurationIcon.setVisibility(View.INVISIBLE);
