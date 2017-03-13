@@ -1,4 +1,4 @@
-package database;
+package database.entities;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
@@ -6,21 +6,18 @@ import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import java.util.List;
+
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.NotNull;
 
-/**
- * Created by agoncharenko on 1/25/2017.
- */
 @Entity
 public class ChildPlan {
 
+    @Id(autoincrement = true)
+    private Long id;
 
-    @Id
-    private long id;
-
-    private boolean is_active;
+    private boolean isActive;
 
     @ToOne(joinProperty = "childId")
     private Child child;
@@ -35,19 +32,22 @@ public class ChildPlan {
     @ToMany(referencedJoinProperty = "childPlanId")
     private List<PlanTask> planTasks;
 
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 1654041837)
     private transient ChildPlanDao myDao;
 
-    @Generated(hash = 239022606)
-    public ChildPlan(long id, boolean is_active, long childId,
-            long planTemplateId) {
+    @Generated(hash = 1737725573)
+    public ChildPlan(Long id, boolean isActive, long childId, long planTemplateId) {
         this.id = id;
-        this.is_active = is_active;
+        this.isActive = isActive;
         this.childId = childId;
         this.planTemplateId = planTemplateId;
     }
@@ -56,20 +56,20 @@ public class ChildPlan {
     public ChildPlan() {
     }
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public boolean getIs_active() {
-        return this.is_active;
+    public boolean getIsActive() {
+        return this.isActive;
     }
 
-    public void setIs_active(boolean is_active) {
-        this.is_active = is_active;
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
     public long getChildId() {
@@ -91,7 +91,9 @@ public class ChildPlan {
     @Generated(hash = 1042451417)
     private transient Long child__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 587637870)
     public Child getChild() {
         long __key = this.childId;
@@ -110,7 +112,9 @@ public class ChildPlan {
         return child;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 1377631279)
     public void setChild(@NotNull Child child) {
         if (child == null) {
@@ -127,7 +131,9 @@ public class ChildPlan {
     @Generated(hash = 917413635)
     private transient Long planTemplate__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 1252992241)
     public PlanTemplate getPlanTemplate() {
         long __key = this.planTemplateId;
@@ -147,7 +153,9 @@ public class ChildPlan {
         return planTemplate;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 1841962759)
     public void setPlanTemplate(@NotNull PlanTemplate planTemplate) {
         if (planTemplate == null) {
@@ -162,8 +170,8 @@ public class ChildPlan {
     }
 
     /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
+     * To-many relationship, resolved on first access (and after reset). Changes to to-many
+     * relations are not persisted, make changes to the target entity.
      */
     @Generated(hash = 1216552361)
     public List<PlanTask> getPlanTasks() {
@@ -183,15 +191,17 @@ public class ChildPlan {
         return planTasks;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 1766030107)
     public synchronized void resetPlanTasks() {
         planTasks = null;
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 128553479)
     public void delete() {
@@ -202,8 +212,8 @@ public class ChildPlan {
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 1942392019)
     public void refresh() {
@@ -214,8 +224,8 @@ public class ChildPlan {
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 713229351)
     public void update() {

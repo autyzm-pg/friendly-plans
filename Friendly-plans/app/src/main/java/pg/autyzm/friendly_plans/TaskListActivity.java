@@ -26,8 +26,7 @@ public class TaskListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
         setUpViews();
-        setUpMockList();
-
+        setUpAndLoadMockList();
 
 
     }
@@ -45,20 +44,23 @@ public class TaskListActivity extends AppCompatActivity {
 
     }
 
-    private void setUpMockList() {
+    private void setUpAndLoadMockList() {
         List<TaskTemplate> mockTaskList = new ArrayList<>();
         TaskTemplate mockTaskWithoutMedia = new TaskTemplate(1, "name without media", "", "", "");
         mockTaskList.add(new TaskTemplate(1, "picture, no sound", "picture", "", ""));
         mockTaskList.add(new TaskTemplate(2, "sound, no picture", "", "sound", ""));
         for (int i = 0; i < 10; i++) {
-            mockTaskList.add(new TaskTemplate(i, "name " + i, "picture", "sound", i+":00"));
+            mockTaskList.add(new TaskTemplate(i, "name " + i, "picture", "sound", i + ":00"));
             mockTaskList.add(mockTaskWithoutMedia);
         }
 
+        loadTasksToadapter(mockTaskList);
 
+    }
 
-        taskListAdapter.setTaskItems(mockTaskList);
+    private void loadTasksToadapter(List<TaskTemplate> taskTemplates) {
 
+        taskListAdapter.setTaskItems(taskTemplates);
 
     }
 
