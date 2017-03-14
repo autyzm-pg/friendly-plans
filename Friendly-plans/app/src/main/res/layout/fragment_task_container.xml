@@ -15,6 +15,7 @@
     android:textAppearance="?android:attr/textAppearanceLarge"/>
 
   <TextView
+    android:id="@+id/id_tv_task_name_label"
     android:layout_column="0"
     android:layout_row="1"
     android:text="@string/task_name"/>
@@ -70,8 +71,8 @@
     android:id="@+id/id_et_task_duration_time"
     android:layout_column="1"
     android:layout_row="4"
-    android:inputType="text"
-    tools:text="duration of  smth is here"/>
+    android:inputType="number"
+    tools:text="duration of smth is here"/>
 
   <Button
     android:id="@+id/id_btn_task_next"
