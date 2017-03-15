@@ -22,7 +22,7 @@ before_script:
 
 script: ./gradlew test --info
 # Turn off because it is not properly working, bug: #106
-# script: ./gradlew test connectedAndroidTest --info
+script: ./gradlew test connectedAndroidTest --info
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock

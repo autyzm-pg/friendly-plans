@@ -12,6 +12,7 @@ import static org.hamcrest.CoreMatchers.is;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.WindowManager;
 
 import database.repository.TaskTemplateRepository;
 import database.entities.TaskTemplate;
@@ -42,6 +43,19 @@ public class TaskCreateActivityTest {
     public void setUp() {
         taskTemplateRepository = new TaskTemplateRepository(
                 daoSessionResource.getSession(activityRule.getActivity().getApplicationContext()));
+    }
+
+    @Before
+    public void unlockScreen() {
+        final TaskCreateActivity activity = activityRule.getActivity();
+        Runnable wakeUpDevice = new Runnable() {
+                public void run() {
+                        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                    }
+            };
+        activity.runOnUiThread(wakeUpDevice);
     }
 
     @After
