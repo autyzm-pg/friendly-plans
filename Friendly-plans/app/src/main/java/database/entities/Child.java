@@ -1,66 +1,65 @@
-package database;
-
-import android.support.annotation.IntDef;
+package database.entities;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
 
 import java.util.List;
+
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
-
-/**
- * Created by agoncharenko on 1/25/2017.
- */
 
 @Entity
 public class Child {
 
-    @Id
-    private long id;
+    @Id(autoincrement = true)
+    private Long id;
 
     private String name;
 
     private String surname;
 
-    private String font_size;
+    private String fontSize;
 
-    private String picture_size;
+    private String pictureSize;
 
-    private String display_mode;
+    private String displayMode;
 
     @ToMany(referencedJoinProperty = "childId")
     private List<ChildPlan> childPlans;
 
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 1911343815)
     private transient ChildDao myDao;
 
-    @Generated(hash = 1187127662)
-    public Child(long id, String name, String surname, String font_size,
-            String picture_size, String display_mode) {
+    @Generated(hash = 1302308560)
+    public Child(Long id, String name, String surname, String fontSize, String pictureSize,
+            String displayMode) {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.font_size = font_size;
-        this.picture_size = picture_size;
-        this.display_mode = display_mode;
+        this.fontSize = fontSize;
+        this.pictureSize = pictureSize;
+        this.displayMode = displayMode;
     }
 
     @Generated(hash = 891984724)
     public Child() {
     }
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -80,33 +79,33 @@ public class Child {
         this.surname = surname;
     }
 
-    public String getFont_size() {
-        return this.font_size;
+    public String getFontSize() {
+        return this.fontSize;
     }
 
-    public void setFont_size(String font_size) {
-        this.font_size = font_size;
+    public void setFontSize(String fontSize) {
+        this.fontSize = fontSize;
     }
 
-    public String getPicture_size() {
-        return this.picture_size;
+    public String getPictureSize() {
+        return this.pictureSize;
     }
 
-    public void setPicture_size(String picture_size) {
-        this.picture_size = picture_size;
+    public void setPictureSize(String pictureSize) {
+        this.pictureSize = pictureSize;
     }
 
-    public String getDisplay_mode() {
-        return this.display_mode;
+    public String getDisplayMode() {
+        return this.displayMode;
     }
 
-    public void setDisplay_mode(String display_mode) {
-        this.display_mode = display_mode;
+    public void setDisplayMode(String displayMode) {
+        this.displayMode = displayMode;
     }
 
     /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
+     * To-many relationship, resolved on first access (and after reset). Changes to to-many
+     * relations are not persisted, make changes to the target entity.
      */
     @Generated(hash = 1396703637)
     public List<ChildPlan> getChildPlans() {
@@ -126,15 +125,17 @@ public class Child {
         return childPlans;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 398907355)
     public synchronized void resetChildPlans() {
         childPlans = null;
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 128553479)
     public void delete() {
@@ -145,8 +146,8 @@ public class Child {
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 1942392019)
     public void refresh() {
@@ -157,8 +158,8 @@ public class Child {
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 713229351)
     public void update() {
