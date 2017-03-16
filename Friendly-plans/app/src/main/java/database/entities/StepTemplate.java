@@ -1,4 +1,4 @@
-package database;
+package database.entities;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
@@ -6,18 +6,16 @@ import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import java.util.List;
+
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.NotNull;
 
-/**
- * Created by agoncharenko on 1/25/2017.
- */
 @Entity
 public class StepTemplate {
 
-    @Id
-    private long id;
+    @Id(autoincrement = true)
+    private Long id;
 
     private String name;
 
@@ -35,17 +33,20 @@ public class StepTemplate {
     @ToMany(referencedJoinProperty = "stepTemplateId")
     private List<PlanTaskStep> planTaskSteps;
 
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 1320587426)
     private transient StepTemplateDao myDao;
 
-    @Generated(hash = 838298633)
-    public StepTemplate(long id, String name, String picture, String sound,
-            int order, long taskTemplateId) {
+    @Generated(hash = 1850431834)
+    public StepTemplate(Long id, String name, String picture, String sound, int order, long taskTemplateId) {
         this.id = id;
         this.name = name;
         this.picture = picture;
@@ -58,11 +59,12 @@ public class StepTemplate {
     public StepTemplate() {
     }
 
-    public long getId() {
+
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -109,7 +111,9 @@ public class StepTemplate {
     @Generated(hash = 309141312)
     private transient Long taskTemplate__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 1498914117)
     public TaskTemplate getTaskTemplate() {
         long __key = this.taskTemplateId;
@@ -129,7 +133,9 @@ public class StepTemplate {
         return taskTemplate;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 707519624)
     public void setTaskTemplate(@NotNull TaskTemplate taskTemplate) {
         if (taskTemplate == null) {
@@ -144,8 +150,8 @@ public class StepTemplate {
     }
 
     /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
+     * To-many relationship, resolved on first access (and after reset). Changes to to-many
+     * relations are not persisted, make changes to the target entity.
      */
     @Generated(hash = 2140032170)
     public List<PlanTaskStep> getPlanTaskSteps() {
@@ -166,15 +172,17 @@ public class StepTemplate {
         return planTaskSteps;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 1658737863)
     public synchronized void resetPlanTaskSteps() {
         planTaskSteps = null;
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 128553479)
     public void delete() {
@@ -185,8 +193,8 @@ public class StepTemplate {
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 1942392019)
     public void refresh() {
@@ -197,8 +205,8 @@ public class StepTemplate {
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
-     * Entity must attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}. Entity must
+     * attached to an entity context.
      */
     @Generated(hash = 713229351)
     public void update() {
