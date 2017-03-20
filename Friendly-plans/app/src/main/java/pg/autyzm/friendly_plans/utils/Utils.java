@@ -9,12 +9,12 @@ import android.widget.TextView;
 
 public class Utils {
 
-    public static void markFieldtMandatory(TextView tv) {
+    public static void markFieldMandatory(TextView tv) {
         String text = tv.getText() + " * ";
-        Spannable WordtoSpan = new SpannableString(text);
-        WordtoSpan.setSpan(new ForegroundColorSpan(Color.RED), text.indexOf('*'),
+        Spannable wordToSpan = new SpannableString(text);
+        wordToSpan.setSpan(new ForegroundColorSpan(Color.RED), text.indexOf('*'),
                 text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tv.setText(WordtoSpan);
+        tv.setText(wordToSpan);
     }
 
 }

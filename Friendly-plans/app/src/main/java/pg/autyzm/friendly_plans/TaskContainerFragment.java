@@ -2,16 +2,18 @@ package pg.autyzm.friendly_plans;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import database.repository.TaskTemplateRepository;
 import javax.inject.Inject;
 import pg.autyzm.friendly_plans.utils.Utils;
-import pg.autyzm.friendly_plans.utils.Validation;
+import pg.autyzm.friendly_plans.validation.TaskValidation;
 
 public class TaskContainerFragment extends Fragment {
 
@@ -36,78 +38,31 @@ public class TaskContainerFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         registerViews(view);
         taskNext.setOnClickListener(new View.OnClickListener() {
-                                        public void onClick(View v) {
-                                            if (isAllValidationOK()) {
-                                                createTaskInDb(); // fulfill the method to create task on db
-                                                goToNextPage();   // and start next activity
-                                            }
-                                        }
-                                    }
+                public void onClick(View v) {
+                if (TaskValidation.isAllValidationOK(taskName, taskDurTime)) {
+                    goToNextPage();   // and start next activity
+                }
+                }
+            }
         );
 
     }
 
-
-    private boolean isAllValidationOK() {
-        if (isFormOk()) {
-            if (isNameFree()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return false;
-    }
-
-    //every mandatory field in the form is validated here
-    private boolean isFormOk() {
-        boolean ret = true;
-
-        if (!Validation.hasText(taskName)) {
-            ret = false;
-        }
-        if (!Validation.isNameOk(taskName, true)) {
-            ret = false;
-        }
-        if (!Validation.isNumber(taskDurTime, false)) {
-            ret = false;
-        }
-        // add validation on other fields if required
-        return ret;
-    }
-
-    // search name in db
-    private boolean isNameFree() {
-        //TODO: implement getSingleNameFromBd(name) method on repository!
-        int namesCount = taskTemplateRepository.get(taskName.getText().toString()).size();
-
-        if (!(namesCount > 0)) {
-            Validation.isNameEmpty(taskName, false);
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    private void createTaskInDb() {
-
-        /***
-         * create record on db
-         * TODO: implement save new task in table functionality
-         */
-    }
-
     private void goToNextPage() {
-        /***
-         * create intent and start new activity
-         * TODO: implement new intent and its extras
-         */
+        // create intent and start new activity
+        // TODO: implement new intent and its extras
+        //Toast is here for testing purposes.
+
+        Toast toast = Toast
+                .makeText(getActivity(), "All GOOD! Go to next page.", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.TOP, 0, 0);
+        toast.show();
     }
 
     private void registerViews(View view) {
 
         labelTaskName = (TextView) view.findViewById(R.id.id_tv_task_name_label);
-        Utils.markFieldtMandatory(labelTaskName);
+        Utils.markFieldMandatory(labelTaskName);// red (*) is here
 
         taskName = (EditText) view.findViewById(R.id.id_et_task_name);
         taskPicture = (EditText) view.findViewById(R.id.id_et_task_picture);
