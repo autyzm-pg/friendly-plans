@@ -32,7 +32,7 @@ public class TaskCreateActivityTest {
 
     @Rule
     public ActivityTestRule<TaskCreateActivity> activityRule = new ActivityTestRule<>(
-            TaskCreateActivity.class, true, true);
+        TaskCreateActivity.class, true, true);
 
     private static final String EXPECTED_NAME = "TEST TASK";
 
@@ -42,19 +42,20 @@ public class TaskCreateActivityTest {
     @Before
     public void setUp() {
         taskTemplateRepository = new TaskTemplateRepository(
-                daoSessionResource.getSession(activityRule.getActivity().getApplicationContext()));
+            daoSessionResource.getSession(activityRule.getActivity().getApplicationContext()));
     }
 
     @Before
     public void unlockScreen() {
         final TaskCreateActivity activity = activityRule.getActivity();
         Runnable wakeUpDevice = new Runnable() {
-                public void run() {
-                        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                    }
-            };
+            public void run() {
+                activity.getWindow().addFlags(
+                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                        | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                        | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
+        };
         activity.runOnUiThread(wakeUpDevice);
     }
 
@@ -68,30 +69,30 @@ public class TaskCreateActivityTest {
     @Test
     public void When_TaskCreateActivity_Expect_HeaderAndEmptyFields() {
         onView(withId(R.id.id_task_create_description))
-                .check(matches(withText(R.string.task_create_description)));
+            .check(matches(withText(R.string.task_create_description)));
         onView(withId(R.id.id_et_task_name))
-                .check(matches(withText("")));
+            .check(matches(withText("")));
         onView(withId(R.id.id_et_task_picture))
-                .check(matches(withText("")));
+            .check(matches(withText("")));
         onView(withId(R.id.id_et_task_sound))
-                .check(matches(withText("")));
+            .check(matches(withText("")));
         onView(withId(R.id.id_et_task_duration_time))
-                .check(matches(withText("")));
+            .check(matches(withText("")));
     }
 
     @Test
     public void When_AddingNewTask_Expect_NewTaskAddedToDB() throws InterruptedException {
 
         onView(withId(R.id.id_et_task_name))
-                .perform(replaceText(EXPECTED_NAME));
+            .perform(replaceText(EXPECTED_NAME));
         closeKeyboard();
 
         onView(withId(R.id.id_et_task_duration_time))
-                .perform(replaceText("1"));
+            .perform(replaceText("1"));
         closeKeyboard();
 
         onView(withId(R.id.id_btn_task_next))
-                .perform(click());
+            .perform(click());
 
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
         idToDelete = taskTemplates.get(0).getId();
