@@ -82,7 +82,6 @@ public class TaskCreateActivityTest {
 
     @Test
     public void When_AddingNewTask_Expect_NewTaskAddedToDB() throws InterruptedException {
-
         onView(withId(R.id.id_et_task_name))
                 .perform(replaceText(EXPECTED_NAME));
         closeKeyboard();
