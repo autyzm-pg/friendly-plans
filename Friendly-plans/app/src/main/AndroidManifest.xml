@@ -21,6 +21,10 @@
             android:name=".TaskCreateActivity"
             android:screenOrientation="landscape">
         </activity>
+        <activity android:name=".TaskListActivity"
+            android:exported="true">
+        </activity>
+
     </application>
 
 </manifest>

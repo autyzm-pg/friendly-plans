@@ -10,7 +10,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.TaskTemplate;
+import database.entities.TaskTemplate;
+
 
 /**
  * Created by Mateusz on 2017-03-08.
@@ -37,21 +38,21 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
             TaskTemplate taskItem = taskItemList.get(position);
             holder.taskName.setText(taskItem.getName());
             //condition only for mocking purposes -> needs to be changed later
-            if (!taskItem.getPicture().isEmpty()) {
+            if (taskItem.getPicture()!= null && !taskItem.getPicture().isEmpty()) {
                 holder.taskPicture.setImageResource(ICON_PLACEHOLDER_ID);
                 holder.taskPicture.setVisibility(View.VISIBLE);
             } else  {
                 holder.taskPicture.setVisibility(View.GONE);
             }
-            if (!taskItem.getSound().isEmpty()) {
+            if (taskItem.getSound()!= null && !taskItem.getSound().isEmpty()) {
                 holder.taskSoundIcon.setImageResource(ICON_PLACEHOLDER_ID);
                 holder.taskSoundIcon.setVisibility(View.VISIBLE);
             } else  {
                 holder.taskSoundIcon.setVisibility(View.GONE);
             }
-            if (!taskItem.getTime().isEmpty()) {
+            if (taskItem.getDurationTime() != 0) {
                 holder.taskDurationIcon.setImageResource(ICON_PLACEHOLDER_ID);
-                holder.taskDurationTime.setText(taskItem.getTime());
+                holder.taskDurationTime.setText(String.valueOf(taskItem.getDurationTime()));
                 holder.taskDurationIcon.setVisibility(View.VISIBLE);
             } else {
                 holder.taskDurationTime.setText("");

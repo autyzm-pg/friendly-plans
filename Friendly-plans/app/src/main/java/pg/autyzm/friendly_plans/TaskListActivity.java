@@ -9,7 +9,12 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.TaskTemplate;
+import javax.inject.Inject;
+
+import database.entities.TaskTemplate;
+import database.repository.TaskTemplateRepository;
+
+;
 
 /**
  * Created by Mateusz on 2017-03-08.
@@ -17,16 +22,21 @@ import database.TaskTemplate;
 
 public class TaskListActivity extends AppCompatActivity {
 
+    @Inject
+    TaskTemplateRepository taskTemplateRepository;
+
     private TaskRecyclerViewAdapter taskListAdapter;
     private static final String TAG = "TaskListActivity";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        ((App) getApplication()).getRepositoryComponent().inject(this);
         setContentView(R.layout.activity_task_list);
         setUpViews();
-        setUpAndLoadMockList();
+        loadTasksToadapter(taskTemplateRepository.getAll());
 
 
     }
@@ -42,15 +52,17 @@ public class TaskListActivity extends AppCompatActivity {
         recyclerView.setAdapter(taskListAdapter);
 
 
+
     }
 
+    //For early "test" purposes
     private void setUpAndLoadMockList() {
         List<TaskTemplate> mockTaskList = new ArrayList<>();
-        TaskTemplate mockTaskWithoutMedia = new TaskTemplate(1, "name without media", "", "", "");
-        mockTaskList.add(new TaskTemplate(1, "picture, no sound", "picture", "", ""));
-        mockTaskList.add(new TaskTemplate(2, "sound, no picture", "", "sound", ""));
+        TaskTemplate mockTaskWithoutMedia = new TaskTemplate(1L, "name without media", "", "", 0);
+        mockTaskList.add(new TaskTemplate(1L, "picture, no sound", "picture", "", 0));
+        mockTaskList.add(new TaskTemplate(2L, "sound, no picture", "", "sound", 0));
         for (int i = 0; i < 10; i++) {
-            mockTaskList.add(new TaskTemplate(i, "name " + i, "picture", "sound", i + ":00"));
+            mockTaskList.add(new TaskTemplate((long) i, "name " + i, "picture", "sound", i));
             mockTaskList.add(mockTaskWithoutMedia);
         }
 
