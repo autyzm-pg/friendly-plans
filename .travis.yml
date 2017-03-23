@@ -21,7 +21,6 @@ before_script:
   - adb shell input keyevent 82 &
 
 script: ./gradlew test --info
-# Turn off because it is not properly working, bug: #106
 script: ./gradlew test connectedAndroidTest --info --stacktrace
 
 before_cache:
