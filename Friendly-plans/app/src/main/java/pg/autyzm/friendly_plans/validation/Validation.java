@@ -19,7 +19,6 @@ public class Validation {
     private static final String ONLY_NUMBERS_MSG = "@string/only_numbers_msg";
     private static final String NOT_EMPTY_MSG = "@string/not_empty_msg";
 
-
     protected static boolean isNameOk(EditText editText, boolean required) {
         return isValid(editText, NAME_REGEX, WRONG_NAME_MSG, required);
     }
@@ -63,6 +62,6 @@ public class Validation {
     }
 
     protected static void showError(EditText editText) {
-            editText.setError(DUPLICATED_NAME_MSG);
+        editText.setError(DUPLICATED_NAME_MSG);
     }
 }

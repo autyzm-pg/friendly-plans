@@ -4,37 +4,19 @@ import android.widget.EditText;
 
 public class TaskValidation extends Validation {
 
-    public static boolean isAllValidationOK(EditText name, EditText duration) {
-        if (isFormOk(name, duration)) {
-            if (isNameFree(name)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    //every mandatory field in the form is validated here
-    private static boolean isFormOk(EditText name, EditText duration) {
-        boolean ret = true;
-
+    public static boolean isValid(EditText name, EditText duration) {
         if (!Validation.hasText(name)) {
-            ret = false;
+            return false;
         }
         if (!Validation.isNameOk(name, true)) {
-            ret = false;
+            return false;
         }
         if (!Validation.isNumber(duration, false)) {
-            ret = false;
+            return false;
         }
-        // add validation on other fields if required
-        return ret;
-    }
 
-    // search name in db
-    private static boolean isNameFree(EditText name) {
-
-        boolean isNameOnDb = false; //temporal.  Store db respond in this variable!
         //TODO: implement method that return t/f if record with required name, is on db.
+        boolean isNameOnDb = false;
 
         if (isNameOnDb) {
             showError(name);
@@ -42,5 +24,4 @@ public class TaskValidation extends Validation {
         }
         return true;
     }
-
 }

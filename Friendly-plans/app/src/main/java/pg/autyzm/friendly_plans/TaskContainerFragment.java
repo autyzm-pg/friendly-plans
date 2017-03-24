@@ -38,23 +38,27 @@ public class TaskContainerFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         registerViews(view);
         taskNext.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                if (TaskValidation.isAllValidationOK(taskName, taskDurTime)) {
-                    goToNextPage();   // and start next activity
-                }
+            public void onClick(View v) {
+                if (TaskValidation.isValid(taskName, taskDurTime)) {
+                    addTaskOnDb();
+                    goToNextPage();
                 }
             }
-        );
+        });
+    }
 
+    private void addTaskOnDb() { //TODO:  how about exception handling of db transaction ?
+        taskTemplateRepository.create(taskName.getText().toString(),
+                Integer.valueOf(taskDurTime.getText().toString()));
     }
 
     private void goToNextPage() {
         // create intent and start new activity
         // TODO: implement new intent and its extras
-        //Toast is here for testing purposes.
 
+        //Toast is here for testing purposes.
         Toast toast = Toast
-                .makeText(getActivity(), "All GOOD! Go to next page.", Toast.LENGTH_SHORT);
+                .makeText(getActivity(), "All GOOD! Go to next page.", Toast.LENGTH_LONG);
         toast.setGravity(Gravity.TOP, 0, 0);
         toast.show();
     }
