@@ -18,6 +18,9 @@ import pg.autyzm.friendly_plans.validation.TaskValidation;
 public class TaskContainerFragment extends Fragment {
 
     @Inject
+    TaskValidation taskValidation;
+
+    @Inject
     TaskTemplateRepository taskTemplateRepository;
 
     private TextView labelTaskName;
@@ -30,7 +33,7 @@ public class TaskContainerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        ((App) getActivity().getApplication()).getRepositoryComponent().inject(this);
+        ((App) getActivity().getApplication()).getAppComponent().inject(this);
         return inflater.inflate(R.layout.fragment_task_container, container, false);
     }
 
@@ -39,7 +42,7 @@ public class TaskContainerFragment extends Fragment {
         registerViews(view);
         taskNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (TaskValidation.isValid(taskName, taskDurTime)) {
+                if (taskValidation.isValid(taskName, taskDurTime)) {
                     addTaskOnDb();
                     goToNextPage();
                 }
@@ -56,7 +59,6 @@ public class TaskContainerFragment extends Fragment {
         // create intent and start new activity
         // TODO: implement new intent and its extras
 
-        //Toast is here for testing purposes.
         Toast toast = Toast
                 .makeText(getActivity(), "All GOOD! Go to next page.", Toast.LENGTH_LONG);
         toast.setGravity(Gravity.TOP, 0, 0);
@@ -66,7 +68,7 @@ public class TaskContainerFragment extends Fragment {
     private void registerViews(View view) {
 
         labelTaskName = (TextView) view.findViewById(R.id.id_tv_task_name_label);
-        Utils.markFieldMandatory(labelTaskName);// red (*) is here
+        Utils.markFieldMandatory(labelTaskName);
 
         taskName = (EditText) view.findViewById(R.id.id_et_task_name);
         taskPicture = (EditText) view.findViewById(R.id.id_et_task_picture);

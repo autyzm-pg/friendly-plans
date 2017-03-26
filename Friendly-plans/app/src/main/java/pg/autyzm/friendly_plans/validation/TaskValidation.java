@@ -1,17 +1,22 @@
 package pg.autyzm.friendly_plans.validation;
 
 import android.widget.EditText;
+import pg.autyzm.friendly_plans.utils.StringsProvider;
 
 public class TaskValidation extends Validation {
 
-    public static boolean isValid(EditText name, EditText duration) {
-        if (!Validation.hasText(name)) {
+    public TaskValidation(StringsProvider stringsProvider) {
+        super(stringsProvider);
+    }
+
+    public boolean isValid(EditText name, EditText duration) {
+        if (!hasText(name)) {
             return false;
         }
-        if (!Validation.isNameOk(name, true)) {
+        if (!isNameOk(name, true)) {
             return false;
         }
-        if (!Validation.isNumber(duration, false)) {
+        if (!isNumber(duration, false)) {
             return false;
         }
 
