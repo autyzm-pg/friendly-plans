@@ -1,6 +1,7 @@
 package pg.autyzm.friendly_plans;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,9 @@ public class TaskContainerFragment extends Fragment {
     private EditText taskSound;
     private EditText taskDurTime;
     private Button taskNext;
+    private Button selectPicture;
+
+    private FilePickerProxy filePickerProxy;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,6 +35,8 @@ public class TaskContainerFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        filePickerProxy = new FilePickerProxy();
+
         taskName = (EditText) view.findViewById(R.id.id_et_task_name);
         taskPicture = (EditText) view.findViewById(R.id.id_et_task_picture);
         taskSound = (EditText) view.findViewById(R.id.id_et_task_sound);
@@ -49,6 +55,28 @@ public class TaskContainerFragment extends Fragment {
                 Log.i("id :", "{" + String.valueOf(id) + "}");
             }
         });
+
+        selectPicture = (Button) view.findViewById(R.id.id_btn_select_task_picture);
+
+        selectPicture.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                filePickerProxy.openImageFilePicker(TaskContainerFragment.this);
+            }
+        });
+
+
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(filePickerProxy.isPickFileRequested(requestCode) && filePickerProxy.isFilePicked(resultCode)) {
+            taskPicture.setText(filePickerProxy.getFilePath(data));
+        }
+    }
+
+
+
 }
 

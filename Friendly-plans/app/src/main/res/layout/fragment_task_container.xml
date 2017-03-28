@@ -41,6 +41,7 @@
     tools:text="name of the picture is here"/>
 
   <Button
+    android:id="@+id/id_btn_select_task_picture"
     android:layout_column="3"
     android:layout_row="2"
     android:text="@string/select_picture"/>
