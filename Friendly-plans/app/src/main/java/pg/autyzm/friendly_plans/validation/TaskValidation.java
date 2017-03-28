@@ -16,11 +16,11 @@ public class TaskValidation extends Validation {
         if (!isNameOk(name, true)) {
             return false;
         }
-        if (!isNumber(duration, false)) {
+        if (!isNumber(duration, true)) {
             return false;
         }
 
-        //TODO: implement method that return t/f if record with required name, is on db.
+        //TODO: implement method that return t/f if record with required name is on db.
         boolean isNameOnDb = false;
 
         if (isNameOnDb) {

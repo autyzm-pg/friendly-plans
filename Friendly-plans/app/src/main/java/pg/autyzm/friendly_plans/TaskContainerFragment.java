@@ -24,6 +24,7 @@ public class TaskContainerFragment extends Fragment {
     TaskTemplateRepository taskTemplateRepository;
 
     private TextView labelTaskName;
+    private TextView labelDurationTime;
     private EditText taskName;
     private EditText taskPicture;
     private EditText taskSound;
@@ -42,10 +43,10 @@ public class TaskContainerFragment extends Fragment {
         registerViews(view);
         taskNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (taskValidation.isValid(taskName, taskDurTime)) {
-                    addTaskOnDb();
-                    goToNextPage();
-                }
+            if (taskValidation.isValid(taskName, taskDurTime)) {
+                addTaskOnDb();
+                goToNextPage();
+            }
             }
         });
     }
@@ -69,6 +70,9 @@ public class TaskContainerFragment extends Fragment {
 
         labelTaskName = (TextView) view.findViewById(R.id.id_tv_task_name_label);
         Utils.markFieldMandatory(labelTaskName);
+
+        labelDurationTime = (TextView) view.findViewById(R.id.id_tv_task_duration_time);
+        Utils.markFieldMandatory(labelDurationTime);
 
         taskName = (EditText) view.findViewById(R.id.id_et_task_name);
         taskPicture = (EditText) view.findViewById(R.id.id_et_task_picture);
