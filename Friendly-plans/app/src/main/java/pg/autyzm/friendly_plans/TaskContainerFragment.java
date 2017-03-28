@@ -24,12 +24,13 @@ public class TaskContainerFragment extends Fragment {
     private Button taskNext;
     private Button selectPicture;
 
-    private FilePickerProxy filePickerProxy;
+    public FilePickerProxy filePickerProxy;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        ((App) getActivity().getApplication()).getRepositoryComponent().inject(this);
+//        ((App) getActivity().getApplication()).getRepositoryComponent().inject(this);
+        ((App) getActivity().getApplication()).getAppComponent().inject(this);
         return inflater.inflate(R.layout.fragment_task_container, container, false);
     }
 
