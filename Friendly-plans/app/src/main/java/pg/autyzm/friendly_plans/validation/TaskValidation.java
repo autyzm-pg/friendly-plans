@@ -20,7 +20,6 @@ public class TaskValidation extends Validation {
             return false;
         }
 
-        //TODO: implement method that return t/f if record with required name is on db.
         boolean isNameOnDb = false;
 
         if (isNameOnDb) {

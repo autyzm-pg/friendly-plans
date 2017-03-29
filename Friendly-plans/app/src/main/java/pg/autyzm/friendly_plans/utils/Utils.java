@@ -9,8 +9,10 @@ import android.widget.TextView;
 
 public class Utils {
 
+    private static final String ASTERISK = " * ";
+
     public static void markFieldMandatory(TextView tv) {
-        String text = tv.getText() + " * ";
+        String text = tv.getText() + ASTERISK;
         Spannable wordToSpan = new SpannableString(text);
         wordToSpan.setSpan(new ForegroundColorSpan(Color.RED), text.indexOf('*'),
                 text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

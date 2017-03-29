@@ -2,14 +2,12 @@ package pg.autyzm.friendly_plans;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import database.repository.TaskTemplateRepository;
 import javax.inject.Inject;
 import pg.autyzm.friendly_plans.utils.Utils;
@@ -43,27 +41,20 @@ public class TaskContainerFragment extends Fragment {
         registerViews(view);
         taskNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            if (taskValidation.isValid(taskName, taskDurTime)) {
-                addTaskOnDb();
-                goToNextPage();
-            }
+                if (taskValidation.isValid(taskName, taskDurTime)) {
+                    addTaskOnDb();
+                    goToNextPage();
+                }
             }
         });
     }
 
-    private void addTaskOnDb() { //TODO:  how about exception handling of db transaction ?
+    private void addTaskOnDb() {
         taskTemplateRepository.create(taskName.getText().toString(),
                 Integer.valueOf(taskDurTime.getText().toString()));
     }
 
     private void goToNextPage() {
-        // create intent and start new activity
-        // TODO: implement new intent and its extras
-
-        Toast toast = Toast
-                .makeText(getActivity(), "All GOOD! Go to next page.", Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.TOP, 0, 0);
-        toast.show();
     }
 
     private void registerViews(View view) {

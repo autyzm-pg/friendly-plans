@@ -6,7 +6,8 @@ import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.utils.StringsProvider;
 
 /***
- * Original of validation class is here: https://tausiq.wordpress.com/2013/01/19/android-input-field-validation/
+ * Original of validation class is here:
+ * https://tausiq.wordpress.com/2013/01/19/android-input-field-validation/
  */
 public class Validation {
 
