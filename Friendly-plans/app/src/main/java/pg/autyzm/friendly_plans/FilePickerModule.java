@@ -10,7 +10,7 @@ public class FilePickerModule {
 
     @Provides
     @Singleton
-    FilePickerProxy getFilePickerProxy() {
+    public FilePickerProxy getFilePickerProxy() {
         return new FilePickerProxy();
     }
 }

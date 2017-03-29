@@ -17,6 +17,9 @@ public class TaskContainerFragment extends Fragment {
     @Inject
     TaskTemplateRepository taskTemplateRepository;
 
+    @Inject
+    public FilePickerProxy filePickerProxy;
+
     private EditText taskName;
     private EditText taskPicture;
     private EditText taskSound;
@@ -24,20 +27,15 @@ public class TaskContainerFragment extends Fragment {
     private Button taskNext;
     private Button selectPicture;
 
-    public FilePickerProxy filePickerProxy;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-//        ((App) getActivity().getApplication()).getRepositoryComponent().inject(this);
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
         return inflater.inflate(R.layout.fragment_task_container, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        filePickerProxy = new FilePickerProxy();
-
         taskName = (EditText) view.findViewById(R.id.id_et_task_name);
         taskPicture = (EditText) view.findViewById(R.id.id_et_task_picture);
         taskSound = (EditText) view.findViewById(R.id.id_et_task_sound);
@@ -64,8 +62,6 @@ public class TaskContainerFragment extends Fragment {
                 filePickerProxy.openImageFilePicker(TaskContainerFragment.this);
             }
         });
-
-
     }
 
     @Override

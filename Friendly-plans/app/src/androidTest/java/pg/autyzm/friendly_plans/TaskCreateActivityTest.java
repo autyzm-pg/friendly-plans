@@ -9,7 +9,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
+import android.app.Fragment;
+import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.WindowManager;
@@ -99,6 +104,16 @@ public class TaskCreateActivityTest {
         assertThat(taskTemplates.size(), is(1));
         assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
         assertThat(taskTemplates.get(0).getDurationTime(), is(1));
+    }
+
+    @Test
+    public void TestMy() {
+        TaskContainerFragment fragment = (TaskContainerFragment) activityRule.getActivity().getFragmentManager().findFragmentById(R.id.task_container);
+        FilePickerProxy filePickerProxyMock = mock(FilePickerProxy.class);
+        fragment.filePickerProxy = filePickerProxyMock;
+        activityRule.launchActivity(new Intent());
+        onView(withId(R.id.id_btn_select_task_picture)).perform(click());
+        verify(filePickerProxyMock).openImageFilePicker(any(TaskContainerFragment.class));
     }
 
     private void closeKeyboard() throws InterruptedException {

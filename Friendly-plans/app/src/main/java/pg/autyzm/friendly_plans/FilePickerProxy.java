@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 public class FilePickerProxy {
 
-    private final int PICK_FILE_REQUEST = 1;
+    public static final int PICK_FILE_REQUEST = 1;
     private static final String IMAGE_PATTERN =  "([^\\s]+(\\.(?i)(jpg|jpeg|png|gif|bmp))$)";
 
 

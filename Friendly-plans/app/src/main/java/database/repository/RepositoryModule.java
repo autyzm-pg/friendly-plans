@@ -10,7 +10,7 @@ public class RepositoryModule {
 
     @Provides
     @Singleton
-    TaskTemplateRepository getTaskTemplateRepository(DaoSession daoSession) {
+    protected TaskTemplateRepository getTaskTemplateRepository(DaoSession daoSession) {
         return new TaskTemplateRepository(daoSession);
     }
 }
