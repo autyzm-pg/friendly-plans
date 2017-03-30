@@ -9,7 +9,7 @@ There is one important exception from rules described in Google's document: In p
 ## Database naming guidelines
 Both for table and column names we're using snake_case.
 
-##Android specific guidelines
+## Android specific guidelines
 Guidelines in this paragraph has been taken from (Apache License): [ribot repo](https://github.com/ribot/android-guidelines/blob/master/project_and_code_guidelines.md)
 
 ### Resources files
