@@ -1,5 +1,4 @@
-package pg.autyzm.friendly_plans;
-
+package pg.autyzm.friendly_plans.file_picker;
 
 import dagger.Module;
 import dagger.Provides;

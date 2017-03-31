@@ -1,5 +1,4 @@
-package pg.autyzm.friendly_plans.utils;
-
+package pg.autyzm.friendly_plans.validation;
 
 import android.graphics.Color;
 import android.text.Spannable;

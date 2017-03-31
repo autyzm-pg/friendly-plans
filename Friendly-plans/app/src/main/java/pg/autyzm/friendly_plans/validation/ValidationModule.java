@@ -1,9 +1,9 @@
-package pg.autyzm.friendly_plans.utils;
+package pg.autyzm.friendly_plans.validation;
 
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
-import pg.autyzm.friendly_plans.validation.TaskValidation;
+import pg.autyzm.friendly_plans.string_provider.StringsProvider;
 
 @Module
 public class ValidationModule {

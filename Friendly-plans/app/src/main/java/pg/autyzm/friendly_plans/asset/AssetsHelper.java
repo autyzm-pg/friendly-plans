@@ -1,10 +1,8 @@
-package pg.autyzm.friendly_plans;
-
+package pg.autyzm.friendly_plans.asset;
 
 import android.content.Context;
 import java.io.File;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -27,7 +25,8 @@ public class AssetsHelper {
     public String makeSafeCopy(String pathToAsset) throws IOException {
         String assetName = FilenameUtils.getBaseName(pathToAsset);
         String assetExtension = mapExtension(FilenameUtils.getExtension(pathToAsset));
-        String safeCopyName = assetName + SEPARATOR + getRandomValue() + EXTENSION_SEPARATOR + assetExtension;
+        String safeCopyName =
+                assetName + SEPARATOR + getRandomValue() + EXTENSION_SEPARATOR + assetExtension;
         File safeCopy = new File(context.getFilesDir(), safeCopyName);
         FileUtils.copyFile(new File(pathToAsset), safeCopy);
         return safeCopy.getName();
@@ -39,7 +38,7 @@ public class AssetsHelper {
 
     private String mapExtension(String extension) {
         String lowerCaseExtension = extension.toLowerCase();
-        if(lowerCaseExtension.equals(JPEG_EXTENSION)) {
+        if (lowerCaseExtension.equals(JPEG_EXTENSION)) {
             lowerCaseExtension = JPG_EXTENSION;
         }
         return lowerCaseExtension;

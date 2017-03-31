@@ -1,4 +1,4 @@
-package pg.autyzm.friendly_plans.utils;
+package pg.autyzm.friendly_plans.string_provider;
 
 import android.content.Context;
 import dagger.Module;

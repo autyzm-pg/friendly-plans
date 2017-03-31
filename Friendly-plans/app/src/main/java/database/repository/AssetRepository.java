@@ -1,10 +1,9 @@
 package database.repository;
 
-
 import database.entities.Asset;
-import database.entities.AssetType;
 import database.entities.DaoSession;
 import java.util.List;
+import pg.autyzm.friendly_plans.asset.AssetType;
 
 public class AssetRepository {
 
@@ -15,7 +14,7 @@ public class AssetRepository {
     }
 
     public Long create(String type, String filename) {
-        if(isValidAssetType(type)) {
+        if (isValidAssetType(type)) {
             Asset asset = new Asset();
             asset.setType(type);
             asset.setFilename(filename);
@@ -38,8 +37,8 @@ public class AssetRepository {
     }
 
     private boolean isValidAssetType(String type) {
-        for(String validAssetType : AssetType.VALID_TYPES) {
-            if(type.equals(validAssetType)) {
+        for (String validAssetType : AssetType.VALID_TYPES) {
+            if (type.equals(validAssetType)) {
                 return true;
             }
         }

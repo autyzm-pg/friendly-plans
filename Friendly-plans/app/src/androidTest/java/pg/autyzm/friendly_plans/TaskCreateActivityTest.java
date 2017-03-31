@@ -5,30 +5,21 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.intent.Intents.intending;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
-import android.app.Fragment;
-import android.app.Instrumentation.ActivityResult;
 import android.content.Context;
 import android.content.Intent;
-import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.WindowManager;
-
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import database.entities.Asset;
+import database.entities.TaskTemplate;
 import database.repository.AssetRepository;
 import database.repository.TaskTemplateRepository;
-import database.entities.TaskTemplate;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,6 +31,7 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 
 @RunWith(AndroidJUnit4.class)
 public class TaskCreateActivityTest {
@@ -57,7 +49,6 @@ public class TaskCreateActivityTest {
     private TaskTemplateRepository taskTemplateRepository;
     private AssetRepository assetRepository;
 
-    private Context context;
     private File internalStorage;
     private Long idToDelete;
     private List<File> testFiles;
@@ -65,11 +56,10 @@ public class TaskCreateActivityTest {
     @Before
     public void setUp() {
         testFiles = new ArrayList<>();
-        context = activityRule.getActivity().getApplicationContext();
+        Context context = activityRule.getActivity().getApplicationContext();
         taskTemplateRepository = new TaskTemplateRepository(daoSessionResource.getSession(context));
         assetRepository = new AssetRepository(daoSessionResource.getSession(context));
         internalStorage = context.getFilesDir();
-
     }
 
     @Before
@@ -132,34 +122,33 @@ public class TaskCreateActivityTest {
 
     @Test
     public void When_SettingPicture_Expect_PictureNameIsDisplayed()
-        throws InterruptedException, IOException {
+            throws InterruptedException, IOException {
         setTestPicture();
         List<Asset> assets = assetRepository.getAll();
 
         onView(withId(R.id.id_et_task_picture))
-            .check(matches(withText(assets.get(0).getFilename())));
+                .check(matches(withText(assets.get(0).getFilename())));
     }
 
     @Test
     public void When_AddingNewTaskWithPicture_Expect_NewTaskAddedToDB()
-        throws InterruptedException, IOException {
+            throws InterruptedException, IOException {
         onView(withId(R.id.id_et_task_name))
-            .perform(replaceText(EXPECTED_NAME));
+                .perform(replaceText(EXPECTED_NAME));
         closeKeyboard();
 
         onView(withId(R.id.id_et_task_duration_time))
-            .perform(replaceText("1"));
+                .perform(replaceText("1"));
         closeKeyboard();
 
         setTestPicture();
 
         onView(withId(R.id.id_btn_task_next))
-            .perform(click());
-
-        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
-        idToDelete = taskTemplates.get(0).getId();
+                .perform(click());
 
         List<Asset> assets = assetRepository.getAll();
+        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
+        idToDelete = taskTemplates.get(0).getId();
 
         assertThat(assets.size(), is(1));
         assertThat(taskTemplates.size(), is(1));
@@ -171,10 +160,6 @@ public class TaskCreateActivityTest {
     private void closeKeyboard() throws InterruptedException {
         closeSoftKeyboard();
         Thread.sleep(1000);
-    }
-
-    private TaskContainerFragment getFragment() {
-        return (TaskContainerFragment) activityRule.getActivity().getFragmentManager().findFragmentById(R.id.task_container);
     }
 
     private void setTestPicture() throws IOException, InterruptedException {
@@ -196,7 +181,8 @@ public class TaskCreateActivityTest {
         final TaskContainerFragment fragment = getFragment();
         activityRule.getActivity().runOnUiThread(new Runnable() {
             public void run() {
-                fragment.onActivityResult(FilePickerProxy.PICK_FILE_REQUEST, FilePickerActivity.RESULT_OK, data);
+                fragment.onActivityResult(FilePickerProxy.PICK_FILE_REQUEST,
+                        FilePickerActivity.RESULT_OK, data);
             }
         });
         Thread.sleep(1000);
@@ -208,10 +194,15 @@ public class TaskCreateActivityTest {
         testFiles.add(new File(internalStorage, fileName));
     }
 
+    private TaskContainerFragment getFragment() {
+        return (TaskContainerFragment) activityRule.getActivity().getFragmentManager()
+                .findFragmentById(R.id.task_container);
+    }
+
     private void removeTestFiles() {
-        for(File testFile : testFiles) {
+        for (File testFile : testFiles) {
             try {
-                if(testFile.exists()) {
+                if (testFile.exists()) {
                     FileUtils.forceDelete(testFile);
                 }
             } catch (IOException e) {
@@ -221,7 +212,7 @@ public class TaskCreateActivityTest {
     }
 
     private void removeTestAssets() {
-        for(Asset asset : assetRepository.getAll()) {
+        for (Asset asset : assetRepository.getAll()) {
             assetRepository.delete(asset.getId());
         }
     }

@@ -3,8 +3,9 @@ package pg.autyzm.friendly_plans;
 import android.app.Application;
 import database.repository.DaoSessionModule;
 import database.repository.RepositoryModule;
-import pg.autyzm.friendly_plans.utils.StringProviderModule;
-import pg.autyzm.friendly_plans.utils.ValidationModule;
+import pg.autyzm.friendly_plans.file_picker.FilePickerModule;
+import pg.autyzm.friendly_plans.string_provider.StringProviderModule;
+import pg.autyzm.friendly_plans.validation.ValidationModule;
 
 public class App extends Application {
 

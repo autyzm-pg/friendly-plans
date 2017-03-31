@@ -1,7 +1,6 @@
 package pg.autyzm.friendly_plans.activity;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -11,7 +10,6 @@ import static org.mockito.Mockito.when;
 import android.app.Fragment;
 import android.content.Intent;
 import android.widget.Button;
-import android.widget.EditText;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import database.repository.TaskTemplateRepository;
 import org.junit.Before;
@@ -22,21 +20,20 @@ import org.mockito.Mock;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
-
-import org.robolectric.shadows.ShadowHandler;
 import org.robolectric.shadows.ShadowToast;
 import pg.autyzm.friendly_plans.BuildConfig;
-import pg.autyzm.friendly_plans.FilePickerProxy;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.TaskContainerFragment;
 import pg.autyzm.friendly_plans.TaskCreateActivity;
-import pg.autyzm.friendly_plans.utils.AppComponentDaggerRule;
+import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
+import pg.autyzm.friendly_plans.test_helpers.AppComponentDaggerRule;
 
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 public class TaskCreateActivityTest {
 
-    @Rule public final AppComponentDaggerRule rule = new AppComponentDaggerRule();
+    @Rule
+    public final AppComponentDaggerRule rule = new AppComponentDaggerRule();
 
     @Mock
     private FilePickerProxy filePickerProxy;
@@ -69,9 +66,9 @@ public class TaskCreateActivityTest {
 
         Fragment fragment = activity.getFragmentManager().findFragmentById(R.id.task_container);
         fragment.onActivityResult(
-            FilePickerProxy.PICK_FILE_REQUEST,
-            FilePickerActivity.RESULT_OK,
-            new Intent()
+                FilePickerProxy.PICK_FILE_REQUEST,
+                FilePickerActivity.RESULT_OK,
+                new Intent()
         );
         String expectedMessage = activity.getResources().getString(R.string.picking_file_error);
         assertThat(ShadowToast.getTextOfLatestToast(), equalTo(expectedMessage));

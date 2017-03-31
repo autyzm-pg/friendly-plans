@@ -1,10 +1,8 @@
 package database.repository;
 
-
 import database.entities.DaoSession;
 import database.entities.TaskTemplate;
 import database.entities.TaskTemplateDao.Properties;
-
 import java.util.List;
 
 public class TaskTemplateRepository {

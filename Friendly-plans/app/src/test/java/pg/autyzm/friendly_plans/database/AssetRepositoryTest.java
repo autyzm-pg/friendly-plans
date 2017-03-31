@@ -1,6 +1,5 @@
 package pg.autyzm.friendly_plans.database;
 
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -10,7 +9,6 @@ import static org.mockito.Mockito.when;
 
 import database.entities.Asset;
 import database.entities.AssetDao;
-import database.entities.AssetType;
 import database.entities.DaoSession;
 import database.repository.AssetRepository;
 import java.util.ArrayList;
@@ -22,13 +20,14 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import pg.autyzm.friendly_plans.asset.AssetType;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AssetRepositoryTest {
 
-    public static final String ASSET_FILENAME = "Asset/file.jpg";
-    public static final String ASSET_TYPE = AssetType.PICTURE;
-    public static final String WRONG_ASSET_TYPE = "Very bad type for asset";
+    private static final String ASSET_FILENAME = "Asset/file.jpg";
+    private static final String ASSET_TYPE = AssetType.PICTURE;
+    private static final String WRONG_ASSET_TYPE = "Very bad type for asset";
 
     @InjectMocks
     AssetRepository assetRepository;

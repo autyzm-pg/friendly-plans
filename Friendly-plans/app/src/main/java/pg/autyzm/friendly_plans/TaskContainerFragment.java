@@ -9,15 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-import database.entities.AssetType;
-import database.repository.AssetRepository;
 import android.widget.TextView;
+import android.widget.Toast;
+import database.repository.AssetRepository;
 import database.repository.TaskTemplateRepository;
 import java.io.IOException;
 import javax.inject.Inject;
-import pg.autyzm.friendly_plans.utils.Utils;
+import pg.autyzm.friendly_plans.asset.AssetType;
+import pg.autyzm.friendly_plans.asset.AssetsHelper;
+import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 import pg.autyzm.friendly_plans.validation.TaskValidation;
+import pg.autyzm.friendly_plans.validation.Utils;
 
 public class TaskContainerFragment extends Fragment {
 
@@ -101,23 +103,31 @@ public class TaskContainerFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(filePickerProxy.isPickFileRequested(requestCode) && filePickerProxy.isFilePicked(resultCode)) {
-            Context context = getActivity().getApplicationContext();
-            String filePath = filePickerProxy.getFilePath(data);
-            AssetsHelper assetsHelper = new AssetsHelper(context);
-            try {
-                String assetName = assetsHelper.makeSafeCopy(filePath);
-                pictureId = assetRepository.create(AssetType.getTypeByExtension(assetName), assetName);
-                taskPicture.setText(assetName);
-
-            } catch (IOException e) {
-                Toast errorToast = Toast.makeText(context, PICKING_FILE_ERROR, Toast.LENGTH_LONG);
-                errorToast.show();
-            }
-
+        if (isSelectPictureResult(requestCode, resultCode)) {
+            handlePictureSelecting(data);
         }
     }
 
+    private boolean isSelectPictureResult(int requestCode, int resultCode) {
+        return filePickerProxy.isPickFileRequested(requestCode) && filePickerProxy
+                .isFilePicked(resultCode);
+    }
+
+    private void handlePictureSelecting(Intent data) {
+        Context context = getActivity().getApplicationContext();
+        String filePath = filePickerProxy.getFilePath(data);
+        AssetsHelper assetsHelper = new AssetsHelper(context);
+        try {
+            String assetName = assetsHelper.makeSafeCopy(filePath);
+            pictureId = assetRepository
+                    .create(AssetType.getTypeByExtension(assetName), assetName);
+            taskPicture.setText(assetName);
+
+        } catch (IOException e) {
+            Toast errorToast = Toast.makeText(context, PICKING_FILE_ERROR, Toast.LENGTH_LONG);
+            errorToast.show();
+        }
+    }
 
 
 }
