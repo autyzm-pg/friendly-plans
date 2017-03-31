@@ -40,3 +40,4 @@ public class AppComponentDaggerRule extends DaggerMockRule<AppComponent> {
     }
 
 }
+

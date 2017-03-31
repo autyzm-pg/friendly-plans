@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.io.FilenameUtils;
 
-public class AssetType {
+public final class AssetType {
 
     public static final String PICTURE = "PICTURE";
     public static final String SOUND = "SOUND";

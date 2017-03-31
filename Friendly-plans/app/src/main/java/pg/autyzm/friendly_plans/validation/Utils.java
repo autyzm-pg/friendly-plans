@@ -6,7 +6,7 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.widget.TextView;
 
-public class Utils {
+public final class Utils {
 
     private static final String ASTERISK = " * ";
 
