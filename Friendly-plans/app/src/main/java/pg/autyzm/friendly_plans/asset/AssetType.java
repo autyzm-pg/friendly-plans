@@ -32,4 +32,8 @@ public class AssetType {
         }
     }
 
+    private AssetType() {
+
+    }
+
 }

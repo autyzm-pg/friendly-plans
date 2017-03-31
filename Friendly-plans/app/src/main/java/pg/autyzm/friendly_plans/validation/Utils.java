@@ -18,4 +18,8 @@ public class Utils {
         tv.setText(wordToSpan);
     }
 
+    private Utils() {
+
+    }
+
 }

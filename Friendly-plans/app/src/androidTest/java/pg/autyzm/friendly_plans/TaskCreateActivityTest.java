@@ -45,6 +45,8 @@ public class TaskCreateActivityTest {
 
     private static final String EXPECTED_NAME = "TEST TASK";
     private static final String TEST_PICTURE_NAME = "picture.jpg";
+    private static final String EXPECTED_DURATION_TXT = "1";
+    private static final int EXPECTED_DURATION = 1;
 
     private TaskTemplateRepository taskTemplateRepository;
     private AssetRepository assetRepository;
@@ -106,7 +108,7 @@ public class TaskCreateActivityTest {
         closeKeyboard();
 
         onView(withId(R.id.id_et_task_duration_time))
-                .perform(replaceText("1"));
+                .perform(replaceText(EXPECTED_DURATION_TXT));
         closeKeyboard();
 
         onView(withId(R.id.id_btn_task_next))
@@ -117,7 +119,7 @@ public class TaskCreateActivityTest {
 
         assertThat(taskTemplates.size(), is(1));
         assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
-        assertThat(taskTemplates.get(0).getDurationTime(), is(1));
+        assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
     }
 
     @Test
@@ -138,7 +140,7 @@ public class TaskCreateActivityTest {
         closeKeyboard();
 
         onView(withId(R.id.id_et_task_duration_time))
-                .perform(replaceText("1"));
+                .perform(replaceText(EXPECTED_DURATION_TXT));
         closeKeyboard();
 
         setTestPicture();
@@ -153,7 +155,7 @@ public class TaskCreateActivityTest {
         assertThat(assets.size(), is(1));
         assertThat(taskTemplates.size(), is(1));
         assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
-        assertThat(taskTemplates.get(0).getDurationTime(), is(1));
+        assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
         assertThat(taskTemplates.get(0).getPictureId(), is(assets.get(0).getId()));
     }
 

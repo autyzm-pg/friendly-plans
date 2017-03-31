@@ -32,6 +32,7 @@ public class AssetsHelperTest {
     private static final String JPEG = ".JPEG";
     private static final String PNG = ".png";
     private static final String PNG_UPPER = ".PNG";
+    private static final String TEST_FILE_CONTENT = "Test";
 
     private AssetsHelper assetsHelper;
     private Context context;
@@ -137,10 +138,10 @@ public class AssetsHelperTest {
         jpegFile = new File(filesDir, ASSET_NAME + JPEG);
         pngFile = new File(filesDir, ASSET_NAME + PNG_UPPER);
 
-        FileUtils.writeStringToFile(jpgFile, "Test");
-        FileUtils.writeStringToFile(jpgUpperFile, "Test");
-        FileUtils.writeStringToFile(jpegFile, "Test");
-        FileUtils.writeStringToFile(pngFile, "Test");
+        FileUtils.writeStringToFile(jpgFile, TEST_FILE_CONTENT);
+        FileUtils.writeStringToFile(jpgUpperFile, TEST_FILE_CONTENT);
+        FileUtils.writeStringToFile(jpegFile, TEST_FILE_CONTENT);
+        FileUtils.writeStringToFile(pngFile, TEST_FILE_CONTENT);
 
         testFiles.add(jpgFile);
         testFiles.add(jpgUpperFile);

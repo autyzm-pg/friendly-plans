@@ -23,8 +23,6 @@ import pg.autyzm.friendly_plans.validation.Utils;
 
 public class TaskContainerFragment extends Fragment {
 
-    private String PICKING_FILE_ERROR;
-
     @Inject
     TaskValidation taskValidation;
 
@@ -51,7 +49,6 @@ public class TaskContainerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
-        PICKING_FILE_ERROR = getResources().getString(R.string.picking_file_error);
         return inflater.inflate(R.layout.fragment_task_container, container, false);
     }
 
@@ -124,7 +121,8 @@ public class TaskContainerFragment extends Fragment {
             taskPicture.setText(assetName);
 
         } catch (IOException e) {
-            Toast errorToast = Toast.makeText(context, PICKING_FILE_ERROR, Toast.LENGTH_LONG);
+            String pickingFileError = getResources().getString(R.string.picking_file_error);
+            Toast errorToast = Toast.makeText(context, pickingFileError, Toast.LENGTH_LONG);
             errorToast.show();
         }
     }

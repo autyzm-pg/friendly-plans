@@ -13,9 +13,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class AssetTypeTest {
 
-    private final String PICTURE_NAME = "picture.jpg";
-    private final String SOUND_NAME = "sound.mp3";
-    private final String TEXT_FILE_NAME = "wrong.txt";
+    private static final String PICTURE_NAME = "picture.jpg";
+    private static final String SOUND_NAME = "sound.mp3";
+    private static final String TEXT_FILE_NAME = "wrong.txt";
 
     @Test
     public void When_GettingTypeByPictureExtension_Expect_PictureTypeBeReturned() {
