@@ -13,4 +13,10 @@ public class RepositoryModule {
     protected TaskTemplateRepository getTaskTemplateRepository(DaoSession daoSession) {
         return new TaskTemplateRepository(daoSession);
     }
+
+    @Provides
+    @Singleton
+    protected AssetRepository getAssetRepostiory(DaoSession daoSession) {
+        return new AssetRepository(daoSession);
+    }
 }

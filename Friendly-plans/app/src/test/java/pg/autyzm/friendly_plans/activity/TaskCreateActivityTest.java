@@ -23,6 +23,8 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
+import org.robolectric.shadows.ShadowHandler;
+import org.robolectric.shadows.ShadowToast;
 import pg.autyzm.friendly_plans.BuildConfig;
 import pg.autyzm.friendly_plans.FilePickerProxy;
 import pg.autyzm.friendly_plans.R;
@@ -59,7 +61,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_ActivityResultIsCalledWithPictureData_Expect_PicturePathBeSetInField() {
+    public void When_ActivityResultIsCalledWithNonExistingPictureData_Expect_ToastWithErrorMessageIsShown() {
         String TEST_FILE_PATH = "Test";
         when(filePickerProxy.isPickFileRequested(any(int.class))).thenReturn(true);
         when(filePickerProxy.isFilePicked(any(int.class))).thenReturn(true);
@@ -71,8 +73,8 @@ public class TaskCreateActivityTest {
             FilePickerActivity.RESULT_OK,
             new Intent()
         );
-        EditText taskPicture = (EditText) activity.findViewById(R.id.id_et_task_picture);
-        assertThat(taskPicture.getText().toString(), is(equalTo(TEST_FILE_PATH)));
+        String expectedMessage = activity.getResources().getString(R.string.picking_file_error);
+        assertThat(ShadowToast.getTextOfLatestToast(), equalTo(expectedMessage));
 
     }
 }

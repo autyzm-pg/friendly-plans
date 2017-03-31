@@ -1,6 +1,7 @@
 package pg.autyzm.friendly_plans;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,13 +10,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+import database.entities.Asset;
+import database.entities.AssetType;
+import database.repository.AssetRepository;
 import database.repository.TaskTemplateRepository;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import javax.inject.Inject;
 
 public class TaskContainerFragment extends Fragment {
 
+    private String PICKING_FILE_ERROR;
+
     @Inject
     TaskTemplateRepository taskTemplateRepository;
+
+    @Inject
+    AssetRepository assetRepository;
 
     @Inject
     public FilePickerProxy filePickerProxy;
@@ -26,11 +38,13 @@ public class TaskContainerFragment extends Fragment {
     private EditText taskDurTime;
     private Button taskNext;
     private Button selectPicture;
+    private Long pictureId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
+        PICKING_FILE_ERROR = getResources().getString(R.string.picking_file_error);
         return inflater.inflate(R.layout.fragment_task_container, container, false);
     }
 
@@ -44,13 +58,8 @@ public class TaskContainerFragment extends Fragment {
 
         taskNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.i("taskName :", "{" + taskName.getText().toString() + "}");
-                Log.i("taskPicture :", "{" + taskPicture.getText().toString() + "}");
-                Log.i("taskSound :", "{" + taskSound.getText().toString() + "}");
-                Log.i("taskDurTime :", "{" + taskDurTime.getText().toString() + "}");
-
                 long id = taskTemplateRepository.create(taskName.getText().toString(),
-                        Integer.valueOf(taskDurTime.getText().toString()));
+                        Integer.valueOf(taskDurTime.getText().toString()), pictureId);
                 Log.i("id :", "{" + String.valueOf(id) + "}");
             }
         });
@@ -69,7 +78,19 @@ public class TaskContainerFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(filePickerProxy.isPickFileRequested(requestCode) && filePickerProxy.isFilePicked(resultCode)) {
-            taskPicture.setText(filePickerProxy.getFilePath(data));
+            Context context = getActivity().getApplicationContext();
+            String filePath = filePickerProxy.getFilePath(data);
+            AssetsHelper assetsHelper = new AssetsHelper(context);
+            try {
+                String assetName = assetsHelper.makeSafeCopy(filePath);
+                pictureId = assetRepository.create(AssetType.getTypeByExtension(assetName), assetName);
+                taskPicture.setText(assetName);
+
+            } catch (IOException e) {
+                Toast errorToast = Toast.makeText(context, PICKING_FILE_ERROR, Toast.LENGTH_LONG);
+                errorToast.show();
+            }
+
         }
     }
 

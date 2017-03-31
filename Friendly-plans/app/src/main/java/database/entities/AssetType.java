@@ -17,7 +17,7 @@ public class AssetType {
     private static final String IMAGE_PATTERN =  "^(jpg|jpeg|png|gif|bmp)$";
     private static final String SOUND_PATTERN =  "^(3gp|mp3|flac|wav|ogg|mkv)$";
 
-    public String getTypeByExtension(String pathToAsset) {
+    public static String getTypeByExtension(String pathToAsset) {
         String extension = FilenameUtils.getExtension(pathToAsset);
         Pattern picturePattern = Pattern.compile(IMAGE_PATTERN);
         Matcher pictureMatcher = picturePattern.matcher(extension);

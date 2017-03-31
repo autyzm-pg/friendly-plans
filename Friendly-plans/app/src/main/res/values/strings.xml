@@ -19,4 +19,5 @@
   <string name="main_add_remove_child">Add / Remove Child</string>
   <string name="main_change_active_child">Change Active Child</string>
   <string name="main_create_plan">Create Plan</string>
+  <string name="picking_file_error">During making safe copy of file an error occurred. Ensure that on device drive is enough space.</string>
 </resources>

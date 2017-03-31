@@ -35,12 +35,13 @@ public class AssetsHelperTest {
     private static final String PNG_UPPER = ".PNG";
 
     private Context context;
-    private String jpgFileSafeCopyPathPattern;
-    private String pngFileSafeCopyPathPattern;
+    private String jpgFileSafeCopyNamePattern;
+    private String pngFileSafeCopyNamePattern;
     private File jpgFile;
     private File jpgUpperFile;
     private File jpegFile;
     private File pngFile;
+    private String pathToInternalStorage;
 
     private List<File> testFiles;
 
@@ -53,9 +54,9 @@ public class AssetsHelperTest {
         createTestFiles();
 
         File filesDir = context.getFilesDir();
-        String pathToInternalStorage = filesDir.getAbsolutePath();
-        jpgFileSafeCopyPathPattern = "^" + pathToInternalStorage + "/" + ASSET_NAME + SEPARATOR + "(.*)" + JPG;
-        pngFileSafeCopyPathPattern = "^" + pathToInternalStorage + "/" + ASSET_NAME + SEPARATOR + "(.*)" + PNG;
+        pathToInternalStorage = filesDir.getAbsolutePath();
+        jpgFileSafeCopyNamePattern = "^" + ASSET_NAME + SEPARATOR + "(.*)" + JPG;
+        pngFileSafeCopyNamePattern = "^" + ASSET_NAME + SEPARATOR + "(.*)" + PNG;
 
         assetsHelper = new AssetsHelper(context);
     }
@@ -67,71 +68,69 @@ public class AssetsHelperTest {
 
     @Test
     public void When_MakingSafeCopy_Expect_NewFilePathBeReturned()
-        throws NoSuchAlgorithmException, IOException {
-        String pathToSafeCopy = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath());
-        addToTestFiles(pathToSafeCopy);
-        assertThat(pathToSafeCopy, matchesPattern(jpgFileSafeCopyPathPattern));
+        throws IOException {
+        String safeCopyName = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath());
+        addToTestFiles(safeCopyName);
+        assertThat(safeCopyName, matchesPattern(jpgFileSafeCopyNamePattern));
     }
 
     @Test
     public void When_MakingSafeCopyJPG_Expect_NewFilePathBeReturned()
-        throws NoSuchAlgorithmException, IOException {
-        String pathToSafeCopy = assetsHelper.makeSafeCopy(jpgUpperFile.getAbsolutePath());
-        addToTestFiles(pathToSafeCopy);
-        assertThat(pathToSafeCopy, matchesPattern(jpgFileSafeCopyPathPattern));
+        throws IOException {
+        String safeCopyName = assetsHelper.makeSafeCopy(jpgUpperFile.getAbsolutePath());
+        addToTestFiles(safeCopyName);
+        assertThat(safeCopyName, matchesPattern(jpgFileSafeCopyNamePattern));
     }
 
     @Test
     public void When_MakingSafeCopyJPEG_Expect_NewFilePathBeReturned()
-        throws NoSuchAlgorithmException, IOException {
-        String pathToSafeCopy = assetsHelper.makeSafeCopy(jpegFile.getAbsolutePath());
-        addToTestFiles(pathToSafeCopy);
-        assertThat(pathToSafeCopy, matchesPattern(jpgFileSafeCopyPathPattern));
+        throws IOException {
+        String safeCopyName = assetsHelper.makeSafeCopy(jpegFile.getAbsolutePath());
+        addToTestFiles(safeCopyName);
+        assertThat(safeCopyName, matchesPattern(jpgFileSafeCopyNamePattern));
     }
 
     @Test
     public void When_MakingSafeCopyPNG_Expect_NewFilePathBeReturned()
-        throws NoSuchAlgorithmException, IOException {
-        String pathToSafeCopy = assetsHelper.makeSafeCopy(pngFile.getAbsolutePath());
-        addToTestFiles(pathToSafeCopy);
-        assertThat(pathToSafeCopy, matchesPattern(pngFileSafeCopyPathPattern));
+        throws IOException {
+        String safeCopyName = assetsHelper.makeSafeCopy(pngFile.getAbsolutePath());
+        addToTestFiles(safeCopyName);
+        assertThat(safeCopyName, matchesPattern(pngFileSafeCopyNamePattern));
     }
 
     @Test
     public void When_MakingSafeCopy_Expect_FileCopyHasBeenCreated()
-        throws NoSuchAlgorithmException, IOException {
-        String pathToSafeCopy = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath());
-        addToTestFiles(pathToSafeCopy);
-        assertThat(new File(pathToSafeCopy).exists(), is(true));
+        throws IOException {
+        String safeCopyName = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath());
+        addToTestFiles(safeCopyName);
+        assertThat(new File(pathToInternalStorage, safeCopyName).exists(), is(true));
     }
 
     @Test
     public void When_MakingSafeCopyJPEG_Expect_FileCopyHasBeenCreated()
-        throws NoSuchAlgorithmException, IOException {
-        String pathToSafeCopy = assetsHelper.makeSafeCopy(jpegFile.getAbsolutePath());
-        addToTestFiles(pathToSafeCopy);
-        assertThat(new File(pathToSafeCopy).exists(), is(true));
+        throws IOException {
+        String safeCopyName = assetsHelper.makeSafeCopy(jpegFile.getAbsolutePath());
+        addToTestFiles(safeCopyName);
+        assertThat(new File(pathToInternalStorage, safeCopyName).exists(), is(true));
     }
 
     @Test
     public void When_MakingSafeCopyPNG_Expect_FileCopyHasBeenCreated()
-        throws NoSuchAlgorithmException, IOException {
-        String pathToSafeCopy = assetsHelper.makeSafeCopy(pngFile.getAbsolutePath());
-        addToTestFiles(pathToSafeCopy);
-        assertThat(new File(pathToSafeCopy).exists(), is(true));
+        throws IOException {
+        String safeCopyName = assetsHelper.makeSafeCopy(pngFile.getAbsolutePath());
+        addToTestFiles(safeCopyName);
+        assertThat(new File(pathToInternalStorage, safeCopyName).exists(), is(true));
     }
 
     @Test
-    public void WhenMakingSafeCopy_Expect_EachFilePathBeDifferent()
-        throws IOException, NoSuchAlgorithmException {
-        String pathToSafeCopy = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath());
-        String secondPathToSafeCopy = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath());
-        addToTestFiles(pathToSafeCopy);
-        addToTestFiles(secondPathToSafeCopy);
-        assertThat(pathToSafeCopy, is(not(equalTo(secondPathToSafeCopy))));
+    public void When_MakingSafeCopy_Expect_EachFilePathBeDifferent()
+        throws IOException {
+        String safeCopyName = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath());
+        String secondSafeCopyName = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath());
+        addToTestFiles(safeCopyName);
+        addToTestFiles(secondSafeCopyName);
+        assertThat(safeCopyName, is(not(equalTo(secondSafeCopyName))));
     }
-
-
 
     private void createTestFiles() throws IOException {
         File filesDir = context.getFilesDir();
@@ -149,8 +148,8 @@ public class AssetsHelperTest {
         testFiles.add(pngFile);
     }
 
-    private void addToTestFiles(String filePath) {
-        testFiles.add(new File(filePath));
+    private void addToTestFiles(String fileName) {
+        testFiles.add(new File(pathToInternalStorage, fileName));
     }
 
     private void removeTestFiles() {

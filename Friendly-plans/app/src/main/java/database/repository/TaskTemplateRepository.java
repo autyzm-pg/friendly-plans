@@ -15,10 +15,11 @@ public class TaskTemplateRepository {
         this.daoSession = daoSession;
     }
 
-    public long create(String name, int durationTime) {
+    public long create(String name, int durationTime, Long pictureId) {
         TaskTemplate taskTemplate = new TaskTemplate();
         taskTemplate.setName(name);
         taskTemplate.setDurationTime(durationTime);
+        taskTemplate.setPictureId(pictureId);
 
         return daoSession.getTaskTemplateDao().insert(taskTemplate);
     }
