@@ -17,7 +17,10 @@ public class AppComponentDaggerRule extends DaggerMockRule<AppComponent> {
             AppComponent.class,
             new FilePickerModule(),
             new RepositoryModule(),
-            new DaoSessionModule(getAppContext())
+            new ValidationModule(),
+            new DaoSessionModule(getAppContext()),
+            new StringProviderModule(getAppContext())
+
         );
         set(new DaggerMockRule.ComponentSetter<AppComponent>() {
             @Override public void setComponent(AppComponent component) {

@@ -6,13 +6,13 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.1'
+       classpath 'org.greenrobot:greendao-gradle-plugin:3.2.1'
     }
 }
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    buildToolsVersion '24.0.2'
 
     defaultConfig {
         applicationId "pg.autyzm.friendly_plans"
