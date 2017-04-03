@@ -1,5 +1,6 @@
 package pg.autyzm.friendly_plans;
 
+import android.content.Intent;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -59,7 +60,7 @@ public class TaskListActivityTest {
             id = taskTemplateRepository.create(EXPECTED_NAME + " " + i, i);
             testTasks.add(id);
         }
-        activityRule.getActivity().taskTemplateRepository = taskTemplateRepository;
+        activityRule.launchActivity(new Intent());
 
 
     }
