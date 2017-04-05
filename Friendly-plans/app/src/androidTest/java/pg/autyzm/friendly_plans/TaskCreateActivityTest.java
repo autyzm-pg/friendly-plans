@@ -4,6 +4,8 @@ import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -33,6 +35,9 @@ import pg.autyzm.friendly_plans.utils.StringsProvider;
 public class TaskCreateActivityTest {
 
     private static final String EXPECTED_NAME = "TEST TASK";
+    private static final String BAD_TASK_NAME = "Bad task name!@$%*";
+    private static final String GOOD_TASK_NAME = "good task name";
+
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
     private final StringsProvider stringProvider = null;
@@ -42,6 +47,30 @@ public class TaskCreateActivityTest {
     private TaskTemplateRepository taskTemplateRepository;
     private Long idToDelete;
 
+    // How about @inject this custom matcher through annotation ? No ? just usual extract to class ?
+    private static Matcher<View> hasErrorText(final String expectedErrorText) {
+        return new TypeSafeMatcher<View>() {
+
+            @Override
+            public boolean matchesSafely(View view) {
+                if (!(view instanceof EditText)) {
+                    return false;
+                }
+
+                CharSequence error = ((EditText) view).getError();
+                if (error == null) {
+                    return false;
+                }
+
+                String actualError = error.toString();
+                return expectedErrorText.equals(actualError);
+            }
+
+            @Override
+            public void describeTo(Description description) {
+            }
+        };
+    }
 
     @Before
     public void setUp() {
@@ -112,35 +141,49 @@ public class TaskCreateActivityTest {
                 .perform(click());
 
         onView(withId(R.id.id_et_task_name)).check
-                (matches(hasErrorText(activityRule.getActivity().getString(R.string.not_empty_msg))));
+                (matches(hasErrorText(
+                        activityRule.getActivity().getString(R.string.not_empty_msg))));
+    }
+
+    @Test
+    public void When_AddingNewTask_and_DurationIsEmpty_Expect_Warning() {
+        onView(withId(R.id.id_et_task_name)).
+                perform(typeText(GOOD_TASK_NAME));
+
+        onView(withId(R.id.id_btn_task_next)).perform(scrollTo());
+
+        onView(withId(R.id.id_btn_task_next))
+                .perform(click());
+
+        onView(withId(R.id.id_et_task_duration_time)).check
+                (matches(hasErrorText(
+                        activityRule.getActivity().getString(R.string.not_empty_msg))));
+    }
+
+    @Test
+    public void When_AddingNewTask_and_Name_Has_ForbiddenSymbols_Expect_Warning()
+            throws InterruptedException {
+        onView(withId(R.id.id_et_task_name)).
+                perform(typeText(BAD_TASK_NAME));
+        closeKeyboard();
+
+        onView(withId(R.id.id_btn_task_next))
+                .perform(click());
+
+        onView(withId(R.id.id_et_task_name)).check
+                (matches(hasErrorText(
+                        activityRule.getActivity().getString(R.string.only_letters_msg))));
+    }
+
+    @Test
+    public void When_AddingNewTask_and_Name_Already_Exists_Expect_Warning() {
+        // I have to emulate existing name on DB. How ?! I need smth  like
+        // TaskTemplateRepository.isNameOndb(name);
     }
 
     private void closeKeyboard() throws InterruptedException {
         closeSoftKeyboard();
-        Thread.sleep(1000);
-    }
-
-    public static Matcher<View> hasErrorText(final String expectedErrorText) {
-        return new TypeSafeMatcher<View>() {
-
-            @Override
-            public boolean matchesSafely(View view) {
-                if (!(view instanceof EditText)) {
-                    return false;
-                }
-
-                CharSequence error = ((EditText) view).getError();
-                if (error == null) {
-                    return false;
-                }
-
-                String actualError = error.toString();
-                return expectedErrorText.equals(actualError);
-            }
-
-            @Override
-            public void describeTo(Description description) {
-            }
-        };
+        Thread.sleep(1000); // I read that Espress thread is syncronized with main flow
+        // and it should not require sleep in usual situations.
     }
 }
