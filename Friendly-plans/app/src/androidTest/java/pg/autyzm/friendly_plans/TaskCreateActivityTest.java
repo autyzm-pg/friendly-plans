@@ -12,32 +12,36 @@ import static org.hamcrest.CoreMatchers.is;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
 import android.view.WindowManager;
-
-import database.repository.TaskTemplateRepository;
+import android.widget.EditText;
 import database.entities.TaskTemplate;
+import database.repository.TaskTemplateRepository;
 import java.util.List;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import pg.autyzm.friendly_plans.utils.StringsProvider;
 
 @RunWith(AndroidJUnit4.class)
 public class TaskCreateActivityTest {
 
+    private static final String EXPECTED_NAME = "TEST TASK";
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
-
+    private final StringsProvider stringProvider = null;
     @Rule
     public ActivityTestRule<TaskCreateActivity> activityRule = new ActivityTestRule<>(
             TaskCreateActivity.class, true, true);
-
-    private static final String EXPECTED_NAME = "TEST TASK";
-
     private TaskTemplateRepository taskTemplateRepository;
     private Long idToDelete;
+
 
     @Before
     public void setUp() {
@@ -101,8 +105,42 @@ public class TaskCreateActivityTest {
         assertThat(taskTemplates.get(0).getDurationTime(), is(1));
     }
 
+    @Test
+    public void When_AddingNewTask_and_NameIsEmpty_Expect_Warning() throws InterruptedException {
+        closeKeyboard(); // why should we use closeKeyboard() instead of predefined closeSoftKeyboard()?!
+        onView(withId(R.id.id_btn_task_next))
+                .perform(click());
+
+        onView(withId(R.id.id_et_task_name)).check
+                (matches(hasErrorText(activityRule.getActivity().getString(R.string.not_empty_msg))));
+    }
+
     private void closeKeyboard() throws InterruptedException {
         closeSoftKeyboard();
         Thread.sleep(1000);
+    }
+
+    public static Matcher<View> hasErrorText(final String expectedErrorText) {
+        return new TypeSafeMatcher<View>() {
+
+            @Override
+            public boolean matchesSafely(View view) {
+                if (!(view instanceof EditText)) {
+                    return false;
+                }
+
+                CharSequence error = ((EditText) view).getError();
+                if (error == null) {
+                    return false;
+                }
+
+                String actualError = error.toString();
+                return expectedErrorText.equals(actualError);
+            }
+
+            @Override
+            public void describeTo(Description description) {
+            }
+        };
     }
 }
