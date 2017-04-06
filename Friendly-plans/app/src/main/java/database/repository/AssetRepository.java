@@ -13,15 +13,11 @@ public class AssetRepository {
         this.daoSession = daoSession;
     }
 
-    public Long create(String type, String filename) {
-        if (isValidAssetType(type)) {
+    public Long create(AssetType type, String filename) {
             Asset asset = new Asset();
-            asset.setType(type);
+            asset.setType(type.toString());
             asset.setFilename(filename);
             return daoSession.getAssetDao().insert(asset);
-        } else {
-            throw new IllegalArgumentException("Not valid asset type: " + type);
-        }
     }
 
     public Asset get(Long id) {
@@ -34,15 +30,6 @@ public class AssetRepository {
 
     public void delete(Long id) {
         daoSession.getAssetDao().deleteByKey(id);
-    }
-
-    private boolean isValidAssetType(String type) {
-        for (String validAssetType : AssetType.VALID_TYPES) {
-            if (type.equals(validAssetType)) {
-                return true;
-            }
-        }
-        return false;
     }
 
 }

@@ -26,8 +26,7 @@ import pg.autyzm.friendly_plans.asset.AssetType;
 public class AssetRepositoryTest {
 
     private static final String ASSET_FILENAME = "Asset/file.jpg";
-    private static final String ASSET_TYPE = AssetType.PICTURE;
-    private static final String WRONG_ASSET_TYPE = "Very bad type for asset";
+    private static final AssetType ASSET_TYPE = AssetType.PICTURE;
 
     @InjectMocks
     AssetRepository assetRepository;
@@ -45,7 +44,7 @@ public class AssetRepositoryTest {
         randomId = new Random().nextLong();
         Asset asset = new Asset();
         asset.setId(randomId);
-        asset.setType(ASSET_TYPE);
+        asset.setType(ASSET_TYPE.toString());
         asset.setFilename(ASSET_FILENAME);
 
         List<Asset> assets = new ArrayList<>();
@@ -69,11 +68,6 @@ public class AssetRepositoryTest {
         assertThat(id, is(equalTo(randomId)));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void When_CreatingAssetWithWrongType_Expect_ExceptionBeThrown() {
-        assetRepository.create(WRONG_ASSET_TYPE, ASSET_FILENAME);
-    }
-
     @Test
     public void When_GettingAsset_Expect_LoadMethodBeCalled() {
         assetRepository.get(randomId);
@@ -83,7 +77,7 @@ public class AssetRepositoryTest {
     @Test
     public void When_GettingAsset_Expect_AssetToBeReturned() {
         Asset asset = assetRepository.get(randomId);
-        assertThat(asset.getType(), is(equalTo(ASSET_TYPE)));
+        assertThat(AssetType.getTypeByTypeName(asset.getType()), is(equalTo(ASSET_TYPE)));
         assertThat(asset.getFilename(), is(equalTo(ASSET_FILENAME)));
     }
 
