@@ -11,27 +11,21 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.is;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.WindowManager;
-import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import database.entities.Asset;
 import database.entities.TaskTemplate;
 import database.repository.AssetRepository;
 import database.repository.TaskTemplateRepository;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 
 @RunWith(AndroidJUnit4.class)
 public class TaskCreateActivityTest {
@@ -43,25 +37,23 @@ public class TaskCreateActivityTest {
     public ActivityTestRule<TaskCreateActivity> activityRule = new ActivityTestRule<>(
             TaskCreateActivity.class, true, true);
 
+    @Rule
+    public AssetTestRule assetTestRule = new AssetTestRule(daoSessionResource, activityRule);
+
     private static final String EXPECTED_NAME = "TEST TASK";
-    private static final String TEST_PICTURE_NAME = "picture.jpg";
     private static final String EXPECTED_DURATION_TXT = "1";
     private static final int EXPECTED_DURATION = 1;
 
     private TaskTemplateRepository taskTemplateRepository;
     private AssetRepository assetRepository;
 
-    private File internalStorage;
     private Long idToDelete;
-    private List<File> testFiles;
 
     @Before
     public void setUp() {
-        testFiles = new ArrayList<>();
         Context context = activityRule.getActivity().getApplicationContext();
         taskTemplateRepository = new TaskTemplateRepository(daoSessionResource.getSession(context));
         assetRepository = new AssetRepository(daoSessionResource.getSession(context));
-        internalStorage = context.getFilesDir();
     }
 
     @Before
@@ -83,8 +75,6 @@ public class TaskCreateActivityTest {
         if (idToDelete != null) {
             taskTemplateRepository.delete(idToDelete);
         }
-        removeTestFiles();
-        removeTestAssets();
     }
 
     @Test
@@ -125,7 +115,7 @@ public class TaskCreateActivityTest {
     @Test
     public void When_SettingPicture_Expect_PictureNameIsDisplayed()
             throws InterruptedException, IOException {
-        setTestPicture();
+        assetTestRule.setTestPicture();
         List<Asset> assets = assetRepository.getAll();
 
         onView(withId(R.id.id_et_task_picture))
@@ -143,7 +133,7 @@ public class TaskCreateActivityTest {
                 .perform(replaceText(EXPECTED_DURATION_TXT));
         closeKeyboard();
 
-        setTestPicture();
+        assetTestRule.setTestPicture();
 
         onView(withId(R.id.id_btn_task_next))
                 .perform(click());
@@ -164,58 +154,4 @@ public class TaskCreateActivityTest {
         Thread.sleep(1000);
     }
 
-    private void setTestPicture() throws IOException, InterruptedException {
-        File testPicture = createTestPicture();
-        chooseTestPicture(testPicture);
-        addSafeCopyToTestFiles();
-    }
-
-    private File createTestPicture() throws IOException {
-        File testPicture = new File(internalStorage, TEST_PICTURE_NAME);
-        FileUtils.writeStringToFile(testPicture, "Test");
-        testFiles.add(testPicture);
-        return testPicture;
-    }
-
-    private void chooseTestPicture(File testPicture) throws InterruptedException {
-        final Intent data = new Intent();
-        data.putExtra(FilePickerActivity.RESULT_FILE_PATH, testPicture.getAbsolutePath());
-        final TaskContainerFragment fragment = getFragment();
-        activityRule.getActivity().runOnUiThread(new Runnable() {
-            public void run() {
-                fragment.onActivityResult(FilePickerProxy.PICK_FILE_REQUEST,
-                        FilePickerActivity.RESULT_OK, data);
-            }
-        });
-        Thread.sleep(1000);
-    }
-
-    private void addSafeCopyToTestFiles() {
-        List<Asset> assets = assetRepository.getAll();
-        String fileName = assets.get(0).getFilename();
-        testFiles.add(new File(internalStorage, fileName));
-    }
-
-    private TaskContainerFragment getFragment() {
-        return (TaskContainerFragment) activityRule.getActivity().getFragmentManager()
-                .findFragmentById(R.id.task_container);
-    }
-
-    private void removeTestFiles() {
-        for (File testFile : testFiles) {
-            try {
-                if (testFile.exists()) {
-                    FileUtils.forceDelete(testFile);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void removeTestAssets() {
-        for (Asset asset : assetRepository.getAll()) {
-            assetRepository.delete(asset.getId());
-        }
-    }
 }
