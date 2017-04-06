@@ -19,6 +19,7 @@ public class AssetTestRule extends ExternalResource {
 
     private static final String TEST_PICTURE_NAME = "picture.jpg";
     private static final String TEST_FILE_CONTENT = "Test";
+    private static final long CHOOSE_FILE_TIMEOUT = 1000;
 
     private final DaoSessionResource daoSessionResource;
     private final ActivityTestRule activityRule;
@@ -77,7 +78,7 @@ public class AssetTestRule extends ExternalResource {
                         FilePickerActivity.RESULT_OK, data);
             }
         });
-        Thread.sleep(1000);
+        Thread.sleep(CHOOSE_FILE_TIMEOUT);
     }
 
     private void addSafeCopyToTestFiles() {

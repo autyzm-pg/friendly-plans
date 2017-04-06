@@ -14,10 +14,10 @@ public class AssetRepository {
     }
 
     public Long create(AssetType type, String filename) {
-            Asset asset = new Asset();
-            asset.setType(type.toString());
-            asset.setFilename(filename);
-            return daoSession.getAssetDao().insert(asset);
+        Asset asset = new Asset();
+        asset.setType(type.toString());
+        asset.setFilename(filename);
+        return daoSession.getAssetDao().insert(asset);
     }
 
     public Asset get(Long id) {

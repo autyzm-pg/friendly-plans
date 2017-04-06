@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.FilenameUtils;
 
 public enum AssetType {
-    PICTURE ("PICTURE"),
-    SOUND ("SOUND");
+    PICTURE("PICTURE"),
+    SOUND("SOUND");
 
     private static final String IMAGE_PATTERN = "^(jpg|jpeg|png|gif|bmp)$";
     private static final String SOUND_PATTERN = "^(3gp|mp3|flac|wav|ogg|mkv)$";
