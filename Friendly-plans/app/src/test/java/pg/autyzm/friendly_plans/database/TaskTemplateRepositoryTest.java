@@ -15,7 +15,6 @@ import java.util.Random;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -23,8 +22,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class TaskTemplateRepositoryTest {
 
-    public static final String TASK_NAME = "taskName";
-    public static final int DURATION_TIME = 3;
+    private static final String TASK_NAME = "taskName";
+    private static final int DURATION_TIME = 3;
+    private static final Long PICTURE_ID = 32L;
 
     @InjectMocks
     TaskTemplateRepository taskTemplateRepository;
@@ -50,13 +50,13 @@ public class TaskTemplateRepositoryTest {
 
     @Test
     public void When_CreatingATaskTemplate_Expect_InsertMethodBeCalled() {
-        taskTemplateRepository.create(TASK_NAME, DURATION_TIME);
+        taskTemplateRepository.create(TASK_NAME, DURATION_TIME, PICTURE_ID);
         verify(taskTemplateDao, times(1)).insert(any(TaskTemplate.class));
     }
 
     @Test
     public void When_CreatingATaskTemplate_Expect_NewIdBeReturned() {
-        long id = taskTemplateRepository.create(TASK_NAME, DURATION_TIME);
+        long id = taskTemplateRepository.create(TASK_NAME, DURATION_TIME, PICTURE_ID);
         assertThat(id, is(randomId));
     }
 

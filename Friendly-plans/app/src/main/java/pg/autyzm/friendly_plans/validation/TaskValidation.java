@@ -1,7 +1,7 @@
 package pg.autyzm.friendly_plans.validation;
 
 import android.widget.EditText;
-import pg.autyzm.friendly_plans.utils.StringsProvider;
+import pg.autyzm.friendly_plans.string_provider.StringsProvider;
 
 public class TaskValidation extends Validation {
 
