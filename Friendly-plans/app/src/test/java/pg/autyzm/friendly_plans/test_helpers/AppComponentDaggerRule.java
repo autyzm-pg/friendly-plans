@@ -4,6 +4,7 @@ import android.content.Context;
 import database.repository.DaoSessionModule;
 import database.repository.RepositoryModule;
 import it.cosenonjaviste.daggermock.DaggerMockRule;
+import org.powermock.reflect.Whitebox;
 import org.robolectric.RuntimeEnvironment;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.AppComponent;
@@ -26,7 +27,7 @@ public class AppComponentDaggerRule extends DaggerMockRule<AppComponent> {
         set(new DaggerMockRule.ComponentSetter<AppComponent>() {
             @Override
             public void setComponent(AppComponent component) {
-                getApp().setComponent(component);
+                Whitebox.setInternalState(getApp(), "appComponent", component);
             }
         });
     }

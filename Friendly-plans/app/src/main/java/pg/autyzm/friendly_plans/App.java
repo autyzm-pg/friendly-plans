@@ -28,7 +28,4 @@ public class App extends Application {
         return appComponent;
     }
 
-    public void setComponent(AppComponent appComponent) {
-        this.appComponent = appComponent;
-    }
 }

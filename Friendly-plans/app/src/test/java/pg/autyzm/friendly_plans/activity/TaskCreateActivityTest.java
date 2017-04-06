@@ -17,6 +17,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
@@ -30,6 +31,7 @@ import pg.autyzm.friendly_plans.test_helpers.AppComponentDaggerRule;
 
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
+@PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" })
 public class TaskCreateActivityTest {
 
     @Rule
@@ -72,7 +74,7 @@ public class TaskCreateActivityTest {
         );
         String expectedMessage = activity.getResources().getString(R.string.picking_file_error);
         assertThat(ShadowToast.getTextOfLatestToast(), equalTo(expectedMessage));
-
     }
+    
 }
 
