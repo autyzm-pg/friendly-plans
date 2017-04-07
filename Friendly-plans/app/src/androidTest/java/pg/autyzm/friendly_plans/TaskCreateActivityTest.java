@@ -11,18 +11,14 @@ import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.is;
+import static pg.autyzm.friendly_plans.matchers.ErrorTextMatcher.hasErrorText;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.EditText;
 import database.entities.TaskTemplate;
 import database.repository.TaskTemplateRepository;
 import java.util.List;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -47,30 +43,6 @@ public class TaskCreateActivityTest {
     private TaskTemplateRepository taskTemplateRepository;
     private Long idToDelete;
 
-    // How about @inject this custom matcher through annotation ? No ? just usual extract to class ?
-    private static Matcher<View> hasErrorText(final String expectedErrorText) {
-        return new TypeSafeMatcher<View>() {
-
-            @Override
-            public boolean matchesSafely(View view) {
-                if (!(view instanceof EditText)) {
-                    return false;
-                }
-
-                CharSequence error = ((EditText) view).getError();
-                if (error == null) {
-                    return false;
-                }
-
-                String actualError = error.toString();
-                return expectedErrorText.equals(actualError);
-            }
-
-            @Override
-            public void describeTo(Description description) {
-            }
-        };
-    }
 
     @Before
     public void setUp() {
@@ -117,11 +89,13 @@ public class TaskCreateActivityTest {
     public void When_AddingNewTask_Expect_NewTaskAddedToDB() throws InterruptedException {
         onView(withId(R.id.id_et_task_name))
                 .perform(replaceText(EXPECTED_NAME));
-        closeKeyboard();
+        //closeKeyboard();
+        closeSoftKeyboard();
 
         onView(withId(R.id.id_et_task_duration_time))
                 .perform(replaceText("1"));
-        closeKeyboard();
+        //closeKeyboard();
+        closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_task_next))
                 .perform(click());
@@ -136,7 +110,8 @@ public class TaskCreateActivityTest {
 
     @Test
     public void When_AddingNewTask_and_NameIsEmpty_Expect_Warning() throws InterruptedException {
-        closeKeyboard(); // why should we use closeKeyboard() instead of predefined closeSoftKeyboard()?!
+        //closeKeyboard(); // why should we use closeKeyboard() instead of predefined closeSoftKeyboard()?!
+        closeSoftKeyboard();
         onView(withId(R.id.id_btn_task_next))
                 .perform(click());
 
@@ -165,7 +140,8 @@ public class TaskCreateActivityTest {
             throws InterruptedException {
         onView(withId(R.id.id_et_task_name)).
                 perform(typeText(BAD_TASK_NAME));
-        closeKeyboard();
+        //closeKeyboard();
+        closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_task_next))
                 .perform(click());
@@ -175,15 +151,9 @@ public class TaskCreateActivityTest {
                         activityRule.getActivity().getString(R.string.only_letters_msg))));
     }
 
-    @Test
-    public void When_AddingNewTask_and_Name_Already_Exists_Expect_Warning() {
-        // I have to emulate existing name on DB. How ?! I need smth  like
-        // TaskTemplateRepository.isNameOndb(name);
-    }
-
-    private void closeKeyboard() throws InterruptedException {
-        closeSoftKeyboard();
-        Thread.sleep(1000); // I read that Espress thread is syncronized with main flow
-        // and it should not require sleep in usual situations.
-    }
+//    private void closeKeyboard() throws InterruptedException {
+//        closeSoftKeyboard();
+//        Thread.sleep(1000); // I read that Espress thread is syncronized with main flow
+//        // and it should not require sleep in usual situations.
+//    }
 }
