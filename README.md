@@ -1,7 +1,7 @@
 ![Build Status](https://travis-ci.org/autyzm-pg/friendly-plans.svg?branch=master)
 
 # Friendly Plans
-![LOGO](/doc/graphic/friendly-plan-logo.png =200x200)
+<img src="/doc/graphic/friendly-plan-logo.png" width="200" height="200" />
 
 ## About
 Friendly Plans is an application supporting autism treatment.
