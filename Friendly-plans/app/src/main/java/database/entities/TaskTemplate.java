@@ -7,6 +7,7 @@ import org.greenrobot.greendao.annotation.ToMany;
 import java.util.List;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
+import org.greenrobot.greendao.annotation.ToOne;
 
 @Entity
 public class TaskTemplate {
@@ -16,17 +17,23 @@ public class TaskTemplate {
 
     private String name;
 
-    private String picture;
-
-    private String sound;
-
     private int durationTime;
+
+    private Long pictureId;
+
+    private Long soundId;
 
     @ToMany(referencedJoinProperty = "taskTemplateId")
     private List<StepTemplate> stepTemplates;
 
     @ToMany(referencedJoinProperty = "taskTemplateId")
     private List<PlanTaskTemplate> planTaskTemplates;
+
+    @ToOne(joinProperty = "pictureId")
+    private Asset picture;
+
+    @ToOne(joinProperty = "soundId")
+    private Asset sound;
 
     /**
      * Used to resolve relations
@@ -40,13 +47,19 @@ public class TaskTemplate {
     @Generated(hash = 404230972)
     private transient TaskTemplateDao myDao;
 
-    @Generated(hash = 1930893288)
-    public TaskTemplate(Long id, String name, String picture, String sound, int durationTime) {
+    @Generated(hash = 1986840853)
+    private transient Long picture__resolvedKey;
+
+    @Generated(hash = 286221468)
+    private transient Long sound__resolvedKey;
+
+    @Generated(hash = 698044924)
+    public TaskTemplate(Long id, String name, int durationTime, Long pictureId, Long soundId) {
         this.id = id;
         this.name = name;
-        this.picture = picture;
-        this.sound = sound;
         this.durationTime = durationTime;
+        this.pictureId = pictureId;
+        this.soundId = soundId;
     }
 
     @Generated(hash = 2000532247)
@@ -69,28 +82,28 @@ public class TaskTemplate {
         this.name = name;
     }
 
-    public String getPicture() {
-        return this.picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
-    public String getSound() {
-        return this.sound;
-    }
-
-    public void setSound(String sound) {
-        this.sound = sound;
-    }
-
     public int getDurationTime() {
         return this.durationTime;
     }
 
     public void setDurationTime(int durationTime) {
         this.durationTime = durationTime;
+    }
+
+    public Long getPictureId() {
+        return pictureId;
+    }
+
+    public void setPictureId(Long pictureId) {
+        this.pictureId = pictureId;
+    }
+
+    public Long getSoundId() {
+        return soundId;
+    }
+
+    public void setSoundId(Long soundId) {
+        this.soundId = soundId;
     }
 
     /**
@@ -189,6 +202,64 @@ public class TaskTemplate {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.update(this);
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 1909866049)
+    public Asset getPicture() {
+        Long __key = this.pictureId;
+        if (picture__resolvedKey == null || !picture__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            AssetDao targetDao = daoSession.getAssetDao();
+            Asset pictureNew = targetDao.load(__key);
+            synchronized (this) {
+                picture = pictureNew;
+                picture__resolvedKey = __key;
+            }
+        }
+        return picture;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 2132969786)
+    public void setPicture(Asset picture) {
+        synchronized (this) {
+            this.picture = picture;
+            pictureId = picture == null ? null : picture.getId();
+            picture__resolvedKey = pictureId;
+        }
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 2011576312)
+    public Asset getSound() {
+        Long __key = this.soundId;
+        if (sound__resolvedKey == null || !sound__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            AssetDao targetDao = daoSession.getAssetDao();
+            Asset soundNew = targetDao.load(__key);
+            synchronized (this) {
+                sound = soundNew;
+                sound__resolvedKey = __key;
+            }
+        }
+        return sound;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 433043017)
+    public void setSound(Asset sound) {
+        synchronized (this) {
+            this.sound = sound;
+            soundId = sound == null ? null : sound.getId();
+            sound__resolvedKey = soundId;
+        }
     }
 
     /** called by internal mechanisms, do not call yourself. */

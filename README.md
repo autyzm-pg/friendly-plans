@@ -35,4 +35,6 @@ Making a long story short:
 - If you want to join team, add yourself to slack autyzm-pg.slack.com
 
 ## Partners
-<img src="/doc/graphic/kdp-logo.jpg" height="150" /> <img src="/doc/graphic/iwrd-logo.png" height="150" /> <img src="/doc/graphic/pg-logo.jpg" height="150" />
+<img src="/doc/graphic/kdp-logo.jpg" height="200" />
+<img src="/doc/graphic/iwrd-logo.png" height="200" />
+<img src="/doc/graphic/pg-logo.jpg" height="200" />
