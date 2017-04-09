@@ -10,6 +10,7 @@ import org.hamcrest.TypeSafeMatcher;
  * Use this custom matcher when you need match/assert <b>error text</b> on mandatory(*) EditText
  * fields in xml layout.
  */
+
 public class ErrorTextMatcher {
 
     public static Matcher<View> hasErrorText(final String expectedErrorText) {
@@ -29,10 +30,8 @@ public class ErrorTextMatcher {
                 String actualError = error.toString();
                 return expectedErrorText.equals(actualError);
             }
-
             @Override
-            public void describeTo(Description description) {
-            }
+            public void describeTo(Description description) {}
         };
     }
 }

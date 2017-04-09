@@ -25,7 +25,6 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import pg.autyzm.friendly_plans.utils.StringsProvider;
 
 @RunWith(AndroidJUnit4.class)
 public class TaskCreateActivityTest {
@@ -36,7 +35,7 @@ public class TaskCreateActivityTest {
 
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
-    private final StringsProvider stringProvider = null;
+
     @Rule
     public ActivityTestRule<TaskCreateActivity> activityRule = new ActivityTestRule<>(
             TaskCreateActivity.class, true, true);
@@ -74,31 +73,29 @@ public class TaskCreateActivityTest {
     @Test
     public void When_TaskCreateActivity_Expect_HeaderAndEmptyFields() {
         onView(withId(R.id.id_task_create_description))
-                .check(matches(withText(R.string.task_create_description)));
+            .check(matches(withText(R.string.task_create_description)));
         onView(withId(R.id.id_et_task_name))
-                .check(matches(withText("")));
+            .check(matches(withText("")));
         onView(withId(R.id.id_et_task_picture))
-                .check(matches(withText("")));
+            .check(matches(withText("")));
         onView(withId(R.id.id_et_task_sound))
-                .check(matches(withText("")));
+            .check(matches(withText("")));
         onView(withId(R.id.id_et_task_duration_time))
-                .check(matches(withText("")));
+            .check(matches(withText("")));
     }
 
     @Test
-    public void When_AddingNewTask_Expect_NewTaskAddedToDB() throws InterruptedException {
+    public void When_AddingNewTask_Expect_NewTaskAddedToDB() {
         onView(withId(R.id.id_et_task_name))
-                .perform(replaceText(EXPECTED_NAME));
-        //closeKeyboard();
+            .perform(replaceText(EXPECTED_NAME));
         closeSoftKeyboard();
 
         onView(withId(R.id.id_et_task_duration_time))
-                .perform(replaceText("1"));
-        //closeKeyboard();
+            .perform(replaceText("1"));
         closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_task_next))
-                .perform(click());
+            .perform(click());
 
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
         idToDelete = taskTemplates.get(0).getId();
@@ -109,51 +106,41 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_AddingNewTask_and_NameIsEmpty_Expect_Warning() throws InterruptedException {
-        //closeKeyboard(); // why should we use closeKeyboard() instead of predefined closeSoftKeyboard()?!
+    public void When_AddingNewTask_and_NameIsEmpty_Expect_Warning() {
         closeSoftKeyboard();
         onView(withId(R.id.id_btn_task_next))
-                .perform(click());
+            .perform(click());
 
-        onView(withId(R.id.id_et_task_name)).check
-                (matches(hasErrorText(
-                        activityRule.getActivity().getString(R.string.not_empty_msg))));
+        onView(withId(R.id.id_et_task_name))
+            .check(matches(hasErrorText(activityRule.getActivity().getString(R.string.not_empty_msg))));
     }
 
     @Test
     public void When_AddingNewTask_and_DurationIsEmpty_Expect_Warning() {
-        onView(withId(R.id.id_et_task_name)).
-                perform(typeText(GOOD_TASK_NAME));
-
-        onView(withId(R.id.id_btn_task_next)).perform(scrollTo());
+        onView(withId(R.id.id_et_task_name))
+            .perform(typeText(GOOD_TASK_NAME));
 
         onView(withId(R.id.id_btn_task_next))
-                .perform(click());
+            .perform(scrollTo());
 
-        onView(withId(R.id.id_et_task_duration_time)).check
-                (matches(hasErrorText(
-                        activityRule.getActivity().getString(R.string.not_empty_msg))));
+        onView(withId(R.id.id_btn_task_next))
+            .perform(click());
+
+        onView(withId(R.id.id_et_task_duration_time))
+            .check(matches(hasErrorText(activityRule.getActivity().getString(R.string.not_empty_msg))));
     }
 
     @Test
     public void When_AddingNewTask_and_Name_Has_ForbiddenSymbols_Expect_Warning()
             throws InterruptedException {
-        onView(withId(R.id.id_et_task_name)).
-                perform(typeText(BAD_TASK_NAME));
-        //closeKeyboard();
+        onView(withId(R.id.id_et_task_name))
+            .perform(typeText(BAD_TASK_NAME));
         closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_task_next))
-                .perform(click());
+            .perform(click());
 
-        onView(withId(R.id.id_et_task_name)).check
-                (matches(hasErrorText(
-                        activityRule.getActivity().getString(R.string.only_letters_msg))));
+        onView(withId(R.id.id_et_task_name))
+            .check(matches(hasErrorText(activityRule.getActivity().getString(R.string.only_letters_msg))));
     }
-
-//    private void closeKeyboard() throws InterruptedException {
-//        closeSoftKeyboard();
-//        Thread.sleep(1000); // I read that Espress thread is syncronized with main flow
-//        // and it should not require sleep in usual situations.
-//    }
 }
