@@ -32,9 +32,9 @@ Making a long story short:
 - Feel free to grab an issue and propose solution or answer
 - To share your changes please make pull request to master branch
 - Write and read project documentation on wiki pages
-- For any question add yourself to slack autyzm-pg.slack.com
+- If you want to join team, add yourself to slack autyzm-pg.slack.com
 
 ## Partners
-![KDP](/doc/graphic/kdp-logo.jpg)
-![IWRD](/doc/graphic/iwrd-logo.png)
-![PG](/doc/graphic/pg-logo.jpg)
+<img src="/doc/graphic/kdp-logo.jpg" height="100" />
+<img src="/doc/graphic/iwrd-logo.png" height="100" />
+<img src="/doc/graphic/pg-logo.jpg" height="100" />
