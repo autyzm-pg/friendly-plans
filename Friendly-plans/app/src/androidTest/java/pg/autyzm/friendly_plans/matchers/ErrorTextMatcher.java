@@ -13,9 +13,12 @@ import org.hamcrest.TypeSafeMatcher;
 
 public class ErrorTextMatcher {
 
+    private static final String DESCRIPTION_TEXT = "Error text on the field doesn't match expected text: ";
+
+    private ErrorTextMatcher() { }
+
     public static Matcher<View> hasErrorText(final String expectedErrorText) {
         return new TypeSafeMatcher<View>() {
-
             @Override
             public boolean matchesSafely(View view) {
                 if (!(view instanceof EditText)) {
@@ -31,7 +34,9 @@ public class ErrorTextMatcher {
                 return expectedErrorText.equals(actualError);
             }
             @Override
-            public void describeTo(Description description) { }
+            public void describeTo(Description description) {
+                description.appendText(DESCRIPTION_TEXT + expectedErrorText );
+            }
         };
     }
 }
