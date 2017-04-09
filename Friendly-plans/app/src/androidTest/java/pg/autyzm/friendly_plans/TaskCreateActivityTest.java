@@ -35,10 +35,6 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class TaskCreateActivityTest {
 
-    private static final String EXPECTED_NAME = "TEST TASK";
-    private static final String BAD_TASK_NAME = "Bad task name!@$%*";
-    private static final String GOOD_TASK_NAME = "good task name";
-
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
 
@@ -52,6 +48,9 @@ public class TaskCreateActivityTest {
     private static final String EXPECTED_NAME = "TEST TASK";
     private static final String EXPECTED_DURATION_TXT = "1";
     private static final int EXPECTED_DURATION = 1;
+
+    private static final String BAD_TASK_NAME = "Bad task name!@$%*";
+    private static final String GOOD_TASK_NAME = "good task name";
 
     private TaskTemplateRepository taskTemplateRepository;
     private AssetRepository assetRepository;
@@ -103,15 +102,15 @@ public class TaskCreateActivityTest {
     @Test
     public void When_AddingNewTask_Expect_NewTaskAddedToDB() {
         onView(withId(R.id.id_et_task_name))
-          .perform(replaceText(EXPECTED_NAME));
+            .perform(replaceText(EXPECTED_NAME));
         closeSoftKeyboard();
 
         onView(withId(R.id.id_et_task_duration_time))
-          .perform(replaceText(EXPECTED_DURATION_TXT));
+            .perform(replaceText(EXPECTED_DURATION_TXT));
         closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_task_next))
-          .perform(click());
+            .perform(click());
 
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
         idToDelete = taskTemplates.get(0).getId();
@@ -136,11 +135,11 @@ public class TaskCreateActivityTest {
             throws InterruptedException, IOException {
         onView(withId(R.id.id_et_task_name))
               .perform(replaceText(EXPECTED_NAME));
-        closeKeyboard();
+        closeSoftKeyboard();
 
         onView(withId(R.id.id_et_task_duration_time))
               .perform(replaceText(EXPECTED_DURATION_TXT));
-        closeKeyboard();
+        closeSoftKeyboard();
 
         assetTestRule.setTestPicture();
 
@@ -196,5 +195,4 @@ public class TaskCreateActivityTest {
         onView(withId(R.id.id_et_task_name))
             .check(matches(hasErrorText(activityRule.getActivity().getString(R.string.only_letters_msg))));
     }
-
 }

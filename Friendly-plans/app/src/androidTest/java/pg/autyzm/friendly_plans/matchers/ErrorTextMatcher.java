@@ -31,7 +31,7 @@ public class ErrorTextMatcher {
                 return expectedErrorText.equals(actualError);
             }
             @Override
-            public void describeTo(Description description) {}
+            public void describeTo(Description description) { }
         };
     }
 }
