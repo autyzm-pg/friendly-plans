@@ -20,7 +20,7 @@ The project was started by students from Gdańsk University of Technology. First
 The project is developing by people who want to make other people's life easier, so Friendly Plans are going to be free to use, download and develop for everybody forever.
 So, except as otherwise noted, this software is licensed under the [GNU General Public License, v3](https://www.gnu.org/licenses/gpl-3.0.txt)
 ## Join
-If you would like to become a part of community, you are welcome to join and contribute. Your help is needed. It is easy to contact by [project's forum](http://autyzm.eti.pg.gda.pl/forum/) or by conversations in [issues](https://github.com/autyzm-pg/friendly-plans/issues).
+If you would like to become a part of community, you are welcome to join and contribute. Your help is needed. It is easy to contact by [project's forum](http://autyzm.eti.pg.gda.pl/forum/) or by conversations in [issues](https://github.com/autyzm-pg/friendly-plans/issues) or by [slack](https://autyzm-pg.slack.com) 
 ## Workflow
 In project we are using [GitHub Flow](https://guides.github.com/introduction/flow/). Please make pull requests to master branch.
 ## Start
@@ -32,7 +32,7 @@ Making a long story short:
 - Feel free to grab an issue and propose solution or answer
 - To share your changes please make pull request to master branch
 - Write and read project documentation on wiki pages
-- If you want to join team, add yourself to slack autyzm-pg.slack.com
+- Add yourself to slack autyzm-pg.slack.com
 
 ## Partners
 <img src="/doc/graphic/kdp-logo.jpg" height="150" /><img src="/doc/graphic/iwrd-logo.png" height="150" /><img src="/doc/graphic/pg-logo.jpg" height="150" />
