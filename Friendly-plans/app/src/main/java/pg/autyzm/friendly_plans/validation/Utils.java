@@ -1,5 +1,4 @@
-package pg.autyzm.friendly_plans.utils;
-
+package pg.autyzm.friendly_plans.validation;
 
 import android.graphics.Color;
 import android.text.Spannable;
@@ -7,7 +6,7 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.widget.TextView;
 
-public class Utils {
+public final class Utils {
 
     private static final String ASTERISK = " * ";
 
@@ -17,6 +16,10 @@ public class Utils {
         wordToSpan.setSpan(new ForegroundColorSpan(Color.RED), text.indexOf('*'),
                 text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv.setText(wordToSpan);
+    }
+
+    private Utils() {
+
     }
 
 }
