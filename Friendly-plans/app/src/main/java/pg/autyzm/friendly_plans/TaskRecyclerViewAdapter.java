@@ -12,20 +12,22 @@ import java.util.List;
 
 import database.entities.TaskTemplate;
 
-public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerViewAdapter.TaskListViewHolder> {
+class TaskRecyclerViewAdapter
+        extends RecyclerView.Adapter<TaskRecyclerViewAdapter.TaskListViewHolder> {
 
     private List<TaskTemplate> taskItemList;
     private TaskItemClickListener taskItemClickListener;
     private static final int ICON_PLACEHOLDER_ID = R.drawable.ic_placeholder;
 
-    public TaskRecyclerViewAdapter(TaskItemClickListener taskItemClickListener) {
+    TaskRecyclerViewAdapter(TaskItemClickListener taskItemClickListener) {
         this.taskItemClickListener = taskItemClickListener;
         this.taskItemList = new ArrayList<TaskTemplate>();
     }
 
     @Override
     public TaskListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_task, parent, false);
         return new TaskListViewHolder(view, taskItemClickListener);
     }
 
@@ -64,28 +66,28 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         return ((taskItemList != null) && (taskItemList.size() != 0) ? taskItemList.size() : 0);
     }
 
-    public interface TaskItemClickListener {
-        void onTaskItemClick(int position);
-    }
-
-    public void setTaskItems(List<TaskTemplate> taskItemList) {
+    void setTaskItems(List<TaskTemplate> taskItemList) {
         this.taskItemList = taskItemList;
         notifyDataSetChanged();
     }
 
-    public TaskTemplate getTaskItem(int position) {
+    TaskTemplate getTaskItem(int position) {
         return taskItemList.get(position);
+    }
+
+    interface TaskItemClickListener {
+        void onTaskItemClick(int position);
     }
 
     static class TaskListViewHolder extends RecyclerView.ViewHolder {
 
-        TextView taskName = null;
-        ImageView taskPicture = null;
-        ImageView taskSoundIcon = null;
-        ImageView taskDurationIcon = null;
-        TextView taskDurationTime = null;
+        TextView taskName;
+        ImageView taskPicture;
+        ImageView taskSoundIcon;
+        ImageView taskDurationIcon;
+        TextView taskDurationTime;
 
-        public TaskListViewHolder(View itemView, final TaskItemClickListener taskItemClickListener) {
+        TaskListViewHolder(View itemView, final TaskItemClickListener taskItemClickListener){
             super(itemView);
             this.taskName = (TextView) itemView.findViewById(R.id.id_tv_task_name);
             this.taskPicture = (ImageView) itemView.findViewById(R.id.id_iv_task_picture);

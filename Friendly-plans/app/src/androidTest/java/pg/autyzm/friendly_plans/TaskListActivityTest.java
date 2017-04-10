@@ -12,9 +12,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import database.repository.TaskTemplateRepository;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -33,34 +30,32 @@ public class TaskListActivityTest {
     @Rule
     public ActivityTestRule<TaskListActivity> activityRule = new ActivityTestRule<>(
             TaskListActivity.class, true, true);
-    private TaskTemplateRepository taskTemplateRepository;
     private static final String EXPECTED_NAME = "TEST TASK";
-    private List<Long> testTasks;
 
     @Before
     public void setUp() {
         int numberOfTasks = 10;
-        taskTemplateRepository = new TaskTemplateRepository(
+        TaskTemplateRepository taskTemplateRepository = new TaskTemplateRepository(
                 daoSessionResource.getSession(activityRule.getActivity().getApplicationContext()));
-        long id;
-        testTasks = new ArrayList<>();
         for (int taskNumber = 0; taskNumber < numberOfTasks; taskNumber++) {
-            id = taskTemplateRepository.create(EXPECTED_NAME + " " + taskNumber, taskNumber, (long) taskNumber);
-            testTasks.add(id);
+            taskTemplateRepository
+                    .create(EXPECTED_NAME + " " + taskNumber, taskNumber, (long) taskNumber);
         }
         activityRule.launchActivity(new Intent());
     }
 
     @Test
     public void checkIfItemsAreClickable() {
-        Espresso.onView(withId(R.id.rv_task_list)).perform(RecyclerViewActions.actionOnItemAtPosition(3, click()));
+        Espresso.onView(withId(R.id.rv_task_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(3, click()));
     }
 
     @Test
     public void checkIfTaskIsAddedToDBAndProperlyDisplayedOnRecyclerView() {
-
         int testedPosition = 5;
         onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedPosition));
-        onView(withRecyclerView(R.id.rv_task_list).atPosition(testedPosition)).check(matches(hasDescendant(withText(EXPECTED_NAME + " " + (testedPosition)))));
+        onView(withRecyclerView(R.id.rv_task_list)
+                .atPosition(testedPosition))
+                .check(matches(hasDescendant(withText(EXPECTED_NAME + " " + (testedPosition)))));
     }
 }
