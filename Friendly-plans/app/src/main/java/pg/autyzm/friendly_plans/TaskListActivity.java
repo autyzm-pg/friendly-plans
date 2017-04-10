@@ -39,11 +39,11 @@ public class TaskListActivity extends AppCompatActivity {
 
     }
 
-    TaskRecyclerViewAdapter.TaskItemClickListener taskItemClickListener = new TaskRecyclerViewAdapter.TaskItemClickListener() {
+    TaskRecyclerViewAdapter.TaskItemClickListener taskItemClickListener =
+            new TaskRecyclerViewAdapter.TaskItemClickListener() {
         @Override
         public void onTaskItemClick(int position) {
             TaskTemplate taskTemplate = taskListAdapter.getTaskItem(position);
-            Log.d(TAG, "onTaskItemClick: task position : " + position + " task name: " + taskTemplate.getName());
         }
     };
 }

@@ -8,7 +8,8 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-/** Original source :
+/**
+ * Original source :
  * https://github.com/dannyroa/espresso-samples/blob/master/RecyclerView/app/src/androidTest/java/com/dannyroa/espresso_samples/recyclerview/RecyclerViewMatcher.java
  */
 public class RecyclerViewMatcher {
@@ -28,9 +29,8 @@ public class RecyclerViewMatcher {
     }
 
     public Matcher<View> atPositionOnView(final int position, final int targetViewId) {
-
         return new TypeSafeMatcher<View>() {
-            Resources resources = null;
+            Resources resources;
             View childView;
 
             public void describeTo(Description description) {
@@ -42,7 +42,6 @@ public class RecyclerViewMatcher {
                         idDescription = String.format("%s (resource name not found)", recyclerViewId);
                     }
                 }
-
                 description.appendText("RecyclerView with id: " + idDescription + " at position: " + position);
             }
 
@@ -52,14 +51,13 @@ public class RecyclerViewMatcher {
 
                 if (childView == null) {
                     RecyclerView recyclerView =
-                        (RecyclerView) view.getRootView().findViewById(recyclerViewId);
+                            (RecyclerView) view.getRootView().findViewById(recyclerViewId);
                     if (recyclerView != null && recyclerView.getId() == recyclerViewId) {
                         RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(position);
                         if (viewHolder != null) {
                             childView = viewHolder.itemView;
                         }
-                    }
-                    else {
+                    } else {
                         return false;
                     }
                 }

@@ -63,7 +63,7 @@ class TaskRecyclerViewAdapter
 
     @Override
     public int getItemCount() {
-        return ((taskItemList != null) && (taskItemList.size() != 0) ? taskItemList.size() : 0);
+        return (taskItemList != null && taskItemList.size() != 0 ? taskItemList.size() : 0);
     }
 
     void setTaskItems(List<TaskTemplate> taskItemList) {
@@ -87,14 +87,13 @@ class TaskRecyclerViewAdapter
         ImageView taskDurationIcon;
         TextView taskDurationTime;
 
-        TaskListViewHolder(View itemView, final TaskItemClickListener taskItemClickListener){
+        TaskListViewHolder(View itemView, final TaskItemClickListener taskItemClickListener) {
             super(itemView);
             this.taskName = (TextView) itemView.findViewById(R.id.id_tv_task_name);
             this.taskPicture = (ImageView) itemView.findViewById(R.id.id_iv_task_picture);
             this.taskSoundIcon = (ImageView) itemView.findViewById(R.id.id_iv_task_sound_icon);
             this.taskDurationIcon = (ImageView) itemView.findViewById(R.id.id_iv_task_duration_icon);
             this.taskDurationTime = (TextView) itemView.findViewById(R.id.id_tv_task_duration_time);
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

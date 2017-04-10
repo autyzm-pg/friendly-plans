@@ -34,10 +34,10 @@ public class TaskListActivityTest {
 
     @Before
     public void setUp() {
-        int numberOfTasks = 10;
+        final int NUMBER_OF_TASKS = 10;
         TaskTemplateRepository taskTemplateRepository = new TaskTemplateRepository(
                 daoSessionResource.getSession(activityRule.getActivity().getApplicationContext()));
-        for (int taskNumber = 0; taskNumber < numberOfTasks; taskNumber++) {
+        for (int taskNumber = 0; taskNumber < NUMBER_OF_TASKS; taskNumber++) {
             taskTemplateRepository
                     .create(EXPECTED_NAME + " " + taskNumber, taskNumber, (long) taskNumber);
         }
@@ -46,16 +46,17 @@ public class TaskListActivityTest {
 
     @Test
     public void checkIfItemsAreClickable() {
-        Espresso.onView(withId(R.id.rv_task_list))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(3, click()));
+        final int TESTED_TASK_POSITION = 3;
+        onView(withId(R.id.rv_task_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(TESTED_TASK_POSITION, click()));
     }
 
     @Test
     public void checkIfTaskIsAddedToDBAndProperlyDisplayedOnRecyclerView() {
-        int testedPosition = 5;
-        onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedPosition));
+        final int TESTED_TASK_POSITION = 5;
+        onView(withId(R.id.rv_task_list)).perform(scrollToPosition(TESTED_TASK_POSITION));
         onView(withRecyclerView(R.id.rv_task_list)
-                .atPosition(testedPosition))
-                .check(matches(hasDescendant(withText(EXPECTED_NAME + " " + (testedPosition)))));
+                .atPosition(TESTED_TASK_POSITION))
+                .check(matches(hasDescendant(withText(EXPECTED_NAME + " " + TESTED_TASK_POSITION))));
     }
 }
