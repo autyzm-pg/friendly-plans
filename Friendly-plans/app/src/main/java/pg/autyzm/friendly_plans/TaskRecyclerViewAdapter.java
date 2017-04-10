@@ -16,7 +16,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
 
     private List<TaskTemplate> taskItemList;
     private TaskItemClickListener taskItemClickListener;
-    private int ICON_PLACEHOLDER_ID = R.drawable.ic_placeholder;
+    private static final int ICON_PLACEHOLDER_ID = R.drawable.ic_placeholder;
 
     public TaskRecyclerViewAdapter(TaskItemClickListener taskItemClickListener) {
         this.taskItemClickListener = taskItemClickListener;
@@ -58,7 +58,6 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
             }
         }
     }
-
 
     @Override
     public int getItemCount() {

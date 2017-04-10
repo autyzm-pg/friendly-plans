@@ -6,7 +6,6 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -16,19 +15,16 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.entities.TaskTemplate;
 import database.repository.TaskTemplateRepository;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
-import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static matcher.RecyclerViewMatcher.withRecyclerView;
-import static org.hamcrest.CoreMatchers.is;
 
 @RunWith(AndroidJUnit4.class)
 public class TaskListActivityTest {
@@ -43,35 +39,16 @@ public class TaskListActivityTest {
 
     @Before
     public void setUp() {
+        int numberOfTasks = 10;
         taskTemplateRepository = new TaskTemplateRepository(
                 daoSessionResource.getSession(activityRule.getActivity().getApplicationContext()));
         long id;
         testTasks = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            id = taskTemplateRepository.create(EXPECTED_NAME + " " + i, i, 1l);
+        for (int taskNumber = 0; taskNumber < numberOfTasks; taskNumber++) {
+            id = taskTemplateRepository.create(EXPECTED_NAME + " " + taskNumber, taskNumber, (long) taskNumber);
             testTasks.add(id);
         }
         activityRule.launchActivity(new Intent());
-    }
-
-    @After
-    public void tearDown() {
-        if (testTasks != null && testTasks.size() != 0) {
-            for (long idToDelete : testTasks) {
-                taskTemplateRepository.delete(idToDelete);
-            }
-        }
-        testTasks = null;
-    }
-
-    @Test
-    public void checkIfTasksAreAddedToDB() {
-        int numberOfTestTasksAdded = 10;
-        List<TaskTemplate> testTasks = taskTemplateRepository.getAll();
-        for (int i = 0; i < 10; i++) {
-            assertThat(testTasks.get(i).getName(), is(EXPECTED_NAME + " " + i));
-        }
-        assertThat(testTasks.size(), is(numberOfTestTasksAdded));
     }
 
     @Test
