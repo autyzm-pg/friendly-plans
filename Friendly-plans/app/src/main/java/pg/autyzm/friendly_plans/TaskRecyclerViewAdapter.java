@@ -12,11 +12,6 @@ import java.util.List;
 
 import database.entities.TaskTemplate;
 
-
-/**
- * Created by Mateusz on 2017-03-08.
- */
-
 public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerViewAdapter.TaskListViewHolder> {
 
     private List<TaskTemplate> taskItemList;
@@ -37,17 +32,17 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     @Override
     public void onBindViewHolder(TaskListViewHolder holder, int position) {
 
-        if (taskItemList != null || taskItemList.size() != 0) {
+        if (taskItemList != null && taskItemList.size() != 0) {
             TaskTemplate taskItem = taskItemList.get(position);
             holder.taskName.setText(taskItem.getName());
             //condition only for mocking purposes -> needs to be changed later
-            if (taskItem.getPicture() != null && !taskItem.getPicture().isEmpty()) {
+            if (taskItem.getPicture() != null && !taskItem.getPicture().getFilename().isEmpty()) {
                 holder.taskPicture.setImageResource(ICON_PLACEHOLDER_ID);
                 holder.taskPicture.setVisibility(View.VISIBLE);
             } else {
                 holder.taskPicture.setVisibility(View.GONE);
             }
-            if (taskItem.getSound() != null && !taskItem.getSound().isEmpty()) {
+            if (taskItem.getSound() != null && !taskItem.getSound().getFilename().isEmpty()) {
                 holder.taskSoundIcon.setImageResource(ICON_PLACEHOLDER_ID);
                 holder.taskSoundIcon.setVisibility(View.VISIBLE);
             } else {

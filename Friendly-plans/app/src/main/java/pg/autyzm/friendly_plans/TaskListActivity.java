@@ -6,19 +6,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import database.entities.TaskTemplate;
 import database.repository.TaskTemplateRepository;
-
-;
-
-/**
- * Created by Mateusz on 2017-03-08.
- */
 
 public class TaskListActivity extends AppCompatActivity {
 
@@ -43,7 +34,6 @@ public class TaskListActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_task_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         taskListAdapter = new TaskRecyclerViewAdapter(taskItemClickListener);
         recyclerView.setAdapter(taskListAdapter);
 
