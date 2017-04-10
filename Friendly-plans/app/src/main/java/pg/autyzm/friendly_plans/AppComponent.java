@@ -23,4 +23,5 @@ public interface AppComponent {
     TaskTemplateRepository taskTemplateRepository();
 
     void inject(TaskContainerFragment activity);
+    void inject(TaskListActivity activity);
 }

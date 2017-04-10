@@ -28,19 +28,15 @@ public class TaskListActivity extends AppCompatActivity {
     private TaskRecyclerViewAdapter taskListAdapter;
     private static final String TAG = "TaskListActivity";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        ((App) getApplication()).getRepositoryComponent().inject(this);
+        ((App) getApplication()).getAppComponent().inject(this);
         setContentView(R.layout.activity_task_list);
         setUpViews();
-        loadTasksToadapter(taskTemplateRepository.getAll());
-
-
+        taskListAdapter.setTaskItems(taskTemplateRepository.getAll());
     }
-
 
     private void setUpViews() {
 
@@ -51,31 +47,7 @@ public class TaskListActivity extends AppCompatActivity {
         taskListAdapter = new TaskRecyclerViewAdapter(taskItemClickListener);
         recyclerView.setAdapter(taskListAdapter);
 
-
-
     }
-
-    //For early "test" purposes
-    private void setUpAndLoadMockList() {
-        List<TaskTemplate> mockTaskList = new ArrayList<>();
-        TaskTemplate mockTaskWithoutMedia = new TaskTemplate(1L, "name without media", "", "", 0);
-        mockTaskList.add(new TaskTemplate(1L, "picture, no sound", "picture", "", 0));
-        mockTaskList.add(new TaskTemplate(2L, "sound, no picture", "", "sound", 0));
-        for (int i = 0; i < 10; i++) {
-            mockTaskList.add(new TaskTemplate((long) i, "name " + i, "picture", "sound", i));
-            mockTaskList.add(mockTaskWithoutMedia);
-        }
-
-        loadTasksToadapter(mockTaskList);
-
-    }
-
-    private void loadTasksToadapter(List<TaskTemplate> taskTemplates) {
-
-        taskListAdapter.setTaskItems(taskTemplates);
-
-    }
-
 
     TaskRecyclerViewAdapter.TaskItemClickListener taskItemClickListener = new TaskRecyclerViewAdapter.TaskItemClickListener() {
         @Override
@@ -84,5 +56,4 @@ public class TaskListActivity extends AppCompatActivity {
             Log.d(TAG, "onTaskItemClick: task position : " + position + " task name: " + taskTemplate.getName());
         }
     };
-
 }

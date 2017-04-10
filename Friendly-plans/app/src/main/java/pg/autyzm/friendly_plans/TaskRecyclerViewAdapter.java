@@ -19,10 +19,14 @@ import database.entities.TaskTemplate;
 
 public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerViewAdapter.TaskListViewHolder> {
 
-
     private List<TaskTemplate> taskItemList;
     private TaskItemClickListener taskItemClickListener;
     private int ICON_PLACEHOLDER_ID = R.drawable.ic_placeholder;
+
+    public TaskRecyclerViewAdapter(TaskItemClickListener taskItemClickListener) {
+        this.taskItemClickListener = taskItemClickListener;
+        this.taskItemList = new ArrayList<TaskTemplate>();
+    }
 
     @Override
     public TaskListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -34,20 +38,19 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     public void onBindViewHolder(TaskListViewHolder holder, int position) {
 
         if (taskItemList != null || taskItemList.size() != 0) {
-
             TaskTemplate taskItem = taskItemList.get(position);
             holder.taskName.setText(taskItem.getName());
             //condition only for mocking purposes -> needs to be changed later
-            if (taskItem.getPicture()!= null && !taskItem.getPicture().isEmpty()) {
+            if (taskItem.getPicture() != null && !taskItem.getPicture().isEmpty()) {
                 holder.taskPicture.setImageResource(ICON_PLACEHOLDER_ID);
                 holder.taskPicture.setVisibility(View.VISIBLE);
-            } else  {
+            } else {
                 holder.taskPicture.setVisibility(View.GONE);
             }
-            if (taskItem.getSound()!= null && !taskItem.getSound().isEmpty()) {
+            if (taskItem.getSound() != null && !taskItem.getSound().isEmpty()) {
                 holder.taskSoundIcon.setImageResource(ICON_PLACEHOLDER_ID);
                 holder.taskSoundIcon.setVisibility(View.VISIBLE);
-            } else  {
+            } else {
                 holder.taskSoundIcon.setVisibility(View.GONE);
             }
             if (taskItem.getDurationTime() != 0) {
@@ -59,8 +62,6 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
                 holder.taskDurationIcon.setVisibility(View.INVISIBLE);
             }
         }
-
-
     }
 
 
@@ -69,28 +70,18 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         return ((taskItemList != null) && (taskItemList.size() != 0) ? taskItemList.size() : 0);
     }
 
-
     public interface TaskItemClickListener {
         void onTaskItemClick(int position);
     }
 
-
-    public TaskRecyclerViewAdapter(TaskItemClickListener taskItemClickListener) {
-        this.taskItemClickListener = taskItemClickListener;
-        this.taskItemList = new ArrayList<TaskTemplate>();
-    }
-
-
     public void setTaskItems(List<TaskTemplate> taskItemList) {
         this.taskItemList = taskItemList;
         notifyDataSetChanged();
-
     }
 
     public TaskTemplate getTaskItem(int position) {
         return taskItemList.get(position);
     }
-
 
     static class TaskListViewHolder extends RecyclerView.ViewHolder {
 
@@ -99,7 +90,6 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         ImageView taskSoundIcon = null;
         ImageView taskDurationIcon = null;
         TextView taskDurationTime = null;
-
 
         public TaskListViewHolder(View itemView, final TaskItemClickListener taskItemClickListener) {
             super(itemView);
@@ -115,10 +105,6 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
                     taskItemClickListener.onTaskItemClick(getAdapterPosition());
                 }
             });
-
-
         }
     }
-
-
 }
