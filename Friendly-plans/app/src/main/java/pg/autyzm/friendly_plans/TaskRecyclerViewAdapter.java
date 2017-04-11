@@ -37,7 +37,6 @@ class TaskRecyclerViewAdapter
         if (taskItemList != null && taskItemList.size() != 0) {
             TaskTemplate taskItem = taskItemList.get(position);
             holder.taskName.setText(taskItem.getName());
-            //condition only for mocking purposes -> needs to be changed later
             if (taskItem.getPicture() != null && !taskItem.getPicture().getFilename().isEmpty()) {
                 holder.taskPicture.setImageResource(ICON_PLACEHOLDER_ID);
                 holder.taskPicture.setVisibility(View.VISIBLE);
@@ -63,7 +62,7 @@ class TaskRecyclerViewAdapter
 
     @Override
     public int getItemCount() {
-        return (taskItemList != null && taskItemList.size() != 0 ? taskItemList.size() : 0);
+        return taskItemList != null && taskItemList.size() != 0 ? taskItemList.size() : 0;
     }
 
     void setTaskItems(List<TaskTemplate> taskItemList) {
@@ -89,11 +88,16 @@ class TaskRecyclerViewAdapter
 
         TaskListViewHolder(View itemView, final TaskItemClickListener taskItemClickListener) {
             super(itemView);
-            this.taskName = (TextView) itemView.findViewById(R.id.id_tv_task_name);
-            this.taskPicture = (ImageView) itemView.findViewById(R.id.id_iv_task_picture);
-            this.taskSoundIcon = (ImageView) itemView.findViewById(R.id.id_iv_task_sound_icon);
-            this.taskDurationIcon = (ImageView) itemView.findViewById(R.id.id_iv_task_duration_icon);
-            this.taskDurationTime = (TextView) itemView.findViewById(R.id.id_tv_task_duration_time);
+            this.taskName = (TextView) itemView
+                    .findViewById(R.id.id_tv_task_name);
+            this.taskPicture = (ImageView) itemView
+                    .findViewById(R.id.id_iv_task_picture);
+            this.taskSoundIcon = (ImageView) itemView
+                    .findViewById(R.id.id_iv_task_sound_icon);
+            this.taskDurationIcon = (ImageView) itemView
+                    .findViewById(R.id.id_iv_task_duration_icon);
+            this.taskDurationTime = (TextView) itemView
+                    .findViewById(R.id.id_tv_task_duration_time);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
