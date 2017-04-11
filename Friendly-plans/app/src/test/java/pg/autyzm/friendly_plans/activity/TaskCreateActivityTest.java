@@ -26,6 +26,7 @@ import pg.autyzm.friendly_plans.BuildConfig;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.TaskContainerFragment;
 import pg.autyzm.friendly_plans.TaskCreateActivity;
+import pg.autyzm.friendly_plans.asset.AssetType;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 import pg.autyzm.friendly_plans.test_helpers.AppComponentDaggerRule;
 
@@ -47,7 +48,7 @@ public class TaskCreateActivityTest {
 
     @Before
     public void setUp() {
-        doNothing().when(filePickerProxy).openImageFilePicker(any(TaskContainerFragment.class));
+        doNothing().when(filePickerProxy).openFilePicker(any(TaskContainerFragment.class), any(AssetType.class));
         activity = Robolectric.setupActivity(TaskCreateActivity.class);
     }
 
@@ -56,19 +57,19 @@ public class TaskCreateActivityTest {
         Button selectPicture = (Button) activity.findViewById(R.id.id_btn_select_task_picture);
         selectPicture.performClick();
 
-        verify(filePickerProxy).openImageFilePicker(any(TaskContainerFragment.class));
+        verify(filePickerProxy).openFilePicker(any(TaskContainerFragment.class), any(AssetType.class));
     }
 
     @Test
     public void When_ActivityResultIsCalledWithNonExistingPictureData_Expect_ToastWithErrorMessageIsShown() {
         String TEST_FILE_PATH = "Test";
-        when(filePickerProxy.isPickFileRequested(any(int.class))).thenReturn(true);
+        when(filePickerProxy.isPickFileRequested(any(int.class), any(AssetType.class))).thenReturn(true);
         when(filePickerProxy.isFilePicked(any(int.class))).thenReturn(true);
         when(filePickerProxy.getFilePath(any(Intent.class))).thenReturn(TEST_FILE_PATH);
 
         Fragment fragment = activity.getFragmentManager().findFragmentById(R.id.task_container);
         fragment.onActivityResult(
-                FilePickerProxy.PICK_FILE_REQUEST,
+                AssetType.PICTURE.ordinal(),
                 FilePickerActivity.RESULT_OK,
                 new Intent()
         );

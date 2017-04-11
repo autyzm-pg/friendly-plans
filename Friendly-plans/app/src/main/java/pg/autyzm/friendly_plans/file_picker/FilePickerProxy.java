@@ -5,22 +5,22 @@ import android.content.Intent;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import java.util.regex.Pattern;
+import pg.autyzm.friendly_plans.asset.AssetType;
 
 public class FilePickerProxy {
 
-    public static final int PICK_FILE_REQUEST = 1;
-    private static final String IMAGE_PATTERN = "([^\\s]+(\\.(?i)(jpg|jpeg|png|gif|bmp))$)";
+    private static final String PATTERN = "([^\\s]+(\\.(?i)(%s))$)";
 
-    public void openImageFilePicker(Fragment fragment) {
+    public void openFilePicker(Fragment fragment, AssetType assetType) {
         new MaterialFilePicker()
                 .withFragment(fragment)
-                .withRequestCode(PICK_FILE_REQUEST)
-                .withFilter(Pattern.compile(IMAGE_PATTERN))
+                .withRequestCode(assetType.ordinal())
+                .withFilter(Pattern.compile(String.format(PATTERN, assetType.getPattern())))
                 .start();
     }
 
-    public boolean isPickFileRequested(int requestCode) {
-        return requestCode == PICK_FILE_REQUEST;
+    public boolean isPickFileRequested(int requestCode, AssetType assetType) {
+        return requestCode == assetType.ordinal();
     }
 
     public boolean isFilePicked(int resultCode) {
@@ -30,5 +30,4 @@ public class FilePickerProxy {
     public String getFilePath(Intent data) {
         return data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
     }
-
 }

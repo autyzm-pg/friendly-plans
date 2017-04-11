@@ -131,6 +131,16 @@ public class TaskCreateActivityTest {
     }
 
     @Test
+    public void When_SettingSound_Expect_SoundNameIsDisplayed()
+            throws IOException, InterruptedException {
+        assetTestRule.setTestSound();
+        List<Asset> assets = assetRepository.getAll();
+
+        onView(withId(R.id.id_et_task_sound))
+                .check(matches(withText(assets.get(0).getFilename())));
+    }
+
+    @Test
     public void When_AddingNewTaskWithPicture_Expect_NewTaskAddedToDB()
             throws InterruptedException, IOException {
         onView(withId(R.id.id_et_task_name))
@@ -171,6 +181,7 @@ public class TaskCreateActivityTest {
     public void When_AddingNewTask_and_DurationIsEmpty_Expect_Warning() {
         onView(withId(R.id.id_et_task_name))
             .perform(typeText(GOOD_TASK_NAME));
+        closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_task_next))
             .perform(scrollTo());
