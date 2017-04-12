@@ -6,7 +6,7 @@
 
 ## Main functionalities
 
-###Therapist use case diagram
+### Therapist use case diagram
 ![Therapist use case diagram](therapist-use-cases.jpg)
 
 - As therapist I need to create a plan containg specified tasks for every of children to reach treatment goals.
@@ -17,7 +17,7 @@
 - As therapist I would like to switch between plans easly during its execution and remember where we have finished last time with a progress bar visible with plan on plans list, because children are working with many plans during one session.
 - As therapist I need to give child a break. A break is a special type of task which is pleasant for a child and perceived by the child as a reward. The set of available breaks for plan should be configured by me, and randomly be chosen to display in limited set with size configured per plan.
 
-###Child use case diagram
+### Child use case diagram
 ![Child use case diagram](child-use-cases.jpg)
 
 - As child I want to perform tasks visible on screen to practise exercises.

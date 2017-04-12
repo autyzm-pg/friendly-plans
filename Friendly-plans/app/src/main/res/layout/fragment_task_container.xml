@@ -1,89 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+  android:id="@+id/id_layout_task_activity"
+  xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:padding="5dp"
-  android:columnCount="5"
-  android:orientation="vertical">
+  android:layout_height="match_parent">
 
-  <TextView
-    android:id="@+id/id_task_create_description"
-    android:layout_columnSpan="5"
-    android:background="#cccccc"
-    android:text="@string/task_create_description"
-    android:textAppearance="?android:attr/textAppearanceLarge"/>
+  <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:columnCount="5"
+    android:orientation="vertical">
 
-  <TextView
-    android:layout_column="0"
-    android:layout_row="1"
-    android:text="@string/task_name"/>
+    <TextView
+      android:id="@+id/id_task_create_description"
+      android:layout_columnSpan="5"
+      android:background="#cccccc"
+      android:text="@string/task_create_description"
+      android:textAppearance="?android:attr/textAppearanceLarge"/>
 
-  <EditText
-    android:id="@+id/id_et_task_name"
-    android:layout_column="1"
-    android:layout_row="1"
-    android:cursorVisible="true"
-    android:inputType="text"
-    android:minWidth="150dp"
-    tools:text="This is task name."/>
+    <TextView
+      android:id="@+id/id_tv_task_name_label"
+      android:layout_column="0"
+      android:layout_row="1"
+      android:text="@string/task_name"/>
 
-  <TextView
-    android:layout_column="0"
-    android:layout_row="2"
-    android:text="@string/task_picture"/>
+    <EditText
+      android:id="@+id/id_et_task_name"
+      android:layout_column="1"
+      android:layout_row="1"
+      android:cursorVisible="true"
+      android:inputType="text"
+      android:minWidth="150dp"
+      tools:text="This is task name."/>
 
-  <EditText
-    android:id="@+id/id_et_task_picture"
-    android:layout_column="1"
-    android:layout_row="2"
-    android:inputType="text"
-    tools:text="name of the picture is here"/>
+    <TextView
+      android:layout_column="0"
+      android:layout_row="2"
+      android:text="@string/task_picture"/>
 
-  <Button
-    android:layout_column="3"
-    android:layout_row="2"
-    android:text="@string/select_picture"/>
+    <EditText
+      android:id="@+id/id_et_task_picture"
+      android:layout_column="1"
+      android:layout_row="2"
+      android:inputType="text"
+      android:minWidth="100dp"
+      tools:text="name of the picture is here"/>
 
-  <TextView
-    android:id="@+id/textView"
-    android:layout_column="0"
-    android:layout_row="3"
-    android:text="@string/task_sound"/>
+    <Button
+      android:id="@+id/id_btn_select_task_picture"
+      android:layout_column="3"
+      android:layout_row="2"
+      android:text="@string/select_picture"/>
 
-  <Button
-    android:layout_column="3"
-    android:layout_row="3"
-    android:text="@string/select_sound"/>
+    <TextView
+      android:id="@+id/textView"
+      android:layout_column="0"
+      android:layout_row="3"
+      android:text="@string/task_sound"/>
 
-  <Button
-    android:layout_column="4"
-    android:layout_row="3"
-    android:text="@string/listen_sound"/>
+    <Button
+      android:layout_column="3"
+      android:layout_row="3"
+      android:text="@string/select_sound"/>
 
-  <TextView
-    android:layout_column="0"
-    android:layout_row="4"
-    android:text="@string/duration_time"/>
+    <Button
+      android:layout_column="4"
+      android:layout_row="3"
+      android:text="@string/listen_sound"/>
 
-  <EditText
-    android:id="@+id/id_et_task_duration_time"
-    android:layout_column="1"
-    android:layout_row="4"
-    android:inputType="text"
-    tools:text="duration of  smth is here"/>
+    <TextView
+      android:id="@+id/id_tv_task_duration_time"
+      android:layout_column="0"
+      android:layout_row="4"
+      android:text="@string/duration_time"/>
 
-  <Button
-    android:id="@+id/id_btn_task_next"
-    android:layout_column="4"
-    android:layout_row="5"
-    android:text="@string/next"/>
+    <EditText
+      android:id="@+id/id_et_task_duration_time"
+      android:layout_column="1"
+      android:layout_row="4"
+      android:inputType="number"
+      android:minWidth="100dp"
+      tools:text="duration of smth is here"/>
 
-  <EditText
-    android:id="@+id/id_et_task_sound"
-    android:layout_column="1"
-    android:layout_row="3"
-    android:inputType="text"
-    tools:text="name of the sound is here"/>
+    <Button
+      android:id="@+id/id_btn_task_next"
+      android:layout_column="4"
+      android:layout_row="5"
+      android:text="@string/next"/>
 
-</GridLayout>
+    <EditText
+      android:id="@+id/id_et_task_sound"
+      android:layout_column="1"
+      android:layout_row="3"
+      android:inputType="text"
+      android:minWidth="100dp"
+      tools:text="name of the sound is here"/>
+  </GridLayout>
+</ScrollView>

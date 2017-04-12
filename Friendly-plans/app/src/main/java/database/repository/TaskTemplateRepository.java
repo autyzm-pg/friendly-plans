@@ -1,10 +1,8 @@
 package database.repository;
 
-
 import database.entities.DaoSession;
 import database.entities.TaskTemplate;
 import database.entities.TaskTemplateDao.Properties;
-
 import java.util.List;
 
 public class TaskTemplateRepository {
@@ -15,10 +13,11 @@ public class TaskTemplateRepository {
         this.daoSession = daoSession;
     }
 
-    public long create(String name, int durationTime) {
+    public long create(String name, int durationTime, Long pictureId) {
         TaskTemplate taskTemplate = new TaskTemplate();
         taskTemplate.setName(name);
         taskTemplate.setDurationTime(durationTime);
+        taskTemplate.setPictureId(pictureId);
 
         return daoSession.getTaskTemplateDao().insert(taskTemplate);
     }

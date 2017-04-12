@@ -19,4 +19,11 @@
   <string name="main_add_remove_child">Add / Remove Child</string>
   <string name="main_change_active_child">Change Active Child</string>
   <string name="main_create_plan">Create Plan</string>
+  <!--Validation messages-->
+  <string name="only_letters_msg">Only letters and numbers are allowed</string>
+  <string name="name_exist_msg">Name already exists</string>
+  <string name="only_numbers_msg">Only numbers allowed</string>
+  <string name="not_empty_msg">Should not be empty</string>
+  <!-- -->
+  <string name="picking_file_error">During making safe copy of file an error occurred. Ensure that on device drive is enough space.</string>
 </resources>
