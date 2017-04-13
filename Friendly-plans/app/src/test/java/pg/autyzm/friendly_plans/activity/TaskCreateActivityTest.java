@@ -68,7 +68,8 @@ public class TaskCreateActivityTest {
         Button selectPicture = (Button) activity.findViewById(R.id.id_btn_select_task_picture);
         selectPicture.performClick();
 
-        verify(filePickerProxy).openFilePicker(any(TaskContainerFragment.class), any(AssetType.class));
+        verify(filePickerProxy)
+                .openFilePicker(any(TaskContainerFragment.class), any(AssetType.class));
     }
 
     @Test
