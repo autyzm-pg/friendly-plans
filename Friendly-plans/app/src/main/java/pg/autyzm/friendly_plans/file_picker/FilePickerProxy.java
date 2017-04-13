@@ -9,18 +9,18 @@ import pg.autyzm.friendly_plans.asset.AssetType;
 
 public class FilePickerProxy {
 
-    private static final String PATTERN = "([^\\s]+(\\.(?i)(%s))$)";
+    private static final String FILE_PATTERN = "([^\\s]+(\\.(?i)(%s))$)";
 
     public void openFilePicker(Fragment fragment, AssetType assetType) {
         new MaterialFilePicker()
                 .withFragment(fragment)
-                .withRequestCode(assetType.ordinal())
-                .withFilter(Pattern.compile(String.format(PATTERN, assetType.getPattern())))
+                .withRequestCode(getRequestCode(assetType))
+                .withFilter(Pattern.compile(String.format(FILE_PATTERN, assetType.getPattern())))
                 .start();
     }
 
     public boolean isPickFileRequested(int requestCode, AssetType assetType) {
-        return requestCode == assetType.ordinal();
+        return requestCode == getRequestCode(assetType);
     }
 
     public boolean isFilePicked(int resultCode) {
@@ -29,5 +29,9 @@ public class FilePickerProxy {
 
     public String getFilePath(Intent data) {
         return data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+    }
+
+    private int getRequestCode(AssetType assetType) {
+        return assetType.ordinal();
     }
 }

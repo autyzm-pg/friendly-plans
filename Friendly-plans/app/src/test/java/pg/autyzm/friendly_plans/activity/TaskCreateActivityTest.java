@@ -35,6 +35,8 @@ import pg.autyzm.friendly_plans.test_helpers.AppComponentDaggerRule;
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" })
 public class TaskCreateActivityTest {
 
+    private static final String TEST_FILE_PATH = "Test";
+
     @Rule
     public final AppComponentDaggerRule rule = new AppComponentDaggerRule();
 
@@ -45,11 +47,17 @@ public class TaskCreateActivityTest {
     private TaskTemplateRepository taskTemplateRepository;
 
     private TaskCreateActivity activity;
+    private Fragment fragment;
 
     @Before
     public void setUp() {
         doNothing().when(filePickerProxy).openFilePicker(any(TaskContainerFragment.class), any(AssetType.class));
+        when(filePickerProxy.isPickFileRequested(any(int.class), any(AssetType.class))).thenReturn(true);
+        when(filePickerProxy.isFilePicked(any(int.class))).thenReturn(true);
+        when(filePickerProxy.getFilePath(any(Intent.class))).thenReturn(TEST_FILE_PATH);
+
         activity = Robolectric.setupActivity(TaskCreateActivity.class);
+        fragment = activity.getFragmentManager().findFragmentById(R.id.task_container);
     }
 
     @Test
@@ -62,12 +70,6 @@ public class TaskCreateActivityTest {
 
     @Test
     public void When_ActivityResultIsCalledWithNonExistingPictureData_Expect_ToastWithErrorMessageIsShown() {
-        String TEST_FILE_PATH = "Test";
-        when(filePickerProxy.isPickFileRequested(any(int.class), any(AssetType.class))).thenReturn(true);
-        when(filePickerProxy.isFilePicked(any(int.class))).thenReturn(true);
-        when(filePickerProxy.getFilePath(any(Intent.class))).thenReturn(TEST_FILE_PATH);
-
-        Fragment fragment = activity.getFragmentManager().findFragmentById(R.id.task_container);
         fragment.onActivityResult(
                 AssetType.PICTURE.ordinal(),
                 FilePickerActivity.RESULT_OK,
@@ -76,6 +78,24 @@ public class TaskCreateActivityTest {
         String expectedMessage = activity.getResources().getString(R.string.picking_file_error);
         assertThat(ShadowToast.getTextOfLatestToast(), equalTo(expectedMessage));
     }
-    
+
+    @Test
+    public void When_ClickingSelectSound_Expect_OpenFilePickerBeCalled() throws Exception {
+        Button selectSound = (Button) activity.findViewById(R.id.id_btn_select_task_sound);
+        selectSound.performClick();
+
+        verify(filePickerProxy).openFilePicker(any(TaskContainerFragment.class), any(AssetType.class));
+    }
+
+    @Test
+    public void When_ActivityResultIsCalledWithNonExistingSoundData_Expect_ToastWithErrorMessageIsShown() {
+        fragment.onActivityResult(
+                AssetType.SOUND.ordinal(),
+                FilePickerActivity.RESULT_OK,
+                new Intent()
+        );
+        String expectedMessage = activity.getResources().getString(R.string.picking_file_error);
+        assertThat(ShadowToast.getTextOfLatestToast(), equalTo(expectedMessage));
+    }
 }
 

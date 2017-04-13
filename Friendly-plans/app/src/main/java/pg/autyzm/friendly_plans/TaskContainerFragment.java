@@ -45,6 +45,7 @@ public class TaskContainerFragment extends Fragment {
     private Button selectPicture;
     private Button selectSound;
     private Long pictureId;
+    private Long soundId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,7 +68,9 @@ public class TaskContainerFragment extends Fragment {
 
     private void addTaskOnDb() {
         taskTemplateRepository.create(taskName.getText().toString(),
-                Integer.valueOf(taskDurTime.getText().toString()), pictureId);
+                Integer.valueOf(taskDurTime.getText().toString()),
+                pictureId,
+                soundId);
     }
 
     private void registerViews(View view) {
@@ -120,9 +123,9 @@ public class TaskContainerFragment extends Fragment {
 
         try {
             String assetName = assetsHelper.makeSafeCopy(filePath);
-            pictureId = assetRepository
+            Long assetId = assetRepository
                     .create(AssetType.getTypeByExtension(assetName), assetName);
-            setAssetValue(assetType, assetName);
+            setAssetValue(assetType, assetName, assetId);
 
         } catch (IOException e) {
             String pickingFileError = getResources().getString(R.string.picking_file_error);
@@ -131,11 +134,13 @@ public class TaskContainerFragment extends Fragment {
         }
     }
 
-    private void setAssetValue(AssetType assetType, String assetName) {
+    private void setAssetValue(AssetType assetType, String assetName, Long assetId) {
         if (assetType.equals(AssetType.PICTURE)) {
             taskPicture.setText(assetName);
+            pictureId = assetId;
         } else {
             taskSound.setText(assetName);
+            soundId = assetId;
         }
     }
 }

@@ -10,6 +10,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static junit.framework.Assert.assertNull;
 import static org.hamcrest.CoreMatchers.is;
 import static pg.autyzm.friendly_plans.matchers.ErrorTextMatcher.hasErrorText;
 
@@ -165,6 +166,51 @@ public class TaskCreateActivityTest {
         assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
         assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
         assertThat(taskTemplates.get(0).getPictureId(), is(assets.get(0).getId()));
+    }
+
+    @Test
+    public void When_AddingANewTaskWithoutSound_Expect_TaskToBeAddedWithoutSound()
+            throws IOException, InterruptedException {
+        onView(withId(R.id.id_et_task_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_et_task_duration_time))
+                .perform(replaceText(EXPECTED_DURATION_TXT));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_btn_task_next))
+                .perform(click());
+
+        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
+        idToDelete = taskTemplates.get(0).getId();
+
+        assertThat(taskTemplates.size(), is(1));
+        assertNull(taskTemplates.get(0).getSoundId());
+    }
+
+    @Test
+    public void When_AddingANewTaskWithSound_Expect_TaskToBeAddedWithSound()
+            throws IOException, InterruptedException {
+        onView(withId(R.id.id_et_task_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_et_task_duration_time))
+                .perform(replaceText(EXPECTED_DURATION_TXT));
+        closeSoftKeyboard();
+
+        assetTestRule.setTestSound();
+
+        onView(withId(R.id.id_btn_task_next))
+                .perform(click());
+
+        List<Asset> assets = assetRepository.getAll();
+        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
+        idToDelete = taskTemplates.get(0).getId();
+
+        assertThat(taskTemplates.size(), is(1));
+        assertThat(taskTemplates.get(0).getSoundId(), is(assets.get(0).getId()));
     }
 
     @Test
