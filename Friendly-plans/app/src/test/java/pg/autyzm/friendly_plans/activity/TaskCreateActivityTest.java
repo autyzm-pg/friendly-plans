@@ -51,10 +51,13 @@ public class TaskCreateActivityTest {
 
     @Before
     public void setUp() {
-        doNothing().when(filePickerProxy).openFilePicker(any(TaskContainerFragment.class), any(AssetType.class));
-        when(filePickerProxy.isPickFileRequested(any(int.class), any(AssetType.class))).thenReturn(true);
+        doNothing().when(filePickerProxy)
+                .openFilePicker(any(TaskContainerFragment.class), any(AssetType.class));
+        when(filePickerProxy.isPickFileRequested(any(int.class), any(AssetType.class)))
+                .thenReturn(true);
+        when(filePickerProxy.getFilePath(any(Intent.class)))
+                .thenReturn(TEST_FILE_PATH);
         when(filePickerProxy.isFilePicked(any(int.class))).thenReturn(true);
-        when(filePickerProxy.getFilePath(any(Intent.class))).thenReturn(TEST_FILE_PATH);
 
         activity = Robolectric.setupActivity(TaskCreateActivity.class);
         fragment = activity.getFragmentManager().findFragmentById(R.id.task_container);

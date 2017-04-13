@@ -77,7 +77,8 @@ public class AssetTestRule extends ExternalResource {
         return testPicture;
     }
 
-    private void chooseTestAsset(File testAsset, final AssetType assetType) throws InterruptedException {
+    private void chooseTestAsset(File testAsset, final AssetType assetType)
+            throws InterruptedException {
         final Intent data = new Intent();
         data.putExtra(FilePickerActivity.RESULT_FILE_PATH, testAsset.getAbsolutePath());
         final TaskContainerFragment fragment = getFragment();
