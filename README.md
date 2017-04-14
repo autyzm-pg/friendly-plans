@@ -33,6 +33,7 @@ Making a long story short:
 - To share your changes please make pull request to master branch
 - Write and read project documentation on wiki pages
 - Add yourself to slack autyzm-pg.slack.com
+- Like us on facebook https://www.facebook.com/FriendlyPlan/
 
 ## Partners
 <img src="/doc/graphic/kdp-logo.jpg" height="150" /><img src="/doc/graphic/iwrd-logo.png" height="150" /><img src="/doc/graphic/pg-logo.jpg" height="150" />

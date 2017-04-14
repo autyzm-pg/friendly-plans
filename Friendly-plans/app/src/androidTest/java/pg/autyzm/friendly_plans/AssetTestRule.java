@@ -13,11 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.junit.rules.ExternalResource;
-import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
+import pg.autyzm.friendly_plans.asset.AssetType;
 
 public class AssetTestRule extends ExternalResource {
 
     private static final String TEST_PICTURE_NAME = "picture.jpg";
+    private static final String TEST_SOUND_NAME = "sound.mp3";
     private static final String TEST_FILE_CONTENT = "Test";
     private static final long CHOOSE_FILE_TIMEOUT = 1000;
 
@@ -37,7 +38,6 @@ public class AssetTestRule extends ExternalResource {
         isTestAssetSet = false;
     }
 
-
     @Override
     protected void after() {
         if (isTestAssetSet) {
@@ -48,9 +48,18 @@ public class AssetTestRule extends ExternalResource {
     }
 
     public void setTestPicture() throws IOException, InterruptedException {
+        setTestAsset(TEST_PICTURE_NAME, AssetType.PICTURE);
+    }
+
+    public void setTestSound() throws IOException, InterruptedException {
+        setTestAsset(TEST_SOUND_NAME, AssetType.SOUND);
+    }
+
+    private void setTestAsset(String testPictureName, AssetType picture)
+            throws IOException, InterruptedException {
         initContextDependentVariables();
-        File testPicture = createTestPicture();
-        chooseTestPicture(testPicture);
+        File testPicture = createTestAsset(testPictureName);
+        chooseTestAsset(testPicture, picture);
         addSafeCopyToTestFiles();
         isTestAssetSet = true;
     }
@@ -61,20 +70,21 @@ public class AssetTestRule extends ExternalResource {
         internalStorage = context.getFilesDir();
     }
 
-    private File createTestPicture() throws IOException {
-        File testPicture = new File(internalStorage, TEST_PICTURE_NAME);
+    private File createTestAsset(String assetName) throws IOException {
+        File testPicture = new File(internalStorage, assetName);
         FileUtils.writeStringToFile(testPicture, TEST_FILE_CONTENT);
         testFiles.add(testPicture);
         return testPicture;
     }
 
-    private void chooseTestPicture(File testPicture) throws InterruptedException {
+    private void chooseTestAsset(File testAsset, final AssetType assetType)
+            throws InterruptedException {
         final Intent data = new Intent();
-        data.putExtra(FilePickerActivity.RESULT_FILE_PATH, testPicture.getAbsolutePath());
+        data.putExtra(FilePickerActivity.RESULT_FILE_PATH, testAsset.getAbsolutePath());
         final TaskContainerFragment fragment = getFragment();
         activityRule.getActivity().runOnUiThread(new Runnable() {
             public void run() {
-                fragment.onActivityResult(FilePickerProxy.PICK_FILE_REQUEST,
+                fragment.onActivityResult(assetType.ordinal(),
                         FilePickerActivity.RESULT_OK, data);
             }
         });
