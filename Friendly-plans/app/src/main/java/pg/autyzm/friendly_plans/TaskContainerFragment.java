@@ -43,7 +43,9 @@ public class TaskContainerFragment extends Fragment {
     private EditText taskDurTime;
     private Button taskNext;
     private Button selectPicture;
+    private Button selectSound;
     private Long pictureId;
+    private Long soundId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,7 +61,6 @@ public class TaskContainerFragment extends Fragment {
             public void onClick(View v) {
                 if (taskValidation.isValid(taskName, taskDurTime)) {
                     addTaskOnDb();
-                    goToNextPage();
                 }
             }
         });
@@ -67,10 +68,9 @@ public class TaskContainerFragment extends Fragment {
 
     private void addTaskOnDb() {
         taskTemplateRepository.create(taskName.getText().toString(),
-                Integer.valueOf(taskDurTime.getText().toString()), pictureId);
-    }
-
-    private void goToNextPage() {
+                Integer.valueOf(taskDurTime.getText().toString()),
+                pictureId,
+                soundId);
     }
 
     private void registerViews(View view) {
@@ -88,10 +88,17 @@ public class TaskContainerFragment extends Fragment {
         taskNext = (Button) view.findViewById(R.id.id_btn_task_next);
 
         selectPicture = (Button) view.findViewById(R.id.id_btn_select_task_picture);
+        selectSound = (Button) view.findViewById(R.id.id_btn_select_task_sound);
 
         selectPicture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                filePickerProxy.openImageFilePicker(TaskContainerFragment.this);
+                filePickerProxy.openFilePicker(TaskContainerFragment.this, AssetType.PICTURE);
+            }
+        });
+
+        selectSound.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                filePickerProxy.openFilePicker(TaskContainerFragment.this, AssetType.SOUND);
             }
         });
     }
@@ -100,25 +107,25 @@ public class TaskContainerFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (isSelectPictureResult(requestCode, resultCode)) {
-            handlePictureSelecting(data);
+        if (filePickerProxy.isFilePicked(resultCode)) {
+            if (filePickerProxy.isPickFileRequested(requestCode, AssetType.PICTURE)) {
+                handleAssetSelecting(data, AssetType.PICTURE);
+            } else if (filePickerProxy.isPickFileRequested(requestCode, AssetType.SOUND)) {
+                handleAssetSelecting(data, AssetType.SOUND);
+            }
         }
     }
 
-    private boolean isSelectPictureResult(int requestCode, int resultCode) {
-        return filePickerProxy.isPickFileRequested(requestCode) && filePickerProxy
-                .isFilePicked(resultCode);
-    }
-
-    private void handlePictureSelecting(Intent data) {
+    private void handleAssetSelecting(Intent data, AssetType assetType) {
         Context context = getActivity().getApplicationContext();
         String filePath = filePickerProxy.getFilePath(data);
         AssetsHelper assetsHelper = new AssetsHelper(context);
+
         try {
             String assetName = assetsHelper.makeSafeCopy(filePath);
-            pictureId = assetRepository
+            Long assetId = assetRepository
                     .create(AssetType.getTypeByExtension(assetName), assetName);
-            taskPicture.setText(assetName);
+            setAssetValue(assetType, assetName, assetId);
 
         } catch (IOException e) {
             String pickingFileError = getResources().getString(R.string.picking_file_error);
@@ -127,6 +134,14 @@ public class TaskContainerFragment extends Fragment {
         }
     }
 
-
+    private void setAssetValue(AssetType assetType, String assetName, Long assetId) {
+        if (assetType.equals(AssetType.PICTURE)) {
+            taskPicture.setText(assetName);
+            pictureId = assetId;
+        } else {
+            taskSound.setText(assetName);
+            soundId = assetId;
+        }
+    }
 }
 

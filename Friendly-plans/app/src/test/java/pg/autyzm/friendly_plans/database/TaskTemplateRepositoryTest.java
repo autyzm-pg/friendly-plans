@@ -25,6 +25,7 @@ public class TaskTemplateRepositoryTest {
     private static final String TASK_NAME = "taskName";
     private static final int DURATION_TIME = 3;
     private static final Long PICTURE_ID = 32L;
+    private static final Long SOUND_ID = 31L;
 
     @InjectMocks
     TaskTemplateRepository taskTemplateRepository;
@@ -50,13 +51,19 @@ public class TaskTemplateRepositoryTest {
 
     @Test
     public void When_CreatingATaskTemplate_Expect_InsertMethodBeCalled() {
-        taskTemplateRepository.create(TASK_NAME, DURATION_TIME, PICTURE_ID);
+        taskTemplateRepository.create(TASK_NAME, DURATION_TIME, PICTURE_ID, SOUND_ID);
         verify(taskTemplateDao, times(1)).insert(any(TaskTemplate.class));
     }
 
     @Test
     public void When_CreatingATaskTemplate_Expect_NewIdBeReturned() {
-        long id = taskTemplateRepository.create(TASK_NAME, DURATION_TIME, PICTURE_ID);
+        long id = taskTemplateRepository.create(TASK_NAME, DURATION_TIME, PICTURE_ID, SOUND_ID);
+        assertThat(id, is(randomId));
+    }
+
+    @Test
+    public void When_CreatingATaskWithoutSoundAndPicture_Expect_NewIdToBeReturned() {
+        long id = taskTemplateRepository.create(TASK_NAME, DURATION_TIME, null, null);
         assertThat(id, is(randomId));
     }
 

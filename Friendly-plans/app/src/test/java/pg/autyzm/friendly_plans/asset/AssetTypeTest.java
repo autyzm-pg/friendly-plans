@@ -2,6 +2,7 @@ package pg.autyzm.friendly_plans.asset;
 
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
@@ -54,4 +55,19 @@ public class AssetTypeTest {
         AssetType.getTypeByTypeName(WRONG_TYPE_NAME);
     }
 
+    @Test
+    public void When_GettingPicturePattern_Expect_CorrectPatternToBeReturned() {
+        String pattern = AssetType.PICTURE.getPattern();
+        assertThat(pattern, containsString("jpg"));
+        assertThat(pattern, containsString("png"));
+        assertThat(pattern, containsString("gif"));
+        assertThat(pattern, containsString("bmp"));
+    }
+
+    @Test
+    public void When_GettingSoundPattern_Expect_CorrectPatternToBeReturned() {
+        String pattern = AssetType.SOUND.getPattern();
+        assertThat(pattern, containsString("mp3"));
+        assertThat(pattern, containsString("wav"));
+    }
 }

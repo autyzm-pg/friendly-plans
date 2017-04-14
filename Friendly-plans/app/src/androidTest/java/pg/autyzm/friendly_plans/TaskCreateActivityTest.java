@@ -10,6 +10,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static junit.framework.Assert.assertNull;
 import static org.hamcrest.CoreMatchers.is;
 import static pg.autyzm.friendly_plans.matchers.ErrorTextMatcher.hasErrorText;
 
@@ -131,6 +132,16 @@ public class TaskCreateActivityTest {
     }
 
     @Test
+    public void When_SettingSound_Expect_SoundNameIsDisplayed()
+            throws IOException, InterruptedException {
+        assetTestRule.setTestSound();
+        List<Asset> assets = assetRepository.getAll();
+
+        onView(withId(R.id.id_et_task_sound))
+                .check(matches(withText(assets.get(0).getFilename())));
+    }
+
+    @Test
     public void When_AddingNewTaskWithPicture_Expect_NewTaskAddedToDB()
             throws InterruptedException, IOException {
         onView(withId(R.id.id_et_task_name))
@@ -158,6 +169,51 @@ public class TaskCreateActivityTest {
     }
 
     @Test
+    public void When_AddingANewTaskWithoutSound_Expect_TaskToBeAddedWithoutSound()
+            throws IOException, InterruptedException {
+        onView(withId(R.id.id_et_task_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_et_task_duration_time))
+                .perform(replaceText(EXPECTED_DURATION_TXT));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_btn_task_next))
+                .perform(click());
+
+        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
+        idToDelete = taskTemplates.get(0).getId();
+
+        assertThat(taskTemplates.size(), is(1));
+        assertNull(taskTemplates.get(0).getSoundId());
+    }
+
+    @Test
+    public void When_AddingANewTaskWithSound_Expect_TaskToBeAddedWithSound()
+            throws IOException, InterruptedException {
+        onView(withId(R.id.id_et_task_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_et_task_duration_time))
+                .perform(replaceText(EXPECTED_DURATION_TXT));
+        closeSoftKeyboard();
+
+        assetTestRule.setTestSound();
+
+        onView(withId(R.id.id_btn_task_next))
+                .perform(click());
+
+        List<Asset> assets = assetRepository.getAll();
+        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
+        idToDelete = taskTemplates.get(0).getId();
+
+        assertThat(taskTemplates.size(), is(1));
+        assertThat(taskTemplates.get(0).getSoundId(), is(assets.get(0).getId()));
+    }
+
+    @Test
     public void When_AddingNewTask_and_NameIsEmpty_Expect_Warning() {
         closeSoftKeyboard();
         onView(withId(R.id.id_btn_task_next))
@@ -171,6 +227,7 @@ public class TaskCreateActivityTest {
     public void When_AddingNewTask_and_DurationIsEmpty_Expect_Warning() {
         onView(withId(R.id.id_et_task_name))
             .perform(typeText(GOOD_TASK_NAME));
+        closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_task_next))
             .perform(scrollTo());

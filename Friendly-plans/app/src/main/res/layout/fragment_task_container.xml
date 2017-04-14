@@ -55,12 +55,12 @@
       android:text="@string/select_picture"/>
 
     <TextView
-      android:id="@+id/textView"
       android:layout_column="0"
       android:layout_row="3"
       android:text="@string/task_sound"/>
 
     <Button
+      android:id="@+id/id_btn_select_task_sound"
       android:layout_column="3"
       android:layout_row="3"
       android:text="@string/select_sound"/>
