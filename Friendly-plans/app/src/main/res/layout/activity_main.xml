@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
+            android:layout_below="@+id/button_createPlan"
             android:onClick="eventCreateTask"
             android:text="@string/main_create_task" />
 
