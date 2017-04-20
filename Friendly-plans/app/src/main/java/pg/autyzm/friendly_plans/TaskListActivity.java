@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import javax.inject.Inject;
 
-import database.entities.TaskTemplate;
 import database.repository.TaskTemplateRepository;
 
 public class TaskListActivity extends AppCompatActivity {
@@ -15,6 +15,7 @@ public class TaskListActivity extends AppCompatActivity {
     @Inject
     TaskTemplateRepository taskTemplateRepository;
     private TaskRecyclerViewAdapter taskListAdapter;
+    private static final String TAG = "TaskListActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class TaskListActivity extends AppCompatActivity {
             new TaskRecyclerViewAdapter.TaskItemClickListener() {
                 @Override
                 public void onTaskItemClick(int position) {
+                    Log.d(TAG, "onTaskItemClick: " + position);
                 }
             };
 }

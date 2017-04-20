@@ -29,7 +29,7 @@ public class TaskListActivityTest {
     @Rule
     public ActivityTestRule<TaskListActivity> activityRule = new ActivityTestRule<>(
             TaskListActivity.class, true, true);
-    private static final String expectedName = "TEST TASK";
+    private static final String expectedName = "TEST TASK ";
 
     @Before
     public void setUp() {
@@ -38,7 +38,9 @@ public class TaskListActivityTest {
                 daoSessionResource.getSession(activityRule.getActivity().getApplicationContext()));
         for (int taskNumber = 0; taskNumber < numberOfTasks; taskNumber++) {
             taskTemplateRepository
-                    .create(expectedName + " " + taskNumber, taskNumber, (long) taskNumber);
+                    .create(expectedName + taskNumber,
+                            taskNumber, (long) taskNumber,
+                            (long) taskNumber);
         }
         activityRule.launchActivity(new Intent());
     }
@@ -52,11 +54,11 @@ public class TaskListActivityTest {
 
     @Test
     public void checkIfTaskIsAddedToDBAndProperlyDisplayedOnRecyclerView() {
-        final int TESTED_TASK_POSITION = 5;
-        onView(withId(R.id.rv_task_list)).perform(scrollToPosition(TESTED_TASK_POSITION));
+        final int testedTaskPosition = 5;
+        onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedTaskPosition));
         onView(withRecyclerView(R.id.rv_task_list)
-                .atPosition(TESTED_TASK_POSITION))
-                .check(matches(hasDescendant(withText(expectedName +
-                        " " + TESTED_TASK_POSITION))));
+                .atPosition(testedTaskPosition))
+                .check(matches(hasDescendant(withText(expectedName
+                        + testedTaskPosition))));
     }
 }
