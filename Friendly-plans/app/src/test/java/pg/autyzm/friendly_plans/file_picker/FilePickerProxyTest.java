@@ -23,23 +23,21 @@ public class FilePickerProxyTest {
 
     @Test
     public void When_GettingPatternForPicture_Expect_PatternToMatchLowercasepng() throws Exception {
-        Pattern pattern = WhiteboxImpl
-                .invokeMethod(filePickerProxy, "getPattern", AssetType.PICTURE);
+        Pattern pattern = getPattern(AssetType.PICTURE);
 
         assertTrue(pattern.matcher("test.png").matches());
     }
 
     @Test
     public void When_GettingPatternForPicture_Expect_PatternToMatchUppercasePNG() throws Exception {
-        Pattern pattern = WhiteboxImpl
-                .invokeMethod(filePickerProxy, "getPattern", AssetType.PICTURE);
+        Pattern pattern = getPattern(AssetType.PICTURE);
 
         assertTrue(pattern.matcher("test.PNG").matches());
     }
 
     @Test
     public void When_GettingPatternForSound_Expect_PatternToMatchMp3() throws Exception {
-        Pattern pattern = WhiteboxImpl.invokeMethod(filePickerProxy, "getPattern", AssetType.SOUND);
+        Pattern pattern = getPattern(AssetType.SOUND);
 
         assertTrue(pattern.matcher("test.mp3").matches());
     }
@@ -47,8 +45,12 @@ public class FilePickerProxyTest {
     @Test
     public void When_GettingPatternForSound_Expect_PatternToNotMatchOnlyExtension()
             throws Exception {
-        Pattern pattern = WhiteboxImpl.invokeMethod(filePickerProxy, "getPattern", AssetType.SOUND);
+        Pattern pattern = getPattern(AssetType.SOUND);
 
         assertFalse(pattern.matcher(".mp3").matches());
+    }
+
+    private Pattern getPattern(AssetType assetType) throws Exception {
+        return WhiteboxImpl.invokeMethod(filePickerProxy, "getPattern", assetType);
     }
 }
