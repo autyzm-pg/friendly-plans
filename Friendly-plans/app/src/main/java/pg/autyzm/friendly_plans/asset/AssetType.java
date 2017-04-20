@@ -8,7 +8,7 @@ public enum AssetType {
     PICTURE("PICTURE"),
     SOUND("SOUND");
 
-    private static final String IMAGE_PATTERN = "^(jpg|jpeg|png|gif|bmp)$";
+    private static final String PICTURE_PATTERN = "^(jpg|jpeg|png|gif|bmp)$";
     private static final String SOUND_PATTERN = "^(3gp|mp3|flac|wav|ogg|mkv)$";
 
     private final String typeName;
@@ -27,7 +27,7 @@ public enum AssetType {
 
     public static AssetType getTypeByExtension(String pathToAsset) {
         String extension = FilenameUtils.getExtension(pathToAsset);
-        Pattern picturePattern = Pattern.compile(IMAGE_PATTERN);
+        Pattern picturePattern = Pattern.compile(PICTURE_PATTERN);
         Matcher pictureMatcher = picturePattern.matcher(extension);
         Pattern soundPattern = Pattern.compile(SOUND_PATTERN);
         Matcher soundMatcher = soundPattern.matcher(extension);
@@ -50,4 +50,11 @@ public enum AssetType {
         }
     }
 
+    public String getPattern() {
+        if (this.equals(PICTURE)) {
+            return PICTURE_PATTERN;
+        } else {
+            return SOUND_PATTERN;
+        }
+    }
 }
