@@ -15,7 +15,7 @@ public class FilePickerProxy {
         new MaterialFilePicker()
                 .withFragment(fragment)
                 .withRequestCode(getRequestCode(assetType))
-                .withFilter(Pattern.compile(String.format(FILE_PATTERN, assetType.getPattern())))
+                .withFilter(getPattern(assetType))
                 .start();
     }
 
@@ -29,6 +29,10 @@ public class FilePickerProxy {
 
     public String getFilePath(Intent data) {
         return data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+    }
+
+    private Pattern getPattern(AssetType assetType) {
+        return Pattern.compile(String.format(FILE_PATTERN, assetType.getPattern()));
     }
 
     private int getRequestCode(AssetType assetType) {
