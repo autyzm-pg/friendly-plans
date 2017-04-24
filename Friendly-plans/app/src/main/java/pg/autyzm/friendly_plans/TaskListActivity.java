@@ -12,36 +12,33 @@ import database.repository.TaskTemplateRepository;
 
 public class TaskListActivity extends AppCompatActivity {
 
-    @Inject
-    TaskTemplateRepository taskTemplateRepository;
-    private TaskRecyclerViewAdapter taskListAdapter;
-    private static final String TAG = "TaskListActivity";
+	@Inject
+	TaskTemplateRepository taskTemplateRepository;
+	private TaskRecyclerViewAdapter taskListAdapter;
+	private static final String TAG = "TaskListActivity";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		((App) getApplication()).getAppComponent().inject(this);
+		setContentView(R.layout.activity_task_list);
+		setUpViews();
+		taskListAdapter.setTaskItems(taskTemplateRepository.getAll());
+	}
 
-        super.onCreate(savedInstanceState);
-        ((App) getApplication()).getAppComponent().inject(this);
-        setContentView(R.layout.activity_task_list);
-        setUpViews();
-        taskListAdapter.setTaskItems(taskTemplateRepository.getAll());
-    }
+	private void setUpViews() {
+		RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_task_list);
+		recyclerView.setHasFixedSize(true);
+		recyclerView.setLayoutManager(new LinearLayoutManager(this));
+		taskListAdapter = new TaskRecyclerViewAdapter(taskItemClickListener);
+		recyclerView.setAdapter(taskListAdapter);
+	}
 
-    private void setUpViews() {
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_task_list);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        taskListAdapter = new TaskRecyclerViewAdapter(taskItemClickListener);
-        recyclerView.setAdapter(taskListAdapter);
-
-    }
-
-    TaskRecyclerViewAdapter.TaskItemClickListener taskItemClickListener =
-            new TaskRecyclerViewAdapter.TaskItemClickListener() {
-                @Override
-                public void onTaskItemClick(int position) {
-                    Log.d(TAG, "onTaskItemClick: " + position);
-                }
-            };
+	TaskRecyclerViewAdapter.TaskItemClickListener taskItemClickListener =
+			new TaskRecyclerViewAdapter.TaskItemClickListener() {
+				@Override
+				public void onTaskItemClick(int position) {
+					Log.d(TAG, "onTaskItemClick: " + position);
+				}
+			};
 }
