@@ -8,8 +8,8 @@ public enum AssetType {
     PICTURE("PICTURE"),
     SOUND("SOUND");
 
-    private static final String PICTURE_PATTERN = "^(jpg|jpeg|png|gif|bmp)$";
-    private static final String SOUND_PATTERN = "^(3gp|mp3|flac|wav|ogg|mkv)$";
+    private static final String PICTURE_PATTERN = "jpg|jpeg|png|gif|bmp";
+    private static final String SOUND_PATTERN = "3gp|mp3|flac|wav|ogg|mkv";
 
     private final String typeName;
 
