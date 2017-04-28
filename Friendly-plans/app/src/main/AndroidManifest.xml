@@ -22,6 +22,7 @@
       android:name=".TaskCreateActivity"
       android:screenOrientation="landscape">
     </activity>
+      <activity android:name=".TaskListActivity"/>
   </application>
 
 </manifest>

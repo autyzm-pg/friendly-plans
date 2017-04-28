@@ -33,4 +33,5 @@ public interface AppComponent {
     AssetRepository assetRepository();
 
     void inject(TaskContainerFragment activity);
+    void inject(TaskListActivity activity);
 }
