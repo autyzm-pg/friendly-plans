@@ -8,7 +8,7 @@
 Friendly Plans is an application supporting autism treatment.
 It provides digital version of activity schedules. More about treatment (ENG): [PCDI website](http://www.pcdi.org/resources/videos.html)
 
-The app  is being used by group of users and therapists. Everyone can download it (version 1.x) from [google play store](https://play.google.com/store/apps/details?id=com.przyjaznydamianek&hl=pl).
+The app is being used by group of users and therapists. Everyone can download it (version 1.x) from [google play store](https://play.google.com/store/apps/details?id=com.przyjaznydamianek&hl=pl).
 
 The article and short film show the usage of app in Institute for Child Development in Gdańsk:
 
