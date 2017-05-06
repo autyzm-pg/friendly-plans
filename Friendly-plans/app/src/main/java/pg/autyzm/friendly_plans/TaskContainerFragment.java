@@ -3,6 +3,7 @@ package pg.autyzm.friendly_plans;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import database.repository.AssetRepository;
 import database.repository.TaskTemplateRepository;
+import java.io.File;
 import java.io.IOException;
 import javax.inject.Inject;
 import pg.autyzm.friendly_plans.asset.AssetType;
@@ -36,8 +38,7 @@ public class TaskContainerFragment extends Fragment {
     TaskTemplateRepository taskTemplateRepository;
     @Inject
     AssetRepository assetRepository;
-    boolean isPlaying = false;
-    Animation rotation;
+    private Animation rotation;
     private TextView labelTaskName;
     private TextView labelDurationTime;
     private EditText taskName;
@@ -50,7 +51,6 @@ public class TaskContainerFragment extends Fragment {
     private Button playSound;
     private ImageView playSoundIcon;
     private Long pictureId;
-    private String pathToFile;
     private Long soundId;
     private MediaPlayer mp;
 
@@ -65,7 +65,6 @@ public class TaskContainerFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         registerViews(view);
-
     }
 
     private void addTaskOnDb() {
@@ -91,6 +90,7 @@ public class TaskContainerFragment extends Fragment {
         playSound = (Button) view.findViewById(R.id.id_btn_play_sound);
         playSoundIcon = (ImageView) view.findViewById(R.id.id_iv_play_sound_icon);
         mp = new MediaPlayer();
+        mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
         selectPicture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -143,7 +143,6 @@ public class TaskContainerFragment extends Fragment {
     private void handleAssetSelecting(Intent data, AssetType assetType) {
         Context context = getActivity().getApplicationContext();
         String filePath = filePickerProxy.getFilePath(data);
-        this.pathToFile = filePath;
         AssetsHelper assetsHelper = new AssetsHelper(context);
 
         try {
@@ -157,11 +156,16 @@ public class TaskContainerFragment extends Fragment {
     }
 
     private void setAssetValue(AssetType assetType, String assetName, Long assetId) {
+
+        StringBuilder sb = new StringBuilder(assetName);
+        String croppedName = sb.replace(assetName.lastIndexOf("_"), assetName.lastIndexOf("."), "")
+                .toString();
+
         if (assetType.equals(AssetType.PICTURE)) {
-            taskPicture.setText(assetName);
+            taskPicture.setText(croppedName);
             pictureId = assetId;
         } else {
-            taskSound.setText(assetName);
+            taskSound.setText(croppedName);
             soundId = assetId;
         }
     }
@@ -170,7 +174,7 @@ public class TaskContainerFragment extends Fragment {
         boolean isNameEmpty = taskSound.getText().toString().isEmpty();
         if (!isNameEmpty) {
             if (!mp.isPlaying()) {
-                playSound(pathToFile);
+                playSound(retrieveSoundFile());
                 runBtnAnimation();
             } else {
                 stopSound();
@@ -191,18 +195,17 @@ public class TaskContainerFragment extends Fragment {
             showToastMessage(R.string.playing_file_error);
         }
     }
-    //TODO: not stable work of Standard MediaPlayer. People recommend another libs
-    //TODO: While sound playing do selection of another file, and click Play button.What we expect?
-    //TODO: select picture, and click Play button > IO exception occurs.
-    //TODO: not all file playing(waw)
-    //TODO: what to do with small screen. On my 5" device(4.4), PLAY button is not visible?
-    //TODO: task for designer. Bunch of work!
+
+    private String retrieveSoundFile() {
+        String soundFileName = assetRepository.get(soundId).getFilename();
+        String fileDir = getActivity().getApplicationContext().getFilesDir().toString();
+        return fileDir + File.separator + soundFileName;
+    }
 
     private void stopSound() {
         mp.stop();
         mp.reset();
     }
-
 
     private void runBtnAnimation() {
         playSoundIcon.setImageResource(R.drawable.ic_playing_sound_2);
@@ -217,7 +220,6 @@ public class TaskContainerFragment extends Fragment {
         playSoundIcon.setImageResource(R.drawable.ic_play_sound_1);
     }
 
-    //----------------------------------
     private void showToastMessage(int resourceStringId) {
         String pickingFileError = getResources().getString(resourceStringId);
         Toast errorToast = Toast.makeText(getActivity()

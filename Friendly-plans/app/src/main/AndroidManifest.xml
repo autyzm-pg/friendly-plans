@@ -4,7 +4,7 @@
 
   <application
     android:allowBackup="true"
-    android:icon="@mipmap/ic_launcher_house"
+    android:icon="@mipmap/ic_launcher"
     android:label="@string/app_name"
     android:name=".App"
     android:supportsRtl="true"
@@ -22,7 +22,8 @@
       android:name=".TaskCreateActivity"
       android:screenOrientation="landscape">
     </activity>
-      <activity android:name=".TaskListActivity"/>
+    <activity
+      android:name=".TaskListActivity"
+      android:screenOrientation="landscape"/>
   </application>
-
 </manifest>

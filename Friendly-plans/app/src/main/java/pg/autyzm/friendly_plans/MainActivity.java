@@ -17,4 +17,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, TaskCreateActivity.class);
         startActivity(intent);
     }
+
+    public void eventShowTaskList(View view) {
+        Intent intent = new Intent(MainActivity.this, TaskListActivity.class);
+        startActivity(intent);
+    }
 }

@@ -11,7 +11,7 @@
         android:id="@+id/id_iv_task_sound_icon"
         android:layout_width="96dp"
         android:layout_height="96dp"
-        app:srcCompat="@drawable/ic_placeholder" />
+        app:srcCompat="@drawable/ic_playing_sound_2" />
 
     <!--task image-->
     <ImageView
@@ -52,6 +52,5 @@
             android:text="5s"
             android:textSize="16sp" />
     </LinearLayout>
-
 
 </LinearLayout>
