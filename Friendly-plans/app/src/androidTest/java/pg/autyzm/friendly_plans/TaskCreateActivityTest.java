@@ -18,13 +18,11 @@ import android.content.Context;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.WindowManager;
-
 import database.entities.Asset;
 import database.entities.TaskTemplate;
 import database.repository.AssetRepository;
 import database.repository.TaskTemplateRepository;
 import java.io.IOException;
-
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
@@ -52,6 +50,7 @@ public class TaskCreateActivityTest {
 
     private static final String BAD_TASK_NAME = "Bad task name!@$%*";
     private static final String GOOD_TASK_NAME = "good task name";
+    private static final String REGEX_TRIM_NAME = "_([0123456789]*)(?=\\.)";
 
     private TaskTemplateRepository taskTemplateRepository;
     private AssetRepository assetRepository;
@@ -127,8 +126,9 @@ public class TaskCreateActivityTest {
         assetTestRule.setTestPicture();
         List<Asset> assets = assetRepository.getAll();
 
+        String fileName = (assets.get(0).getFilename()).replaceAll(REGEX_TRIM_NAME,"");
         onView(withId(R.id.id_et_task_picture))
-                .check(matches(withText(assets.get(0).getFilename())));
+                .check(matches(withText(fileName)));
     }
 
     @Test
@@ -137,8 +137,9 @@ public class TaskCreateActivityTest {
         assetTestRule.setTestSound();
         List<Asset> assets = assetRepository.getAll();
 
+        String fileName = (assets.get(0).getFilename()).replaceAll(REGEX_TRIM_NAME,"");
         onView(withId(R.id.id_et_task_sound))
-                .check(matches(withText(assets.get(0).getFilename())));
+                .check(matches(withText(fileName)));
     }
 
     @Test

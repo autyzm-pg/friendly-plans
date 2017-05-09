@@ -54,6 +54,7 @@ public class TaskContainerFragment extends Fragment {
     private Long soundId;
     private MediaPlayer mp;
 
+    private static final String REGEX_TRIM_NAME = "_([0123456789]*)(?=\\.)";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -157,15 +158,13 @@ public class TaskContainerFragment extends Fragment {
 
     private void setAssetValue(AssetType assetType, String assetName, Long assetId) {
 
-        StringBuilder sb = new StringBuilder(assetName);
-        String croppedName = sb.replace(assetName.lastIndexOf("_"), assetName.lastIndexOf("."), "")
-                .toString();
+        assetName = assetName.replaceAll(REGEX_TRIM_NAME, "");
 
         if (assetType.equals(AssetType.PICTURE)) {
-            taskPicture.setText(croppedName);
+            taskPicture.setText(assetName);
             pictureId = assetId;
         } else {
-            taskSound.setText(croppedName);
+            taskSound.setText(assetName);
             soundId = assetId;
         }
     }

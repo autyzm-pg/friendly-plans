@@ -1,18 +1,5 @@
 package pg.autyzm.friendly_plans;
 
-import android.content.Intent;
-import android.support.test.espresso.contrib.RecyclerViewActions;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import database.repository.TaskTemplateRepository;
-
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -22,14 +9,26 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static matcher.RecyclerViewMatcher.withRecyclerView;
 
+import android.content.Intent;
+import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+import database.repository.TaskTemplateRepository;
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 @RunWith(AndroidJUnit4.class)
 public class TaskListActivityTest {
+
+    private static final String expectedName = "TEST TASK ";
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
     @Rule
     public ActivityTestRule<TaskListActivity> activityRule = new ActivityTestRule<>(
             TaskListActivity.class, true, true);
-    private static final String expectedName = "TEST TASK ";
 
     @Before
     public void setUp() {
