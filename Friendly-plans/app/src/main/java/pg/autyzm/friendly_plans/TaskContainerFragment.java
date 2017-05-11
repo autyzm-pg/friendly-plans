@@ -30,6 +30,7 @@ import pg.autyzm.friendly_plans.validation.Utils;
 
 public class TaskContainerFragment extends Fragment {
 
+    private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
     @Inject
     public FilePickerProxy filePickerProxy;
     @Inject
@@ -53,8 +54,6 @@ public class TaskContainerFragment extends Fragment {
     private Long pictureId;
     private Long soundId;
     private MediaPlayer mp;
-
-    private static final String REGEX_TRIM_NAME = "_([0123456789]*)(?=\\.)";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -125,7 +124,6 @@ public class TaskContainerFragment extends Fragment {
                 stopBtnAnimation();
             }
         });
-
     }
 
     @Override
