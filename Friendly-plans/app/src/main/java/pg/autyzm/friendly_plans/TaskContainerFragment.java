@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +50,8 @@ public class TaskContainerFragment extends Fragment {
     private Button taskNext;
     private Button selectPicture;
     private Button selectSound;
+    private ImageButton clearSound;
+    private ImageButton clearPicture;
     private Button playSound;
     private ImageView playSoundIcon;
     private Long pictureId;
@@ -88,6 +91,8 @@ public class TaskContainerFragment extends Fragment {
         selectPicture = (Button) view.findViewById(R.id.id_btn_select_task_picture);
         selectSound = (Button) view.findViewById(R.id.id_btn_select_task_sound);
         playSound = (Button) view.findViewById(R.id.id_btn_play_sound);
+        clearSound = (ImageButton) view.findViewById(R.id.id_ib_clear_sound_btn);
+        clearPicture = (ImageButton) view.findViewById(R.id.id_ib_clear_img_btn);
         playSoundIcon = (ImageView) view.findViewById(R.id.id_iv_play_sound_icon);
         mp = new MediaPlayer();
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -111,8 +116,28 @@ public class TaskContainerFragment extends Fragment {
             }
         });
 
+        clearPicture.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                taskPicture.setText("");
+                clearPicture.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        clearSound.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                taskSound.setText("");
+                clearSound.setVisibility(View.INVISIBLE);
+                stopSound();
+                stopBtnAnimation();
+            }
+        });
+
         taskNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                stopSound();
+                stopBtnAnimation();
                 if (taskValidation.isValid(taskName, taskDurTime)) {
                     addTaskOnDb();
                 }
@@ -160,10 +185,12 @@ public class TaskContainerFragment extends Fragment {
 
         if (assetType.equals(AssetType.PICTURE)) {
             taskPicture.setText(assetName);
+            clearPicture.setVisibility(View.VISIBLE);
             pictureId = assetId;
         } else {
             taskSound.setText(assetName);
             soundId = assetId;
+            clearSound.setVisibility(View.VISIBLE);
         }
     }
 

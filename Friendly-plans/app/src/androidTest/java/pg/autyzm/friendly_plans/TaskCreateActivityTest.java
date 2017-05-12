@@ -302,4 +302,14 @@ public class TaskCreateActivityTest {
 //                .perform(click());
         //FIXME: check if new file playing
     }
+
+    @Test
+    public void When_SoundSelected_Then_ClearBtnShown() {
+        //FIXME:
+    }
+
+    @Test
+    public void When_PictureSelected_Then_ClearBtnShown() {
+        //FIXME:
+    }
 }
