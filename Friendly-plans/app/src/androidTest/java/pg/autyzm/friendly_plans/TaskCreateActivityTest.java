@@ -279,27 +279,27 @@ public class TaskCreateActivityTest {
     @Test
     public void When_SoundSelected_and_PlayBtn_pressed_Then_SoundPlaying()
             throws IOException, InterruptedException {
-        assetTestRule.setTestSound();
-        onView(withId(R.id.id_btn_play_sound))
-                .perform(click());
+//        assetTestRule.setTestSound();
+//        onView(withId(R.id.id_btn_play_sound))
+//                .perform(click());
         //FIXME: check is mediaPlayer playing
     }
 
     @Test
     public void When_SoundSelected_and_PlayBtn_pressed_2Times_Then_PlayingStopped()
             throws IOException, InterruptedException {
-        assetTestRule.setTestSound();
-        onView(withId(R.id.id_btn_play_sound))
-                .perform(click());
+//        assetTestRule.setTestSound();
+//        onView(withId(R.id.id_btn_play_sound))
+//                .perform(click());
         //FIXME: check is mediaPlayer playing and stopped
     }
 
     @Test
     public void When_SoundPlaying_and_newFile_selected_Then_NewFilePlaying()
             throws IOException, InterruptedException {
-        assetTestRule.setTestSound();
-        onView(withId(R.id.id_btn_play_sound))
-                .perform(click());
+//        assetTestRule.setTestSound();
+//        onView(withId(R.id.id_btn_play_sound))
+//                .perform(click());
         //FIXME: check if new file playing
     }
 }
