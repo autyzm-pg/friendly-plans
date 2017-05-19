@@ -1,6 +1,7 @@
 package pg.autyzm.friendly_plans.validation;
 
 import android.widget.EditText;
+import database.repository.TaskTemplateRepository;
 import java.util.regex.Pattern;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.string_provider.StringsProvider;
@@ -14,9 +15,11 @@ public class Validation {
     private static final String NAME_REGEX = "^[a-zA-Z0-9_. -]*$";
     private static final String NUM_ONLY_REGEX = "^[0-9]*$";
     private final StringsProvider stringProvider;
+    protected final TaskTemplateRepository taskTmplRepo;
 
-    public Validation(StringsProvider stringsProvider) {
+    public Validation(StringsProvider stringsProvider, TaskTemplateRepository taskTmplRepo) {
         this.stringProvider = stringsProvider;
+        this.taskTmplRepo = taskTmplRepo;
     }
 
     protected boolean isNameOk(EditText editText, boolean required) {

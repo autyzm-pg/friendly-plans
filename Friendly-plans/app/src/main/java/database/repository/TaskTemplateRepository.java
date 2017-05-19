@@ -42,4 +42,8 @@ public class TaskTemplateRepository {
     public void delete(Long id) {
         daoSession.getTaskTemplateDao().deleteByKey(id);
     }
+
+    public boolean isNameExists(String name){
+        return get(name).size()> 0;
+    }
 }

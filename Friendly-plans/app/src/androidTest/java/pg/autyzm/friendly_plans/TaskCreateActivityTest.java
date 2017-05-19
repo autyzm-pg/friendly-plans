@@ -16,6 +16,7 @@ import static org.hamcrest.core.Is.is;
 import static pg.autyzm.friendly_plans.matchers.ErrorTextMatcher.hasErrorText;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.WindowManager;
@@ -31,6 +32,7 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import pg.autyzm.friendly_plans.matchers.ToastMatcher;
 
 @RunWith(AndroidJUnit4.class)
@@ -45,15 +47,17 @@ public class TaskCreateActivityTest {
 
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
-
+    @Rule
+    public final AppComponentDaggerRule rule = new AppComponentDaggerRule();
     @Rule
     public ActivityTestRule<TaskCreateActivity> activityRule = new ActivityTestRule<>(
             TaskCreateActivity.class, true, true);
-
     @Rule
     public AssetTestRule assetTestRule = new AssetTestRule(daoSessionResource, activityRule);
     private TaskTemplateRepository taskTemplateRepository;
     private AssetRepository assetRepository;
+    @Mock
+    private MediaPlayer mediaPlayer = new MediaPlayer();
 
     private Long idToDelete;
 
@@ -255,6 +259,25 @@ public class TaskCreateActivityTest {
         onView(withId(R.id.id_et_task_name))
                 .check(matches(hasErrorText(
                         activityRule.getActivity().getString(R.string.only_letters_msg))));
+    }
+
+    @Test
+    public void When_AddTask_WithTheSame_NameTwice_Then__Expect_Warning() {
+        onView(withId(R.id.id_et_task_name))
+                .perform(typeText(GOOD_TASK_NAME));
+
+        onView(withId(R.id.id_et_task_duration_time))
+                .perform(replaceText(EXPECTED_DURATION_TXT))
+                .perform(scrollTo());
+
+        onView(withId(R.id.id_btn_task_next))
+                .perform(click())
+                .perform(click())
+                .perform(scrollTo());
+
+        onView(withId(R.id.id_et_task_name))
+                .check(matches(hasErrorText(
+                        activityRule.getActivity().getString(R.string.name_exist_msg))));
     }
 
     @Test
