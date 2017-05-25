@@ -16,7 +16,6 @@ import static org.hamcrest.core.Is.is;
 import static pg.autyzm.friendly_plans.matchers.ErrorTextMatcher.hasErrorText;
 
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.WindowManager;
@@ -32,7 +31,6 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import pg.autyzm.friendly_plans.matchers.ToastMatcher;
 
 @RunWith(AndroidJUnit4.class)
@@ -47,8 +45,7 @@ public class TaskCreateActivityTest {
 
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
-    @Rule
-    public final AppComponentDaggerRule rule = new AppComponentDaggerRule();
+
     @Rule
     public ActivityTestRule<TaskCreateActivity> activityRule = new ActivityTestRule<>(
             TaskCreateActivity.class, true, true);
@@ -56,8 +53,7 @@ public class TaskCreateActivityTest {
     public AssetTestRule assetTestRule = new AssetTestRule(daoSessionResource, activityRule);
     private TaskTemplateRepository taskTemplateRepository;
     private AssetRepository assetRepository;
-    @Mock
-    private MediaPlayer mediaPlayer = new MediaPlayer();
+
 
     private Long idToDelete;
 
@@ -266,9 +262,13 @@ public class TaskCreateActivityTest {
         onView(withId(R.id.id_et_task_name))
                 .perform(typeText(GOOD_TASK_NAME));
 
+        closeSoftKeyboard();
+
         onView(withId(R.id.id_et_task_duration_time))
                 .perform(replaceText(EXPECTED_DURATION_TXT))
                 .perform(scrollTo());
+
+        closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_task_next))
                 .perform(click())
@@ -293,46 +293,12 @@ public class TaskCreateActivityTest {
             throws IOException, InterruptedException {
 
         assetTestRule.setTestPicture();
+        closeSoftKeyboard();
         onView(withId(R.id.id_btn_play_sound))
                 .perform(click());
+        closeSoftKeyboard();
         onView(withText(R.string.no_file_to_play_error)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
     }
 
-    @Test
-    public void When_SoundSelected_and_PlayBtn_pressed_Then_SoundPlaying()
-            throws IOException, InterruptedException {
-//        assetTestRule.setTestSound();
-//        onView(withId(R.id.id_btn_play_sound))
-//                .perform(click());
-        //FIXME: check is mediaPlayer playing
-    }
-
-    @Test
-    public void When_SoundSelected_and_PlayBtn_pressed_2Times_Then_PlayingStopped()
-            throws IOException, InterruptedException {
-//        assetTestRule.setTestSound();
-//        onView(withId(R.id.id_btn_play_sound))
-//                .perform(click());
-        //FIXME: check is mediaPlayer playing and stopped
-    }
-
-    @Test
-    public void When_SoundPlaying_and_newFile_selected_Then_NewFilePlaying()
-            throws IOException, InterruptedException {
-//        assetTestRule.setTestSound();
-//        onView(withId(R.id.id_btn_play_sound))
-//                .perform(click());
-        //FIXME: check if new file playing
-    }
-
-    @Test
-    public void When_SoundSelected_Then_ClearBtnShown() {
-        //FIXME:
-    }
-
-    @Test
-    public void When_PictureSelected_Then_ClearBtnShown() {
-        //FIXME:
-    }
 }

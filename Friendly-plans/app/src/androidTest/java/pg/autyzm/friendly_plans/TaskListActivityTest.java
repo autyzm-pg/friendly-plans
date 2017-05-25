@@ -35,6 +35,7 @@ public class TaskListActivityTest {
         final int numberOfTasks = 10;
         TaskTemplateRepository taskTemplateRepository = new TaskTemplateRepository(
                 daoSessionResource.getSession(activityRule.getActivity().getApplicationContext()));
+        taskTemplateRepository.deleteAll();
         for (int taskNumber = 0; taskNumber < numberOfTasks; taskNumber++) {
             taskTemplateRepository
                     .create(expectedName + taskNumber,

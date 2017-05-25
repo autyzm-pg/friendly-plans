@@ -59,7 +59,6 @@ public class TaskContainerFragment extends Fragment {
     private ImageView playSoundIcon;
     private Long pictureId;
     private Long soundId;
-    //private MediaPlayer mp;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,7 +96,6 @@ public class TaskContainerFragment extends Fragment {
         clearSound = (ImageButton) view.findViewById(R.id.id_ib_clear_sound_btn);
         clearPicture = (ImageButton) view.findViewById(R.id.id_ib_clear_img_btn);
         playSoundIcon = (ImageView) view.findViewById(R.id.id_iv_play_sound_icon);
-        //mp = new MediaPlayer();
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
         selectPicture.setOnClickListener(new View.OnClickListener() {

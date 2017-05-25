@@ -38,12 +38,15 @@ public class TaskTemplateRepository {
         return daoSession.getTaskTemplateDao().loadAll();
     }
 
-
     public void delete(Long id) {
         daoSession.getTaskTemplateDao().deleteByKey(id);
     }
 
-    public boolean isNameExists(String name){
-        return get(name).size()> 0;
+    public void deleteAll() {
+        daoSession.getTaskTemplateDao().deleteAll();
+    }
+
+    public boolean isNameExists(String name) {
+        return get(name).size() > 0;
     }
 }
