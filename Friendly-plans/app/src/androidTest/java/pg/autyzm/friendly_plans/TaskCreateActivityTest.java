@@ -8,23 +8,22 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertNull;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.core.Is.is;
 import static pg.autyzm.friendly_plans.matchers.ErrorTextMatcher.hasErrorText;
 
 import android.content.Context;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.WindowManager;
-
 import database.entities.Asset;
 import database.entities.TaskTemplate;
 import database.repository.AssetRepository;
 import database.repository.TaskTemplateRepository;
 import java.io.IOException;
-
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
@@ -32,9 +31,17 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import pg.autyzm.friendly_plans.matchers.ToastMatcher;
 
 @RunWith(AndroidJUnit4.class)
 public class TaskCreateActivityTest {
+
+    private static final String EXPECTED_NAME = "TEST TASK";
+    private static final String EXPECTED_DURATION_TXT = "1";
+    private static final int EXPECTED_DURATION = 1;
+    private static final String BAD_TASK_NAME = "Bad task name!@$%*";
+    private static final String GOOD_TASK_NAME = "good task name";
+    private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
 
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
@@ -42,19 +49,11 @@ public class TaskCreateActivityTest {
     @Rule
     public ActivityTestRule<TaskCreateActivity> activityRule = new ActivityTestRule<>(
             TaskCreateActivity.class, true, true);
-
     @Rule
     public AssetTestRule assetTestRule = new AssetTestRule(daoSessionResource, activityRule);
-
-    private static final String EXPECTED_NAME = "TEST TASK";
-    private static final String EXPECTED_DURATION_TXT = "1";
-    private static final int EXPECTED_DURATION = 1;
-
-    private static final String BAD_TASK_NAME = "Bad task name!@$%*";
-    private static final String GOOD_TASK_NAME = "good task name";
-
     private TaskTemplateRepository taskTemplateRepository;
     private AssetRepository assetRepository;
+
 
     private Long idToDelete;
 
@@ -89,29 +88,29 @@ public class TaskCreateActivityTest {
     @Test
     public void When_TaskCreateActivity_Expect_HeaderAndEmptyFields() {
         onView(withId(R.id.id_task_create_description))
-            .check(matches(withText(R.string.task_create_description)));
+                .check(matches(withText(R.string.task_create_description)));
         onView(withId(R.id.id_et_task_name))
-            .check(matches(withText("")));
+                .check(matches(withText("")));
         onView(withId(R.id.id_et_task_picture))
-            .check(matches(withText("")));
+                .check(matches(withText("")));
         onView(withId(R.id.id_et_task_sound))
-            .check(matches(withText("")));
+                .check(matches(withText("")));
         onView(withId(R.id.id_et_task_duration_time))
-            .check(matches(withText("")));
+                .check(matches(withText("")));
     }
 
     @Test
     public void When_AddingNewTask_Expect_NewTaskAddedToDB() {
         onView(withId(R.id.id_et_task_name))
-            .perform(replaceText(EXPECTED_NAME));
+                .perform(replaceText(EXPECTED_NAME));
         closeSoftKeyboard();
 
         onView(withId(R.id.id_et_task_duration_time))
-            .perform(replaceText(EXPECTED_DURATION_TXT));
+                .perform(replaceText(EXPECTED_DURATION_TXT));
         closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_task_next))
-            .perform(click());
+                .perform(click());
 
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
         idToDelete = taskTemplates.get(0).getId();
@@ -127,8 +126,9 @@ public class TaskCreateActivityTest {
         assetTestRule.setTestPicture();
         List<Asset> assets = assetRepository.getAll();
 
+        String fileName = (assets.get(0).getFilename()).replaceAll(REGEX_TRIM_NAME, "");
         onView(withId(R.id.id_et_task_picture))
-                .check(matches(withText(assets.get(0).getFilename())));
+                .check(matches(withText(fileName)));
     }
 
     @Test
@@ -137,25 +137,26 @@ public class TaskCreateActivityTest {
         assetTestRule.setTestSound();
         List<Asset> assets = assetRepository.getAll();
 
+        String fileName = (assets.get(0).getFilename()).replaceAll(REGEX_TRIM_NAME, "");
         onView(withId(R.id.id_et_task_sound))
-                .check(matches(withText(assets.get(0).getFilename())));
+                .check(matches(withText(fileName)));
     }
 
     @Test
     public void When_AddingNewTaskWithPicture_Expect_NewTaskAddedToDB()
             throws InterruptedException, IOException {
         onView(withId(R.id.id_et_task_name))
-              .perform(replaceText(EXPECTED_NAME));
+                .perform(replaceText(EXPECTED_NAME));
         closeSoftKeyboard();
 
         onView(withId(R.id.id_et_task_duration_time))
-              .perform(replaceText(EXPECTED_DURATION_TXT));
+                .perform(replaceText(EXPECTED_DURATION_TXT));
         closeSoftKeyboard();
 
         assetTestRule.setTestPicture();
 
         onView(withId(R.id.id_btn_task_next))
-              .perform(click());
+                .perform(click());
 
         List<Asset> assets = assetRepository.getAll();
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
@@ -217,39 +218,87 @@ public class TaskCreateActivityTest {
     public void When_AddingNewTask_and_NameIsEmpty_Expect_Warning() {
         closeSoftKeyboard();
         onView(withId(R.id.id_btn_task_next))
-            .perform(click());
+                .perform(click());
 
         onView(withId(R.id.id_et_task_name))
-            .check(matches(hasErrorText(activityRule.getActivity().getString(R.string.not_empty_msg))));
+                .check(matches(hasErrorText(
+                        activityRule.getActivity().getString(R.string.not_empty_msg))));
     }
 
     @Test
     public void When_AddingNewTask_and_DurationIsEmpty_Expect_Warning() {
         onView(withId(R.id.id_et_task_name))
-            .perform(typeText(GOOD_TASK_NAME));
+                .perform(typeText(GOOD_TASK_NAME));
         closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_task_next))
-            .perform(scrollTo());
+                .perform(scrollTo());
 
         onView(withId(R.id.id_btn_task_next))
-            .perform(click());
+                .perform(click());
 
         onView(withId(R.id.id_et_task_duration_time))
-            .check(matches(hasErrorText(activityRule.getActivity().getString(R.string.not_empty_msg))));
+                .check(matches(hasErrorText(
+                        activityRule.getActivity().getString(R.string.not_empty_msg))));
     }
 
     @Test
     public void When_AddingNewTask_and_Name_Has_ForbiddenSymbols_Expect_Warning()
             throws InterruptedException {
         onView(withId(R.id.id_et_task_name))
-            .perform(typeText(BAD_TASK_NAME));
+                .perform(typeText(BAD_TASK_NAME));
         closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_task_next))
-            .perform(click());
+                .perform(click());
 
         onView(withId(R.id.id_et_task_name))
-            .check(matches(hasErrorText(activityRule.getActivity().getString(R.string.only_letters_msg))));
+                .check(matches(hasErrorText(
+                        activityRule.getActivity().getString(R.string.only_letters_msg))));
     }
+
+    @Test
+    public void When_AddTask_WithTheSame_NameTwice_Then__Expect_Warning() {
+        onView(withId(R.id.id_et_task_name))
+                .perform(typeText(GOOD_TASK_NAME));
+
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_et_task_duration_time))
+                .perform(replaceText(EXPECTED_DURATION_TXT))
+                .perform(scrollTo());
+
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_btn_task_next))
+                .perform(click())
+                .perform(click())
+                .perform(scrollTo());
+
+        onView(withId(R.id.id_et_task_name))
+                .check(matches(hasErrorText(
+                        activityRule.getActivity().getString(R.string.name_exist_msg))));
+    }
+
+    @Test
+    public void When_FieldsEmpty_and_PlayBtn_pressed_Then_ToastExpected() {
+        onView(withId(R.id.id_btn_play_sound))
+                .perform(click());
+        onView(withText(R.string.no_file_to_play_error)).inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void When_ImageSelected_and_PlayBtn_pressed_Then_ToastExpected()
+            throws IOException, InterruptedException {
+
+        assetTestRule.setTestPicture();
+        closeSoftKeyboard();
+        onView(withId(R.id.id_btn_play_sound))
+                .perform(click());
+        closeSoftKeyboard();
+        onView(withText(R.string.no_file_to_play_error)).inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
+    }
+
 }

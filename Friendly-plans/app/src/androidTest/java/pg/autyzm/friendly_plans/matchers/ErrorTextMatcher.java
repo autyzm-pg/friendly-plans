@@ -11,11 +11,12 @@ import org.hamcrest.TypeSafeMatcher;
  * fields in xml layout.
  */
 
-public final class ErrorTextMatcher {
+public class ErrorTextMatcher {
 
     private static final String DESCRIPTION_TEXT = "Error text on the field doesn't match expected text: ";
 
-    private ErrorTextMatcher() { }
+    private ErrorTextMatcher() {
+    }
 
     public static Matcher<View> hasErrorText(final String expectedErrorText) {
         return new TypeSafeMatcher<View>() {
@@ -33,6 +34,7 @@ public final class ErrorTextMatcher {
                 String actualError = error.toString();
                 return expectedErrorText.equals(actualError);
             }
+
             @Override
             public void describeTo(Description description) {
                 description.appendText(DESCRIPTION_TEXT + expectedErrorText);

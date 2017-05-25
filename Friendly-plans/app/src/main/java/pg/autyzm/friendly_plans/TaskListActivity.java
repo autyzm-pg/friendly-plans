@@ -5,17 +5,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-
-import javax.inject.Inject;
-
 import database.repository.TaskTemplateRepository;
+import javax.inject.Inject;
 
 public class TaskListActivity extends AppCompatActivity {
 
+    private static final String TAG = "TaskListActivity";
     @Inject
     TaskTemplateRepository taskTemplateRepository;
+
+    TaskRecyclerViewAdapter.TaskItemClickListener taskItemClickListener =
+            new TaskRecyclerViewAdapter.TaskItemClickListener() {
+                @Override
+                public void onTaskItemClick(int position) {
+                    Log.d(TAG, "onTaskItemClick: " + position);
+                }
+            };
     private TaskRecyclerViewAdapter taskListAdapter;
-    private static final String TAG = "TaskListActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +39,4 @@ public class TaskListActivity extends AppCompatActivity {
         taskListAdapter = new TaskRecyclerViewAdapter(taskItemClickListener);
         recyclerView.setAdapter(taskListAdapter);
     }
-
-    TaskRecyclerViewAdapter.TaskItemClickListener taskItemClickListener =
-            new TaskRecyclerViewAdapter.TaskItemClickListener() {
-                @Override
-                public void onTaskItemClick(int position) {
-                    Log.d(TAG, "onTaskItemClick: " + position);
-                }
-            };
 }
