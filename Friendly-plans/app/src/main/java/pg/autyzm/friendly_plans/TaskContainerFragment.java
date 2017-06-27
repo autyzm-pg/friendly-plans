@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.squareup.picasso.Picasso;
 import database.repository.AssetRepository;
 import database.repository.TaskTemplateRepository;
 import java.io.File;
@@ -56,6 +57,7 @@ public class TaskContainerFragment extends Fragment {
     private ImageButton clearSound;
     private ImageButton clearPicture;
     private Button playSound;
+    private ImageView picturePreview;
     private ImageView playSoundIcon;
     private Long pictureId;
     private Long soundId;
@@ -91,6 +93,7 @@ public class TaskContainerFragment extends Fragment {
         taskDurTime = (EditText) view.findViewById(R.id.id_et_task_duration_time);
         taskNext = (Button) view.findViewById(R.id.id_btn_task_next);
         selectPicture = (Button) view.findViewById(R.id.id_btn_select_task_picture);
+        picturePreview = (ImageView) view.findViewById(R.id.iv_picture_preview);
         selectSound = (Button) view.findViewById(R.id.id_btn_select_task_sound);
         playSound = (Button) view.findViewById(R.id.id_btn_play_sound);
         clearSound = (ImageButton) view.findViewById(R.id.id_ib_clear_sound_btn);
@@ -101,6 +104,16 @@ public class TaskContainerFragment extends Fragment {
         selectPicture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 filePickerProxy.openFilePicker(TaskContainerFragment.this, AssetType.PICTURE);
+            }
+        });
+
+        picturePreview.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ImagePreviewDialog preview = new ImagePreviewDialog();
+                Bundle args = new Bundle();
+                args.putString("imgPath", retrieveImageFile());
+                preview.setArguments(args);
+                preview.show(getFragmentManager(), "preview");
             }
         });
 
@@ -121,6 +134,7 @@ public class TaskContainerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 taskPicture.setText("");
+                picturePreview.setImageResource(0);
                 clearPicture.setVisibility(View.INVISIBLE);
             }
         });
@@ -151,6 +165,7 @@ public class TaskContainerFragment extends Fragment {
             }
         });
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -188,11 +203,18 @@ public class TaskContainerFragment extends Fragment {
             taskPicture.setText(assetName);
             clearPicture.setVisibility(View.VISIBLE);
             pictureId = assetId;
+            showPreview();
         } else {
             taskSound.setText(assetName);
             soundId = assetId;
             clearSound.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void showPreview() {
+        Picasso.with(getActivity().getApplicationContext())
+                .load(new File(retrieveImageFile()))
+                .into(picturePreview);
     }
 
     private void playStopSound() {
@@ -225,6 +247,12 @@ public class TaskContainerFragment extends Fragment {
         String soundFileName = assetRepository.get(soundId).getFilename();
         String fileDir = getActivity().getApplicationContext().getFilesDir().toString();
         return fileDir + File.separator + soundFileName;
+    }
+
+    private String retrieveImageFile() {
+        String imageFileName = assetRepository.get(pictureId).getFilename();
+        String fileDir = getActivity().getApplicationContext().getFilesDir().toString();
+        return fileDir + File.separator + imageFileName;
     }
 
     private void stopSound() {
