@@ -33,6 +33,12 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    adbOptions {
+        timeOutInMs 20 * 60 * 1000
+        installOptions "-d","-t"
+    }
+
 }
 
 greendao {
