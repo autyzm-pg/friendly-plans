@@ -39,6 +39,10 @@ android {
         installOptions "-d","-t"
     }
 
+    dataBinding {
+        enabled = true
+    }
+
 }
 
 greendao {
