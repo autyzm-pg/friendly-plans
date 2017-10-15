@@ -21,6 +21,7 @@ public class App extends Application {
                 .stringProviderModule(new StringProviderModule(this.getApplicationContext()))
                 .validationModule(new ValidationModule())
                 .filePickerModule(new FilePickerModule())
+                .mediaPlayerModule(new MediaPlayerModule())
                 .build();
     }
 

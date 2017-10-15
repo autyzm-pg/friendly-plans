@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.widget.Button;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import database.repository.TaskTemplateRepository;
@@ -32,7 +33,7 @@ import pg.autyzm.friendly_plans.test_helpers.AppComponentDaggerRule;
 
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
-@PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" })
+@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 public class TaskCreateActivityTest {
 
     private static final String TEST_FILE_PATH = "Test";
@@ -45,6 +46,9 @@ public class TaskCreateActivityTest {
 
     @Mock
     private TaskTemplateRepository taskTemplateRepository;
+
+    @Mock
+    private MediaPlayer mediaPlayer = new MediaPlayer();
 
     private TaskCreateActivity activity;
     private Fragment fragment;

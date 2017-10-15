@@ -1,12 +1,13 @@
 package pg.autyzm.friendly_plans.validation;
 
 import android.widget.EditText;
+import database.repository.TaskTemplateRepository;
 import pg.autyzm.friendly_plans.string_provider.StringsProvider;
 
 public class TaskValidation extends Validation {
 
-    public TaskValidation(StringsProvider stringsProvider) {
-        super(stringsProvider);
+    public TaskValidation(StringsProvider stringsProvider, TaskTemplateRepository taskTmplRepo) {
+        super(stringsProvider, taskTmplRepo);
     }
 
     public boolean isValid(EditText name, EditText duration) {
@@ -20,9 +21,7 @@ public class TaskValidation extends Validation {
             return false;
         }
 
-        boolean isNameOnDb = false;
-
-        if (isNameOnDb) {
+        if (taskTmplRepo.isNameExists(name.getText().toString())) {
             showError(name);
             return false;
         }

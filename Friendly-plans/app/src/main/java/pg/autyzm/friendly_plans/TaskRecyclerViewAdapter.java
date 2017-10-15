@@ -6,18 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import database.entities.TaskTemplate;
 import java.util.ArrayList;
 import java.util.List;
-
-import database.entities.TaskTemplate;
 
 class TaskRecyclerViewAdapter
         extends RecyclerView.Adapter<TaskRecyclerViewAdapter.TaskListViewHolder> {
 
+    private static final int ICON_PLACEHOLDER_PICTURE_ID = R.drawable.ic_placeholder;
+    private static final int ICON_PLACEHOLDER_SOUND_ID = R.drawable.ic_playing_sound_2;
+    private static final int ICON_PLACEHOLDER_TIME_ID = R.drawable.ic_placeholder_time;
     private List<TaskTemplate> taskItemList;
     private TaskItemClickListener taskItemClickListener;
-    private static final int ICON_PLACEHOLDER_ID = R.drawable.ic_placeholder;
 
     TaskRecyclerViewAdapter(TaskItemClickListener taskItemClickListener) {
         this.taskItemClickListener = taskItemClickListener;
@@ -38,19 +38,19 @@ class TaskRecyclerViewAdapter
             TaskTemplate taskItem = taskItemList.get(position);
             holder.taskName.setText(taskItem.getName());
             if (taskItem.getPicture() != null && !taskItem.getPicture().getFilename().isEmpty()) {
-                holder.taskPicture.setImageResource(ICON_PLACEHOLDER_ID);
+                holder.taskPicture.setImageResource(ICON_PLACEHOLDER_PICTURE_ID);
                 holder.taskPicture.setVisibility(View.VISIBLE);
             } else {
                 holder.taskPicture.setVisibility(View.GONE);
             }
             if (taskItem.getSound() != null && !taskItem.getSound().getFilename().isEmpty()) {
-                holder.taskSoundIcon.setImageResource(ICON_PLACEHOLDER_ID);
+                holder.taskSoundIcon.setImageResource(ICON_PLACEHOLDER_SOUND_ID);
                 holder.taskSoundIcon.setVisibility(View.VISIBLE);
             } else {
                 holder.taskSoundIcon.setVisibility(View.GONE);
             }
             if (taskItem.getDurationTime() != 0) {
-                holder.taskDurationIcon.setImageResource(ICON_PLACEHOLDER_ID);
+                holder.taskDurationIcon.setImageResource(ICON_PLACEHOLDER_TIME_ID);
                 holder.taskDurationTime.setText(String.valueOf(taskItem.getDurationTime()));
                 holder.taskDurationIcon.setVisibility(View.VISIBLE);
             } else {
@@ -75,6 +75,7 @@ class TaskRecyclerViewAdapter
     }
 
     interface TaskItemClickListener {
+
         void onTaskItemClick(int position);
     }
 

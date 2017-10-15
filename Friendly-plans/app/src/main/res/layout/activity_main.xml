@@ -1,83 +1,97 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ScrollView01"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:fillViewport="true">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="events"
+            type="pg.autyzm.friendly_plans.MainActivityEvents"/>
+    </data>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
+        android:id="@+id/ScrollView01"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="pg.autyzm.friendly_plans.MainActivity">
+        android:layout_height="fill_parent"
+        android:fillViewport="true">
 
-        <Button
-            android:id="@+id/button_createPlan"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:text="@string/main_create_plan" />
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            tools:context="pg.autyzm.friendly_plans.MainActivity">
 
-        <Button
-            android:id="@+id/button_createTask"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/button_createPlan"
-            android:onClick="eventCreateTask"
-            android:text="@string/main_create_task" />
+            <!-- plan-->
+            <Button
+                android:id="@+id/button_createPlan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/main_create_plan"/>
 
-        <Button
-            android:id="@+id/button_listOfPlans"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/button_createTask"
-            android:text="@string/main_list_of_plans_edit_plan" />
+            <!-- task-->
+            <Button
+                android:id="@+id/button_createTask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/button_createPlan"
+                android:onClick="@{events::eventCreateTask}"
+                android:text="@string/main_create_task"/>
 
-        <Button
-            android:id="@+id/button_listOfTasks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/button_listOfPlans"
-            android:text="@string/main_list_of_tasks_edit_task" />
+            <!--list of plans-->
+            <Button
+                android:id="@+id/button_listOfPlans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/button_createTask"
+                android:text="@string/main_list_of_plans_edit_plan"/>
 
-        <Button
-            android:id="@+id/button_activeChildSettings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/button_listOfTasks"
-            android:text="@string/main_active_child_settings" />
+            <!--list of tasks-->
+            <Button
+                android:id="@+id/button_listOfTasks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/button_listOfPlans"
+                android:onClick="@{events::eventShowTaskList}"
+                android:text="@string/main_list_of_tasks_edit_task"/>
 
-        <Button
-            android:id="@+id/button_addRemoveChild"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/button_activeChildSettings"
-            android:text="@string/main_add_remove_child" />
+            <!--settings-->
+            <Button
+                android:id="@+id/button_activeChildSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/button_listOfTasks"
+                android:text="@string/main_active_child_settings"/>
 
-        <Button
-            android:id="@+id/button_changeActiveChild"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/button_addRemoveChild"
-            android:text="@string/main_change_active_child" />
+            <!--add/remove child-->
+            <Button
+                android:id="@+id/button_addRemoveChild"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/button_activeChildSettings"
+                android:text="@string/main_add_remove_child"/>
 
-    </RelativeLayout>
-</ScrollView>
+            <!--change child-->
+            <Button
+                android:id="@+id/button_changeActiveChild"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/button_addRemoveChild"
+                android:text="@string/main_change_active_child"/>
+        </RelativeLayout>
+    </ScrollView>
+</layout>
