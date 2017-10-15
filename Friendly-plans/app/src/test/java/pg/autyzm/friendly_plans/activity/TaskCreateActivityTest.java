@@ -25,7 +25,7 @@ import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowToast;
 import pg.autyzm.friendly_plans.BuildConfig;
 import pg.autyzm.friendly_plans.R;
-import pg.autyzm.friendly_plans.TaskContainerFragment;
+import pg.autyzm.friendly_plans.TaskCreateFragment;
 import pg.autyzm.friendly_plans.TaskCreateActivity;
 import pg.autyzm.friendly_plans.asset.AssetType;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
@@ -56,7 +56,7 @@ public class TaskCreateActivityTest {
     @Before
     public void setUp() {
         doNothing().when(filePickerProxy)
-                .openFilePicker(any(TaskContainerFragment.class), any(AssetType.class));
+                .openFilePicker(any(TaskCreateFragment.class), any(AssetType.class));
         when(filePickerProxy.isPickFileRequested(any(int.class), any(AssetType.class)))
                 .thenReturn(true);
         when(filePickerProxy.getFilePath(any(Intent.class)))
@@ -73,7 +73,7 @@ public class TaskCreateActivityTest {
         selectPicture.performClick();
 
         verify(filePickerProxy)
-                .openFilePicker(any(TaskContainerFragment.class), any(AssetType.class));
+                .openFilePicker(any(TaskCreateFragment.class), any(AssetType.class));
     }
 
     @Test
@@ -93,7 +93,7 @@ public class TaskCreateActivityTest {
         selectSound.performClick();
 
         verify(filePickerProxy)
-                .openFilePicker(any(TaskContainerFragment.class), any(AssetType.class));
+                .openFilePicker(any(TaskCreateFragment.class), any(AssetType.class));
     }
 
     @Test

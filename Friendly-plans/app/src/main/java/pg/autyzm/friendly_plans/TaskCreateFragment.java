@@ -1,6 +1,7 @@
 package pg.autyzm.friendly_plans;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -30,7 +31,7 @@ import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 import pg.autyzm.friendly_plans.validation.TaskValidation;
 import pg.autyzm.friendly_plans.validation.Utils;
 
-public class TaskContainerFragment extends Fragment {
+public class TaskCreateFragment extends Fragment {
 
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
     @Inject
@@ -66,7 +67,7 @@ public class TaskContainerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
-        return inflater.inflate(R.layout.fragment_task_container, container, false);
+        return inflater.inflate(R.layout.fragment_task_create, container, false);
     }
 
     @Override
@@ -103,7 +104,7 @@ public class TaskContainerFragment extends Fragment {
 
         selectPicture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                filePickerProxy.openFilePicker(TaskContainerFragment.this, AssetType.PICTURE);
+                filePickerProxy.openFilePicker(TaskCreateFragment.this, AssetType.PICTURE);
             }
         });
 
@@ -119,7 +120,7 @@ public class TaskContainerFragment extends Fragment {
 
         selectSound.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                filePickerProxy.openFilePicker(TaskContainerFragment.this, AssetType.SOUND);
+                filePickerProxy.openFilePicker(TaskCreateFragment.this, AssetType.SOUND);
             }
         });
 
@@ -155,6 +156,12 @@ public class TaskContainerFragment extends Fragment {
                 stopBtnAnimation();
                 if (taskValidation.isValid(taskName, taskDurTime)) {
                     addTaskOnDb();
+
+                    FragmentTransaction transaction = getFragmentManager()
+                            .beginTransaction();
+                    transaction.replace(R.id.task_container, new StepListFragment());
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                 }
             }
         });

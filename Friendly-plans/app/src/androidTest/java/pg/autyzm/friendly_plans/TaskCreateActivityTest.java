@@ -24,6 +24,7 @@ import database.entities.TaskTemplate;
 import database.repository.AssetRepository;
 import database.repository.TaskTemplateRepository;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
@@ -54,8 +55,7 @@ public class TaskCreateActivityTest {
     private TaskTemplateRepository taskTemplateRepository;
     private AssetRepository assetRepository;
 
-
-    private Long idToDelete;
+    private List<Long> idsToDelete = new ArrayList<>();
 
     @Before
     public void setUp() {
@@ -80,8 +80,8 @@ public class TaskCreateActivityTest {
 
     @After
     public void tearDown() {
-        if (idToDelete != null) {
-            taskTemplateRepository.delete(idToDelete);
+        for(Long id : idsToDelete) {
+            taskTemplateRepository.delete(id);
         }
     }
 
@@ -113,7 +113,7 @@ public class TaskCreateActivityTest {
                 .perform(click());
 
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
-        idToDelete = taskTemplates.get(0).getId();
+        idsToDelete.add(taskTemplates.get(0).getId());
 
         assertThat(taskTemplates.size(), is(1));
         assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
@@ -160,7 +160,7 @@ public class TaskCreateActivityTest {
 
         List<Asset> assets = assetRepository.getAll();
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
-        idToDelete = taskTemplates.get(0).getId();
+        idsToDelete.add(taskTemplates.get(0).getId());
 
         assertThat(assets.size(), is(1));
         assertThat(taskTemplates.size(), is(1));
@@ -184,7 +184,7 @@ public class TaskCreateActivityTest {
                 .perform(click());
 
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
-        idToDelete = taskTemplates.get(0).getId();
+        idsToDelete.add(taskTemplates.get(0).getId());
 
         assertThat(taskTemplates.size(), is(1));
         assertNull(taskTemplates.get(0).getSoundId());
@@ -208,7 +208,7 @@ public class TaskCreateActivityTest {
 
         List<Asset> assets = assetRepository.getAll();
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
-        idToDelete = taskTemplates.get(0).getId();
+        idsToDelete.add(taskTemplates.get(0).getId());
 
         assertThat(taskTemplates.size(), is(1));
         assertThat(taskTemplates.get(0).getSoundId(), is(assets.get(0).getId()));
@@ -258,7 +258,10 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_AddTask_WithTheSame_NameTwice_Then__Expect_Warning() {
+    public void When_AddTaskWithExistingName__Expect_Warning() {
+        idsToDelete.add(taskTemplateRepository
+                .create(GOOD_TASK_NAME, Integer.valueOf(EXPECTED_DURATION_TXT), null, null));
+
         onView(withId(R.id.id_et_task_name))
                 .perform(typeText(GOOD_TASK_NAME));
 
@@ -271,7 +274,6 @@ public class TaskCreateActivityTest {
         closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_task_next))
-                .perform(click())
                 .perform(click())
                 .perform(scrollTo());
 
