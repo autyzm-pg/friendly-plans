@@ -2,13 +2,11 @@
 
 ## Branches
 Branches naming convention: {issue number}-kebab-case-issue-description
-
 Example: 54-travis-integration
 
 ## Commits
-Commit message convention: {issue number}: {what was done in the commit}
-
-Example: 54: Change android sdk version
+Commit message convention: #{issue number}: {what was done in the commit}
+Example: #54: Change android sdk version
 
 ## Pull requests
 Pull request naming convention: {issue number}: {issue description}
