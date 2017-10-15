@@ -37,7 +37,7 @@ public interface AppComponent {
     @SuppressWarnings("unused")
     MediaPlayer mediaPlayer();
 
-    void inject(TaskContainerFragment activity);
+    void inject(TaskCreateFragment activity);
 
     void inject(TaskListActivity activity);
 }

@@ -81,7 +81,7 @@ public class AssetTestRule extends ExternalResource {
             throws InterruptedException {
         final Intent data = new Intent();
         data.putExtra(FilePickerActivity.RESULT_FILE_PATH, testAsset.getAbsolutePath());
-        final TaskContainerFragment fragment = getFragment();
+        final TaskCreateFragment fragment = getFragment();
         activityRule.getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 fragment.onActivityResult(assetType.ordinal(),
@@ -97,8 +97,8 @@ public class AssetTestRule extends ExternalResource {
         testFiles.add(new File(internalStorage, fileName));
     }
 
-    private TaskContainerFragment getFragment() {
-        return (TaskContainerFragment) activityRule.getActivity().getFragmentManager()
+    private TaskCreateFragment getFragment() {
+        return (TaskCreateFragment) activityRule.getActivity().getFragmentManager()
                 .findFragmentById(R.id.task_container);
     }
 

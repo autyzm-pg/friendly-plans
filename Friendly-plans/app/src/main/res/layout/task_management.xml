@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:screenOrientation="landscape">
 
-  <fragment
+  <FrameLayout
     android:id="@+id/task_menu"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:name="pg.autyzm.friendly_plans.TaskMenuFragment"
-    tools:layout="@layout/fragment_task_menu"/>
+    android:layout_height="match_parent"/>
 
-  <fragment
+  <FrameLayout
     android:id="@+id/task_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:name="pg.autyzm.friendly_plans.TaskContainerFragment"
-    tools:layout="@layout/fragment_task_container"/>
+    android:layout_height="match_parent"/>
 
 </LinearLayout>
