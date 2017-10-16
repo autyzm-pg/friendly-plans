@@ -30,4 +30,9 @@ public class StepTemplateRepository {
                 .where(Properties.TaskTemplateId.eq(taskTemplateId))
                 .list();
     }
+
+    public void delete(Long stepId) {
+        daoSession.getStepTemplateDao()
+                .deleteByKey(stepId);
+    }
 }

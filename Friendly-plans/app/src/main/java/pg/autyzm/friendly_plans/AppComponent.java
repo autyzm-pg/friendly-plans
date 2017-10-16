@@ -5,6 +5,7 @@ import dagger.Component;
 import database.repository.AssetRepository;
 import database.repository.DaoSessionModule;
 import database.repository.RepositoryModule;
+import database.repository.StepTemplateRepository;
 import database.repository.TaskTemplateRepository;
 import javax.inject.Singleton;
 import pg.autyzm.friendly_plans.file_picker.FilePickerModule;
@@ -32,6 +33,9 @@ public interface AppComponent {
     TaskTemplateRepository taskTemplateRepository();
 
     @SuppressWarnings("unused")
+    StepTemplateRepository stepTemplateRepository();
+
+    @SuppressWarnings("unused")
     AssetRepository assetRepository();
 
     @SuppressWarnings("unused")
@@ -40,4 +44,6 @@ public interface AppComponent {
     void inject(TaskCreateFragment activity);
 
     void inject(TaskListActivity activity);
+
+    void inject(StepListFragment stepListFragment);
 }

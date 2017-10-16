@@ -19,4 +19,10 @@ public class RepositoryModule {
     protected AssetRepository getAssetRepostiory(DaoSession daoSession) {
         return new AssetRepository(daoSession);
     }
+
+    @Provides
+    @Singleton
+    protected StepTemplateRepository getStepTemplateRepository(DaoSession daoSession) {
+        return new StepTemplateRepository(daoSession);
+    }
 }

@@ -34,6 +34,8 @@ import pg.autyzm.friendly_plans.validation.Utils;
 public class TaskCreateFragment extends Fragment {
 
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
+    private static final String TASK_ID = "task_id";
+
     @Inject
     public FilePickerProxy filePickerProxy;
     @Inject
@@ -75,8 +77,8 @@ public class TaskCreateFragment extends Fragment {
         registerViews(view);
     }
 
-    private void addTaskOnDb() {
-        taskTemplateRepository.create(taskName.getText().toString(),
+    private long addTaskOnDb() {
+        return taskTemplateRepository.create(taskName.getText().toString(),
                 Integer.valueOf(taskDurTime.getText().toString()),
                 pictureId,
                 soundId);
@@ -155,13 +157,8 @@ public class TaskCreateFragment extends Fragment {
                 stopSound();
                 stopBtnAnimation();
                 if (taskValidation.isValid(taskName, taskDurTime)) {
-                    addTaskOnDb();
-
-                    FragmentTransaction transaction = getFragmentManager()
-                            .beginTransaction();
-                    transaction.replace(R.id.task_container, new StepListFragment());
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+                    long taskId = addTaskOnDb();
+                    showStepsList(taskId);
                 }
             }
         });
@@ -173,6 +170,18 @@ public class TaskCreateFragment extends Fragment {
         });
     }
 
+    private void showStepsList(long taskId) {
+        StepListFragment fragment = new StepListFragment();
+        Bundle args = new Bundle();
+        args.putLong(TASK_ID, taskId);
+        fragment.setArguments(args);
+
+        FragmentTransaction transaction = getFragmentManager()
+                .beginTransaction();
+        transaction.replace(R.id.task_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
