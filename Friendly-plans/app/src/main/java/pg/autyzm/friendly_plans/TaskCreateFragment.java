@@ -28,6 +28,7 @@ import javax.inject.Inject;
 import pg.autyzm.friendly_plans.asset.AssetType;
 import pg.autyzm.friendly_plans.asset.AssetsHelper;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
+import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.validation.TaskValidation;
 import pg.autyzm.friendly_plans.validation.Utils;
 
@@ -156,6 +157,7 @@ public class TaskCreateFragment extends Fragment {
                 stopBtnAnimation();
                 if (taskValidation.isValid(taskName, taskDurTime)) {
                     addTaskOnDb();
+                    showToastMessage(R.string.task_saved_message);
 
                     FragmentTransaction transaction = getFragmentManager()
                             .beginTransaction();
@@ -281,10 +283,10 @@ public class TaskCreateFragment extends Fragment {
     }
 
     private void showToastMessage(int resourceStringId) {
-        String pickingFileError = getResources().getString(resourceStringId);
-        Toast errorToast = Toast.makeText(getActivity()
-                .getApplicationContext(), pickingFileError, Toast.LENGTH_LONG);
-        errorToast.show();
+        ToastUserNotifier.displayNotifications(
+            resourceStringId,
+            getActivity().getApplicationContext());
     }
+
 }
 

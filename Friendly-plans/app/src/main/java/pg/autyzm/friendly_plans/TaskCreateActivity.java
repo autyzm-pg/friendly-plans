@@ -23,13 +23,4 @@ public class TaskCreateActivity extends FragmentActivity {
                 .commit();
     }
 
-    public void eventCreateTask(View view) {
-        showSuccessMessage();
-    }
-
-    private void showSuccessMessage() {
-        ToastUserNotifier.displayNotifications(
-            R.string.task_saved_message,
-            getApplicationContext());
-    }
 }
