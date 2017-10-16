@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import database.repository.AssetRepository;
 import database.repository.TaskTemplateRepository;
@@ -28,6 +27,7 @@ import javax.inject.Inject;
 import pg.autyzm.friendly_plans.asset.AssetType;
 import pg.autyzm.friendly_plans.asset.AssetsHelper;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
+import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.validation.TaskValidation;
 import pg.autyzm.friendly_plans.validation.Utils;
 
@@ -158,6 +158,8 @@ public class TaskCreateFragment extends Fragment {
                 stopBtnAnimation();
                 if (taskValidation.isValid(taskName, taskDurTime)) {
                     long taskId = addTaskOnDb();
+                    showToastMessage(R.string.task_saved_message);
+
                     showStepsList(taskId);
                 }
             }
@@ -290,10 +292,9 @@ public class TaskCreateFragment extends Fragment {
     }
 
     private void showToastMessage(int resourceStringId) {
-        String pickingFileError = getResources().getString(resourceStringId);
-        Toast errorToast = Toast.makeText(getActivity()
-                .getApplicationContext(), pickingFileError, Toast.LENGTH_LONG);
-        errorToast.show();
+        ToastUserNotifier.displayNotifications(
+            resourceStringId,
+            getActivity().getApplicationContext());
     }
 }
 
