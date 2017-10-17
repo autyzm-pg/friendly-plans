@@ -1,6 +1,7 @@
 package pg.autyzm.friendly_plans;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.assertion.ViewAssertions.selectedDescendantsMatch;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -11,6 +12,11 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -44,9 +50,20 @@ public class StepListFragmentTest {
     }
 
     @Test
-    public void When_TaskHasSteps_Expect_StepsToBeDisplayed() {
-        checkStepDisplayed(0, STEP_NAME_1);
-        checkStepDisplayed(1, STEP_NAME_2);
+    public void WhenTaskHasStepsExpectStepsToBeDisplayed() {
+        long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
+        openStepsListFragment(taskId);
+
+        assertStepDisplayed(0, STEP_NAME_1);
+        assertStepDisplayed(1, STEP_NAME_2);
+    }
+
+    @Test
+    public void WhenTaskHasNoStepsExpectNoStepsToBeDisplayed() {
+        long taskId = taskTemplateRule.createTask(TASK_NAME_1);
+        openStepsListFragment(taskId);
+
+        onView(withId(R.id.rv_step_list)).check(matches(withSize(0)));
     }
 
     private void openStepsListFragment(long taskId) {
@@ -61,10 +78,26 @@ public class StepListFragmentTest {
         transaction.commit();
     }
 
-    private void checkStepDisplayed(int position, String stepName) {
+    private void assertStepDisplayed(int position, String stepName) {
         onView(withRecyclerView(R.id.rv_step_list)
                 .atPosition(position))
                 .check(selectedDescendantsMatch(withId(R.id.id_tv_step_name),
                         withText(stepName)));
+    }
+
+    static Matcher<View> withSize(final int expectedSize) {
+        return new TypeSafeMatcher<View>() {
+
+            @Override
+            public boolean matchesSafely(final View view) {
+                final int listSize = ((RecyclerView) view).getAdapter().getItemCount();
+                return listSize == expectedSize;
+            }
+
+            @Override
+            public void describeTo(final Description description) {
+                description.appendText("RecyclerView should have " + expectedSize + " items");
+            }
+        };
     }
 }

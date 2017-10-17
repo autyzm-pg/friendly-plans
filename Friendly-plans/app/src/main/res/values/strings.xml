@@ -29,4 +29,6 @@
   <string name="picking_file_error">During making safe copy of file an error occurred. Ensure that on device drive is enough space.</string>
   <string name="playing_file_error">Can not play sound. Error occurred</string>
   <string name="no_file_to_play_error">No file to play. Please, select sound</string>
+  <string name="create_step">Create step</string>
+  <string name="steps_list_info">Steps list</string>
 </resources>

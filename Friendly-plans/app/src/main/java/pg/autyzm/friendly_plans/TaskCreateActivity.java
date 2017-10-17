@@ -2,8 +2,6 @@ package pg.autyzm.friendly_plans;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.View;
-import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 
 public class TaskCreateActivity extends FragmentActivity {
 
@@ -22,5 +20,4 @@ public class TaskCreateActivity extends FragmentActivity {
                 .add(R.id.task_menu, new TaskMenuFragment())
                 .commit();
     }
-
 }
