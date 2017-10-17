@@ -22,9 +22,10 @@ public class StepTemplateRepositoryTest {
 
     private final static String STEP_NAME = "step_name";
     private final static int ORDER = 1;
-    private final static Long PICTURE_ID = 1L;
-    private final static Long SOUND_ID = 1L;
-    private final static Long TASK_TEMPLATE_ID = 1L;
+    private final static Long PICTURE_ID = 2L;
+    private final static Long SOUND_ID = 3L;
+    private final static Long TASK_TEMPLATE_ID = 4L;
+    private static final Long STEP_ID = 5L;
 
     @InjectMocks
     StepTemplateRepository stepTemplateRepository;
@@ -52,5 +53,12 @@ public class StepTemplateRepositoryTest {
         assertThat(stepTemplate.getPictureId(), is(PICTURE_ID));
         assertThat(stepTemplate.getOrder(), is(ORDER));
         assertThat(stepTemplate.getTaskTemplateId(), is(TASK_TEMPLATE_ID));
+    }
+
+    @Test
+    public void When_DeletingAStepTemplate_Expect_DeleteMethodBeCalled() {
+        stepTemplateRepository.delete(STEP_ID);
+
+        verify(stepTemplateDao).deleteByKey(STEP_ID);
     }
 }
