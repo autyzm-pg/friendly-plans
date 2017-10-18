@@ -1,16 +1,19 @@
 package pg.autyzm.friendly_plans;
 
 import android.app.Fragment;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import database.repository.StepTemplateRepository;
 import javax.inject.Inject;
+import pg.autyzm.friendly_plans.databinding.FragmentStepListBinding;
 
-public class StepListFragment extends Fragment {
+public class StepListFragment extends Fragment implements StepListEvents {
 
     public static final String TASK_ID = "task_id";
 
@@ -28,7 +31,12 @@ public class StepListFragment extends Fragment {
         Bundle args = getArguments();
         task_id = args.getLong(TASK_ID, 0);
 
-        return inflater.inflate(R.layout.fragment_step_list, container, false);
+        FragmentStepListBinding binding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_step_list, container, false);
+
+        View view = binding.getRoot();
+        binding.setStepListEvents(this);
+        return view;
     }
 
     @Override
@@ -45,5 +53,15 @@ public class StepListFragment extends Fragment {
         recyclerView.setAdapter(stepListRecyclerViewAdapter);
 
         stepListRecyclerViewAdapter.setStepItemListItems(stepTemplateRepository.getAll(taskId));
+    }
+
+    @Override
+    public void eventCreateStep(View view) {
+        Log.d("Event create step", "Event create step");
+    }
+
+    @Override
+    public void eventNext(View view) {
+        Log.d("Event next", "Event next");
     }
 }
