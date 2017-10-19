@@ -1,5 +1,7 @@
 package pg.autyzm.friendly_plans;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 import database.entities.TaskTemplate;
 import java.util.ArrayList;
 import java.util.List;
+import pg.autyzm.friendly_plans.asset.AssetsHelper;
 
 class TaskRecyclerViewAdapter
         extends RecyclerView.Adapter<TaskRecyclerViewAdapter.TaskListViewHolder> {
@@ -18,6 +21,7 @@ class TaskRecyclerViewAdapter
     private static final int ICON_PLACEHOLDER_TIME_ID = R.drawable.ic_placeholder_time;
     private List<TaskTemplate> taskItemList;
     private TaskItemClickListener taskItemClickListener;
+    private AssetsHelper assetsHelper;
 
     TaskRecyclerViewAdapter(TaskItemClickListener taskItemClickListener) {
         this.taskItemClickListener = taskItemClickListener;
@@ -26,22 +30,22 @@ class TaskRecyclerViewAdapter
 
     @Override
     public TaskListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        assetsHelper = new AssetsHelper(parent.getContext());
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_task, parent, false);
         return new TaskListViewHolder(view, taskItemClickListener);
     }
-
     @Override
     public void onBindViewHolder(TaskListViewHolder holder, int position) {
-
         if (taskItemList != null && taskItemList.size() != 0) {
             TaskTemplate taskItem = taskItemList.get(position);
             holder.taskName.setText(taskItem.getName());
             if (taskItem.getPicture() != null && !taskItem.getPicture().getFilename().isEmpty()) {
-                holder.taskPicture.setImageResource(ICON_PLACEHOLDER_PICTURE_ID);
-                holder.taskPicture.setVisibility(View.VISIBLE);
+                String picturePath = assetsHelper.getFileFullPath(taskItem.getPicture());
+                Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+                holder.taskPicture.setImageBitmap(bitmap);
             } else {
-                holder.taskPicture.setVisibility(View.GONE);
+                holder.taskPicture.setImageResource(ICON_PLACEHOLDER_PICTURE_ID);
             }
             if (taskItem.getSound() != null && !taskItem.getSound().getFilename().isEmpty()) {
                 holder.taskSoundIcon.setImageResource(ICON_PLACEHOLDER_SOUND_ID);
