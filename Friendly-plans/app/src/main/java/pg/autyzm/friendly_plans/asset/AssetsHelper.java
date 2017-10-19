@@ -1,6 +1,7 @@
 package pg.autyzm.friendly_plans.asset;
 
 import android.content.Context;
+import database.entities.Asset;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
@@ -42,5 +43,9 @@ public class AssetsHelper {
             lowerCaseExtension = JPG_EXTENSION;
         }
         return lowerCaseExtension;
+    }
+
+    public String getFileFullPath(Asset asset) {
+        return context.getFilesDir().toString() + File.separator + asset.getFilename();
     }
 }
