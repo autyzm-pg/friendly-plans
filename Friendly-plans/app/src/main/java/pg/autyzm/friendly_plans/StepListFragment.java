@@ -21,6 +21,16 @@ public class StepListFragment extends Fragment implements StepListEvents {
     @Inject
     StepTemplateRepository stepTemplateRepository;
 
+    StepListRecyclerViewAdapter.StepItemClickListener stepItemClickListener =
+            new StepListRecyclerViewAdapter.StepItemClickListener() {
+                @Override
+                public void onRemoveStepClick(long itemId) {
+                    stepTemplateRepository.delete(itemId);
+                    stepListRecyclerViewAdapter
+                            .setStepItemListItems(stepTemplateRepository.getAll(task_id));
+                }
+            };
+
     private StepListRecyclerViewAdapter stepListRecyclerViewAdapter;
     private long task_id;
 
@@ -50,7 +60,7 @@ public class StepListFragment extends Fragment implements StepListEvents {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        stepListRecyclerViewAdapter = new StepListRecyclerViewAdapter();
+        stepListRecyclerViewAdapter = new StepListRecyclerViewAdapter(stepItemClickListener);
         recyclerView.setAdapter(stepListRecyclerViewAdapter);
 
         stepListRecyclerViewAdapter.setStepItemListItems(stepTemplateRepository.getAll(taskId));

@@ -10,6 +10,9 @@ import static matcher.RecyclerViewMatcher.withRecyclerView;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.test.espresso.UiController;
+import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
@@ -66,6 +69,18 @@ public class StepListFragmentTest {
         onView(withId(R.id.rv_step_list)).check(matches(withSize(0)));
     }
 
+    @Test
+    public void WhenStepIsRemovedExpectStepIsNotOnTheList() {
+        long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
+        openStepsListFragment(taskId);
+
+        onView(withId(R.id.rv_step_list)).perform(
+                RecyclerViewActions
+                        .actionOnItemAtPosition(0, clickChildViewWithId(R.id.id_remove_step)));
+
+        assertStepDisplayed(0, STEP_NAME_2);
+    }
+
     private void openStepsListFragment(long taskId) {
         StepListFragment fragment = new StepListFragment();
         Bundle args = new Bundle();
@@ -83,6 +98,26 @@ public class StepListFragmentTest {
                 .atPosition(position))
                 .check(selectedDescendantsMatch(withId(R.id.id_tv_step_name),
                         withText(stepName)));
+    }
+
+    public static ViewAction clickChildViewWithId(final int id) {
+        return new ViewAction() {
+            @Override
+            public Matcher<View> getConstraints() {
+                return null;
+            }
+
+            @Override
+            public String getDescription() {
+                return null;
+            }
+
+            @Override
+            public void perform(UiController uiController, View view) {
+                View v = view.findViewById(id);
+                v.performClick();
+            }
+        };
     }
 
     static Matcher<View> withSize(final int expectedSize) {
