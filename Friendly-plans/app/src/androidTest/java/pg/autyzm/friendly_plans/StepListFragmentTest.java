@@ -70,14 +70,13 @@ public class StepListFragmentTest {
     }
 
     @Test
-    public void WhenSaveAndFinishClickedTaskSavedShouldBeDisplayed() {
+    public void WhenSaveAndFinishClickedMainMenuShouldBeDisplayed() {
         long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
         openStepsListFragment(taskId);
         onView(withId(R.id.id_btn_next))
             .perform(click());
 
-        onView(withText(R.string.task_with_steps_saved_message)).inRoot(new ToastMatcher())
-            .check(matches(isDisplayed()));
+        onView(withId(R.id.button_createPlan)).check(matches(isDisplayed()));
     }
 
     private void openStepsListFragment(long taskId) {

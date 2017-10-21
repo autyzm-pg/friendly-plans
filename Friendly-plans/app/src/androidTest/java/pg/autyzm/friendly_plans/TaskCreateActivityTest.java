@@ -141,8 +141,7 @@ public class TaskCreateActivityTest {
         assertThat(taskTemplates.size(), is(1));
         assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
         assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
-        onView(withText(R.string.task_saved_message)).inRoot(new ToastMatcher())
-            .check(matches(isDisplayed()));
+        onView(withId(R.id.button_createPlan)).check(matches(isDisplayed()));
     }
 
     @Test
