@@ -111,12 +111,14 @@
       <Button
         android:id="@+id/id_btn_play_sound"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:elevation="1dp" />
       <ImageView
         android:id="@+id/id_iv_play_sound_icon"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:elevation="2dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_play_sound_1"/>
     </FrameLayout>
