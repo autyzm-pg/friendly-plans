@@ -1,18 +1,19 @@
 package pg.autyzm.friendly_plans;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.app.FragmentTransaction;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import database.repository.StepTemplateRepository;
 import javax.inject.Inject;
 import pg.autyzm.friendly_plans.databinding.FragmentStepListBinding;
+import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 
 public class StepListFragment extends Fragment implements StepListEvents {
 
@@ -72,7 +73,15 @@ public class StepListFragment extends Fragment implements StepListEvents {
     }
 
     @Override
-    public void eventNext(View view) {
-        Log.d("Event next", "Event next");
+    public void eventSaveAndFinish(View view) {
+        ToastUserNotifier.displayNotifications(
+            R.string.task_with_steps_saved_message,
+            getActivity().getApplicationContext());
+        showMainMenu();
+    }
+
+    private void showMainMenu() {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
     }
 }

@@ -1,8 +1,10 @@
 package pg.autyzm.friendly_plans;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.assertion.ViewAssertions.selectedDescendantsMatch;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static matcher.RecyclerViewMatcher.withRecyclerView;
@@ -22,6 +24,7 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import pg.autyzm.friendly_plans.matchers.ToastMatcher;
 
 @RunWith(AndroidJUnit4.class)
 public class StepListFragmentTest {
@@ -64,6 +67,17 @@ public class StepListFragmentTest {
         openStepsListFragment(taskId);
 
         onView(withId(R.id.rv_step_list)).check(matches(withSize(0)));
+    }
+
+    @Test
+    public void WhenSaveAndFinishClickedTaskSavedShouldBeDisplayed() {
+        long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
+        openStepsListFragment(taskId);
+        onView(withId(R.id.id_btn_next))
+            .perform(click());
+
+        onView(withText(R.string.task_with_steps_saved_message)).inRoot(new ToastMatcher())
+            .check(matches(isDisplayed()));
     }
 
     private void openStepsListFragment(long taskId) {

@@ -8,49 +8,90 @@
   android:scrollbarAlwaysDrawHorizontalTrack="false"
   tools:context=".TaskCreateFragment">
 
-  <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="5dp"
-    android:alignmentMode="alignBounds"
-    android:columnCount="5"
-    android:orientation="vertical"
-    android:stretchMode="columnWidth">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <TextView
-      android:id="@+id/id_task_create_description"
-      android:layout_columnSpan="5"
-      android:background="#cccccc"
-      android:text="@string/task_create_description"
-      android:textAppearance="?android:attr/textAppearanceLarge"/>
-
-    <TextView
-      android:id="@+id/id_tv_task_name_label"
-      android:layout_column="0"
-      android:layout_row="1"
-      android:text="@string/task_name"/>
-
-    <!--Task name -->
-    <EditText
-      android:id="@+id/id_et_task_name"
-      android:layout_column="1"
-      android:layout_row="1"
-      android:cursorVisible="true"
-      android:inputType="text"
-      android:minWidth="100dp"
-      tools:text="This is task name."/>
-
-    <TextView
-      android:layout_column="0"
-      android:layout_row="2"
-      android:text="@string/task_picture"/>
-
-    <!--Picture name-->
+    <!-- Page title -->
     <LinearLayout
-      android:layout_width="wrap_content"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <TextView
+        android:id="@+id/id_task_create_description"
+        android:background="#cccccc"
+        android:text="@string/task_create_description"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_column="1"
-      android:layout_row="2">
+      android:orientation="horizontal">
+
+      <LinearLayout
+        android:id="@+id/id_task_name_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/id_btn_task_next_layout">
+
+        <!--Task name -->
+        <TextView
+          android:id="@+id/id_tv_task_name_label"
+          android:text="@string/task_name"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
+        <EditText
+          android:id="@+id/id_et_task_name"
+          android:cursorVisible="true"
+          android:inputType="text"
+          android:minWidth="100dp"
+          tools:text="This is task name."
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="20dp"/>
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/id_btn_task_next_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true">
+
+        <Button
+          android:id="@+id/id_btn_task_next"
+          android:layout_width="wrap_content"
+          android:text="@string/add_steps"
+          android:layout_height="match_parent"
+          android:layout_marginStart="48dp"/>
+
+        <Button
+          android:id="@+id/id_btn_save_and_finish"
+          android:layout_width="wrap_content"
+          android:text="@string/save_and_finish"
+          android:layout_height="match_parent"
+          android:layout_marginStart="48dp"/>
+
+      </LinearLayout>
+
+    </RelativeLayout>
+
+    <!-- Task's picture -->
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <TextView
+        android:text="@string/task_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
       <EditText
         android:id="@+id/id_et_task_picture"
         android:layout_width="wrap_content"
@@ -59,98 +100,50 @@
         android:focusable="false"
         android:inputType="text|textNoSuggestions"
         android:minWidth="100dp"
-        tools:text="name of the picture is here"/>
+        tools:text="name of the picture is here"
+        android:layout_marginStart="45dp"/>
+
       <!--"x" clear picture btn -->
       <ImageButton
         android:id="@+id/id_ib_clear_img_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="2dp"
-        android:layout_gravity="right|center_vertical"
+        android:layout_marginStart="2dp"
+        android:layout_gravity="end|center_vertical"
         android:background="@android:drawable/ic_menu_close_clear_cancel"
-        android:visibility="invisible"/>
-    </LinearLayout>
+        android:visibility="invisible"
+        android:contentDescription="@string/clear_picture"/>
 
-    <!--Select picture btn-->
-    <Button
-      android:id="@+id/id_btn_select_task_picture"
-      android:layout_column="3"
-      android:layout_row="2"
-      android:text="@string/select_picture"/>
-
-    <!--Picture preview -->
-    <ImageView
-      android:id="@+id/iv_picture_preview"
-      android:layout_width="wrap_content"
-      android:layout_height="match_parent"
-      android:layout_column="4"
-      android:layout_row="2"
-      android:adjustViewBounds="true"
-      android:scaleType="centerInside"
-      />
-
-    <TextView
-      android:layout_column="0"
-      android:layout_row="3"
-      android:text="@string/task_sound"/>
-
-    <!--select sound btn-->
-    <Button
-      android:id="@+id/id_btn_select_task_sound"
-      android:layout_column="3"
-      android:layout_row="3"
-      android:text="@string/select_sound"/>
-
-    <!--Play/Stop sound button-->
-    <FrameLayout
-      android:id="@+id/frame"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_column="4"
-      android:layout_row="3">
+      <!--Select picture btn-->
       <Button
-        android:id="@+id/id_btn_play_sound"
+        android:id="@+id/id_btn_select_task_picture"
+        android:text="@string/select_picture"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginStart="27dp"/>
+
+      <!--Picture preview -->
       <ImageView
-        android:id="@+id/id_iv_play_sound_icon"
+        android:id="@+id/iv_picture_preview"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_play_sound_1"/>
-    </FrameLayout>
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:contentDescription="@string/tasks_picture"/>
 
-    <TextView
-      android:id="@+id/id_tv_task_duration_time"
-      android:layout_column="0"
-      android:layout_row="4"
-      android:text="@string/duration_time"/>
+    </LinearLayout>
 
-    <!--Duration time-->
-    <EditText
-      android:id="@+id/id_et_task_duration_time"
-      android:layout_column="1"
-      android:layout_row="4"
-      android:inputType="number"
-      android:minWidth="100dp"
-      tools:text="duration of smth is here"/>
-
-    <!--Next btn-->
-    <Button
-      android:id="@+id/id_btn_task_next"
-      android:layout_width="wrap_content"
-      android:layout_column="4"
-      android:layout_row="5"
-      android:text="@string/next"/>
-
-    <!--Sound name-->
+    <!-- Task's sound -->
     <LinearLayout
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_column="1"
-      android:layout_row="3">
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
 
+      <TextView
+        android:text="@string/task_sound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+      <!--Sound name-->
       <EditText
         android:id="@+id/id_et_task_sound"
         android:layout_width="wrap_content"
@@ -159,16 +152,70 @@
         android:focusable="false"
         android:inputType="text|textNoSuggestions"
         android:minWidth="100dp"
-        tools:text="name of the sound is here"/>
+        tools:text="name of the sound is here"
+        android:layout_marginStart="50dp"/>
+
       <!--"x" clear sound btn -->
       <ImageButton
         android:id="@+id/id_ib_clear_sound_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="2dp"
-        android:layout_gravity="right|center_vertical"
+        android:layout_marginStart="2dp"
+        android:layout_gravity="end|center_vertical"
         android:background="@android:drawable/ic_menu_close_clear_cancel"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:contentDescription="@string/clear_sound"/>
+
+      <!--select sound btn-->
+      <Button
+        android:id="@+id/id_btn_select_task_sound"
+        android:text="@string/select_sound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"/>
+
+      <!--Play/Stop sound button-->
+      <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+          android:id="@+id/id_btn_play_sound"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="40dp"/>
+        <ImageView
+          android:id="@+id/id_iv_play_sound_icon"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:layout_gravity="center"
+          android:scaleType="fitCenter"
+          android:src="@drawable/ic_play_sound_1"
+          android:contentDescription="@string/listen_sound"/>
+      </FrameLayout>
     </LinearLayout>
-  </GridLayout>
+
+    <!-- Task's duration -->
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <TextView
+        android:id="@+id/id_tv_task_duration_time"
+        android:text="@string/duration_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+      <EditText
+        android:id="@+id/id_et_task_duration_time"
+        android:inputType="number"
+        android:minWidth="100dp"
+        tools:text="duration of smth is here"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"/>
+
+      </LinearLayout>
+
+  </LinearLayout>
 </ScrollView>
