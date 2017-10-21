@@ -183,13 +183,15 @@
           android:id="@+id/id_btn_play_sound"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_marginStart="40dp"/>
+          android:layout_marginStart="40dp"
+          android:elevation="1dp"/>
         <ImageView
           android:id="@+id/id_iv_play_sound_icon"
           android:layout_width="wrap_content"
           android:layout_height="match_parent"
           android:layout_gravity="center"
           android:scaleType="fitCenter"
+          android:elevation="2dp"
           android:src="@drawable/ic_play_sound_1"
           android:contentDescription="@string/listen_sound"/>
       </FrameLayout>
