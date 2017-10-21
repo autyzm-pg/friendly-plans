@@ -1,6 +1,7 @@
 package pg.autyzm.friendly_plans;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -66,7 +67,17 @@ public class StepListFragment extends Fragment implements StepListEvents {
 
   @Override
   public void eventCreateStep(View view) {
-    Log.d("Event create step", "Event create step");
+    showStepCreate();
+  }
+
+  private void showStepCreate() {
+    StepCreateFragment fragment = new StepCreateFragment();
+
+    FragmentTransaction transaction = getFragmentManager()
+        .beginTransaction();
+    transaction.replace(R.id.task_container, fragment);
+    transaction.addToBackStack(null);
+    transaction.commit();
   }
 
   @Override
