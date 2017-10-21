@@ -11,64 +11,64 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StepListRecyclerViewAdapter extends
-    RecyclerView.Adapter<StepListRecyclerViewAdapter.StepListViewHolder> {
+        RecyclerView.Adapter<StepListRecyclerViewAdapter.StepListViewHolder> {
 
-  private static List<StepTemplate> stepItemList;
-  private StepItemClickListener stepItemClickListener;
+    private static List<StepTemplate> stepItemList;
+    private StepItemClickListener stepItemClickListener;
 
-  StepListRecyclerViewAdapter(StepItemClickListener stepItemClickListener) {
-    this.stepItemClickListener = stepItemClickListener;
-    this.stepItemList = new ArrayList<>();
-  }
-
-  interface StepItemClickListener {
-
-    void onRemoveStepClick(long itemId);
-  }
-
-  @Override
-  public StepListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    View view = LayoutInflater.from(parent.getContext())
-        .inflate(R.layout.item_step, parent, false);
-    return new StepListViewHolder(view, stepItemClickListener);
-  }
-
-  @Override
-  public void onBindViewHolder(StepListViewHolder parent, int position) {
-    if (stepItemList != null && stepItemList.size() != 0) {
-      StepTemplate stepTemplate = stepItemList.get(position);
-      parent.stepName.setText(stepTemplate.getName());
+    StepListRecyclerViewAdapter(StepItemClickListener stepItemClickListener) {
+        this.stepItemClickListener = stepItemClickListener;
+        this.stepItemList = new ArrayList<>();
     }
-  }
 
-  @Override
-  public int getItemCount() {
-    return stepItemList != null && stepItemList.size() != 0 ? stepItemList.size() : 0;
-  }
+    interface StepItemClickListener {
 
-  void setStepItemListItems(List<StepTemplate> stepItemList) {
-    this.stepItemList = stepItemList;
-    notifyDataSetChanged();
-  }
+        void onRemoveStepClick(long itemId);
+    }
 
-  static class StepListViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public StepListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_step, parent, false);
+        return new StepListViewHolder(view, stepItemClickListener);
+    }
 
-    TextView stepName;
-    ImageButton removeButton;
-
-    StepListViewHolder(View itemView, final StepItemClickListener stepItemClickListener) {
-      super(itemView);
-      this.stepName = (TextView) itemView
-          .findViewById(R.id.id_tv_step_name);
-      this.removeButton = (ImageButton) itemView
-          .findViewById(R.id.id_remove_step);
-      this.removeButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          long id = stepItemList.get(getAdapterPosition()).getId();
-          stepItemClickListener.onRemoveStepClick(id);
+    @Override
+    public void onBindViewHolder(StepListViewHolder parent, int position) {
+        if (stepItemList != null && stepItemList.size() != 0) {
+            StepTemplate stepTemplate = stepItemList.get(position);
+            parent.stepName.setText(stepTemplate.getName());
         }
-      });
     }
-  }
+
+    @Override
+    public int getItemCount() {
+        return stepItemList != null && stepItemList.size() != 0 ? stepItemList.size() : 0;
+    }
+
+    void setStepItemListItems(List<StepTemplate> stepItemList) {
+        this.stepItemList = stepItemList;
+        notifyDataSetChanged();
+    }
+
+    static class StepListViewHolder extends RecyclerView.ViewHolder {
+
+        TextView stepName;
+        ImageButton removeButton;
+
+        StepListViewHolder(View itemView, final StepItemClickListener stepItemClickListener) {
+            super(itemView);
+            this.stepName = (TextView) itemView
+                    .findViewById(R.id.id_tv_step_name);
+            this.removeButton = (ImageButton) itemView
+                    .findViewById(R.id.id_remove_step);
+            this.removeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    long id = stepItemList.get(getAdapterPosition()).getId();
+                    stepItemClickListener.onRemoveStepClick(id);
+                }
+            });
+        }
+    }
 }
