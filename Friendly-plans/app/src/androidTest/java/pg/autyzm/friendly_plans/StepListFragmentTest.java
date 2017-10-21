@@ -10,6 +10,9 @@ import static matcher.RecyclerViewMatcher.withRecyclerView;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.test.espresso.UiController;
+import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
@@ -26,78 +29,109 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class StepListFragmentTest {
 
-    public static final String STEP_NAME_1 = "STEP_NAME_1";
-    public static final String STEP_NAME_2 = "STEP_NAME_2";
-    public static final String TASK_NAME_1 = "TASK_NAME_1";
-    public static final String TASK_ID = "task_id";
+  public static final String STEP_NAME_1 = "STEP_NAME_1";
+  public static final String STEP_NAME_2 = "STEP_NAME_2";
+  public static final String TASK_NAME_1 = "TASK_NAME_1";
+  public static final String TASK_ID = "task_id";
 
-    @ClassRule
-    public static DaoSessionResource daoSessionResource = new DaoSessionResource();
+  @ClassRule
+  public static DaoSessionResource daoSessionResource = new DaoSessionResource();
 
-    @Rule
-    public ActivityTestRule<TaskCreateActivity> activityRule = new ActivityTestRule<>(
-            TaskCreateActivity.class, true, true);
+  @Rule
+  public ActivityTestRule<TaskCreateActivity> activityRule = new ActivityTestRule<>(
+      TaskCreateActivity.class, true, true);
 
-    @Rule
-    public TaskTemplateRule taskTemplateRule = new TaskTemplateRule(daoSessionResource,
-            activityRule);
+  @Rule
+  public TaskTemplateRule taskTemplateRule = new TaskTemplateRule(daoSessionResource,
+      activityRule);
 
-    @Before
-    public void setUp() {
-        long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
+  @Before
+  public void setUp() {
+    long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
 
-        openStepsListFragment(taskId);
-    }
+    openStepsListFragment(taskId);
+  }
 
-    @Test
-    public void WhenTaskHasStepsExpectStepsToBeDisplayed() {
-        long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
-        openStepsListFragment(taskId);
+  @Test
+  public void WhenTaskHasStepsExpectStepsToBeDisplayed() {
+    long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
+    openStepsListFragment(taskId);
 
-        assertStepDisplayed(0, STEP_NAME_1);
-        assertStepDisplayed(1, STEP_NAME_2);
-    }
+    assertStepDisplayed(0, STEP_NAME_1);
+    assertStepDisplayed(1, STEP_NAME_2);
+  }
 
-    @Test
-    public void WhenTaskHasNoStepsExpectNoStepsToBeDisplayed() {
-        long taskId = taskTemplateRule.createTask(TASK_NAME_1);
-        openStepsListFragment(taskId);
+  @Test
+  public void WhenTaskHasNoStepsExpectNoStepsToBeDisplayed() {
+    long taskId = taskTemplateRule.createTask(TASK_NAME_1);
+    openStepsListFragment(taskId);
 
-        onView(withId(R.id.rv_step_list)).check(matches(withSize(0)));
-    }
+    onView(withId(R.id.rv_step_list)).check(matches(withSize(0)));
+  }
 
-    private void openStepsListFragment(long taskId) {
-        StepListFragment fragment = new StepListFragment();
-        Bundle args = new Bundle();
-        args.putLong(TASK_ID, taskId);
-        fragment.setArguments(args);
+  @Test
+  public void WhenStepIsRemovedExpectStepIsNotOnTheList() {
+    long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
+    openStepsListFragment(taskId);
 
-        FragmentManager manager = activityRule.getActivity().getFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.task_container, fragment);
-        transaction.commit();
-    }
+    onView(withId(R.id.rv_step_list)).perform(
+        RecyclerViewActions.actionOnItemAtPosition(0, clickChildViewWithId(R.id.id_remove_step)));
 
-    private void assertStepDisplayed(int position, String stepName) {
-        onView(withRecyclerView(R.id.rv_step_list)
-                .atPosition(position))
-                .check(selectedDescendantsMatch(withId(R.id.id_tv_step_name),
-                        withText(stepName)));
-    }
+    assertStepDisplayed(0, STEP_NAME_2);
+  }
 
-    static Matcher<View> withSize(final int expectedSize) {
-        return new TypeSafeMatcher<View>() {
+  private void openStepsListFragment(long taskId) {
+    StepListFragment fragment = new StepListFragment();
+    Bundle args = new Bundle();
+    args.putLong(TASK_ID, taskId);
+    fragment.setArguments(args);
 
-            @Override
-            public boolean matchesSafely(final View view) {
-                final int listSize = ((RecyclerView) view).getAdapter().getItemCount();
-                return listSize == expectedSize;
-            }
+    FragmentManager manager = activityRule.getActivity().getFragmentManager();
+    FragmentTransaction transaction = manager.beginTransaction();
+    transaction.replace(R.id.task_container, fragment);
+    transaction.commit();
+  }
 
-            @Override
-            public void describeTo(final Description description) {
-                description.appendText("RecyclerView should have " + expectedSize + " items");
-            }
-        };
-    }
+  private void assertStepDisplayed(int position, String stepName) {
+    onView(withRecyclerView(R.id.rv_step_list)
+        .atPosition(position))
+        .check(selectedDescendantsMatch(withId(R.id.id_tv_step_name),
+            withText(stepName)));
+  }
+
+  public static ViewAction clickChildViewWithId(final int id) {
+    return new ViewAction() {
+      @Override
+      public Matcher<View> getConstraints() {
+        return null;
+      }
+
+      @Override
+      public String getDescription() {
+        return null;
+      }
+
+      @Override
+      public void perform(UiController uiController, View view) {
+        View v = view.findViewById(id);
+        v.performClick();
+      }
+    };
+  }
+
+  static Matcher<View> withSize(final int expectedSize) {
+    return new TypeSafeMatcher<View>() {
+
+      @Override
+      public boolean matchesSafely(final View view) {
+        final int listSize = ((RecyclerView) view).getAdapter().getItemCount();
+        return listSize == expectedSize;
+      }
+
+      @Override
+      public void describeTo(final Description description) {
+        description.appendText("RecyclerView should have " + expectedSize + " items");
+      }
+    };
+  }
 }

@@ -15,53 +15,62 @@ import pg.autyzm.friendly_plans.databinding.FragmentStepListBinding;
 
 public class StepListFragment extends Fragment implements StepListEvents {
 
-    public static final String TASK_ID = "task_id";
+  public static final String TASK_ID = "task_id";
 
-    @Inject
-    StepTemplateRepository stepTemplateRepository;
+  @Inject
+  StepTemplateRepository stepTemplateRepository;
 
-    private StepListRecyclerViewAdapter stepListRecyclerViewAdapter;
-    private long task_id;
+  StepListRecyclerViewAdapter.StepItemClickListener stepItemClickListener =
+      new StepListRecyclerViewAdapter.StepItemClickListener() {
+        @Override
+        public void onRemoveStepClick(long itemId) {
+          stepTemplateRepository.delete(itemId);
+          stepListRecyclerViewAdapter.setStepItemListItems(stepTemplateRepository.getAll(task_id));
+        }
+      };
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        ((App) getActivity().getApplication()).getAppComponent().inject(this);
+  private StepListRecyclerViewAdapter stepListRecyclerViewAdapter;
+  private long task_id;
 
-        Bundle args = getArguments();
-        task_id = args.getLong(TASK_ID, 0);
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    ((App) getActivity().getApplication()).getAppComponent().inject(this);
 
-        FragmentStepListBinding binding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_step_list, container, false);
+    Bundle args = getArguments();
+    task_id = args.getLong(TASK_ID, 0);
 
-        View view = binding.getRoot();
-        binding.setStepListEvents(this);
-        return view;
-    }
+    FragmentStepListBinding binding = DataBindingUtil.inflate(
+        inflater, R.layout.fragment_step_list, container, false);
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        setUpListContent(task_id);
-    }
+    View view = binding.getRoot();
+    binding.setStepListEvents(this);
+    return view;
+  }
 
-    private void setUpListContent(long taskId) {
-        RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.rv_step_list);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+  @Override
+  public void onViewCreated(View view, Bundle savedInstanceState) {
+    setUpListContent(task_id);
+  }
 
-        stepListRecyclerViewAdapter = new StepListRecyclerViewAdapter();
-        recyclerView.setAdapter(stepListRecyclerViewAdapter);
+  private void setUpListContent(long taskId) {
+    RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.rv_step_list);
+    recyclerView.setHasFixedSize(true);
+    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        stepListRecyclerViewAdapter.setStepItemListItems(stepTemplateRepository.getAll(taskId));
-    }
+    stepListRecyclerViewAdapter = new StepListRecyclerViewAdapter(stepItemClickListener);
+    recyclerView.setAdapter(stepListRecyclerViewAdapter);
 
-    @Override
-    public void eventCreateStep(View view) {
-        Log.d("Event create step", "Event create step");
-    }
+    stepListRecyclerViewAdapter.setStepItemListItems(stepTemplateRepository.getAll(taskId));
+  }
 
-    @Override
-    public void eventNext(View view) {
-        Log.d("Event next", "Event next");
-    }
+  @Override
+  public void eventCreateStep(View view) {
+    Log.d("Event create step", "Event create step");
+  }
+
+  @Override
+  public void eventNext(View view) {
+    Log.d("Event next", "Event next");
+  }
 }
