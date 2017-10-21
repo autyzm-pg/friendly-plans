@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:alignmentMode="alignBounds"
+    android:columnCount="5"
+    android:orientation="vertical"
+    android:stretchMode="columnWidth">
+    <TextView
+      android:id="@+id/id_create_step_description"
+      android:background="#cccccc"
+      android:text="@string/create_step_description"
+      android:textAppearance="?android:attr/textAppearanceLarge" />
+  </GridLayout>
+</LinearLayout>
