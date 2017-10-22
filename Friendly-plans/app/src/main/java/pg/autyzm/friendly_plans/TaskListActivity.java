@@ -25,6 +25,7 @@ public class TaskListActivity extends AppCompatActivity {
                     bundle.putLong("taskId", taskListAdapter.getTaskItem(position).getId());
 
                     Intent intent = new Intent(TaskListActivity.this, TaskCreateActivity.class);
+                    intent.putExtras(bundle);
                     startActivity(intent);
                 }
             };
