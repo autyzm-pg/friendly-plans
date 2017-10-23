@@ -1,5 +1,6 @@
 package pg.autyzm.friendly_plans;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,13 @@ public class TaskListActivity extends AppCompatActivity {
                 @Override
                 public void onTaskItemClick(int position) {
                     Log.d(TAG, "onTaskItemClick: " + position);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("taskId", taskListAdapter.getTaskItem(position).getId());
+
+                    Intent intent = new Intent(TaskListActivity.this, TaskCreateActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
             };
     private TaskRecyclerViewAdapter taskListAdapter;
