@@ -1,8 +1,10 @@
 package pg.autyzm.friendly_plans;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.assertion.ViewAssertions.selectedDescendantsMatch;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static matcher.RecyclerViewMatcher.withRecyclerView;
@@ -67,6 +69,16 @@ public class StepListFragmentTest {
         openStepsListFragment(taskId);
 
         onView(withId(R.id.rv_step_list)).check(matches(withSize(0)));
+    }
+
+    @Test
+    public void WhenSaveAndFinishClickedMainMenuShouldBeDisplayed() {
+        long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
+        openStepsListFragment(taskId);
+        onView(withId(R.id.id_btn_next))
+            .perform(click());
+
+        onView(withId(R.id.button_createPlan)).check(matches(isDisplayed()));
     }
 
     @Test

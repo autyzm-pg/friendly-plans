@@ -6,5 +6,5 @@ public interface StepListEvents {
 
     void eventCreateStep(View view);
 
-    void eventNext(View view);
+    void eventSaveAndFinish(View view);
 }
