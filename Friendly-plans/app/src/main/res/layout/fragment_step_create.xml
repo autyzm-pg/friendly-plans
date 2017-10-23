@@ -1,20 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
+<ScrollView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/id_layout_task_activity"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:scrollbarAlwaysDrawHorizontalTrack="false"
+tools:context=".StepCreateFragment">
 
-  <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
+
+  <!-- Page title -->
+  <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="5dp"
-    android:alignmentMode="alignBounds"
-    android:columnCount="5"
-    android:orientation="vertical"
-    android:stretchMode="columnWidth">
+    android:layout_height="wrap_content">
+
     <TextView
-      android:id="@+id/id_create_step_description"
+      android:id="@+id/id_step_create_description"
       android:background="#cccccc"
       android:text="@string/create_step_description"
-      android:textAppearance="?android:attr/textAppearanceLarge" />
-  </GridLayout>
+      android:textAppearance="?android:attr/textAppearanceLarge"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
+
+  </LinearLayout>
+
+  <LinearLayout
+    android:id="@+id/id_step_name_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentStart="true">
+
+    <!--Step name -->
+    <TextView
+      android:id="@+id/id_tv_task_name_label"
+      android:text="@string/step_name"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
+    <EditText
+      android:id="@+id/id_et_step_name"
+      android:cursorVisible="true"
+      android:inputType="text"
+      android:minWidth="100dp"
+      tools:text="This is step name"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="20dp"/>
+
+  </LinearLayout>
+
+  <!-- Step's picture -->
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+      android:text="@string/picture"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
+
+    <EditText
+      android:id="@+id/id_et_step_picture"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:cursorVisible="false"
+      android:focusable="false"
+      android:inputType="text|textNoSuggestions"
+      android:minWidth="100dp"
+      tools:text="Picture name"
+      android:layout_marginStart="45dp"/>
+
+    <!--"x" clear picture btn -->
+    <ImageButton
+      android:id="@+id/id_ib_step_clear_img_btn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="2dp"
+      android:layout_gravity="end|center_vertical"
+      android:background="@android:drawable/ic_menu_close_clear_cancel"
+      android:visibility="invisible"
+      android:contentDescription="@string/clear_picture"/>
+
+    <!--Select picture btn-->
+    <Button
+      android:id="@+id/id_btn_select_step_picture"
+      android:text="@string/select_picture"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="27dp"/>
+
+    <!--Picture preview -->
+    <ImageView
+      android:id="@+id/iv_step_picture_preview"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:adjustViewBounds="true"
+      android:scaleType="centerInside"
+      android:contentDescription="@string/steps_picture"/>
+
+  </LinearLayout>
+
+  <!-- Step's sound -->
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+      android:text="@string/sound"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
+
+    <!--Sound name-->
+    <EditText
+      android:id="@+id/id_et_step_sound"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:cursorVisible="false"
+      android:focusable="false"
+      android:inputType="text|textNoSuggestions"
+      android:minWidth="100dp"
+      tools:text="Sound name"
+      android:layout_marginStart="50dp"/>
+
+    <!--"x" clear sound btn -->
+    <ImageButton
+      android:id="@+id/id_ib_clear_step_sound_btn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="2dp"
+      android:layout_gravity="end|center_vertical"
+      android:background="@android:drawable/ic_menu_close_clear_cancel"
+      android:visibility="invisible"
+      android:contentDescription="@string/clear_sound"/>
+
+    <!--select sound btn-->
+    <Button
+      android:id="@+id/id_btn_select_step_sound"
+      android:text="@string/select_sound"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="35dp"/>
+
+    <!--Play/Stop sound button-->
+    <FrameLayout
+      android:id="@+id/frame"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content">
+      <Button
+        android:id="@+id/id_btn_play_step_sound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:elevation="1dp"/>
+      <ImageView
+        android:id="@+id/id_iv_play_step_sound_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:scaleType="fitCenter"
+        android:elevation="2dp"
+        android:src="@drawable/ic_play_sound_1"
+        android:contentDescription="@string/listen_sound"/>
+    </FrameLayout>
+  </LinearLayout>
+
+  <!-- Save/Cancel -->
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <Button
+      android:id="@+id/id_btn_cancel_step"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/cancel"/>
+
+    <Button
+      android:id="@+id/id_btn_save_step"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/save"/>
+
+  </LinearLayout>
+
 </LinearLayout>
+</ScrollView>
