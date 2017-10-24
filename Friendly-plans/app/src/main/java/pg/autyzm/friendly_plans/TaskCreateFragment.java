@@ -69,6 +69,7 @@ public class TaskCreateFragment extends Fragment {
     private EditText taskSound;
     private EditText taskDurTime;
     private Button taskNext;
+    private Button saveAndFinish;
     private Button selectPicture;
     private Button selectSound;
     private ImageButton clearSound;
@@ -110,6 +111,7 @@ public class TaskCreateFragment extends Fragment {
         taskSound = (EditText) view.findViewById(R.id.id_et_task_sound);
         taskDurTime = (EditText) view.findViewById(R.id.id_et_task_duration_time);
         taskNext = (Button) view.findViewById(R.id.id_btn_task_next);
+        saveAndFinish = (Button) view.findViewById(R.id.id_btn_save_and_finish);
         selectPicture = (Button) view.findViewById(R.id.id_btn_select_task_picture);
         picturePreview = (ImageView) view.findViewById(R.id.iv_picture_preview);
         selectSound = (Button) view.findViewById(R.id.id_btn_select_task_sound);
@@ -201,6 +203,15 @@ public class TaskCreateFragment extends Fragment {
                 }
             }
         });
+        saveAndFinish.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (taskValidation.isValid(taskName, taskDurTime)) {
+                    addTaskOnDb();
+                    showToastMessage(R.string.task_saved_message);
+                    showMainMenu();
+                }
+            }
+        });
         mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer player) {
                 mp.reset();
@@ -222,18 +233,12 @@ public class TaskCreateFragment extends Fragment {
         transaction.commit();
     }
 
-/*    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        if (filePickerProxy.isFilePicked(resultCode)) {
-            if (filePickerProxy.isPickFileRequested(requestCode, AssetType.PICTURE)) {
-                handleAssetSelecting(data, AssetType.PICTURE);
-            } else if (filePickerProxy.isPickFileRequested(requestCode, AssetType.SOUND)) {
-                handleAssetSelecting(data, AssetType.SOUND);
-            }
-        }
-    }*/
+   @Override
+    private void showMainMenu() {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+    }
 
     private void handleAssetSelecting(Intent data, AssetType assetType) {
         Context context = getActivity().getApplicationContext();

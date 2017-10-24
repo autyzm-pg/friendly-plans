@@ -2,17 +2,27 @@
   <string name="app_name">Friendly-plans</string>
   <string name="basic_info">Basic information</string>
   <string name="steps">Steps</string>
+  <string name="add_steps">Add steps</string>
   <string name="save">Save</string>
+  <string name="cancel">Cancel</string>
+  <string name="save_and_finish">Save and finish</string>
   <string name="task_create_description">Step 1: Enter task\'s name, duration time, select picture and sound</string>
   <string name="task_name">Task name:</string>
+  <string name="tasks_picture">Task\'s picture</string>
+  <string name="steps_picture">Step\'s picture</string>
+  <string name="clear_picture">Clear picture</string>
   <string name="task_picture">Picture:</string>
+  <string name="picture">Picture:</string>
   <string name="task_sound">Sound:</string>
+  <string name="sound">Sound:</string>
+  <string name="clear_sound">Clear sound</string>
   <string name="select_picture">Select picture</string>
   <string name="select_sound">Select sound</string>
   <string name="listen_sound">Listen</string>
   <string name="duration_time">Duration time:</string>
   <string name="next">Next</string>
   <string name="main_create_task">Create Task</string>
+  <string name="step_name">Step name:</string>
   <string name="main_list_of_plans_edit_plan">List of Plans / Edit Plan</string>
   <string name="main_list_of_tasks_edit_task">List of Tasks / Edit Task</string>
   <string name="main_active_child_settings">Active Child Settings</string>
@@ -20,6 +30,7 @@
   <string name="main_change_active_child">Change Active Child</string>
   <string name="main_create_plan">Create Plan</string>
   <string name="task_saved_message">Task saved</string>
+  <string name="task_with_steps_saved_message">Task with steps saved</string>
   <!--Validation messages-->
   <string name="only_letters_msg">Only letters and numbers are allowed</string>
   <string name="name_exist_msg">Name already exists</string>

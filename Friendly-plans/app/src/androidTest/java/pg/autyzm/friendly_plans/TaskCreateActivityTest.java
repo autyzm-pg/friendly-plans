@@ -123,6 +123,28 @@ public class TaskCreateActivityTest {
     }
 
     @Test
+    public void When_AddingNewTaskAndFinish_Expect_NewTaskAddedToDB() {
+        onView(withId(R.id.id_et_task_name))
+            .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_et_task_duration_time))
+            .perform(replaceText(EXPECTED_DURATION_TXT));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_btn_save_and_finish))
+            .perform(click());
+
+        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
+        idsToDelete.add(taskTemplates.get(0).getId());
+
+        assertThat(taskTemplates.size(), is(1));
+        assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
+        assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
+        onView(withId(R.id.button_createPlan)).check(matches(isDisplayed()));
+    }
+
+    @Test
     public void When_SettingPicture_Expect_PictureNameIsDisplayed()
             throws InterruptedException, IOException {
         assetTestRule.setTestPicture();
