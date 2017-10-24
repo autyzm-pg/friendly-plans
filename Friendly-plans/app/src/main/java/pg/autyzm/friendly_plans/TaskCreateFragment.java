@@ -1,12 +1,19 @@
 package pg.autyzm.friendly_plans;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,7 +28,11 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import database.repository.AssetRepository;
 import database.repository.TaskTemplateRepository;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import javax.inject.Inject;
 import pg.autyzm.friendly_plans.asset.AssetType;
@@ -31,10 +42,13 @@ import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.validation.TaskValidation;
 import pg.autyzm.friendly_plans.validation.Utils;
 
+
 public class TaskCreateFragment extends Fragment {
 
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
     private static final String TASK_ID = "task_id";
+    private static final int REQUEST_CAMERA =0 ;
+    private static final int SELECT_FILE = 1;
 
     @Inject
     public FilePickerProxy filePickerProxy;
@@ -65,6 +79,7 @@ public class TaskCreateFragment extends Fragment {
     private ImageView playSoundIcon;
     private Long pictureId;
     private Long soundId;
+    String userChoosenTask;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,7 +123,29 @@ public class TaskCreateFragment extends Fragment {
 
         selectPicture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                filePickerProxy.openFilePicker(TaskCreateFragment.this, AssetType.PICTURE);
+                final CharSequence[] items = {"Take Photo", "Choose from Library",
+                        "Cancel"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Add Photo!");
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        boolean result = pg.autyzm.friendly_plans.Utils.checkPermission(getActivity());
+                        if (items[item].equals("Take Photo")) {
+                            userChoosenTask="Take Photo";
+                            if (result)
+                                cameraIntent();
+                        } else if (items[item].equals("Choose from Library")) {
+                            userChoosenTask="Choose from Library";
+                            if (result)
+                                galleryIntent();
+                        } else if (items[item].equals("Cancel")) {
+                            dialog.dismiss();
+                        }
+                    }
+                });
+                builder.show();
+
             }
         });
 
@@ -196,22 +233,11 @@ public class TaskCreateFragment extends Fragment {
         transaction.commit();
     }
 
+
+   @Override
     private void showMainMenu() {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (filePickerProxy.isFilePicked(resultCode)) {
-            if (filePickerProxy.isPickFileRequested(requestCode, AssetType.PICTURE)) {
-                handleAssetSelecting(data, AssetType.PICTURE);
-            } else if (filePickerProxy.isPickFileRequested(requestCode, AssetType.SOUND)) {
-                handleAssetSelecting(data, AssetType.SOUND);
-            }
-        }
     }
 
     private void handleAssetSelecting(Intent data, AssetType assetType) {
@@ -311,6 +337,89 @@ public class TaskCreateFragment extends Fragment {
         ToastUserNotifier.displayNotifications(
             resourceStringId,
             getActivity().getApplicationContext());
+    }
+
+    private void cameraIntent()
+    {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA);
+    }
+
+    private void galleryIntent()
+    {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == SELECT_FILE)
+                onSelectFromGalleryResult(data);
+            else if (requestCode == REQUEST_CAMERA)
+                onCaptureImageResult(data);
+        }
+
+        
+    }
+
+    private void onCaptureImageResult(Intent data) {
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        picturePreview.setImageBitmap(thumbnail);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void onSelectFromGalleryResult(Intent data) {
+
+        Bitmap bm=null;
+        if (data != null) {
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        picturePreview.setImageBitmap(bm);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case pg.autyzm.friendly_plans.Utils.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if(userChoosenTask.equals("Take Photo"))
+                        cameraIntent();
+                    else if(userChoosenTask.equals("Choose from Library"))
+                        galleryIntent();
+                } else {
+                    //code for deny
+                }
+                break;
+        }
     }
 }
 
