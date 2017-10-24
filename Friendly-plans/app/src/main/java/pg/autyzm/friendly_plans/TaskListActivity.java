@@ -11,25 +11,24 @@ import javax.inject.Inject;
 
 public class TaskListActivity extends AppCompatActivity {
 
-    private static final String TAG = "TaskListActivity";
     @Inject
     TaskTemplateRepository taskTemplateRepository;
+
+    private TaskRecyclerViewAdapter taskListAdapter;
 
     TaskRecyclerViewAdapter.TaskItemClickListener taskItemClickListener =
             new TaskRecyclerViewAdapter.TaskItemClickListener() {
                 @Override
                 public void onTaskItemClick(int position) {
-                    Log.d(TAG, "onTaskItemClick: " + position);
-
                     Bundle bundle = new Bundle();
-                    bundle.putLong("taskId", taskListAdapter.getTaskItem(position).getId());
+                    bundle.putLong(ActivityProperties.TASK_ID,
+                            taskListAdapter.getTaskItem(position).getId());
 
                     Intent intent = new Intent(TaskListActivity.this, TaskCreateActivity.class);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
             };
-    private TaskRecyclerViewAdapter taskListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

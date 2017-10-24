@@ -17,8 +17,6 @@ import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 
 public class StepListFragment extends Fragment implements StepListEvents {
 
-    public static final String TASK_ID = "task_id";
-
     @Inject
     StepTemplateRepository stepTemplateRepository;
 
@@ -41,7 +39,7 @@ public class StepListFragment extends Fragment implements StepListEvents {
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
 
         Bundle args = getArguments();
-        task_id = args.getLong(TASK_ID, 0);
+        task_id = args.getLong(ActivityProperties.TASK_ID, 0);
 
         FragmentStepListBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_step_list, container, false);
