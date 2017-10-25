@@ -22,41 +22,41 @@ public class AssetTypeTest {
     private static final String WRONG_TYPE_NAME = "WRONG";
 
     @Test
-    public void When_GettingTypeByPictureExtension_Expect_PictureTypeBeReturned() {
+    public void whenGettingTypeByPictureExtensionExpectPictureTypeBeReturned() {
         AssetType assetType = AssetType.getTypeByExtension(PICTURE_NAME);
         assertThat(assetType, is(equalTo(AssetType.PICTURE)));
     }
 
     @Test
-    public void When_GettingTypeBySoundExtension_Expect_SoundTypeBeReturned() {
+    public void whenGettingTypeBySoundExtensionExpectSoundTypeBeReturned() {
         AssetType assetType = AssetType.getTypeByExtension(SOUND_NAME);
         assertThat(assetType, is(equalTo(AssetType.SOUND)));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void When_GettingTypeByWrongExtension_Expect_IllegalArgumentExceptionBeThrown() {
+    public void whenGettingTypeByWrongExtensionExpectIllegalArgumentExceptionBeThrown() {
         AssetType.getTypeByExtension(TEXT_FILE_NAME);
     }
 
     @Test
-    public void When_GettingTypeByPictureTypeName_Expect_PictureTypeBeReturned() {
+    public void whenGettingTypeByPictureTypeNameExpectPictureTypeBeReturned() {
         AssetType assetType = AssetType.getTypeByTypeName(PICTURE_TYPE_NAME);
         assertThat(assetType, is(equalTo(AssetType.PICTURE)));
     }
 
     @Test
-    public void When_GettingTypeBySoundTypeName_Expect_SoundTypeBeReturned() {
+    public void whenGettingTypeBySoundTypeNameExpectSoundTypeBeReturned() {
         AssetType assetType = AssetType.getTypeByTypeName(SOUND_TYPE_NAME);
         assertThat(assetType, is(equalTo(AssetType.SOUND)));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void When_GettingTypeByWrongTypeName_Expect_IllegalArgumentExceptionBeThrown() {
+    public void whenGettingTypeByWrongTypeNameExpectIllegalArgumentExceptionBeThrown() {
         AssetType.getTypeByTypeName(WRONG_TYPE_NAME);
     }
 
     @Test
-    public void When_GettingPicturePattern_Expect_CorrectPatternToBeReturned() {
+    public void whenGettingPicturePatternExpectCorrectPatternToBeReturned() {
         String pattern = AssetType.PICTURE.getPattern();
         assertThat(pattern, containsString("jpg"));
         assertThat(pattern, containsString("png"));
@@ -65,7 +65,7 @@ public class AssetTypeTest {
     }
 
     @Test
-    public void When_GettingSoundPattern_Expect_CorrectPatternToBeReturned() {
+    public void whenGettingSoundPatternExpectCorrectPatternToBeReturned() {
         String pattern = AssetType.SOUND.getPattern();
         assertThat(pattern, containsString("mp3"));
         assertThat(pattern, containsString("wav"));

@@ -57,44 +57,44 @@ public class AssetRepositoryTest {
     }
 
     @Test
-    public void When_CreatingAsset_Expect_InsertMethodBeCalled() {
+    public void whenCreatingAssetExpectInsertMethodBeCalled() {
         assetRepository.create(ASSET_TYPE, ASSET_FILENAME);
         verify(assetDao).insert(any(Asset.class));
     }
 
     @Test
-    public void When_CreatingAsset_Expect_NewIdBeReturned() {
+    public void whenCreatingAssetExpectNewIdBeReturned() {
         Long id = assetRepository.create(ASSET_TYPE, ASSET_FILENAME);
         assertThat(id, is(equalTo(randomId)));
     }
 
     @Test
-    public void When_GettingAsset_Expect_LoadMethodBeCalled() {
+    public void whenGettingAssetExpectLoadMethodBeCalled() {
         assetRepository.get(randomId);
         verify(assetDao).load(randomId);
     }
 
     @Test
-    public void When_GettingAsset_Expect_AssetToBeReturned() {
+    public void whenGettingAssetExpectAssetToBeReturned() {
         Asset asset = assetRepository.get(randomId);
         assertThat(AssetType.getTypeByTypeName(asset.getType()), is(equalTo(ASSET_TYPE)));
         assertThat(asset.getFilename(), is(equalTo(ASSET_FILENAME)));
     }
 
     @Test
-    public void When_DeletingAsset_Expect_DeleteByKeyMethodBeCalled() {
+    public void whenDeletingAssetExpectDeleteByKeyMethodBeCalled() {
         assetRepository.delete(randomId);
         verify(assetDao).deleteByKey(randomId);
     }
 
     @Test
-    public void When_GettingAllAssets_Expect_LoadAllMethodBeCalled() {
+    public void whenGettingAllAssetsExpectLoadAllMethodBeCalled() {
         assetRepository.getAll();
         verify(assetDao).loadAll();
     }
 
     @Test
-    public void When_GettingAllAssets_Expect_AssetsListBeReturned() {
+    public void whenGettingAllAssetsExpectAssetsListBeReturned() {
         List<Asset> assets = assetRepository.getAll();
         assertThat(assets.size(), is(equalTo(1)));
     }

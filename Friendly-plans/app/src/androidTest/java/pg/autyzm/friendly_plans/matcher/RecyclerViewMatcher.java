@@ -1,4 +1,4 @@
-package matcher;
+package pg.autyzm.friendly_plans.matcher;
 
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;

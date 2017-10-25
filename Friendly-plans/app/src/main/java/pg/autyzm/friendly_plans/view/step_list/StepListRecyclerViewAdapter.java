@@ -1,4 +1,4 @@
-package pg.autyzm.friendly_plans;
+package pg.autyzm.friendly_plans.view.step_list;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 import database.entities.StepTemplate;
 import java.util.ArrayList;
 import java.util.List;
+import pg.autyzm.friendly_plans.R;
 
 public class StepListRecyclerViewAdapter extends
         RecyclerView.Adapter<StepListRecyclerViewAdapter.StepListViewHolder> {

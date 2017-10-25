@@ -1,4 +1,4 @@
-package pg.autyzm.friendly_plans.matchers;
+package pg.autyzm.friendly_plans.matcher;
 
 import android.os.IBinder;
 import android.support.test.espresso.Root;

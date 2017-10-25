@@ -1,13 +1,16 @@
-package pg.autyzm.friendly_plans;
+package pg.autyzm.friendly_plans.view.task_list;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import database.repository.TaskTemplateRepository;
 import javax.inject.Inject;
+import pg.autyzm.friendly_plans.ActivityProperties;
+import pg.autyzm.friendly_plans.App;
+import pg.autyzm.friendly_plans.R;
+import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 
 public class TaskListActivity extends AppCompatActivity {
 

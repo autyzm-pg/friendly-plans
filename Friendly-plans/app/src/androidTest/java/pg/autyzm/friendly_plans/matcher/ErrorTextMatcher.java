@@ -1,4 +1,4 @@
-package pg.autyzm.friendly_plans.matchers;
+package pg.autyzm.friendly_plans.matcher;
 
 import android.view.View;
 import android.widget.EditText;
@@ -7,7 +7,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 /**
- * Use this custom matcher when you need match/assert <b>error text</b> on mandatory(*) EditText
+ * Use this custom pg.autyzm.friendly_plans.matcher when you need match/assert <b>error text</b> on mandatory(*) EditText
  * fields in xml layout.
  */
 

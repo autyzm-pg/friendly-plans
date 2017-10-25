@@ -1,4 +1,4 @@
-package pg.autyzm.friendly_plans;
+package pg.autyzm.friendly_plans.view.task_create;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,8 +10,11 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 import java.io.File;
+import pg.autyzm.friendly_plans.R;
 
 public class ImagePreviewDialog extends DialogFragment {
+
+    private static final String IMG_PATH = "imgPath";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -29,7 +32,7 @@ public class ImagePreviewDialog extends DialogFragment {
         });
         builder.setView(v);
 
-        String pathToImage = getArguments().getString("imgPath");
+        String pathToImage = getArguments().getString(IMG_PATH);
         Picasso.with(getActivity().getApplicationContext())
                 .load(new File(pathToImage))
                 .into(imagePreview);

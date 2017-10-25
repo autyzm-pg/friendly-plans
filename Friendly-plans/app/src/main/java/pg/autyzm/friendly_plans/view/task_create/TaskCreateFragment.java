@@ -1,4 +1,4 @@
-package pg.autyzm.friendly_plans;
+package pg.autyzm.friendly_plans.view.task_create;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -24,12 +24,17 @@ import database.repository.TaskTemplateRepository;
 import java.io.File;
 import java.io.IOException;
 import javax.inject.Inject;
+import pg.autyzm.friendly_plans.ActivityProperties;
+import pg.autyzm.friendly_plans.App;
+import pg.autyzm.friendly_plans.view.main_screen.MainActivity;
+import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.asset.AssetType;
 import pg.autyzm.friendly_plans.asset.AssetsHelper;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.validation.TaskValidation;
 import pg.autyzm.friendly_plans.validation.Utils;
+import pg.autyzm.friendly_plans.view.step_list.StepListFragment;
 
 public class TaskCreateFragment extends Fragment {
 

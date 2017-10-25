@@ -16,6 +16,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
+import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
 
 @RunWith(AndroidJUnit4.class)
 public class StepCreateFragmentTest {

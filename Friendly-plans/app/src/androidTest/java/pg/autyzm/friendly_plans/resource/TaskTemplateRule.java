@@ -1,4 +1,4 @@
-package pg.autyzm.friendly_plans;
+package pg.autyzm.friendly_plans.resource;
 
 import android.content.Context;
 import android.support.test.rule.ActivityTestRule;

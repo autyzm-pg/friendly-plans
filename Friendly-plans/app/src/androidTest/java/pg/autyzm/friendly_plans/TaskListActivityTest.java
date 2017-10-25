@@ -7,7 +7,7 @@ import static android.support.test.espresso.contrib.RecyclerViewActions.scrollTo
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static matcher.RecyclerViewMatcher.withRecyclerView;
+import static pg.autyzm.friendly_plans.matcher.RecyclerViewMatcher.withRecyclerView;
 
 import android.content.Intent;
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -19,6 +19,8 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import pg.autyzm.friendly_plans.resource.DaoSessionResource;
+import pg.autyzm.friendly_plans.view.task_list.TaskListActivity;
 
 @RunWith(AndroidJUnit4.class)
 public class TaskListActivityTest {
@@ -53,7 +55,7 @@ public class TaskListActivityTest {
     }
 
     @Test
-    public void checkIfTaskIsAddedToDBAndProperlyDisplayedOnRecyclerView() {
+    public void whenTaskIsAddedToDBExpectProperlyDisplayedOnRecyclerView() {
         final int testedTaskPosition = 5;
         onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedTaskPosition));
         onView(withRecyclerView(R.id.rv_task_list)
