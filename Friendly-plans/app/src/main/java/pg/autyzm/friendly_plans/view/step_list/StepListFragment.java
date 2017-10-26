@@ -1,4 +1,4 @@
-package pg.autyzm.friendly_plans;
+package pg.autyzm.friendly_plans.view.step_list;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -12,12 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import database.repository.StepTemplateRepository;
 import javax.inject.Inject;
+import pg.autyzm.friendly_plans.ActivityProperties;
+import pg.autyzm.friendly_plans.App;
+import pg.autyzm.friendly_plans.view.main_screen.MainActivity;
+import pg.autyzm.friendly_plans.R;
+import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
 import pg.autyzm.friendly_plans.databinding.FragmentStepListBinding;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 
 public class StepListFragment extends Fragment implements StepListEvents {
-
-    public static final String TASK_ID = "task_id";
 
     @Inject
     StepTemplateRepository stepTemplateRepository;
@@ -41,7 +44,7 @@ public class StepListFragment extends Fragment implements StepListEvents {
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
 
         Bundle args = getArguments();
-        task_id = args.getLong(TASK_ID, 0);
+        task_id = args.getLong(ActivityProperties.TASK_ID, 0);
 
         FragmentStepListBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_step_list, container, false);
@@ -85,8 +88,8 @@ public class StepListFragment extends Fragment implements StepListEvents {
     @Override
     public void eventSaveAndFinish(View view) {
         ToastUserNotifier.displayNotifications(
-            R.string.task_with_steps_saved_message,
-            getActivity().getApplicationContext());
+                R.string.task_with_steps_saved_message,
+                getActivity().getApplicationContext());
         showMainMenu();
     }
 

@@ -149,6 +149,13 @@ A good practice is to not include the word `menu` as part of the name because th
 
 Resource files in the values folder should be __plural__, e.g. `strings.xml`, `styles.xml`, `colors.xml`, `dimens.xml`, `attrs.xml`
 
+#### Tests
+
+@Before and @After should be defined after the class variables. @Test should be below.
+Methods naming conventions:
+@Before - setUp()
+@After - tearDown()
+@Test - whenCreateTaskExpectTaskAddedToDb(), camelcase with schema when...Expect..()
 
 ## Import code style settings to Android Studio
 Tips in this paragraph has been taken from (Apache License): [Metanome wiki](https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse)

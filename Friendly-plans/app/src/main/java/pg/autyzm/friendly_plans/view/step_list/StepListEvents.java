@@ -1,4 +1,4 @@
-package pg.autyzm.friendly_plans;
+package pg.autyzm.friendly_plans.view.step_list;
 
 import android.view.View;
 

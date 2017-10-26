@@ -50,44 +50,44 @@ public class TaskTemplateRepositoryTest {
     }
 
     @Test
-    public void When_CreatingATaskTemplate_Expect_InsertMethodBeCalled() {
+    public void whenCreatingATaskTemplateExpectInsertMethodBeCalled() {
         taskTemplateRepository.create(TASK_NAME, DURATION_TIME, PICTURE_ID, SOUND_ID);
         verify(taskTemplateDao, times(1)).insert(any(TaskTemplate.class));
     }
 
     @Test
-    public void When_CreatingATaskTemplate_Expect_NewIdBeReturned() {
+    public void whenCreatingATaskTemplateExpectNewIdBeReturned() {
         long id = taskTemplateRepository.create(TASK_NAME, DURATION_TIME, PICTURE_ID, SOUND_ID);
         assertThat(id, is(randomId));
     }
 
     @Test
-    public void When_CreatingATaskWithoutSoundAndPicture_Expect_NewIdToBeReturned() {
+    public void whenCreatingATaskWithoutSoundAndPictureExpectNewIdToBeReturned() {
         long id = taskTemplateRepository.create(TASK_NAME, DURATION_TIME, null, null);
         assertThat(id, is(randomId));
     }
 
     @Test
-    public void When_GettingATaskTemplate_Expect_LoadMethodBeCalled() {
+    public void whenGettingATaskTemplateExpectLoadMethodBeCalled() {
         taskTemplateRepository.get(randomId);
         verify(taskTemplateDao, times(1)).load(randomId);
     }
 
     @Test
-    public void When_GettingATaskTemplate_Expect_TaskTemplateToBeReturned() {
+    public void whenGettingATaskTemplateExpectTaskTemplateToBeReturned() {
         TaskTemplate taskTemplate = taskTemplateRepository.get(randomId);
         assertThat(taskTemplate.getName(), is(TASK_NAME));
         assertThat(taskTemplate.getDurationTime(), is(DURATION_TIME));
     }
 
     @Test
-    public void When_DeletingATaskTemplateByName_Expect_DeleteByKeyMethodBeCalled() {
+    public void whenDeletingATaskTemplateByNameExpectDeleteByKeyMethodBeCalled() {
         taskTemplateRepository.delete(randomId);
         verify(taskTemplateDao, times(1)).deleteByKey(randomId);
     }
 
     @Test
-    public void When_GettingAllTaskTemplate_Expect_LoadAllMethodBeCalled() {
+    public void whenGettingAllTaskTemplateExpectLoadAllMethodBeCalled() {
         taskTemplateRepository.getAll();
         verify(taskTemplateDao, times(1)).loadAll();
     }

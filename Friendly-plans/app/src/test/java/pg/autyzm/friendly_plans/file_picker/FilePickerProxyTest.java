@@ -22,28 +22,28 @@ public class FilePickerProxyTest {
     }
 
     @Test
-    public void When_GettingPatternForPicture_Expect_PatternToMatchLowercasepng() throws Exception {
+    public void whenGettingPatternForPictureExpectPatternToMatchLowercasepng() throws Exception {
         Pattern pattern = getPattern(AssetType.PICTURE);
 
         assertTrue(pattern.matcher("test.png").matches());
     }
 
     @Test
-    public void When_GettingPatternForPicture_Expect_PatternToMatchUppercasePNG() throws Exception {
+    public void whenGettingPatternForPictureExpectPatternToMatchUppercasePNG() throws Exception {
         Pattern pattern = getPattern(AssetType.PICTURE);
 
         assertTrue(pattern.matcher("test.PNG").matches());
     }
 
     @Test
-    public void When_GettingPatternForSound_Expect_PatternToMatchMp3() throws Exception {
+    public void whenGettingPatternForSoundExpectPatternToMatchMp3() throws Exception {
         Pattern pattern = getPattern(AssetType.SOUND);
 
         assertTrue(pattern.matcher("test.mp3").matches());
     }
 
     @Test
-    public void When_GettingPatternForSound_Expect_PatternToNotMatchOnlyExtension()
+    public void whenGettingPatternForSoundExpectPatternToNotMatchOnlyExtension()
             throws Exception {
         Pattern pattern = getPattern(AssetType.SOUND);
 

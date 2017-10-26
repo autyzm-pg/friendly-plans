@@ -13,7 +13,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertNull;
 import static org.hamcrest.core.Is.is;
-import static pg.autyzm.friendly_plans.matchers.ErrorTextMatcher.hasErrorText;
+import static pg.autyzm.friendly_plans.matcher.ErrorTextMatcher.hasErrorText;
 
 import android.content.Context;
 import android.support.test.rule.ActivityTestRule;
@@ -32,7 +32,10 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import pg.autyzm.friendly_plans.matchers.ToastMatcher;
+import pg.autyzm.friendly_plans.matcher.ToastMatcher;
+import pg.autyzm.friendly_plans.resource.AssetTestRule;
+import pg.autyzm.friendly_plans.resource.DaoSessionResource;
+import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 
 @RunWith(AndroidJUnit4.class)
 public class TaskCreateActivityTest {
@@ -86,7 +89,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_TaskCreateActivity_Expect_HeaderAndEmptyFields() {
+    public void whenTaskCreateActivityExpectHeaderAndEmptyFields() {
         onView(withId(R.id.id_task_create_description))
                 .check(matches(withText(R.string.task_create_description)));
         onView(withId(R.id.id_et_task_name))
@@ -100,7 +103,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_AddingNewTask_Expect_NewTaskAddedToDB() {
+    public void whenAddingNewTaskExpectNewTaskAddedToDB() {
         onView(withId(R.id.id_et_task_name))
                 .perform(replaceText(EXPECTED_NAME));
         closeSoftKeyboard();
@@ -123,7 +126,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_AddingNewTaskAndFinish_Expect_NewTaskAddedToDB() {
+    public void whenAddingNewTaskAndFinishExpectNewTaskAddedToDB() {
         onView(withId(R.id.id_et_task_name))
             .perform(replaceText(EXPECTED_NAME));
         closeSoftKeyboard();
@@ -145,7 +148,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_SettingPicture_Expect_PictureNameIsDisplayed()
+    public void whenSettingPictureExpectPictureNameIsDisplayed()
             throws InterruptedException, IOException {
         assetTestRule.setTestPicture();
         List<Asset> assets = assetRepository.getAll();
@@ -156,7 +159,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_SettingSound_Expect_SoundNameIsDisplayed()
+    public void whenSettingSoundExpectSoundNameIsDisplayed()
             throws IOException, InterruptedException {
         assetTestRule.setTestSound();
         List<Asset> assets = assetRepository.getAll();
@@ -167,7 +170,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_AddingNewTaskWithPicture_Expect_NewTaskAddedToDB()
+    public void whenAddingNewTaskWithPictureExpectNewTaskAddedToDB()
             throws InterruptedException, IOException {
         onView(withId(R.id.id_et_task_name))
                 .perform(replaceText(EXPECTED_NAME));
@@ -194,7 +197,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_AddingANewTaskWithoutSound_Expect_TaskToBeAddedWithoutSound()
+    public void whenAddingANewTaskWithoutSoundExpectTaskToBeAddedWithoutSound()
             throws IOException, InterruptedException {
         onView(withId(R.id.id_et_task_name))
                 .perform(replaceText(EXPECTED_NAME));
@@ -215,7 +218,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_AddingANewTaskWithSound_Expect_TaskToBeAddedWithSound()
+    public void whenAddingANewTaskWithSoundExpectTaskToBeAddedWithSound()
             throws IOException, InterruptedException {
         onView(withId(R.id.id_et_task_name))
                 .perform(replaceText(EXPECTED_NAME));
@@ -239,7 +242,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_AddingNewTask_and_NameIsEmpty_Expect_Warning() {
+    public void whenAddingNewTaskAndNameIsEmptyExpectWarning() {
         closeSoftKeyboard();
         onView(withId(R.id.id_btn_task_next))
                 .perform(click());
@@ -250,7 +253,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_AddingNewTask_and_DurationIsEmpty_Expect_Warning() {
+    public void whenAddingNewTaskAndDurationIsEmptyExpectWarning() {
         onView(withId(R.id.id_et_task_name))
                 .perform(typeText(GOOD_TASK_NAME));
         closeSoftKeyboard();
@@ -267,7 +270,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_AddingNewTask_and_Name_Has_ForbiddenSymbols_Expect_Warning()
+    public void whenAddingNewTaskAndNameHasForbiddenSymbolsExpectWarning()
             throws InterruptedException {
         onView(withId(R.id.id_et_task_name))
                 .perform(typeText(BAD_TASK_NAME));
@@ -282,7 +285,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_AddTaskWithExistingName__Expect_Warning() {
+    public void whenAddTaskWithExistingNameExpectWarning() {
         idsToDelete.add(taskTemplateRepository
                 .create(GOOD_TASK_NAME, Integer.valueOf(EXPECTED_DURATION_TXT), null, null));
 
@@ -307,7 +310,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_FieldsEmpty_and_PlayBtn_pressed_Then_ToastExpected() {
+    public void whenFieldsEmptyAndPlayBtnPressedThenToastExpected() {
         onView(withId(R.id.id_btn_play_sound))
                 .perform(click());
         onView(withText(R.string.no_file_to_play_error)).inRoot(new ToastMatcher())
@@ -315,7 +318,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_ImageSelected_and_PlayBtn_pressed_Then_ToastExpected()
+    public void whenImageSelectedAndPlayBtnPressedThenToastExpected()
             throws IOException, InterruptedException {
 
         assetTestRule.setTestPicture();
@@ -326,5 +329,4 @@ public class TaskCreateActivityTest {
         onView(withText(R.string.no_file_to_play_error)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
     }
-
 }

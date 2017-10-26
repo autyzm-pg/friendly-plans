@@ -11,8 +11,11 @@ import javax.inject.Singleton;
 import pg.autyzm.friendly_plans.file_picker.FilePickerModule;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 import pg.autyzm.friendly_plans.string_provider.StringProviderModule;
+import pg.autyzm.friendly_plans.view.task_create.TaskCreateFragment;
 import pg.autyzm.friendly_plans.validation.TaskValidation;
 import pg.autyzm.friendly_plans.validation.ValidationModule;
+import pg.autyzm.friendly_plans.view.step_list.StepListFragment;
+import pg.autyzm.friendly_plans.view.task_list.TaskListActivity;
 
 @Singleton
 @Component(modules = {StringProviderModule.class,

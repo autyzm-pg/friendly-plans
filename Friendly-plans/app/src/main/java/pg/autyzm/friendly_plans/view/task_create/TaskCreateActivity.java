@@ -1,7 +1,8 @@
-package pg.autyzm.friendly_plans;
+package pg.autyzm.friendly_plans.view.task_create;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import pg.autyzm.friendly_plans.R;
 
 public class TaskCreateActivity extends FragmentActivity {
 

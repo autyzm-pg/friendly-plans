@@ -1,4 +1,4 @@
-package pg.autyzm.friendly_plans;
+package pg.autyzm.friendly_plans.resource;
 
 
 import android.content.Context;
@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.junit.rules.ExternalResource;
+import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.asset.AssetType;
+import pg.autyzm.friendly_plans.view.task_create.TaskCreateFragment;
 
 public class AssetTestRule extends ExternalResource {
 

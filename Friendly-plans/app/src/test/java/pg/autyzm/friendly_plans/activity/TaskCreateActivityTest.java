@@ -25,8 +25,8 @@ import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowToast;
 import pg.autyzm.friendly_plans.BuildConfig;
 import pg.autyzm.friendly_plans.R;
-import pg.autyzm.friendly_plans.TaskCreateFragment;
-import pg.autyzm.friendly_plans.TaskCreateActivity;
+import pg.autyzm.friendly_plans.view.task_create.TaskCreateFragment;
+import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 import pg.autyzm.friendly_plans.asset.AssetType;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 import pg.autyzm.friendly_plans.test_helpers.AppComponentDaggerRule;
@@ -68,7 +68,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_ClickingSelectPicture_Expect_OpenFilePickerBeCalled() throws Exception {
+    public void whenClickingSelectPictureExpectOpenFilePickerBeCalled() throws Exception {
         Button selectPicture = (Button) activity.findViewById(R.id.id_btn_select_task_picture);
         selectPicture.performClick();
 
@@ -77,7 +77,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_ActivityResultIsCalledWithNonExistingPictureData_Expect_ToastWithErrorMessageIsShown() {
+    public void whenActivityResultIsCalledWithNonExistingPictureDataExpectToastWithErrorMessageIsShown() {
         fragment.onActivityResult(
                 AssetType.PICTURE.ordinal(),
                 FilePickerActivity.RESULT_OK,
@@ -88,7 +88,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_ClickingSelectSound_Expect_OpenFilePickerBeCalled() throws Exception {
+    public void whenClickingSelectSoundExpectOpenFilePickerBeCalled() throws Exception {
         Button selectSound = (Button) activity.findViewById(R.id.id_btn_select_task_sound);
         selectSound.performClick();
 
@@ -97,7 +97,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void When_ActivityResultIsCalledWithNonExistingSoundData_Expect_ToastWithErrorMessageIsShown() {
+    public void whenActivityResultIsCalledWithNonExistingSoundDataExpectToastWithErrorMessageIsShown() {
         fragment.onActivityResult(
                 AssetType.SOUND.ordinal(),
                 FilePickerActivity.RESULT_OK,

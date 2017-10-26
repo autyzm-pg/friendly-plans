@@ -1,4 +1,4 @@
-package pg.autyzm.friendly_plans;
+package pg.autyzm.friendly_plans.view.main_screen;
 
 import android.view.View;
 

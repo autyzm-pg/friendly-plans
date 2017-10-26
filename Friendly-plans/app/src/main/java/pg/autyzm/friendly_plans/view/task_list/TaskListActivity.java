@@ -1,35 +1,37 @@
-package pg.autyzm.friendly_plans;
+package pg.autyzm.friendly_plans.view.task_list;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import database.repository.TaskTemplateRepository;
 import javax.inject.Inject;
+import pg.autyzm.friendly_plans.ActivityProperties;
+import pg.autyzm.friendly_plans.App;
+import pg.autyzm.friendly_plans.R;
+import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 
 public class TaskListActivity extends AppCompatActivity {
 
-    private static final String TAG = "TaskListActivity";
     @Inject
     TaskTemplateRepository taskTemplateRepository;
+
+    private TaskRecyclerViewAdapter taskListAdapter;
 
     TaskRecyclerViewAdapter.TaskItemClickListener taskItemClickListener =
             new TaskRecyclerViewAdapter.TaskItemClickListener() {
                 @Override
                 public void onTaskItemClick(int position) {
-                    Log.d(TAG, "onTaskItemClick: " + position);
-
                     Bundle bundle = new Bundle();
-                    bundle.putLong("taskId", taskListAdapter.getTaskItem(position).getId());
+                    bundle.putLong(ActivityProperties.TASK_ID,
+                            taskListAdapter.getTaskItem(position).getId());
 
                     Intent intent = new Intent(TaskListActivity.this, TaskCreateActivity.class);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
             };
-    private TaskRecyclerViewAdapter taskListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
