@@ -1,11 +1,11 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout>
     <data>
         <variable
             name="events"
             type="pg.autyzm.friendly_plans.view.main_screen.MainActivityEvents"/>
     </data>
 
-    <ScrollView
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/ScrollView01"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
