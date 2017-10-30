@@ -11,6 +11,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.widget.Button;
+import android.widget.EditText;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import database.repository.TaskTemplateRepository;
 import org.junit.Before;
@@ -25,6 +26,7 @@ import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowToast;
 import pg.autyzm.friendly_plans.BuildConfig;
 import pg.autyzm.friendly_plans.R;
+import pg.autyzm.friendly_plans.validation.TaskValidation;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateFragment;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 import pg.autyzm.friendly_plans.asset.AssetType;
@@ -49,6 +51,9 @@ public class TaskCreateActivityTest {
 
     @Mock
     private MediaPlayer mediaPlayer = new MediaPlayer();
+
+    @Mock
+    private TaskValidation taskValidation;
 
     private TaskCreateActivity activity;
     private Fragment fragment;
@@ -104,6 +109,30 @@ public class TaskCreateActivityTest {
                 new Intent()
         );
         String expectedMessage = activity.getResources().getString(R.string.picking_file_error);
+        assertThat(ShadowToast.getTextOfLatestToast(), equalTo(expectedMessage));
+    }
+
+    @Test
+    public void whenAddingTaskCreatesAnErrorExpectUserNotifier() {
+        checkRuntimeException(R.id.id_btn_save_and_finish);
+    }
+
+    @Test
+    public void whenGoingToStepsErrorExpectUserNotifier() {
+        checkRuntimeException(R.id.id_btn_task_next);
+    }
+
+    private void checkRuntimeException(int buttonId) {
+        when(taskValidation
+                .isValid(any(EditText.class), any(EditText.class)))
+                .thenReturn(true);
+        when(taskTemplateRepository
+                .create(any(String.class), any(Integer.class), any(Long.class), any(Long.class)))
+                .thenThrow(new RuntimeException());
+        Button button = (Button) activity.findViewById(buttonId);
+        button.performClick();
+        String expectedMessage = activity.getResources()
+                .getString(R.string.create_task_error_message);
         assertThat(ShadowToast.getTextOfLatestToast(), equalTo(expectedMessage));
     }
 }

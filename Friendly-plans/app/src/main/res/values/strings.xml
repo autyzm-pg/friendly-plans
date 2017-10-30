@@ -43,4 +43,5 @@
   <string name="create_step">Create step</string>
   <string name="steps_list_info">Steps list</string>
     <string name="create_step_description">Create step view</string>
+  <string name="create_task_error_message">An error occured during saving the task.</string>
 </resources>

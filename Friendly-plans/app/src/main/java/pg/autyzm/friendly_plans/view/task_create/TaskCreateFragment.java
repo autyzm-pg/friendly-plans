@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +24,7 @@ import database.repository.AssetRepository;
 import database.repository.TaskTemplateRepository;
 import java.io.File;
 import java.io.IOException;
+import java.lang.RuntimeException;
 import javax.inject.Inject;
 import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
@@ -82,12 +84,23 @@ public class TaskCreateFragment extends Fragment {
         registerViews(view);
     }
 
-    private long addTaskOnDb() {
-        return taskTemplateRepository.create(taskName.getText().toString(),
-                Integer.valueOf(taskDurTime.getText().toString()),
-                pictureId,
-                soundId);
+    private Long addTask() {
+        try {
+            long taskId = taskTemplateRepository.create(taskName.getText().toString(),
+                    Integer.valueOf(taskDurTime.getText().toString()),
+                    pictureId,
+                    soundId);
+            showToastMessage(R.string.task_saved_message);
+
+            return taskId;
+
+        } catch (RuntimeException exception) {
+            Log.e("Task Create View", "Error saving task", exception);
+            showToastMessage(R.string.create_task_error_message);
+            return null;
+        }
     }
+
 
     private void registerViews(View view) {
 
@@ -163,18 +176,17 @@ public class TaskCreateFragment extends Fragment {
                 stopSound();
                 stopBtnAnimation();
                 if (taskValidation.isValid(taskName, taskDurTime)) {
-                    long taskId = addTaskOnDb();
-                    showToastMessage(R.string.task_saved_message);
-
-                    showStepsList(taskId);
+                    Long taskId = addTask();
+                    if (taskId != null) {
+                        showStepsList(taskId);
+                    }
                 }
             }
         });
         saveAndFinish.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (taskValidation.isValid(taskName, taskDurTime)) {
-                    addTaskOnDb();
-                    showToastMessage(R.string.task_saved_message);
+                    addTask();
                     showMainMenu();
                 }
             }
@@ -313,8 +325,8 @@ public class TaskCreateFragment extends Fragment {
 
     private void showToastMessage(int resourceStringId) {
         ToastUserNotifier.displayNotifications(
-            resourceStringId,
-            getActivity().getApplicationContext());
+                resourceStringId,
+                getActivity().getApplicationContext());
     }
 }
 
