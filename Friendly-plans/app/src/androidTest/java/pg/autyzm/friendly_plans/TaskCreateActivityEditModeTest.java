@@ -34,7 +34,7 @@ public class TaskCreateActivityEditModeTest {
 
     @Rule
     public ActivityTestRule<TaskCreateActivity> activityRule = new ActivityTestRule<>(
-        TaskCreateActivity.class, true, true);
+            TaskCreateActivity.class, true, true);
 
     private TaskTemplateRepository taskTemplateRepository;
     private List<Long> idsToDelete = new ArrayList<>();
@@ -51,7 +51,7 @@ public class TaskCreateActivityEditModeTest {
 
     @After
     public void tearDown() {
-        for(Long id : idsToDelete) {
+        for (Long id : idsToDelete) {
             taskTemplateRepository.delete(id);
         }
     }

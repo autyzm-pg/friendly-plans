@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.R;
 
 public class TaskCreateActivity extends FragmentActivity {
