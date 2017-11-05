@@ -20,6 +20,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
+import database.entities.Asset;
+import database.entities.TaskTemplate;
 import database.repository.AssetRepository;
 import database.repository.TaskTemplateRepository;
 import java.io.File;
@@ -74,7 +76,7 @@ public class TaskCreateFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+        Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
         return inflater.inflate(R.layout.fragment_task_create, container, false);
     }
@@ -82,6 +84,13 @@ public class TaskCreateFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         registerViews(view);
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            Long taskId = (Long) arguments.get(ActivityProperties.TASK_ID);
+            if (taskId != null) {
+                initTaskForm(taskId);
+            }
+        }
     }
 
     private Long addTask() {
@@ -197,6 +206,21 @@ public class TaskCreateFragment extends Fragment {
                 stopBtnAnimation();
             }
         });
+    }
+
+    private void initTaskForm(long taskId) {
+        TaskTemplate task = taskTemplateRepository.get(taskId);
+        taskName.setText(task.getName());
+        taskDurTime.setText(String.valueOf(task.getDurationTime()));
+        Asset picture = task.getPicture();
+        Asset sound = task.getSound();
+        if (picture != null) {
+            setAssetValue(AssetType.PICTURE, picture.getFilename(), picture.getId());
+        }
+        if (sound != null) {
+            setAssetValue(AssetType.SOUND, sound.getFilename(), sound.getId());
+        }
+
     }
 
     private void showStepsList(long taskId) {
