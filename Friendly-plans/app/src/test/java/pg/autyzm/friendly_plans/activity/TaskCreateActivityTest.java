@@ -138,7 +138,7 @@ public class TaskCreateActivityTest {
         Button button = (Button) activity.findViewById(buttonId);
         button.performClick();
         String expectedMessage = activity.getResources()
-                .getString(R.string.create_task_error_message);
+                .getString(R.string.save_task_error_message);
         assertThat(ShadowToast.getTextOfLatestToast(), equalTo(expectedMessage));
     }
 }

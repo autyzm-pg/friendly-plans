@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,41 +95,6 @@ public class TaskCreateFragment extends Fragment {
             if (taskId != null) {
                 initTaskForm(taskId);
             }
-        }
-    }
-
-    private Long addTask() {
-        try {
-            long taskId = taskTemplateRepository.create(taskName.getText().toString(),
-                    Integer.valueOf(taskDurationTime.getText().toString()),
-                    pictureId,
-                    soundId);
-            showToastMessage(R.string.task_saved_message);
-
-            return taskId;
-
-        } catch (RuntimeException exception) {
-            Log.e("Task Create View", "Error saving task", exception);
-            showToastMessage(R.string.create_task_error_message);
-            return null;
-        }
-    }
-
-    private Long updateTask() {
-        try {
-            taskTemplateRepository.update(this.taskId,
-                    taskName.getText().toString(),
-                    Integer.valueOf(taskDurationTime.getText().toString()),
-                    pictureId,
-                    soundId);
-            showToastMessage(R.string.task_saved_message);
-
-            return this.taskId;
-
-        } catch (RuntimeException exception) {
-            Log.e("Task Create View", "Error saving task", exception);
-            showToastMessage(R.string.create_task_error_message);
-            return null;
         }
     }
 
@@ -229,19 +195,51 @@ public class TaskCreateFragment extends Fragment {
         stopBtnAnimation();
         if (taskId != null) {
             if (validateName(taskId, taskName) && validateDuration(taskDurationTime)) {
-                Long taskId = updateTask();
-                if (taskId != null) {
-                    return taskId;
-                }
+                return updateTask(taskId);
             }
         } else {
             if (validateName(taskName) && validateDuration(taskDurationTime)) {
-                Long taskId = addTask();
-                if (taskId != null) {
-                    return taskId;
-                }
+                return addTask();
             }
         }
+        return null;
+    }
+
+    private Long addTask() {
+        try {
+            long taskId = taskTemplateRepository.create(taskName.getText().toString(),
+                    Integer.valueOf(taskDurationTime.getText().toString()),
+                    pictureId,
+                    soundId);
+            showToastMessage(R.string.task_saved_message);
+
+            return taskId;
+
+        } catch (RuntimeException exception) {
+            return handleSavingError(exception);
+        }
+    }
+
+    private Long updateTask(Long taskId) {
+        try {
+            taskTemplateRepository.update(taskId,
+                    taskName.getText().toString(),
+                    Integer.valueOf(taskDurationTime.getText().toString()),
+                    pictureId,
+                    soundId);
+            showToastMessage(R.string.task_saved_message);
+
+            return taskId;
+
+        } catch (RuntimeException exception) {
+            return handleSavingError(exception);
+        }
+    }
+
+    @Nullable
+    private Long handleSavingError(RuntimeException exception) {
+        Log.e("Task Create View", "Error saving task", exception);
+        showToastMessage(R.string.save_task_error_message);
         return null;
     }
 
@@ -265,7 +263,7 @@ public class TaskCreateFragment extends Fragment {
 
     private boolean handleInvalidResult(EditText editText, ValidationResult validationResult) {
         if (validationResult.getValidationStatus().equals(ValidationStatus.INVALID)) {
-            editText.setText(validationResult.getValidationInfo());
+            editText.setError(validationResult.getValidationInfo());
             return false;
         }
 
@@ -286,7 +284,6 @@ public class TaskCreateFragment extends Fragment {
         if (sound != null) {
             setAssetValue(AssetType.SOUND, sound.getFilename(), sound.getId());
         }
-
     }
 
     private void showStepsList(final long taskId) {
