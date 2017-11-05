@@ -11,7 +11,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.widget.Button;
-import android.widget.EditText;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import database.repository.TaskTemplateRepository;
 import org.junit.Before;
@@ -27,6 +26,8 @@ import org.robolectric.shadows.ShadowToast;
 import pg.autyzm.friendly_plans.BuildConfig;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.validation.TaskValidation;
+import pg.autyzm.friendly_plans.validation.ValidationResult;
+import pg.autyzm.friendly_plans.validation.ValidationStatus;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateFragment;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 import pg.autyzm.friendly_plans.asset.AssetType;
@@ -119,13 +120,18 @@ public class TaskCreateActivityTest {
 
     @Test
     public void whenGoingToStepsErrorExpectUserNotifier() {
-        checkRuntimeException(R.id.id_btn_task_next);
+        checkRuntimeException(R.id.id_btn_steps);
     }
 
     private void checkRuntimeException(int buttonId) {
         when(taskValidation
-                .isValid(any(EditText.class), any(EditText.class)))
-                .thenReturn(true);
+                .isNameValid(any(String.class)))
+                .thenReturn(new ValidationResult(ValidationStatus.VALID));
+
+        when(taskValidation
+                .isDurationValid(any(String.class)))
+                .thenReturn(new ValidationResult(ValidationStatus.VALID));
+
         when(taskTemplateRepository
                 .create(any(String.class), any(Integer.class), any(Long.class), any(Long.class)))
                 .thenThrow(new RuntimeException());

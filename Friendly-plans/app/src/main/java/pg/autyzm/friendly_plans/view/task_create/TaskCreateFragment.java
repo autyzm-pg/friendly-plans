@@ -30,6 +30,8 @@ import java.lang.RuntimeException;
 import javax.inject.Inject;
 import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
+import pg.autyzm.friendly_plans.validation.ValidationResult;
+import pg.autyzm.friendly_plans.validation.ValidationStatus;
 import pg.autyzm.friendly_plans.view.main_screen.MainActivity;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.asset.AssetType;
@@ -61,8 +63,8 @@ public class TaskCreateFragment extends Fragment {
     private EditText taskName;
     private EditText taskPicture;
     private EditText taskSound;
-    private EditText taskDurTime;
-    private Button taskNext;
+    private EditText taskDurationTime;
+    private Button taskSteps;
     private Button saveAndFinish;
     private Button selectPicture;
     private Button selectSound;
@@ -73,10 +75,11 @@ public class TaskCreateFragment extends Fragment {
     private ImageView playSoundIcon;
     private Long pictureId;
     private Long soundId;
+    private Long taskId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-        Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
         return inflater.inflate(R.layout.fragment_task_create, container, false);
     }
@@ -87,6 +90,7 @@ public class TaskCreateFragment extends Fragment {
         Bundle arguments = getArguments();
         if (arguments != null) {
             Long taskId = (Long) arguments.get(ActivityProperties.TASK_ID);
+
             if (taskId != null) {
                 initTaskForm(taskId);
             }
@@ -96,7 +100,7 @@ public class TaskCreateFragment extends Fragment {
     private Long addTask() {
         try {
             long taskId = taskTemplateRepository.create(taskName.getText().toString(),
-                    Integer.valueOf(taskDurTime.getText().toString()),
+                    Integer.valueOf(taskDurationTime.getText().toString()),
                     pictureId,
                     soundId);
             showToastMessage(R.string.task_saved_message);
@@ -110,9 +114,25 @@ public class TaskCreateFragment extends Fragment {
         }
     }
 
+    private Long updateTask() {
+        try {
+            taskTemplateRepository.update(this.taskId,
+                    taskName.getText().toString(),
+                    Integer.valueOf(taskDurationTime.getText().toString()),
+                    pictureId,
+                    soundId);
+            showToastMessage(R.string.task_saved_message);
+
+            return this.taskId;
+
+        } catch (RuntimeException exception) {
+            Log.e("Task Create View", "Error saving task", exception);
+            showToastMessage(R.string.create_task_error_message);
+            return null;
+        }
+    }
 
     private void registerViews(View view) {
-
         labelTaskName = (TextView) view.findViewById(R.id.id_tv_task_name_label);
         Utils.markFieldMandatory(labelTaskName);
         labelDurationTime = (TextView) view.findViewById(R.id.id_tv_task_duration_time);
@@ -120,8 +140,8 @@ public class TaskCreateFragment extends Fragment {
         taskName = (EditText) view.findViewById(R.id.id_et_task_name);
         taskPicture = (EditText) view.findViewById(R.id.id_et_task_picture);
         taskSound = (EditText) view.findViewById(R.id.id_et_task_sound);
-        taskDurTime = (EditText) view.findViewById(R.id.id_et_task_duration_time);
-        taskNext = (Button) view.findViewById(R.id.id_btn_task_next);
+        taskDurationTime = (EditText) view.findViewById(R.id.id_et_task_duration_time);
+        taskSteps = (Button) view.findViewById(R.id.id_btn_steps);
         saveAndFinish = (Button) view.findViewById(R.id.id_btn_save_and_finish);
         selectPicture = (Button) view.findViewById(R.id.id_btn_select_task_picture);
         picturePreview = (ImageView) view.findViewById(R.id.iv_picture_preview);
@@ -180,22 +200,18 @@ public class TaskCreateFragment extends Fragment {
             }
         });
 
-        taskNext.setOnClickListener(new View.OnClickListener() {
+        taskSteps.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                stopSound();
-                stopBtnAnimation();
-                if (taskValidation.isValid(taskName, taskDurTime)) {
-                    Long taskId = addTask();
-                    if (taskId != null) {
-                        showStepsList(taskId);
-                    }
+                Long taskId = saveOrUpdate();
+                if (taskId != null) {
+                    showStepsList(taskId);
                 }
             }
         });
         saveAndFinish.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (taskValidation.isValid(taskName, taskDurTime)) {
-                    addTask();
+                Long taskId = saveOrUpdate();
+                if (taskId != null) {
                     showMainMenu();
                 }
             }
@@ -208,10 +224,60 @@ public class TaskCreateFragment extends Fragment {
         });
     }
 
+    private Long saveOrUpdate() {
+        stopSound();
+        stopBtnAnimation();
+        if (taskId != null) {
+            if (validateName(taskId, taskName) && validateDuration(taskDurationTime)) {
+                Long taskId = updateTask();
+                if (taskId != null) {
+                    return taskId;
+                }
+            }
+        } else {
+            if (validateName(taskName) && validateDuration(taskDurationTime)) {
+                Long taskId = addTask();
+                if (taskId != null) {
+                    return taskId;
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean validateName(Long taskId, EditText taskName) {
+        ValidationResult validationResult = taskValidation
+                .isNameValid(taskId, taskName.getText().toString());
+        return handleInvalidResult(taskName, validationResult);
+    }
+
+    private boolean validateName(EditText taskName) {
+        ValidationResult validationResult = taskValidation
+                .isNameValid(taskName.getText().toString());
+        return handleInvalidResult(taskName, validationResult);
+    }
+
+    private boolean validateDuration(EditText duration) {
+        ValidationResult validationResult = taskValidation
+                .isDurationValid(duration.getText().toString());
+        return handleInvalidResult(duration, validationResult);
+    }
+
+    private boolean handleInvalidResult(EditText editText, ValidationResult validationResult) {
+        if (validationResult.getValidationStatus().equals(ValidationStatus.INVALID)) {
+            editText.setText(validationResult.getValidationInfo());
+            return false;
+        }
+
+        return true;
+    }
+
     private void initTaskForm(long taskId) {
+        this.taskId = taskId;
+
         TaskTemplate task = taskTemplateRepository.get(taskId);
         taskName.setText(task.getName());
-        taskDurTime.setText(String.valueOf(task.getDurationTime()));
+        taskDurationTime.setText(String.valueOf(task.getDurationTime()));
         Asset picture = task.getPicture();
         Asset sound = task.getSound();
         if (picture != null) {
@@ -223,7 +289,7 @@ public class TaskCreateFragment extends Fragment {
 
     }
 
-    private void showStepsList(long taskId) {
+    private void showStepsList(final long taskId) {
         StepListFragment fragment = new StepListFragment();
         Bundle args = new Bundle();
         args.putLong(ActivityProperties.TASK_ID, taskId);

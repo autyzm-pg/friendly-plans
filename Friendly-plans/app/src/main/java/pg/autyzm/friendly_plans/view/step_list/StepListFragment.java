@@ -59,6 +59,11 @@ public class StepListFragment extends Fragment implements StepListEvents {
         setUpListContent(task_id);
     }
 
+    @Override
+    public void eventCreateStep(View view) {
+        showStepCreate();
+    }
+
     private void setUpListContent(long taskId) {
         RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.rv_step_list);
         recyclerView.setHasFixedSize(true);
@@ -68,11 +73,6 @@ public class StepListFragment extends Fragment implements StepListEvents {
         recyclerView.setAdapter(stepListRecyclerViewAdapter);
 
         stepListRecyclerViewAdapter.setStepItemListItems(stepTemplateRepository.getAll(taskId));
-    }
-
-    @Override
-    public void eventCreateStep(View view) {
-        showStepCreate();
     }
 
     private void showStepCreate() {
