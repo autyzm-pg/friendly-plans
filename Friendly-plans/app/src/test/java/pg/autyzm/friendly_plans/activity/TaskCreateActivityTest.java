@@ -21,7 +21,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowToast;
 import pg.autyzm.friendly_plans.BuildConfig;
@@ -33,7 +33,7 @@ import pg.autyzm.friendly_plans.asset.AssetType;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 import pg.autyzm.friendly_plans.test_helpers.AppComponentDaggerRule;
 
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 public class TaskCreateActivityTest {

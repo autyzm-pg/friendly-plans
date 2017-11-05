@@ -11,6 +11,7 @@ import javax.inject.Singleton;
 import pg.autyzm.friendly_plans.file_picker.FilePickerModule;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 import pg.autyzm.friendly_plans.string_provider.StringProviderModule;
+import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateFragment;
 import pg.autyzm.friendly_plans.validation.TaskValidation;
 import pg.autyzm.friendly_plans.validation.ValidationModule;
@@ -49,4 +50,6 @@ public interface AppComponent {
     void inject(TaskListActivity activity);
 
     void inject(StepListFragment stepListFragment);
+
+    void inject(StepCreateFragment stepCreateFragment);
 }
