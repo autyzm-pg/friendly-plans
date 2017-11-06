@@ -36,7 +36,7 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents {
             Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
         FragmentStepCreateBinding binding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_step_create, container,false);
+                inflater, R.layout.fragment_step_create, container, false);
         View view = binding.getRoot();
         binding.setEvents(this);
         return view;
@@ -87,8 +87,8 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents {
 
     private void runBtnAnimation() {
         playSoundIcon.setImageResource(R.drawable.ic_playing_sound_2);
-        Animation rotation = AnimationUtils
-            .loadAnimation(getActivity().getApplicationContext(),
+        Animation rotation = AnimationUtils.loadAnimation(
+                getActivity().getApplicationContext(),
                 R.anim.ic_play_sound_animation);
         playSoundIcon.startAnimation(rotation);
     }

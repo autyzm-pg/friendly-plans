@@ -50,7 +50,8 @@ public class StepCreateFragmentTest {
     public void whenClickPlayButtonWithoutSoundChosenExpectToastToBeDisplayed() {
         Button playSound = (Button) activity.findViewById(R.id.id_btn_play_step_sound);
         playSound.performClick();
-        String expectedMessage = activity.getApplicationContext().getString(R.string.no_file_to_play_error);
+        String expectedMessage = activity.getApplicationContext().getString(
+                R.string.no_file_to_play_error);
         assertThat(ShadowToast.getTextOfLatestToast(), equalTo(expectedMessage));
     }
 }
