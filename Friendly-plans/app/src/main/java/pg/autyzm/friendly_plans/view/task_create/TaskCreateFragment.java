@@ -245,13 +245,13 @@ public class TaskCreateFragment extends Fragment {
 
     private boolean validateName(Long taskId, EditText taskName) {
         ValidationResult validationResult = taskValidation
-                .isNameValid(taskId, taskName.getText().toString());
+                .isUpdateNameValid(taskId, taskName.getText().toString());
         return handleInvalidResult(taskName, validationResult);
     }
 
     private boolean validateName(EditText taskName) {
         ValidationResult validationResult = taskValidation
-                .isNameValid(taskName.getText().toString());
+                .isNewNameValid(taskName.getText().toString());
         return handleInvalidResult(taskName, validationResult);
     }
 

@@ -2,11 +2,12 @@ package pg.autyzm.friendly_plans.validation;
 
 public class ValidationResult {
 
-    private ValidationStatus validationStatus;
-    private String validationInfo;
+    private final ValidationStatus validationStatus;
+    private final String validationInfo;
 
     public ValidationResult(ValidationStatus validationStatus) {
         this.validationStatus = validationStatus;
+        this.validationInfo = null;
     }
 
     public ValidationResult(ValidationStatus validationStatus, String validationInfo) {

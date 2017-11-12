@@ -5,8 +5,9 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 
 import android.widget.EditText;
+import database.entities.TaskTemplate;
 import database.repository.TaskTemplateRepository;
-import java.util.Random;
+import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.string_provider.StringsProvider;
+import pg.autyzm.friendly_plans.test_helpers.RandomGenerator;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TaskValidationTest {
@@ -27,7 +29,7 @@ public class TaskValidationTest {
     private static final String ERROR_MESSAGE_NAME_EXIST = "Error message - name exist";
     private static final String INVALID_DURATION = "ERROR NUMBER%6";
     private static final String VALID_DURATION = "3";
-    private static final Long TASK_ID = new Random().nextLong();
+    private static final Long TASK_ID = RandomGenerator.getId();
 
     @Mock
     public StringsProvider stringsProvider;
@@ -39,9 +41,13 @@ public class TaskValidationTest {
     public EditText editTextName;
 
     private TaskValidation taskValidation;
+    private TaskTemplate duplicatedTaskTemplate = new TaskTemplate();
 
     @Before
     public void setUp() {
+        duplicatedTaskTemplate.setName(VALID_TASK_NAME);
+        duplicatedTaskTemplate.setId(RandomGenerator.getId());
+
         when(stringsProvider.getString(R.string.not_empty_msg)).thenReturn(ERROR_MESSAGE_EMPTY);
         when(stringsProvider.getString(R.string.only_letters_msg))
                 .thenReturn(ERROR_MESSAGE_ONLY_LETTERS);
@@ -55,15 +61,15 @@ public class TaskValidationTest {
 
     @Test
     public void whenTaskNameToSaveIsValidExpectTaskIsValid() {
-        when(taskTemplateRepository.isNameExists(VALID_TASK_NAME)).thenReturn(false);
-        ValidationResult validationResult = taskValidation.isNameValid(VALID_TASK_NAME);
+        when(taskTemplateRepository.get(VALID_TASK_NAME)).thenReturn(Collections.EMPTY_LIST);
+        ValidationResult validationResult = taskValidation.isNewNameValid(VALID_TASK_NAME);
 
         assertThat(validationResult.getValidationStatus(), is(ValidationStatus.VALID));
     }
 
     @Test
     public void whenTaskNameToSaveIsEmptyExpectTaskIsNotInvalid() {
-        ValidationResult validationResult = taskValidation.isNameValid(EMPTY_TASK_NAME);
+        ValidationResult validationResult = taskValidation.isNewNameValid(EMPTY_TASK_NAME);
 
         assertThat(validationResult.getValidationStatus(), is(ValidationStatus.INVALID));
         assertThat(validationResult.getValidationInfo(), is(ERROR_MESSAGE_EMPTY));
@@ -71,7 +77,7 @@ public class TaskValidationTest {
 
     @Test
     public void whenTaskNameToSaveIsInvalidExpectTaskIsNotInvalid() {
-        ValidationResult validationResult = taskValidation.isNameValid(INVALID_TASK_NAME);
+        ValidationResult validationResult = taskValidation.isNewNameValid(INVALID_TASK_NAME);
 
         assertThat(validationResult.getValidationStatus(), is(ValidationStatus.INVALID));
         assertThat(validationResult.getValidationInfo(), is(ERROR_MESSAGE_ONLY_LETTERS));
@@ -79,8 +85,9 @@ public class TaskValidationTest {
 
     @Test
     public void whenTaskNameToSaveIsDuplicatedExpectTaskIsNotValid() {
-        when(taskTemplateRepository.isNameExists(VALID_TASK_NAME)).thenReturn(true);
-        ValidationResult validationResult = taskValidation.isNameValid(VALID_TASK_NAME);
+        when(taskTemplateRepository.get(VALID_TASK_NAME))
+                .thenReturn(Collections.singletonList(duplicatedTaskTemplate));
+        ValidationResult validationResult = taskValidation.isNewNameValid(VALID_TASK_NAME);
 
         assertThat(validationResult.getValidationStatus(), is(ValidationStatus.INVALID));
         assertThat(validationResult.getValidationInfo(), is(ERROR_MESSAGE_NAME_EXIST));
@@ -88,15 +95,17 @@ public class TaskValidationTest {
 
     @Test
     public void whenTaskNameToUpdateExpectTaskIsValid() {
-        when(taskTemplateRepository.isNameExists(TASK_ID, VALID_TASK_NAME)).thenReturn(false);
-        ValidationResult validationResult = taskValidation.isNameValid(TASK_ID, VALID_TASK_NAME);
+        when(taskTemplateRepository.get(VALID_TASK_NAME)).thenReturn(Collections.EMPTY_LIST);
+        ValidationResult validationResult = taskValidation
+                .isUpdateNameValid(TASK_ID, VALID_TASK_NAME);
 
         assertThat(validationResult.getValidationStatus(), is(ValidationStatus.VALID));
     }
 
     @Test
     public void whenTaskNameToUpdateIsEmptyExpectTaskIsNotValid() {
-        ValidationResult validationResult = taskValidation.isNameValid(TASK_ID, EMPTY_TASK_NAME);
+        ValidationResult validationResult = taskValidation
+                .isUpdateNameValid(TASK_ID, EMPTY_TASK_NAME);
 
         assertThat(validationResult.getValidationStatus(), is(ValidationStatus.INVALID));
         assertThat(validationResult.getValidationInfo(), is(ERROR_MESSAGE_EMPTY));
@@ -104,7 +113,8 @@ public class TaskValidationTest {
 
     @Test
     public void whenTaskNameToUpdateIsInvalidExpectTaskIsNotValid() {
-        ValidationResult validationResult = taskValidation.isNameValid(TASK_ID, INVALID_TASK_NAME);
+        ValidationResult validationResult = taskValidation
+                .isUpdateNameValid(TASK_ID, INVALID_TASK_NAME);
 
         assertThat(validationResult.getValidationStatus(), is(ValidationStatus.INVALID));
         assertThat(validationResult.getValidationInfo(), is(ERROR_MESSAGE_ONLY_LETTERS));
@@ -112,11 +122,26 @@ public class TaskValidationTest {
 
     @Test
     public void whenTaskNameToUpdateIsDuplicatedExpectTaskIsNotValid() {
-        when(taskTemplateRepository.isNameExists(TASK_ID, VALID_TASK_NAME)).thenReturn(true);
-        ValidationResult validationResult = taskValidation.isNameValid(TASK_ID, VALID_TASK_NAME);
+        when(taskTemplateRepository.get(VALID_TASK_NAME)).thenReturn(Collections.singletonList(
+                duplicatedTaskTemplate));
+
+        ValidationResult validationResult = taskValidation
+                .isUpdateNameValid(TASK_ID, VALID_TASK_NAME);
 
         assertThat(validationResult.getValidationStatus(), is(ValidationStatus.INVALID));
         assertThat(validationResult.getValidationInfo(), is(ERROR_MESSAGE_NAME_EXIST));
+    }
+
+    @Test
+    public void whenTaskNameToUpdateIsNotDuplicatedExpectTaskIsValid() {
+        duplicatedTaskTemplate.setId(TASK_ID);
+        when(taskTemplateRepository.get(VALID_TASK_NAME)).thenReturn(Collections.singletonList(
+                duplicatedTaskTemplate));
+
+        ValidationResult validationResult = taskValidation
+                .isUpdateNameValid(TASK_ID, VALID_TASK_NAME);
+
+        assertThat(validationResult.getValidationStatus(), is(ValidationStatus.VALID));
     }
 
     @Test

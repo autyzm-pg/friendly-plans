@@ -125,7 +125,7 @@ public class TaskCreateActivityTest {
 
     private void checkRuntimeException(int buttonId) {
         when(taskValidation
-                .isNameValid(any(String.class)))
+                .isNewNameValid(any(String.class)))
                 .thenReturn(new ValidationResult(ValidationStatus.VALID));
 
         when(taskValidation

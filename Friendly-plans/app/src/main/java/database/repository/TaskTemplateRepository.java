@@ -56,17 +56,4 @@ public class TaskTemplateRepository {
     public void deleteAll() {
         daoSession.getTaskTemplateDao().deleteAll();
     }
-
-    public boolean isNameExists(Long taskId, String name) {
-        List<TaskTemplate> taskTemplates = get(name);
-        if (taskTemplates.size() == 1) {
-            return !taskId.equals(taskTemplates.get(0).getId());
-        }
-
-        return taskTemplates.size() > 1;
-    }
-
-    public boolean isNameExists(String name) {
-        return get(name).size() > 0;
-    }
 }

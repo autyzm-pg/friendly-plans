@@ -1,6 +1,8 @@
 package pg.autyzm.friendly_plans.validation;
 
+import database.entities.TaskTemplate;
 import database.repository.TaskTemplateRepository;
+import java.util.List;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.string_provider.StringsProvider;
 
@@ -11,13 +13,18 @@ public class TaskValidation extends Validation {
         super(stringsProvider, taskTemplateRepository);
     }
 
-    public ValidationResult isNameValid(String name) {
-        ValidationResult validationResult = isNameString(name, true);
+    public ValidationResult isNewNameValid(String name) {
+        ValidationResult validationResult = isStringEmpty(name);
         if (validationResult.getValidationStatus() == ValidationStatus.INVALID) {
             return validationResult;
         }
 
-        if (taskTemplateRepository.isNameExists(name)) {
+        validationResult = isName(name);
+        if (validationResult.getValidationStatus() == ValidationStatus.INVALID) {
+            return validationResult;
+        }
+
+        if (taskTemplateRepository.get(name).size() > 0) {
             return new ValidationResult(ValidationStatus.INVALID,
                     stringProvider.getString(R.string.name_exist_msg));
         }
@@ -25,21 +32,42 @@ public class TaskValidation extends Validation {
         return new ValidationResult(ValidationStatus.VALID);
     }
 
-    public ValidationResult isNameValid(Long taskId, String name) {
-        ValidationResult validationResult = isNameString(name, true);
+    public ValidationResult isUpdateNameValid(Long taskId, String name) {
+        ValidationResult validationResult = isStringEmpty(name);
         if (validationResult.getValidationStatus() == ValidationStatus.INVALID) {
             return validationResult;
         }
 
-        if (taskTemplateRepository.isNameExists(taskId, name)) {
+        validationResult = isName(name);
+        if (validationResult.getValidationStatus() == ValidationStatus.INVALID) {
+            return validationResult;
+        }
+
+        if (!checkUpdateNameDoesNotExist(taskId, name)) {
             return new ValidationResult(ValidationStatus.INVALID,
                     stringProvider.getString(R.string.name_exist_msg));
         }
 
         return new ValidationResult(ValidationStatus.VALID);
+    }
+
+    private boolean checkUpdateNameDoesNotExist(Long taskId, String name) {
+        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(name);
+        if (taskTemplates.size() == 0) {
+            return true;
+        } else if (taskTemplates.size() == 1) {
+            return taskTemplates.get(0).getId().equals(taskId);
+        }
+
+        return false;
     }
 
     public ValidationResult isDurationValid(String duration) {
-        return isNumber(duration, true);
+        ValidationResult validationResult = isStringEmpty(duration);
+        if (validationResult.getValidationStatus().equals(ValidationStatus.INVALID)) {
+            return validationResult;
+        }
+
+        return isNumber(duration);
     }
 }
