@@ -83,7 +83,7 @@ public class TaskCreateActivityTest {
 
     @After
     public void tearDown() {
-        for(Long id : idsToDelete) {
+        for (Long id : idsToDelete) {
             taskTemplateRepository.delete(id);
         }
     }
@@ -112,7 +112,7 @@ public class TaskCreateActivityTest {
                 .perform(replaceText(EXPECTED_DURATION_TXT));
         closeSoftKeyboard();
 
-        onView(withId(R.id.id_btn_task_next))
+        onView(withId(R.id.id_btn_steps))
                 .perform(click());
 
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
@@ -122,21 +122,21 @@ public class TaskCreateActivityTest {
         assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
         assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
         onView(withText(R.string.task_saved_message)).inRoot(new ToastMatcher())
-            .check(matches(isDisplayed()));
+                .check(matches(isDisplayed()));
     }
 
     @Test
     public void whenAddingNewTaskAndFinishExpectNewTaskAddedToDB() {
         onView(withId(R.id.id_et_task_name))
-            .perform(replaceText(EXPECTED_NAME));
+                .perform(replaceText(EXPECTED_NAME));
         closeSoftKeyboard();
 
         onView(withId(R.id.id_et_task_duration_time))
-            .perform(replaceText(EXPECTED_DURATION_TXT));
+                .perform(replaceText(EXPECTED_DURATION_TXT));
         closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_save_and_finish))
-            .perform(click());
+                .perform(click());
 
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
         idsToDelete.add(taskTemplates.get(0).getId());
@@ -182,7 +182,7 @@ public class TaskCreateActivityTest {
 
         assetTestRule.setTestPicture();
 
-        onView(withId(R.id.id_btn_task_next))
+        onView(withId(R.id.id_btn_steps))
                 .perform(click());
 
         List<Asset> assets = assetRepository.getAll();
@@ -207,7 +207,7 @@ public class TaskCreateActivityTest {
                 .perform(replaceText(EXPECTED_DURATION_TXT));
         closeSoftKeyboard();
 
-        onView(withId(R.id.id_btn_task_next))
+        onView(withId(R.id.id_btn_steps))
                 .perform(click());
 
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
@@ -230,7 +230,7 @@ public class TaskCreateActivityTest {
 
         assetTestRule.setTestSound();
 
-        onView(withId(R.id.id_btn_task_next))
+        onView(withId(R.id.id_btn_steps))
                 .perform(click());
 
         List<Asset> assets = assetRepository.getAll();
@@ -244,7 +244,7 @@ public class TaskCreateActivityTest {
     @Test
     public void whenAddingNewTaskAndNameIsEmptyExpectWarning() {
         closeSoftKeyboard();
-        onView(withId(R.id.id_btn_task_next))
+        onView(withId(R.id.id_btn_steps))
                 .perform(click());
 
         onView(withId(R.id.id_et_task_name))
@@ -258,10 +258,10 @@ public class TaskCreateActivityTest {
                 .perform(typeText(GOOD_TASK_NAME));
         closeSoftKeyboard();
 
-        onView(withId(R.id.id_btn_task_next))
+        onView(withId(R.id.id_btn_steps))
                 .perform(scrollTo());
 
-        onView(withId(R.id.id_btn_task_next))
+        onView(withId(R.id.id_btn_steps))
                 .perform(click());
 
         onView(withId(R.id.id_et_task_duration_time))
@@ -276,7 +276,7 @@ public class TaskCreateActivityTest {
                 .perform(typeText(BAD_TASK_NAME));
         closeSoftKeyboard();
 
-        onView(withId(R.id.id_btn_task_next))
+        onView(withId(R.id.id_btn_steps))
                 .perform(click());
 
         onView(withId(R.id.id_et_task_name))
@@ -300,7 +300,7 @@ public class TaskCreateActivityTest {
 
         closeSoftKeyboard();
 
-        onView(withId(R.id.id_btn_task_next))
+        onView(withId(R.id.id_btn_steps))
                 .perform(click())
                 .perform(scrollTo());
 

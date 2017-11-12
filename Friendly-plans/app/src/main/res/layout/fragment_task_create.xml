@@ -70,12 +70,12 @@
           android:layout_height="wrap_content"
           android:layout_alignParentEnd="true">
 
-          <Button
-            android:id="@+id/id_btn_task_next"
-            android:layout_width="wrap_content"
-            android:text="@string/add_steps"
-            android:layout_height="match_parent"
-            android:layout_marginStart="48dp"/>
+        <Button
+          android:id="@+id/id_btn_steps"
+          android:layout_width="wrap_content"
+          android:text="@string/steps"
+          android:layout_height="match_parent"
+          android:layout_marginStart="48dp"/>
 
           <Button
             android:id="@+id/id_btn_save_and_finish"

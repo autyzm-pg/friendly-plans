@@ -15,6 +15,7 @@ import java.util.Random;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -26,6 +27,7 @@ public class TaskTemplateRepositoryTest {
     private static final int DURATION_TIME = 3;
     private static final Long PICTURE_ID = 32L;
     private static final Long SOUND_ID = 31L;
+    private static final Long TASK_ID = new Random().nextLong();
 
     @InjectMocks
     TaskTemplateRepository taskTemplateRepository;
@@ -90,5 +92,21 @@ public class TaskTemplateRepositoryTest {
     public void whenGettingAllTaskTemplateExpectLoadAllMethodBeCalled() {
         taskTemplateRepository.getAll();
         verify(taskTemplateDao, times(1)).loadAll();
+    }
+
+    @Test
+    public void whenUpdatingTaskTemplateExpectUpdateMethodCalled() {
+        taskTemplateRepository.update(TASK_ID, TASK_NAME, DURATION_TIME, PICTURE_ID, SOUND_ID);
+
+        ArgumentCaptor<TaskTemplate> taskTemplateCaptor = ArgumentCaptor
+                .forClass(TaskTemplate.class);
+        verify(taskTemplateDao).update(taskTemplateCaptor.capture());
+
+        TaskTemplate value = taskTemplateCaptor.getValue();
+        assertThat(value.getId(), is(TASK_ID));
+        assertThat(value.getName(), is(TASK_NAME));
+        assertThat(value.getDurationTime(), is(DURATION_TIME));
+        assertThat(value.getSoundId(), is(SOUND_ID));
+        assertThat(value.getPictureId(), is(PICTURE_ID));
     }
 }

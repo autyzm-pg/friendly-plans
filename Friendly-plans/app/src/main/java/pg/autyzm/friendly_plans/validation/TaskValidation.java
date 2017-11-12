@@ -1,30 +1,73 @@
 package pg.autyzm.friendly_plans.validation;
 
-import android.widget.EditText;
+import database.entities.TaskTemplate;
 import database.repository.TaskTemplateRepository;
+import java.util.List;
+import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.string_provider.StringsProvider;
 
 public class TaskValidation extends Validation {
 
-    public TaskValidation(StringsProvider stringsProvider, TaskTemplateRepository taskTmplRepo) {
-        super(stringsProvider, taskTmplRepo);
+    public TaskValidation(StringsProvider stringsProvider,
+            TaskTemplateRepository taskTemplateRepository) {
+        super(stringsProvider, taskTemplateRepository);
     }
 
-    public boolean isValid(EditText name, EditText duration) {
-        if (!hasText(name)) {
-            return false;
-        }
-        if (!isNameOk(name, true)) {
-            return false;
-        }
-        if (!isNumber(duration, true)) {
-            return false;
+    public ValidationResult isNewNameValid(String name) {
+        ValidationResult validationResult = isStringEmpty(name);
+        if (validationResult.getValidationStatus() == ValidationStatus.INVALID) {
+            return validationResult;
         }
 
-        if (taskTmplRepo.isNameExists(name.getText().toString())) {
-            showError(name);
-            return false;
+        validationResult = isName(name);
+        if (validationResult.getValidationStatus() == ValidationStatus.INVALID) {
+            return validationResult;
         }
-        return true;
+
+        if (taskTemplateRepository.get(name).size() > 0) {
+            return new ValidationResult(ValidationStatus.INVALID,
+                    stringProvider.getString(R.string.name_exist_msg));
+        }
+
+        return new ValidationResult(ValidationStatus.VALID);
+    }
+
+    public ValidationResult isUpdateNameValid(Long taskId, String name) {
+        ValidationResult validationResult = isStringEmpty(name);
+        if (validationResult.getValidationStatus() == ValidationStatus.INVALID) {
+            return validationResult;
+        }
+
+        validationResult = isName(name);
+        if (validationResult.getValidationStatus() == ValidationStatus.INVALID) {
+            return validationResult;
+        }
+
+        if (!checkUpdateNameDoesNotExist(taskId, name)) {
+            return new ValidationResult(ValidationStatus.INVALID,
+                    stringProvider.getString(R.string.name_exist_msg));
+        }
+
+        return new ValidationResult(ValidationStatus.VALID);
+    }
+
+    private boolean checkUpdateNameDoesNotExist(Long taskId, String name) {
+        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(name);
+        if (taskTemplates.size() == 0) {
+            return true;
+        } else if (taskTemplates.size() == 1) {
+            return taskTemplates.get(0).getId().equals(taskId);
+        }
+
+        return false;
+    }
+
+    public ValidationResult isDurationValid(String duration) {
+        ValidationResult validationResult = isStringEmpty(duration);
+        if (validationResult.getValidationStatus().equals(ValidationStatus.INVALID)) {
+            return validationResult;
+        }
+
+        return isNumber(duration);
     }
 }

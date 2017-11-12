@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,8 @@ import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.AppComponent;
 import pg.autyzm.friendly_plans.databinding.FragmentTaskCreateBinding;
 import pg.autyzm.friendly_plans.view.components.SoundComponent;
+import pg.autyzm.friendly_plans.validation.ValidationResult;
+import pg.autyzm.friendly_plans.validation.ValidationStatus;
 import pg.autyzm.friendly_plans.view.main_screen.MainActivity;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.asset.AssetType;
@@ -60,8 +63,8 @@ public class TaskCreateFragment extends Fragment {
     private EditText taskName;
     private EditText taskPicture;
     private EditText taskSound;
-    private EditText taskDurTime;
-    private Button taskNext;
+    private EditText taskDurationTime;
+    private Button taskSteps;
     private Button saveAndFinish;
     private Button selectPicture;
     private Button selectSound;
@@ -70,6 +73,7 @@ public class TaskCreateFragment extends Fragment {
     private ImageView picturePreview;
     private Long pictureId;
     private Long soundId;
+    private Long taskId;
     private SoundComponent soundComponent;
 
     @Override
@@ -95,32 +99,14 @@ public class TaskCreateFragment extends Fragment {
         Bundle arguments = getArguments();
         if (arguments != null) {
             Long taskId = (Long) arguments.get(ActivityProperties.TASK_ID);
+
             if (taskId != null) {
                 initTaskForm(taskId);
             }
         }
     }
 
-    private Long addTask() {
-        try {
-            long taskId = taskTemplateRepository.create(taskName.getText().toString(),
-                    Integer.valueOf(taskDurTime.getText().toString()),
-                    pictureId,
-                    soundId);
-            showToastMessage(R.string.task_saved_message);
-
-            return taskId;
-
-        } catch (RuntimeException exception) {
-            Log.e("Task Create View", "Error saving task", exception);
-            showToastMessage(R.string.create_task_error_message);
-            return null;
-        }
-    }
-
-
     private void registerViews(View view) {
-
         labelTaskName = (TextView) view.findViewById(R.id.id_tv_task_name_label);
         Utils.markFieldMandatory(labelTaskName);
         labelDurationTime = (TextView) view.findViewById(R.id.id_tv_task_duration_time);
@@ -128,8 +114,8 @@ public class TaskCreateFragment extends Fragment {
         taskName = (EditText) view.findViewById(R.id.id_et_task_name);
         taskPicture = (EditText) view.findViewById(R.id.id_et_task_picture);
         taskSound = (EditText) view.findViewById(R.id.id_et_task_sound);
-        taskDurTime = (EditText) view.findViewById(R.id.id_et_task_duration_time);
-        taskNext = (Button) view.findViewById(R.id.id_btn_task_next);
+        taskDurationTime = (EditText) view.findViewById(R.id.id_et_task_duration_time);
+        taskSteps = (Button) view.findViewById(R.id.id_btn_steps);
         saveAndFinish = (Button) view.findViewById(R.id.id_btn_save_and_finish);
         selectPicture = (Button) view.findViewById(R.id.id_btn_select_task_picture);
         picturePreview = (ImageView) view.findViewById(R.id.iv_picture_preview);
@@ -178,31 +164,109 @@ public class TaskCreateFragment extends Fragment {
             }
         });
 
-        taskNext.setOnClickListener(new View.OnClickListener() {
+        taskSteps.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                soundComponent.stopActions();
-                if (taskValidation.isValid(taskName, taskDurTime)) {
-                    Long taskId = addTask();
-                    if (taskId != null) {
-                        showStepsList(taskId);
-                    }
+                Long taskId = saveOrUpdate();
+                if (taskId != null) {
+                    showStepsList(taskId);
                 }
             }
         });
         saveAndFinish.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (taskValidation.isValid(taskName, taskDurTime)) {
-                    addTask();
+                Long taskId = saveOrUpdate();
+                if (taskId != null) {
                     showMainMenu();
                 }
             }
         });
     }
 
+    private Long saveOrUpdate() {
+        soundComponent.stopActions();
+        if (taskId != null) {
+            if (validateName(taskId, taskName) && validateDuration(taskDurationTime)) {
+                return updateTask(taskId);
+            }
+        } else {
+            if (validateName(taskName) && validateDuration(taskDurationTime)) {
+                return addTask();
+            }
+        }
+        return null;
+    }
+
+    private Long addTask() {
+        try {
+            long taskId = taskTemplateRepository.create(taskName.getText().toString(),
+                    Integer.valueOf(taskDurationTime.getText().toString()),
+                    pictureId,
+                    soundId);
+            showToastMessage(R.string.task_saved_message);
+
+            return taskId;
+
+        } catch (RuntimeException exception) {
+            return handleSavingError(exception);
+        }
+    }
+
+    private Long updateTask(Long taskId) {
+        try {
+            taskTemplateRepository.update(taskId,
+                    taskName.getText().toString(),
+                    Integer.valueOf(taskDurationTime.getText().toString()),
+                    pictureId,
+                    soundId);
+            showToastMessage(R.string.task_saved_message);
+
+            return taskId;
+
+        } catch (RuntimeException exception) {
+            return handleSavingError(exception);
+        }
+    }
+
+    @Nullable
+    private Long handleSavingError(RuntimeException exception) {
+        Log.e("Task Create View", "Error saving task", exception);
+        showToastMessage(R.string.save_task_error_message);
+        return null;
+    }
+
+    private boolean validateName(Long taskId, EditText taskName) {
+        ValidationResult validationResult = taskValidation
+                .isUpdateNameValid(taskId, taskName.getText().toString());
+        return handleInvalidResult(taskName, validationResult);
+    }
+
+    private boolean validateName(EditText taskName) {
+        ValidationResult validationResult = taskValidation
+                .isNewNameValid(taskName.getText().toString());
+        return handleInvalidResult(taskName, validationResult);
+    }
+
+    private boolean validateDuration(EditText duration) {
+        ValidationResult validationResult = taskValidation
+                .isDurationValid(duration.getText().toString());
+        return handleInvalidResult(duration, validationResult);
+    }
+
+    private boolean handleInvalidResult(EditText editText, ValidationResult validationResult) {
+        if (validationResult.getValidationStatus().equals(ValidationStatus.INVALID)) {
+            editText.setError(validationResult.getValidationInfo());
+            return false;
+        }
+
+        return true;
+    }
+
     private void initTaskForm(long taskId) {
+        this.taskId = taskId;
+
         TaskTemplate task = taskTemplateRepository.get(taskId);
         taskName.setText(task.getName());
-        taskDurTime.setText(String.valueOf(task.getDurationTime()));
+        taskDurationTime.setText(String.valueOf(task.getDurationTime()));
         Asset picture = task.getPicture();
         Asset sound = task.getSound();
         if (picture != null) {
@@ -211,10 +275,9 @@ public class TaskCreateFragment extends Fragment {
         if (sound != null) {
             setAssetValue(AssetType.SOUND, sound.getFilename(), sound.getId());
         }
-
     }
 
-    private void showStepsList(long taskId) {
+    private void showStepsList(final long taskId) {
         StepListFragment fragment = new StepListFragment();
         Bundle args = new Bundle();
         args.putLong(ActivityProperties.TASK_ID, taskId);
