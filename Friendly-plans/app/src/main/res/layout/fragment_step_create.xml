@@ -169,7 +169,7 @@
           android:layout_gravity="center"
           android:scaleType="fitCenter"
           android:elevation="2dp"
-          android:src="@drawable/ic_play_sound_1"
+          android:src="@drawable/ic_play_sound"
           android:contentDescription="@string/listen_sound"/>
       </FrameLayout>
     </LinearLayout>

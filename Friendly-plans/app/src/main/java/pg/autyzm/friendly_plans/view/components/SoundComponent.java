@@ -86,14 +86,14 @@ public class SoundComponent {
     }
 
     private void runAnimation() {
-        playSoundIcon.setImageResource(R.drawable.ic_playing_sound_2);
+        playSoundIcon.setImageResource(R.drawable.ic_playing_sound);
         Animation rotation = AnimationUtils.loadAnimation(context, R.anim.ic_play_sound_animation);
         playSoundIcon.startAnimation(rotation);
     }
 
     private void stopAnimation() {
         playSoundIcon.clearAnimation();
-        playSoundIcon.setImageResource(R.drawable.ic_play_sound_1);
+        playSoundIcon.setImageResource(R.drawable.ic_play_sound);
     }
 
     private void stopSound() {
