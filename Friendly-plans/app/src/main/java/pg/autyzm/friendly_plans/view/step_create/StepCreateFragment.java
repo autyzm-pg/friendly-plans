@@ -34,7 +34,7 @@ public class StepCreateFragment extends Fragment {
         AppComponent appComponent = ((App) getActivity().getApplication()).getAppComponent();
         appComponent.inject(this);
         SoundComponent soundComponent = SoundComponent.getSoundComponent(
-            soundId, playSoundIcon, getActivity().getApplicationContext(), appComponent);
+                soundId, playSoundIcon, getActivity().getApplicationContext(), appComponent);
 
         FragmentStepCreateBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_step_create, container, false);

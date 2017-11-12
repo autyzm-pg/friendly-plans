@@ -16,7 +16,7 @@ import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.asset.AssetsHelper;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 
-public class SoundComponent {
+public final class SoundComponent {
 
     @Inject
     MediaPlayer mediaPlayer;
@@ -29,7 +29,7 @@ public class SoundComponent {
     private Context context;
 
     public static SoundComponent getSoundComponent(Long soundId, ImageView playSoundIcon,
-        Context context, AppComponent appComponent) {
+            Context context, AppComponent appComponent) {
         final SoundComponent soundComponent = new SoundComponent(soundId, playSoundIcon, context);
         appComponent.inject(soundComponent);
         soundComponent.mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -42,7 +42,7 @@ public class SoundComponent {
     }
 
     private SoundComponent(Long soundId, ImageView playSoundIcon,
-        Context context) {
+            Context context) {
         this.soundId = soundId;
         this.playSoundIcon = playSoundIcon;
         this.context = context;

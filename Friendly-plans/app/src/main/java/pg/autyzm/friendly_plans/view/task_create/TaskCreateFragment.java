@@ -78,9 +78,9 @@ public class TaskCreateFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-        Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         FragmentTaskCreateBinding binding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_task_create, container, false);
+                inflater, R.layout.fragment_task_create, container, false);
         View view = binding.getRoot();
         ImageView playSoundIcon = (ImageView) view.findViewById(R.id.id_iv_play_sound_icon);
 
