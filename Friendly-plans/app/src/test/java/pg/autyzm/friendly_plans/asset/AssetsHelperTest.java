@@ -4,7 +4,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.matchesPattern;
+import static org.hamcrest.text.MatchesPattern.matchesPattern;
 
 import android.content.Context;
 import java.io.File;
@@ -16,12 +16,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import pg.autyzm.friendly_plans.BuildConfig;
 
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 public class AssetsHelperTest {
 
