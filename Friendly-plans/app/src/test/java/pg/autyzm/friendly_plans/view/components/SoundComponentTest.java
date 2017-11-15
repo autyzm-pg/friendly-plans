@@ -30,9 +30,9 @@ import pg.autyzm.friendly_plans.test_helpers.AppComponentDaggerRule;
 @PrepareForTest(AnimationUtils.class)
 public class SoundComponentTest {
 
-    private final Long NO_SOUND_SELECTED_ID = null;
-    private final Long SOUND_SELECTED_ID = 5L;
-    private final String SOUND_FULL_PATH = "/test/sound/file/path.mp3";
+    private static final Long NO_SOUND_SELECTED_ID = null;
+    private static final Long SOUND_SELECTED_ID = 5L;
+    private static final String SOUND_FULL_PATH = "/test/sound/file/path.mp3";
 
     @Rule
     public final AppComponentDaggerRule daggerRule = new AppComponentDaggerRule();
@@ -78,6 +78,7 @@ public class SoundComponentTest {
     public void whenSoundIdIsNullAndPlayClickedShouldShowToast() {
         SoundComponent soundComponent = SoundComponent.getSoundComponent(NO_SOUND_SELECTED_ID,
                 playSoundIcon, context, appComponent);
+
         soundComponent.onPlayStopSoundClick(onClickView);
 
         verify(toastUserNotifier).displayNotifications(
@@ -87,9 +88,9 @@ public class SoundComponentTest {
 
     @Test
     public void whenPlayClickedAndSoundIsPlayingAnimationAndPlayingShouldStop() {
+        when(mediaPlayer.isPlaying()).thenReturn(true);
         SoundComponent soundComponent = SoundComponent.getSoundComponent(SOUND_SELECTED_ID,
                 playSoundIcon, context, appComponent);
-        when(mediaPlayer.isPlaying()).thenReturn(true);
 
         soundComponent.onPlayStopSoundClick(onClickView);
 
@@ -100,11 +101,11 @@ public class SoundComponentTest {
     @Test
     public void whenPlayClickedAndSoundIsNotPlayingAnimationAndPlayingShouldStart()
         throws IOException {
-        SoundComponent soundComponent = SoundComponent.getSoundComponent(SOUND_SELECTED_ID,
-                playSoundIcon, context, appComponent);
         when(mediaPlayer.isPlaying()).thenReturn(false);
         when(assetRepository.get(SOUND_SELECTED_ID)).thenReturn(sound);
         when(assetsHelper.getFileFullPath(sound)).thenReturn(SOUND_FULL_PATH);
+        SoundComponent soundComponent = SoundComponent.getSoundComponent(SOUND_SELECTED_ID,
+                playSoundIcon, context, appComponent);
 
         soundComponent.onPlayStopSoundClick(onClickView);
 
@@ -116,7 +117,7 @@ public class SoundComponentTest {
     public void onStopActionAnimationAndPlayingSoundShouldStop()
         throws IOException {
         SoundComponent soundComponent = SoundComponent.getSoundComponent(SOUND_SELECTED_ID,
-            playSoundIcon, context, appComponent);
+                playSoundIcon, context, appComponent);
 
         soundComponent.stopActions();
 

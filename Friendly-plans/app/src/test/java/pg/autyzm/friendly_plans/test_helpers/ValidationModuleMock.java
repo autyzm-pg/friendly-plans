@@ -15,7 +15,8 @@ public class ValidationModuleMock extends ValidationModule {
     }
 
     @Override
-    public TaskValidation getTaskValidation(StringsProvider stringsProvider, TaskTemplateRepository taskTemplateRepository) {
+    public TaskValidation getTaskValidation(StringsProvider stringsProvider,
+            TaskTemplateRepository taskTemplateRepository) {
         return taskValidation;
     }
 

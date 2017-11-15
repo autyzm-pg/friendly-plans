@@ -25,22 +25,22 @@ public class RepositoryModuleMock extends RepositoryModule {
         return taskTemplateRepository;
     }
 
+    public TaskTemplateRepository getTaskTemplateRepository() {
+        return taskTemplateRepository;
+    }
+
     @Override
     public AssetRepository getAssetRepostiory(DaoSession daoSession) {
+        return assetRepository;
+    }
+
+    public AssetRepository getAssetRepository() {
         return assetRepository;
     }
 
     @Override
     public StepTemplateRepository getStepTemplateRepository(DaoSession daoSession) {
         return stepTemplateRepository;
-    }
-
-    public TaskTemplateRepository getTaskTemplateRepository() {
-        return taskTemplateRepository;
-    }
-
-    public AssetRepository getAssetRepository() {
-        return assetRepository;
     }
 
     public StepTemplateRepository getStepTemplateRepository() {

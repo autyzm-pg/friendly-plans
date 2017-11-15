@@ -50,13 +50,7 @@ public class AppComponentDaggerRule implements TestRule {
 
     @Override
     public Statement apply(Statement base, Description description) {
-        return new Statement() {
-            @Override
-            public void evaluate() throws Throwable {
-
-            }
-        };
-
+        return base;
     }
 
     public RepositoryModuleMock getRepositoryModuleMock() {
