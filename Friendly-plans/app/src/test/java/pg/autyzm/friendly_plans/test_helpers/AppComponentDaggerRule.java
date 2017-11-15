@@ -1,44 +1,94 @@
 package pg.autyzm.friendly_plans.test_helpers;
 
-import android.content.Context;
-import database.repository.DaoSessionModule;
-import database.repository.RepositoryModule;
-import it.cosenonjaviste.daggermock.DaggerMockRule;
-import org.powermock.reflect.Whitebox;
-import org.robolectric.RuntimeEnvironment;
-import pg.autyzm.friendly_plans.App;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
 import pg.autyzm.friendly_plans.AppComponent;
-import pg.autyzm.friendly_plans.file_picker.FilePickerModule;
-import pg.autyzm.friendly_plans.string_provider.StringProviderModule;
-import pg.autyzm.friendly_plans.validation.ValidationModule;
+import pg.autyzm.friendly_plans.DaggerAppComponent;
 
-public class AppComponentDaggerRule extends DaggerMockRule<AppComponent> {
+public class AppComponentDaggerRule implements TestRule {
+
+    private RepositoryModuleMock repositoryModuleMock;
+    private StringProviderModuleMock stringProviderModuleMock;
+    private ValidationModuleMock validationModuleMock;
+    private FilePickerModuleMock filePickerModuleMock;
+    private MediaPlayerModuleMock mediaPlayerModuleMock;
+    private ToastUserNotifierModuleMock toastUserNotifierModuleMock;
+    private AssetsHelperModuleMock assetsHelperModuleMock;
+    private AppComponent appComponent;
 
     public AppComponentDaggerRule() {
-        super(
-                AppComponent.class,
-                new FilePickerModule(),
-                new RepositoryModule(),
-                new ValidationModule(),
-                new DaoSessionModule(getAppContext()),
-                new StringProviderModule(getAppContext())
+        initMockModules();
+        appComponent = buildAppComponentWithMocks();
+    }
 
-        );
-        set(new DaggerMockRule.ComponentSetter<AppComponent>() {
+    private void initMockModules() {
+        repositoryModuleMock = new RepositoryModuleMock();
+        stringProviderModuleMock = new StringProviderModuleMock();
+        validationModuleMock = new ValidationModuleMock();
+        filePickerModuleMock = new FilePickerModuleMock();
+        mediaPlayerModuleMock = new MediaPlayerModuleMock();
+        toastUserNotifierModuleMock = new ToastUserNotifierModuleMock();
+        assetsHelperModuleMock = new AssetsHelperModuleMock();
+    }
+
+    private AppComponent buildAppComponentWithMocks() {
+        DaoSessionComponentMock daoSessionComponentMock = DaggerDaoSessionComponentMock.builder()
+            .daoSessionModuleMock(new DaoSessionModuleMock())
+            .build();
+        return DaggerAppComponent.builder()
+            .daoSessionComponent(daoSessionComponentMock)
+            .repositoryModule(repositoryModuleMock)
+            .stringProviderModule(stringProviderModuleMock)
+            .validationModule(validationModuleMock)
+            .filePickerModule(filePickerModuleMock)
+            .mediaPlayerModule(mediaPlayerModuleMock)
+            .toastUserNotifierModule(toastUserNotifierModuleMock)
+            .assetsHelperModule(assetsHelperModuleMock)
+            .build();
+    }
+
+    @Override
+    public Statement apply(Statement base, Description description) {
+        return new Statement() {
             @Override
-            public void setComponent(AppComponent component) {
-                Whitebox.setInternalState(getApp(), "appComponent", component);
+            public void evaluate() throws Throwable {
+
             }
-        });
+        };
+
     }
 
-    private static Context getAppContext() {
-        return getApp().getApplicationContext();
+    public RepositoryModuleMock getRepositoryModuleMock() {
+        return repositoryModuleMock;
     }
 
-    private static App getApp() {
-        return (App) RuntimeEnvironment.application;
+    public StringProviderModuleMock getStringProviderModuleMock() {
+        return stringProviderModuleMock;
     }
 
+    public ValidationModuleMock getValidationModuleMock() {
+        return validationModuleMock;
+    }
+
+    public FilePickerModuleMock getFilePickerModuleMock() {
+        return filePickerModuleMock;
+    }
+
+    public MediaPlayerModuleMock getMediaPlayerModuleMock() {
+        return mediaPlayerModuleMock;
+    }
+
+    public ToastUserNotifierModuleMock getToastUserNotifierModuleMock() {
+        return toastUserNotifierModuleMock;
+    }
+
+    public AssetsHelperModuleMock getAssetsHelperModuleMock() {
+        return assetsHelperModuleMock;
+    }
+
+    public AppComponent getAppComponent() {
+        return appComponent;
+    }
 }
 

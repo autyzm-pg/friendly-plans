@@ -56,8 +56,9 @@ public class TaskCreateFragment extends Fragment {
     TaskTemplateRepository taskTemplateRepository;
     @Inject
     AssetRepository assetRepository;
+    @Inject
+    ToastUserNotifier toastUserNotifier;
 
-    private Animation rotation;
     private TextView labelTaskName;
     private TextView labelDurationTime;
     private EditText taskName;
@@ -352,7 +353,7 @@ public class TaskCreateFragment extends Fragment {
     }
 
     private void showToastMessage(int resourceStringId) {
-        ToastUserNotifier.displayNotifications(
+        toastUserNotifier.displayNotifications(
                 resourceStringId,
                 getActivity().getApplicationContext());
     }

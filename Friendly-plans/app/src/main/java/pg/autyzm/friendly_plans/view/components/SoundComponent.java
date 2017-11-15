@@ -22,8 +22,12 @@ public final class SoundComponent {
     MediaPlayer mediaPlayer;
     @Inject
     AssetRepository assetRepository;
+    @Inject
+    ToastUserNotifier toastUserNotifier;
+    @Inject
+    AssetsHelper assetsHelper;
 
-    private AssetsHelper assetsHelper;
+
     private Long soundId;
     private ImageView playSoundIcon;
     private Context context;
@@ -46,14 +50,13 @@ public final class SoundComponent {
         this.soundId = soundId;
         this.playSoundIcon = playSoundIcon;
         this.context = context;
-        this.assetsHelper = new AssetsHelper(context);
     }
 
     public void onPlayStopSoundClick(View view) {
         if (soundId != null) {
             handleSoundPlaying();
         } else {
-            ToastUserNotifier.displayNotifications(R.string.no_file_to_play_error, context);
+            toastUserNotifier.displayNotifications(R.string.no_file_to_play_error, context);
         }
     }
 
@@ -81,7 +84,7 @@ public final class SoundComponent {
             mediaPlayer.prepare();
             mediaPlayer.start();
         } catch (IOException e) {
-            ToastUserNotifier.displayNotifications(R.string.playing_file_error, context);
+            toastUserNotifier.displayNotifications(R.string.playing_file_error, context);
         }
     }
 

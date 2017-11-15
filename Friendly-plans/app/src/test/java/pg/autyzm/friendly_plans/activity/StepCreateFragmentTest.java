@@ -19,6 +19,7 @@ import org.robolectric.shadows.ShadowToast;
 import pg.autyzm.friendly_plans.BuildConfig;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.test_helpers.AppComponentDaggerRule;
+import pg.autyzm.friendly_plans.test_helpers.PowerAppComponentDaggerRule;
 import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 
@@ -28,10 +29,7 @@ import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 public class StepCreateFragmentTest {
 
     @Rule
-    public final AppComponentDaggerRule daggerRule = new AppComponentDaggerRule();
-
-    @Mock
-    private MediaPlayer mediaPlayer = new MediaPlayer();
+    public final PowerAppComponentDaggerRule daggerRule = new PowerAppComponentDaggerRule();
 
     private TaskCreateActivity activity;
     private StepCreateFragment fragment;
