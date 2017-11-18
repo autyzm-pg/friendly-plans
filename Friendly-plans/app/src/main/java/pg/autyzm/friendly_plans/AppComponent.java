@@ -3,13 +3,18 @@ package pg.autyzm.friendly_plans;
 import android.media.MediaPlayer;
 import dagger.Component;
 import database.repository.AssetRepository;
-import database.repository.DaoSessionModule;
+import database.repository.DaoSessionComponent;
 import database.repository.RepositoryModule;
 import database.repository.StepTemplateRepository;
 import database.repository.TaskTemplateRepository;
 import javax.inject.Singleton;
+import pg.autyzm.friendly_plans.asset.AssetsHelper;
+import pg.autyzm.friendly_plans.asset.AssetsHelperModule;
 import pg.autyzm.friendly_plans.file_picker.FilePickerModule;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
+import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
+import pg.autyzm.friendly_plans.notifications.ToastUserNotifierModule;
+import pg.autyzm.friendly_plans.view.components.SoundComponent;
 import pg.autyzm.friendly_plans.string_provider.StringProviderModule;
 import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateFragment;
@@ -22,9 +27,11 @@ import pg.autyzm.friendly_plans.view.task_list.TaskListActivity;
 @Component(modules = {StringProviderModule.class,
         ValidationModule.class,
         FilePickerModule.class,
-        DaoSessionModule.class,
         RepositoryModule.class,
-        MediaPlayerModule.class})
+        MediaPlayerModule.class,
+        ToastUserNotifierModule.class,
+        AssetsHelperModule.class},
+        dependencies = DaoSessionComponent.class)
 public interface AppComponent {
 
     @SuppressWarnings("unused")
@@ -45,6 +52,12 @@ public interface AppComponent {
     @SuppressWarnings("unused")
     MediaPlayer mediaPlayer();
 
+    @SuppressWarnings("unused")
+    ToastUserNotifier toastUserNotifier();
+
+    @SuppressWarnings("unused")
+    AssetsHelper assetsHelper();
+
     void inject(TaskCreateFragment activity);
 
     void inject(TaskListActivity activity);
@@ -52,4 +65,6 @@ public interface AppComponent {
     void inject(StepListFragment stepListFragment);
 
     void inject(StepCreateFragment stepCreateFragment);
+
+    void inject(SoundComponent soundComponent);
 }

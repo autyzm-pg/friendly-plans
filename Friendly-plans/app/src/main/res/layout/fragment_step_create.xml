@@ -2,8 +2,8 @@
 <layout>
   <data>
     <variable
-      name="events"
-      type="pg.autyzm.friendly_plans.view.step_create.StepCreateEvents"/>
+      name="soundComponent"
+      type="pg.autyzm.friendly_plans.view.components.SoundComponent"/>
   </data>
 
   <ScrollView
@@ -161,7 +161,7 @@
           android:layout_height="wrap_content"
           android:layout_marginStart="40dp"
           android:elevation="1dp"
-          android:onClick="@{events::onPlayStopSoundClick}"/>
+          android:onClick="@{soundComponent::onPlayStopSoundClick}"/>
         <ImageView
           android:id="@+id/id_iv_play_step_sound_icon"
           android:layout_width="wrap_content"
@@ -169,7 +169,7 @@
           android:layout_gravity="center"
           android:scaleType="fitCenter"
           android:elevation="2dp"
-          android:src="@drawable/ic_play_sound_1"
+          android:src="@drawable/ic_play_sound"
           android:contentDescription="@string/listen_sound"/>
       </FrameLayout>
     </LinearLayout>

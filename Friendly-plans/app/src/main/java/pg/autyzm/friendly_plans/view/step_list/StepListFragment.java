@@ -24,6 +24,8 @@ public class StepListFragment extends Fragment implements StepListEvents {
 
     @Inject
     StepTemplateRepository stepTemplateRepository;
+    @Inject
+    ToastUserNotifier toastUserNotifier;
 
     StepListRecyclerViewAdapter.StepItemClickListener stepItemClickListener =
             new StepListRecyclerViewAdapter.StepItemClickListener() {
@@ -87,7 +89,7 @@ public class StepListFragment extends Fragment implements StepListEvents {
 
     @Override
     public void eventSaveAndFinish(View view) {
-        ToastUserNotifier.displayNotifications(
+        toastUserNotifier.displayNotifications(
                 R.string.task_with_steps_saved_message,
                 getActivity().getApplicationContext());
         showMainMenu();

@@ -4,8 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -13,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -27,20 +24,22 @@ import database.repository.AssetRepository;
 import database.repository.TaskTemplateRepository;
 import java.io.File;
 import java.io.IOException;
-import java.lang.RuntimeException;
 import javax.inject.Inject;
 import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
-import pg.autyzm.friendly_plans.validation.ValidationResult;
-import pg.autyzm.friendly_plans.validation.ValidationStatus;
-import pg.autyzm.friendly_plans.view.main_screen.MainActivity;
+import pg.autyzm.friendly_plans.AppComponent;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.asset.AssetType;
 import pg.autyzm.friendly_plans.asset.AssetsHelper;
+import pg.autyzm.friendly_plans.databinding.FragmentTaskCreateBinding;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.validation.TaskValidation;
 import pg.autyzm.friendly_plans.validation.Utils;
+import pg.autyzm.friendly_plans.validation.ValidationResult;
+import pg.autyzm.friendly_plans.validation.ValidationStatus;
+import pg.autyzm.friendly_plans.view.components.SoundComponent;
+import pg.autyzm.friendly_plans.view.main_screen.MainActivity;
 import pg.autyzm.friendly_plans.view.step_list.StepListFragment;
 
 public class TaskCreateFragment extends Fragment {
@@ -56,9 +55,8 @@ public class TaskCreateFragment extends Fragment {
     @Inject
     AssetRepository assetRepository;
     @Inject
-    MediaPlayer mp;
+    ToastUserNotifier toastUserNotifier;
 
-    private Animation rotation;
     private TextView labelTaskName;
     private TextView labelDurationTime;
     private EditText taskName;
@@ -71,18 +69,27 @@ public class TaskCreateFragment extends Fragment {
     private Button selectSound;
     private ImageButton clearSound;
     private ImageButton clearPicture;
-    private Button playSound;
     private ImageView picturePreview;
-    private ImageView playSoundIcon;
     private Long pictureId;
     private Long soundId;
     private Long taskId;
+    private SoundComponent soundComponent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        ((App) getActivity().getApplication()).getAppComponent().inject(this);
-        return inflater.inflate(R.layout.fragment_task_create, container, false);
+        FragmentTaskCreateBinding binding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_task_create, container, false);
+        View view = binding.getRoot();
+        ImageView playSoundIcon = (ImageView) view.findViewById(R.id.id_iv_play_sound_icon);
+
+        AppComponent appComponent = ((App) getActivity().getApplication()).getAppComponent();
+        soundComponent = SoundComponent.getSoundComponent(
+            soundId, playSoundIcon, getActivity().getApplicationContext(), appComponent);
+        appComponent.inject(this);
+
+        binding.setSoundComponent(soundComponent);
+        return view;
     }
 
     @Override
@@ -112,11 +119,8 @@ public class TaskCreateFragment extends Fragment {
         selectPicture = (Button) view.findViewById(R.id.id_btn_select_task_picture);
         picturePreview = (ImageView) view.findViewById(R.id.iv_picture_preview);
         selectSound = (Button) view.findViewById(R.id.id_btn_select_task_sound);
-        playSound = (Button) view.findViewById(R.id.id_btn_play_sound);
         clearSound = (ImageButton) view.findViewById(R.id.id_ib_clear_sound_btn);
         clearPicture = (ImageButton) view.findViewById(R.id.id_ib_clear_img_btn);
-        playSoundIcon = (ImageView) view.findViewById(R.id.id_iv_play_sound_icon);
-        mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
         selectPicture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -140,12 +144,6 @@ public class TaskCreateFragment extends Fragment {
             }
         });
 
-        playSound.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                playStopSound();
-            }
-        });
 
         clearPicture.setOnClickListener(new OnClickListener() {
             @Override
@@ -161,8 +159,7 @@ public class TaskCreateFragment extends Fragment {
             public void onClick(View view) {
                 taskSound.setText("");
                 clearSound.setVisibility(View.INVISIBLE);
-                stopSound();
-                stopBtnAnimation();
+                soundComponent.stopActions();
             }
         });
 
@@ -182,17 +179,10 @@ public class TaskCreateFragment extends Fragment {
                 }
             }
         });
-        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            public void onCompletion(MediaPlayer player) {
-                mp.reset();
-                stopBtnAnimation();
-            }
-        });
     }
 
     private Long saveOrUpdate() {
-        stopSound();
-        stopBtnAnimation();
+        soundComponent.stopActions();
         if (taskId != null) {
             if (validateName(taskId, taskName) && validateDuration(taskDurationTime)) {
                 return updateTask(taskId);
@@ -354,64 +344,14 @@ public class TaskCreateFragment extends Fragment {
                 .into(picturePreview);
     }
 
-    private void playStopSound() {
-        boolean isNameEmpty = taskSound.getText().toString().isEmpty();
-        if (!isNameEmpty) {
-            if (!mp.isPlaying()) {
-                playSound(retrieveSoundFile());
-                runBtnAnimation();
-            } else {
-                stopSound();
-                stopBtnAnimation();
-            }
-        } else {
-            showToastMessage(R.string.no_file_to_play_error);
-        }
-    }
-
-    private void playSound(String pathToFile) {
-        try {
-            mp.reset();
-            mp.setDataSource(pathToFile);
-            mp.prepare();
-            mp.start();
-        } catch (IOException e) {
-            showToastMessage(R.string.playing_file_error);
-        }
-    }
-
-    private String retrieveSoundFile() {
-        String soundFileName = assetRepository.get(soundId).getFilename();
-        String fileDir = getActivity().getApplicationContext().getFilesDir().toString();
-        return fileDir + File.separator + soundFileName;
-    }
-
     private String retrieveImageFile() {
         String imageFileName = assetRepository.get(pictureId).getFilename();
         String fileDir = getActivity().getApplicationContext().getFilesDir().toString();
         return fileDir + File.separator + imageFileName;
     }
 
-    private void stopSound() {
-        mp.stop();
-        mp.reset();
-    }
-
-    private void runBtnAnimation() {
-        playSoundIcon.setImageResource(R.drawable.ic_playing_sound_2);
-        rotation = AnimationUtils
-                .loadAnimation(getActivity().getApplicationContext(),
-                        R.anim.ic_play_sound_animation);
-        playSoundIcon.startAnimation(rotation);
-    }
-
-    private void stopBtnAnimation() {
-        playSoundIcon.clearAnimation();
-        playSoundIcon.setImageResource(R.drawable.ic_play_sound_1);
-    }
-
     private void showToastMessage(int resourceStringId) {
-        ToastUserNotifier.displayNotifications(
+        toastUserNotifier.displayNotifications(
                 resourceStringId,
                 getActivity().getApplicationContext());
     }

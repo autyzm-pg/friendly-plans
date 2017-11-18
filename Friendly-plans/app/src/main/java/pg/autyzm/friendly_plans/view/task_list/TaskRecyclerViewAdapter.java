@@ -18,7 +18,7 @@ public class TaskRecyclerViewAdapter
         extends RecyclerView.Adapter<TaskRecyclerViewAdapter.TaskListViewHolder> {
 
     private static final int ICON_PLACEHOLDER_PICTURE_ID = R.drawable.ic_placeholder;
-    private static final int ICON_PLACEHOLDER_SOUND_ID = R.drawable.ic_playing_sound_2;
+    private static final int ICON_PLACEHOLDER_SOUND_ID = R.drawable.ic_playing_sound;
     private static final int ICON_PLACEHOLDER_TIME_ID = R.drawable.ic_placeholder_time;
     private List<TaskTemplate> taskItemList;
     private TaskItemClickListener taskItemClickListener;

@@ -9,7 +9,6 @@ import static org.mockito.Mockito.when;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.widget.Button;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import database.repository.TaskTemplateRepository;
@@ -17,7 +16,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
@@ -25,14 +23,14 @@ import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowToast;
 import pg.autyzm.friendly_plans.BuildConfig;
 import pg.autyzm.friendly_plans.R;
+import pg.autyzm.friendly_plans.asset.AssetType;
+import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
+import pg.autyzm.friendly_plans.test_helpers.PowerAppComponentDaggerRule;
 import pg.autyzm.friendly_plans.validation.TaskValidation;
 import pg.autyzm.friendly_plans.validation.ValidationResult;
 import pg.autyzm.friendly_plans.validation.ValidationStatus;
-import pg.autyzm.friendly_plans.view.task_create.TaskCreateFragment;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
-import pg.autyzm.friendly_plans.asset.AssetType;
-import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
-import pg.autyzm.friendly_plans.test_helpers.AppComponentDaggerRule;
+import pg.autyzm.friendly_plans.view.task_create.TaskCreateFragment;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
@@ -42,18 +40,10 @@ public class TaskCreateActivityTest {
     private static final String TEST_FILE_PATH = "Test";
 
     @Rule
-    public final AppComponentDaggerRule rule = new AppComponentDaggerRule();
+    public final PowerAppComponentDaggerRule daggerRule = new PowerAppComponentDaggerRule();
 
-    @Mock
     private FilePickerProxy filePickerProxy;
-
-    @Mock
     private TaskTemplateRepository taskTemplateRepository;
-
-    @Mock
-    private MediaPlayer mediaPlayer = new MediaPlayer();
-
-    @Mock
     private TaskValidation taskValidation;
 
     private TaskCreateActivity activity;
@@ -61,6 +51,9 @@ public class TaskCreateActivityTest {
 
     @Before
     public void setUp() {
+        taskTemplateRepository = daggerRule.getRepositoryModuleMock().getTaskTemplateRepository();
+        taskValidation = daggerRule.getValidationModuleMock().getTaskValidation();
+        filePickerProxy = daggerRule.getFilePickerModuleMock().getFilePickerProxy();
         doNothing().when(filePickerProxy)
                 .openFilePicker(any(TaskCreateFragment.class), any(AssetType.class));
         when(filePickerProxy.isPickFileRequested(any(int.class), any(AssetType.class)))
