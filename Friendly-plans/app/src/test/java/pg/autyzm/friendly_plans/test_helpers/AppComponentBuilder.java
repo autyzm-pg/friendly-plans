@@ -25,7 +25,7 @@ import pg.autyzm.friendly_plans.string_provider.StringsProvider;
 import pg.autyzm.friendly_plans.validation.TaskValidation;
 import pg.autyzm.friendly_plans.validation.ValidationModule;
 
-public class AppComponentBuilder {
+public final class AppComponentBuilder {
 
     private DaoSessionModule daoSessionModule;
     private RepositoryModule repositoryModule;
@@ -73,15 +73,16 @@ public class AppComponentBuilder {
 
     private void setUpModuleMocks() {
         when(daoSessionModule.getDaoSession()).thenReturn(daoSession);
-        when(repositoryModule.getTaskTemplateRepository(any(DaoSession.class))).thenReturn(
-                taskTemplateRepository);
-        when(repositoryModule.getAssetRepostiory(any(DaoSession.class))).thenReturn(assetRepository);
-        when(repositoryModule.getStepTemplateRepository(any(DaoSession.class))).thenReturn(
-                stepTemplateRepository);
+        when(repositoryModule.getTaskTemplateRepository(any(DaoSession.class)))
+                .thenReturn(taskTemplateRepository);
+        when(repositoryModule.getAssetRepostiory(any(DaoSession.class)))
+                .thenReturn(assetRepository);
+        when(repositoryModule.getStepTemplateRepository(any(DaoSession.class)))
+                .thenReturn(stepTemplateRepository);
         when(stringProviderModule.getStringProvider()).thenReturn(stringsProvider);
         when(validationModule
-                .getTaskValidation(any(StringsProvider.class), any(TaskTemplateRepository.class))).thenReturn(
-                taskValidation);
+                .getTaskValidation(any(StringsProvider.class), any(TaskTemplateRepository.class)))
+                .thenReturn(taskValidation);
         when(filePickerModule.getFilePickerProxy()).thenReturn(filePickerProxy);
         when(mediaPlayerModule.getMediaPlayer()).thenReturn(mediaPlayer);
         when(toastUserNotifierModule.getToastUserNotifier()).thenReturn(toastUserNotifier);
