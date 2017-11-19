@@ -11,7 +11,8 @@ public class ValidationModule {
 
     @Provides
     @Singleton
-    protected TaskValidation getTaskValidation(StringsProvider stringsProvider, TaskTemplateRepository taskTemplateRepository) {
+    public TaskValidation getTaskValidation(
+            StringsProvider stringsProvider, TaskTemplateRepository taskTemplateRepository) {
         return new TaskValidation(stringsProvider, taskTemplateRepository);
     }
 }

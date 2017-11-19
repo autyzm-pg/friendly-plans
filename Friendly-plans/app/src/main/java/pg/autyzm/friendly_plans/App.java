@@ -1,8 +1,6 @@
 package pg.autyzm.friendly_plans;
 
 import android.app.Application;
-import database.repository.DaggerDbDaoSessionComponent;
-import database.repository.DaoSessionComponent;
 import database.repository.DaoSessionModule;
 import database.repository.RepositoryModule;
 import pg.autyzm.friendly_plans.asset.AssetsHelperModule;
@@ -19,12 +17,8 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        DaoSessionComponent daoSessionComponent = DaggerDbDaoSessionComponent.builder()
-                .daoSessionModule(new DaoSessionModule(this.getApplicationContext()))
-                .build();
-
         appComponent = DaggerAppComponent.builder()
-                .daoSessionComponent(daoSessionComponent)
+                .daoSessionModule(new DaoSessionModule(this.getApplicationContext()))
                 .repositoryModule(new RepositoryModule())
                 .stringProviderModule(new StringProviderModule(this.getApplicationContext()))
                 .validationModule(new ValidationModule())

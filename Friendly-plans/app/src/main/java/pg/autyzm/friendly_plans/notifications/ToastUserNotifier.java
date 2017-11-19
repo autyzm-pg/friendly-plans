@@ -5,7 +5,7 @@ import android.widget.Toast;
 
 public class ToastUserNotifier {
 
-    ToastUserNotifier() {
+    public ToastUserNotifier() {
     }
 
     public void displayNotifications(int messageCode, Context context) {

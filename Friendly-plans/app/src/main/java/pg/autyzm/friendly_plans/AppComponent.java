@@ -3,7 +3,7 @@ package pg.autyzm.friendly_plans;
 import android.media.MediaPlayer;
 import dagger.Component;
 import database.repository.AssetRepository;
-import database.repository.DaoSessionComponent;
+import database.repository.DaoSessionModule;
 import database.repository.RepositoryModule;
 import database.repository.StepTemplateRepository;
 import database.repository.TaskTemplateRepository;
@@ -25,13 +25,13 @@ import pg.autyzm.friendly_plans.view.task_list.TaskListActivity;
 
 @Singleton
 @Component(modules = {StringProviderModule.class,
+        DaoSessionModule.class,
         ValidationModule.class,
         FilePickerModule.class,
         RepositoryModule.class,
         MediaPlayerModule.class,
         ToastUserNotifierModule.class,
-        AssetsHelperModule.class},
-        dependencies = DaoSessionComponent.class)
+        AssetsHelperModule.class})
 public interface AppComponent {
 
     @SuppressWarnings("unused")

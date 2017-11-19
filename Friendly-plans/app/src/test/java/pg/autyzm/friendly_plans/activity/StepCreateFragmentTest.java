@@ -1,22 +1,29 @@
 package pg.autyzm.friendly_plans.activity;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.any;
 
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.widget.Button;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.ShadowToast;
+import pg.autyzm.friendly_plans.AppComponent;
 import pg.autyzm.friendly_plans.BuildConfig;
 import pg.autyzm.friendly_plans.R;
-import pg.autyzm.friendly_plans.test_helpers.PowerAppComponentDaggerRule;
+import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
+import pg.autyzm.friendly_plans.test_helpers.AppComponentBuilder;
+import pg.autyzm.friendly_plans.test_helpers.AppComponentInjector;
 import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 
@@ -26,14 +33,20 @@ import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 public class StepCreateFragmentTest {
 
     @Rule
-    public final PowerAppComponentDaggerRule daggerRule = new PowerAppComponentDaggerRule();
+    public MockitoRule rule = MockitoJUnit.rule();
+
+    @Mock
+    private ToastUserNotifier toastUserNotifier;
 
     private TaskCreateActivity activity;
     private StepCreateFragment fragment;
 
-
     @Before
     public void setUp() {
+        final AppComponent appComponent = AppComponentBuilder.builder()
+                    .toastUserNotifier(toastUserNotifier)
+                    .buildAppComponent();
+        AppComponentInjector.injectIntoApp(appComponent);
         activity = Robolectric.setupActivity(TaskCreateActivity.class);
         fragment = new StepCreateFragment();
         FragmentTransaction transaction = activity.getFragmentManager().beginTransaction();
@@ -45,8 +58,7 @@ public class StepCreateFragmentTest {
     public void whenClickPlayButtonWithoutSoundChosenExpectToastToBeDisplayed() {
         Button playSound = (Button) activity.findViewById(R.id.id_btn_play_step_sound);
         playSound.performClick();
-        String expectedMessage = activity.getApplicationContext().getString(
-                R.string.no_file_to_play_error);
-        assertThat(ShadowToast.getTextOfLatestToast(), equalTo(expectedMessage));
+        verify(toastUserNotifier).displayNotifications(
+                    eq(R.string.no_file_to_play_error), any(Context.class));
     }
 }
