@@ -10,19 +10,19 @@ public class RepositoryModule {
 
     @Provides
     @Singleton
-    protected TaskTemplateRepository getTaskTemplateRepository(DaoSession daoSession) {
+    public TaskTemplateRepository getTaskTemplateRepository(DaoSession daoSession) {
         return new TaskTemplateRepository(daoSession);
     }
 
     @Provides
     @Singleton
-    protected AssetRepository getAssetRepostiory(DaoSession daoSession) {
+    public AssetRepository getAssetRepostiory(DaoSession daoSession) {
         return new AssetRepository(daoSession);
     }
 
     @Provides
     @Singleton
-    protected StepTemplateRepository getStepTemplateRepository(DaoSession daoSession) {
+    public StepTemplateRepository getStepTemplateRepository(DaoSession daoSession) {
         return new StepTemplateRepository(daoSession);
     }
 }

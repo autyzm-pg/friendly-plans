@@ -16,7 +16,7 @@ public class AssetsHelperModule {
 
     @Provides
     @Singleton
-    protected AssetsHelper getAssetsHelper() {
+    public AssetsHelper getAssetsHelper() {
         return this.assetsHelper;
     }
 

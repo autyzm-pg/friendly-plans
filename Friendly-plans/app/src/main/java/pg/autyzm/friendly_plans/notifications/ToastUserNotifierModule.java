@@ -9,7 +9,7 @@ public class ToastUserNotifierModule {
 
     @Provides
     @Singleton
-    protected ToastUserNotifier getToastUserNotifier() {
+    public ToastUserNotifier getToastUserNotifier() {
         return new ToastUserNotifier();
     }
 

@@ -13,7 +13,6 @@ import database.entities.Asset;
 import database.repository.AssetRepository;
 import java.io.IOException;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -24,7 +23,7 @@ import pg.autyzm.friendly_plans.AppComponent;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.asset.AssetsHelper;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
-import pg.autyzm.friendly_plans.test_helpers.AppComponentDaggerRule;
+import pg.autyzm.friendly_plans.test_helpers.AppComponentBuilder;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(AnimationUtils.class)
@@ -34,28 +33,25 @@ public class SoundComponentTest {
     private static final Long SOUND_SELECTED_ID = 5L;
     private static final String SOUND_FULL_PATH = "/test/sound/file/path.mp3";
 
-    @Rule
-    public final AppComponentDaggerRule daggerRule = new AppComponentDaggerRule();
-
     @Mock
     private ImageView playSoundIcon;
-
     @Mock
     private Context context;
-
     @Mock
     private View onClickView;
-
     @Mock
     private Asset sound;
-
     @Mock
     private Animation rotation;
-
+    @Mock
     private ToastUserNotifier toastUserNotifier;
+    @Mock
     private MediaPlayer mediaPlayer;
+    @Mock
     private AssetRepository assetRepository;
+    @Mock
     private AssetsHelper assetsHelper;
+
     private AppComponent appComponent;
 
     @Before
@@ -63,15 +59,12 @@ public class SoundComponentTest {
         PowerMockito.mockStatic(AnimationUtils.class);
         when(AnimationUtils.loadAnimation(context, R.anim.ic_play_sound_animation))
                 .thenReturn(rotation);
-        retrieveInjectedMocks();
-        appComponent = daggerRule.getAppComponent();
-    }
-
-    private void retrieveInjectedMocks() {
-        toastUserNotifier = daggerRule.getToastUserNotifierModuleMock().getToastUserNotifier();
-        mediaPlayer = daggerRule.getMediaPlayerModuleMock().getMediaPlayer();
-        assetRepository = daggerRule.getRepositoryModuleMock().getAssetRepository();
-        assetsHelper = daggerRule.getAssetsHelperModuleMock().getAssetsHelper();
+        appComponent = AppComponentBuilder.builder()
+                    .toastUserNotifier(toastUserNotifier)
+                    .mediaPlayer(mediaPlayer)
+                    .assetRepository(assetRepository)
+                    .assetsHelper(assetsHelper)
+                    .buildAppComponent();
     }
 
     @Test
