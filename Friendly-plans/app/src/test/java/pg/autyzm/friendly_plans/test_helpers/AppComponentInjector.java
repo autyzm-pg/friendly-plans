@@ -8,7 +8,7 @@ import pg.autyzm.friendly_plans.AppComponent;
 
 public final class AppComponentInjector  {
 
-    private AppComponentInjector() {}
+    private AppComponentInjector() { }
 
     public static void injectIntoApp(AppComponent appComponent) {
         final App application = (App) RuntimeEnvironment.application;
