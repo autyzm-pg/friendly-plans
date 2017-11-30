@@ -68,12 +68,12 @@ public class FilePickerProxyTest {
     }
 
     @Test
-    public void whenCheckingFilePickedWithOKExpectTrue() {
+    public void whenCheckingFilePickedWithOkExpectTrue() {
         assertTrue(filePickerProxy.isFilePicked(FilePickerActivity.RESULT_OK));
     }
 
     @Test
-    public void whenCheckingFilePickedWithCANCELEDExpectFalse() {
+    public void whenCheckingFilePickedWithCanceledExpectFalse() {
         assertFalse(filePickerProxy.isFilePicked(FilePickerActivity.RESULT_CANCELED));
     }
 
