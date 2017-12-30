@@ -7,4 +7,8 @@ public interface StepCreateEvents {
 
     void onPlayStopSoundClick(View view);
 
+    public interface StepData {
+
+        void saveStepData(StepCreateData stepCreateData);
+    }
 }
