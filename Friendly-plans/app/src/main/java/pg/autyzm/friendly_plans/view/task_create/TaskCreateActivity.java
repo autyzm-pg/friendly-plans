@@ -23,9 +23,9 @@ public class TaskCreateActivity extends FragmentActivity {
                 .add(R.id.task_container, taskCreateFragment)
                 .commit();
 
-        getFragmentManager()
-                .beginTransaction()
-                .add(R.id.task_menu, new TaskMenuFragment())
-                .commit();
+//        getFragmentManager()
+//                .beginTransaction()
+//                .add(R.id.task_menu, new TaskMenuFragment())
+//                .commit();
     }
 }

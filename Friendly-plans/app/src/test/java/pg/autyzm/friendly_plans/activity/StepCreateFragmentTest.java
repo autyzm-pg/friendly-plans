@@ -61,4 +61,12 @@ public class StepCreateFragmentTest {
         verify(toastUserNotifier).displayNotifications(
                     eq(R.string.no_file_to_play_error), any(Context.class));
     }
+
+    @Test
+    public void whenClickSaveButton() {
+        Button logData = (Button) activity.findViewById(R.id.id_btn_save_step);
+        logData.performClick();
+        verify(toastUserNotifier).displayNotifications(
+                eq(R.string.no_file_to_play_error), any(Context.class));
+    }
 }

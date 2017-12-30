@@ -1,10 +1,15 @@
 package pg.autyzm.friendly_plans;
 
 
+import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.core.Is.is;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -12,19 +17,34 @@ import android.os.Bundle;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.WindowManager;
+import database.entities.Asset;
+import database.entities.TaskTemplate;
+import database.repository.AssetRepository;
+import database.repository.TaskTemplateRepository;
+import java.io.IOException;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import pg.autyzm.friendly_plans.resource.AssetTestRule;
+import pg.autyzm.friendly_plans.view.step_create.StepCreateData;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
 
 @RunWith(AndroidJUnit4.class)
 public class StepCreateFragmentTest {
 
+    private static final String EXPECTED_NAME = "TEST STEP";
+    private static final String EXPECTED_NAME_OF_PICTURE = "TEST PICTURE";
+    private static final String EXPECTED_NAME_OF_SOUND = "TEST SOUND";
+
     @Rule
     public ActivityTestRule<TaskCreateActivity> activityRule = new ActivityTestRule<TaskCreateActivity>(
         TaskCreateActivity.class, true, true);
+
+    @Rule
+    private StepCreateData stepCreateData;
 
     @Before
     public void setUp() {
@@ -56,7 +76,28 @@ public class StepCreateFragmentTest {
         onView(withId(R.id.id_et_step_sound))
             .check(matches(withText("")));
     }
+    @Test
+    public void whenAddingANewStepWithCheckBindings()
+            throws IOException, InterruptedException {
+        onView(withId(R.id.id_et_step_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
 
+        onView(withId(R.id.id_et_step_picture))
+                .perform(replaceText(EXPECTED_NAME_OF_PICTURE));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_et_step_sound))
+                .perform(replaceText(EXPECTED_NAME_OF_SOUND));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_btn_save_step))
+                .perform(click());
+
+        assertThat(stepCreateData.getStepName(), is(EXPECTED_NAME));
+        assertThat(stepCreateData.getPictureName(), is(EXPECTED_NAME_OF_PICTURE));
+        assertThat(stepCreateData.getSoundName(), is(EXPECTED_NAME_OF_SOUND));
+    }
     private void openStepCreateFragment() {
         StepCreateFragment fragment = new StepCreateFragment();
         Bundle args = new Bundle();
