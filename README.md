@@ -17,6 +17,7 @@ The following article and short film show the usage of the app in the Institute 
 - [Article](http://iwrd.pl/pl/fundacja/aplikacja-przyjazny-plan-dostepna)
 
 The project was started by students from Gdańsk University of Technology. First version of the app is still available in the Google Play store and it's source code is on branch v1.x. Version 1.x is legacy as we're currently working on Friendly Plans 2.0.
+The application is being developed in the cooperation with Code for Poland community (ePaństwo foundation's program).
 ## License
 The project is developing by people who want to make other people's life easier. Because of this Friendly Plans is going to be free to use, download and develop for everybody, forever.
 Except as otherwise noted, this software is licensed under the [GNU General Public License, v3](https://www.gnu.org/licenses/gpl-3.0.txt)
