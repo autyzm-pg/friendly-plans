@@ -19,7 +19,9 @@ import javax.inject.Inject;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.AppComponent;
 import pg.autyzm.friendly_plans.R;
+import pg.autyzm.friendly_plans.asset.AssetType;
 import pg.autyzm.friendly_plans.databinding.FragmentStepCreateBinding;
+import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 import pg.autyzm.friendly_plans.view.components.SoundComponent;
 
 public class StepCreateFragment extends Fragment implements StepCreateEvents.StepData {
@@ -28,12 +30,12 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
     MediaPlayer mediaPlayer;
     @Inject
     AssetRepository assetRepository;
+    @Inject
+    public FilePickerProxy filePickerProxy;
 
-    private EditText stepSound;
-    private EditText stepName;
     private ImageView playSoundIcon;
     private Long soundId;
-    private Button save;
+
     @TargetApi(VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,26 +49,26 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         View view = binding.getRoot();
 
         binding.setSoundComponent(soundComponent);
-        StepCreateData stepData = new StepCreateData("","","");
+        StepCreateData stepData = new StepCreateData("", "", "");
         binding.setStepData(stepData);
         binding.setStepDataClick(this);
         return view;
     }
 
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        stepSound = (EditText) view.findViewById(R.id.id_et_step_sound);
-        stepName = (EditText) view.findViewById(R.id.id_et_step_name);
         playSoundIcon = (ImageView) view.findViewById(R.id.id_iv_play_step_sound_icon);
-        save = (Button) view.findViewById(R.id.id_btn_save_step) ;
     }
+
     @Override
-    public void logStepName(StepCreateData stepCreateData)  {
+    public void logStepName(StepCreateData stepCreateData) {
         String name = stepCreateData.getStepName();
         String picture = stepCreateData.getPictureName();
         String sound = stepCreateData.getSoundName();
-        Log.i("step data", name+" "+picture+" "+sound);
-        Toast.makeText(getActivity(), name+" "+picture+" "+sound, Toast.LENGTH_SHORT).show();
+        Log.i("step data", name + " " + picture + " " + sound);
+        Toast.makeText(getActivity(), name + " " + picture + " " + sound, Toast.LENGTH_SHORT)
+                .show();
     }
 
 

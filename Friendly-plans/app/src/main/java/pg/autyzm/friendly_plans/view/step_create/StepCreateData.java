@@ -21,6 +21,7 @@ public class StepCreateData extends BaseObservable {
     public String getStepName() {
         return stepName;
     }
+
     public void setStepName(String stepName) {
         this.stepName = stepName;
         notifyPropertyChanged(BR.stepName);
@@ -30,6 +31,7 @@ public class StepCreateData extends BaseObservable {
     public String getPictureName() {
         return pictureName;
     }
+
     public void setPictureName(String pictureName) {
         this.pictureName = pictureName;
         notifyPropertyChanged(BR.pictureName);
@@ -39,6 +41,7 @@ public class StepCreateData extends BaseObservable {
     public String getSoundName() {
         return soundName;
     }
+
     public void setSoundName(String soundName) {
         this.soundName = soundName;
         notifyPropertyChanged(BR.soundName);

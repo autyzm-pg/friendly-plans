@@ -17,17 +17,11 @@ import android.os.Bundle;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.WindowManager;
-import database.entities.Asset;
-import database.entities.TaskTemplate;
-import database.repository.AssetRepository;
-import database.repository.TaskTemplateRepository;
 import java.io.IOException;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import pg.autyzm.friendly_plans.resource.AssetTestRule;
 import pg.autyzm.friendly_plans.view.step_create.StepCreateData;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
@@ -41,7 +35,7 @@ public class StepCreateFragmentTest {
 
     @Rule
     public ActivityTestRule<TaskCreateActivity> activityRule = new ActivityTestRule<TaskCreateActivity>(
-        TaskCreateActivity.class, true, true);
+            TaskCreateActivity.class, true, true);
 
     @Rule
     private StepCreateData stepCreateData;
@@ -57,9 +51,9 @@ public class StepCreateFragmentTest {
         Runnable wakeUpDevice = new Runnable() {
             public void run() {
                 activity.getWindow().addFlags(
-                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-                        | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                        | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                                | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                                | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             }
         };
         activity.runOnUiThread(wakeUpDevice);
@@ -68,14 +62,15 @@ public class StepCreateFragmentTest {
     @Test
     public void whenStepCreateFragmentDisplayedExpectHeaderAndEmptyFields() {
         onView(withId(R.id.id_step_create_description))
-            .check(matches(withText(R.string.create_step_description)));
+                .check(matches(withText(R.string.create_step_description)));
         onView(withId(R.id.id_et_step_name))
-            .check(matches(withText("")));
+                .check(matches(withText("")));
         onView(withId(R.id.id_et_step_picture))
-            .check(matches(withText("")));
+                .check(matches(withText("")));
         onView(withId(R.id.id_et_step_sound))
-            .check(matches(withText("")));
+                .check(matches(withText("")));
     }
+
     @Test
     public void whenAddingANewStepWithCheckBindings()
             throws IOException, InterruptedException {
@@ -98,6 +93,7 @@ public class StepCreateFragmentTest {
         assertThat(stepCreateData.getPictureName(), is(EXPECTED_NAME_OF_PICTURE));
         assertThat(stepCreateData.getSoundName(), is(EXPECTED_NAME_OF_SOUND));
     }
+
     private void openStepCreateFragment() {
         StepCreateFragment fragment = new StepCreateFragment();
         Bundle args = new Bundle();
