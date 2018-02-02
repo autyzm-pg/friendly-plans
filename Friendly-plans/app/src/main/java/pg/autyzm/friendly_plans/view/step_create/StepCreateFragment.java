@@ -39,7 +39,6 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
     private ImageView playSoundIcon;
     private EditText stepName;
     private Button save;
-    private Button cancel;
     private Long soundId;
     private Long taskId;
 
@@ -95,7 +94,7 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         String picture = stepCreateData.getPictureName();
         String sound = stepCreateData.getSoundName();
         Long stepId = addStepToTask(name, 0);
-        Log.i("step data", name + " " + picture + " " + sound);
+        Log.i("step data", name + " " + picture + " " + sound+ " " + stepId);
     }
 
 
