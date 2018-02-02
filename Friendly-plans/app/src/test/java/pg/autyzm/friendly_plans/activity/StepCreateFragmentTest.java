@@ -44,8 +44,8 @@ public class StepCreateFragmentTest {
     @Before
     public void setUp() {
         final AppComponent appComponent = AppComponentBuilder.builder()
-                    .toastUserNotifier(toastUserNotifier)
-                    .buildAppComponent();
+                .toastUserNotifier(toastUserNotifier)
+                .buildAppComponent();
         AppComponentInjector.injectIntoApp(appComponent);
         activity = Robolectric.setupActivity(TaskCreateActivity.class);
         fragment = new StepCreateFragment();
@@ -59,7 +59,7 @@ public class StepCreateFragmentTest {
         Button playSound = (Button) activity.findViewById(R.id.id_btn_play_step_sound);
         playSound.performClick();
         verify(toastUserNotifier).displayNotifications(
-                    eq(R.string.no_file_to_play_error), any(Context.class));
+                eq(R.string.no_file_to_play_error), any(Context.class));
     }
 
     @Test
@@ -67,6 +67,6 @@ public class StepCreateFragmentTest {
         Button logData = (Button) activity.findViewById(R.id.id_btn_save_step);
         logData.performClick();
         verify(toastUserNotifier).displayNotifications(
-                eq(R.string.no_file_to_play_error), any(Context.class));
+                eq(R.string.step_saved_message), any(Context.class));
     }
 }
