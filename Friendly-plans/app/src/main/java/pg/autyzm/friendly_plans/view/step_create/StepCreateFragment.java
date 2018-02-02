@@ -37,8 +37,6 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
     ToastUserNotifier toastUserNotifier;
 
     private ImageView playSoundIcon;
-    private EditText stepName;
-    private Button save;
     private Long soundId;
     private Long taskId;
 
@@ -66,8 +64,6 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         playSoundIcon = (ImageView) view.findViewById(R.id.id_iv_play_step_sound_icon);
-        stepName = (EditText) view.findViewById(R.id.id_et_step_name);
-        save = (Button) view.findViewById(R.id.id_btn_save_step);
         Bundle arguments = getArguments();
         if (arguments != null) {
             taskId = (Long) arguments.get(ActivityProperties.TASK_ID);
