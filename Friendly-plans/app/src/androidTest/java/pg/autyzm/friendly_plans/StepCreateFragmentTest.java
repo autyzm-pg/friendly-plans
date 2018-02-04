@@ -36,6 +36,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.Is.is;
 
+<<<<<<< HEAD
 @RunWith(AndroidJUnit4.class)
 public class StepCreateFragmentTest {
 
@@ -44,6 +45,40 @@ public class StepCreateFragmentTest {
 //    private static final String EXPECTED_NAME_OF_SOUND = "TEST SOUND";
     private static final String TASK_EXPECTED_NAME = "TEST TASK 100";
     private static final String TASK_EXPECTED_DURATION_TXT = "1";
+=======
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.os.Bundle;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+import android.view.WindowManager;
+import database.entities.Asset;
+import database.entities.StepTemplate;
+import database.repository.AssetRepository;
+import database.repository.StepTemplateRepository;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import pg.autyzm.friendly_plans.matcher.ToastMatcher;
+import pg.autyzm.friendly_plans.resource.AssetTestRule;
+import pg.autyzm.friendly_plans.resource.DaoSessionResource;
+import pg.autyzm.friendly_plans.view.step_create.StepCreateData;
+import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
+import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
+
+@RunWith(AndroidJUnit4.class)
+public class StepCreateFragmentTest {
+
+    private static final String EXPECTED_NAME = "TEST STEP";
+    private static final String EXPECTED_NAME_OF_PICTURE = "TEST PICTURE";
+    private static final String EXPECTED_NAME_OF_SOUND = "TEST SOUND";
+    private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
+>>>>>>> 7dcd184... #132: Tests for add picture to step
 
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
@@ -56,10 +91,16 @@ public class StepCreateFragmentTest {
     public AssetTestRule assetTestRule = new AssetTestRule(daoSessionResource, activityRule);
 
     private StepTemplateRepository stepTemplateRepository;
+<<<<<<< HEAD
     private TaskTemplateRepository taskTemplateRepository;
 
     private List<Long> taskIdsToDelete = new ArrayList<>();
     private List<Long> stepIdsToDelete = new ArrayList<>();
+=======
+    public AssetTestRule assetTestRule = new AssetTestRule(daoSessionResource, activityRule);
+    private AssetRepository assetRepository;
+    private List<Long> idsToDelete = new ArrayList<>();
+>>>>>>> 7dcd184... #132: Tests for add picture to step
 
     @Before
     public void setUp() {
@@ -122,6 +163,39 @@ public class StepCreateFragmentTest {
 
         assertThat(stepTemplates.size(), is(1));
         assertThat(stepTemplates.get(0).getName(), is(EXPECTED_NAME));
+        onView(withText(R.string.step_saved_message)).inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
+    }
+    @Test
+    public void whenSettingPictureExpectPictureNameIsDisplayed()
+            throws InterruptedException, IOException {
+        assetTestRule.setTestPicture();
+        List<Asset> assets = assetRepository.getAll();
+
+        String fileName = (assets.get(0).getFilename()).replaceAll(REGEX_TRIM_NAME, "");
+        onView(withId(R.id.id_et_step_picture))
+                .check(matches(withText(fileName)));
+    }
+    @Test
+    public void whenAddingNewTaskWithPictureExpectNewTaskAddedToDB()
+            throws InterruptedException, IOException {
+        onView(withId(R.id.id_et_step_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+        assetTestRule.setTestPicture();
+
+        onView(withId(R.id.id_btn_save_step))
+                .perform(click());
+
+        List<Asset> assets = assetRepository.getAll();
+        List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
+        idsToDelete.add(stepTemplates.get(0).getId());
+
+        assertThat(assets.size(), is(1));
+        assertThat(stepTemplates.size(), is(1));
+        assertThat(stepTemplates.get(0).getName(), is(EXPECTED_NAME));
+        assertThat(stepTemplates.get(0).getPictureId(), is(assets.get(0).getId()));
         onView(withText(R.string.step_saved_message)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
     }
