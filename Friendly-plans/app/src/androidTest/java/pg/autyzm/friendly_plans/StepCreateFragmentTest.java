@@ -217,6 +217,39 @@ public class StepCreateFragmentTest {
         onView(withText(R.string.step_saved_message)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
     }
+    @Test
+    public void whenSettingPictureExpectPictureNameIsDisplayed()
+            throws InterruptedException, IOException {
+        assetTestRule.setTestPicture();
+        List<Asset> assets = assetRepository.getAll();
+
+        String fileName = (assets.get(0).getFilename()).replaceAll(REGEX_TRIM_NAME, "");
+        onView(withId(R.id.id_et_step_picture))
+                .check(matches(withText(fileName)));
+    }
+    @Test
+    public void whenAddingNewTaskWithPictureExpectNewTaskAddedToDB()
+            throws InterruptedException, IOException {
+        onView(withId(R.id.id_et_step_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+        assetTestRule.setTestPicture();
+
+        onView(withId(R.id.id_btn_save_step))
+                .perform(click());
+
+        List<Asset> assets = assetRepository.getAll();
+        List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
+        idsToDelete.add(stepTemplates.get(0).getId());
+
+        assertThat(assets.size(), is(1));
+        assertThat(stepTemplates.size(), is(1));
+        assertThat(stepTemplates.get(0).getName(), is(EXPECTED_NAME));
+        assertThat(stepTemplates.get(0).getPictureId(), is(assets.get(0).getId()));
+        onView(withText(R.string.step_saved_message)).inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
+    }
 
     private void openStepCreate(){
         onView(withId(R.id.id_et_task_name))
