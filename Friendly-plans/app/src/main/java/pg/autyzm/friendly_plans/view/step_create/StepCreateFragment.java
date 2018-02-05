@@ -16,8 +16,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import com.squareup.picasso.Picasso;
 import database.repository.AssetRepository;
 import database.repository.StepTemplateRepository;
+import java.io.File;
 import java.io.IOException;
 import javax.inject.Inject;
 import pg.autyzm.friendly_plans.ActivityProperties;
@@ -30,6 +32,7 @@ import pg.autyzm.friendly_plans.databinding.FragmentStepCreateBinding;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.view.components.SoundComponent;
+import pg.autyzm.friendly_plans.view.task_create.ImagePreviewDialog;
 
 public class StepCreateFragment extends Fragment implements StepCreateEvents.StepData {
 
@@ -51,6 +54,7 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
     private Long pictureId;
     private EditText stepPicture;
     private ImageButton clearPicture;
+    private ImageView picturePreview;
 
 
     @TargetApi(VERSION_CODES.M)
@@ -78,6 +82,7 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         stepPicture = (EditText) view.findViewById(R.id.id_et_step_picture);
         clearPicture = (ImageButton) view.findViewById(R.id.id_ib_step_clear_img_btn);
         playSoundIcon = (ImageView) view.findViewById(R.id.id_iv_play_step_sound_icon);
+        picturePreview = (ImageView) view.findViewById(R.id.iv_step_picture_preview);
         Bundle arguments = getArguments();
         if (arguments != null) {
             taskId = (Long) arguments.get(ActivityProperties.TASK_ID);
@@ -95,16 +100,6 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         } catch (RuntimeException exception) {
             return handleSavingError(exception);
         }
-    }
-
-
-    @Override
-    public void saveStepData(StepCreateData stepCreateData) {
-        String name = stepCreateData.getStepName();
-        String picture = stepCreateData.getPictureName();
-        String sound = stepCreateData.getSoundName();
-        Long stepId = addStepToTask(name, 0);
-        Log.i("step data", name + " " + picture + " " + sound + " " + stepId);
     }
 
     @Override
@@ -126,8 +121,34 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
     @Override
     public void cleanStepPicture() {
         stepPicture.setText("");
+        picturePreview.setImageResource(0);
         clearPicture.setVisibility(View.INVISIBLE);
     }
+
+    private void setAssetValue(AssetType assetType, String assetName, Long assetId) {
+
+        assetName = assetName.replaceAll(REGEX_TRIM_NAME, "");
+
+        if (assetType.equals(AssetType.PICTURE)) {
+            stepPicture.setText(assetName);
+            clearPicture.setVisibility(View.VISIBLE);
+            pictureId = assetId;
+            showPreview();
+        }
+    }
+
+    private void showPreview() {
+        Picasso.with(getActivity().getApplicationContext())
+                .load(new File(retrieveImageFile()))
+                .into(picturePreview);
+    }
+
+    private String retrieveImageFile() {
+        String imageFileName = assetRepository.get(pictureId).getFilename();
+        String fileDir = getActivity().getApplicationContext().getFilesDir().toString();
+        return fileDir + File.separator + imageFileName;
+    }
+
 
     private void handleAssetSelecting(Intent data, AssetType assetType) {
         Context context = getActivity().getApplicationContext();
@@ -143,13 +164,22 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         }
     }
 
-    private void setAssetValue(AssetType assetType, String assetName, Long assetId) {
-        assetName = assetName.replaceAll(REGEX_TRIM_NAME, "");
-        if (assetType.equals(AssetType.PICTURE)) {
-            stepPicture.setText(assetName);
-            clearPicture.setVisibility(View.VISIBLE);
-            pictureId = assetId;
-        }
+    @Override
+    public void showPicture() {
+        ImagePreviewDialog preview = new ImagePreviewDialog();
+        Bundle args = new Bundle();
+        args.putString("imgPath", retrieveImageFile());
+        preview.setArguments(args);
+        preview.show(getFragmentManager(), "preview");
+    }
+
+    @Override
+    public void saveStepData(StepCreateData stepCreateData) {
+        String name = stepCreateData.getStepName();
+        String picture = stepCreateData.getPictureName();
+        String sound = stepCreateData.getSoundName();
+        Long stepId = addStepToTask(name, 0);
+        Log.i("step data", name + " " + picture + " " + sound + " " + stepId);
     }
 
     private void showToastMessage(int resourceStringId) {

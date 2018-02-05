@@ -14,5 +14,7 @@ public interface StepCreateEvents {
         void selectStepPicture();
 
         void cleanStepPicture();
+
+        void showPicture();
     }
 }

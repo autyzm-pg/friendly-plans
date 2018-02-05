@@ -114,6 +114,7 @@
           android:layout_height="match_parent"
           android:adjustViewBounds="true"
           android:contentDescription="@string/steps_picture"
+          android:onClick="@{() -> stepDataClick.showPicture()}"
           android:scaleType="centerInside" />
 
       </LinearLayout>
