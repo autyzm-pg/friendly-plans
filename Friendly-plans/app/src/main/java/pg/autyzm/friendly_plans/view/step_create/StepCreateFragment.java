@@ -54,6 +54,8 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
     private Long pictureId;
     private EditText stepPicture;
     private ImageButton clearPicture;
+    private EditText stepSound;
+    private ImageButton clearSound;
     private ImageView picturePreview;
 
 
@@ -83,6 +85,8 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         clearPicture = (ImageButton) view.findViewById(R.id.id_ib_step_clear_img_btn);
         playSoundIcon = (ImageView) view.findViewById(R.id.id_iv_play_step_sound_icon);
         picturePreview = (ImageView) view.findViewById(R.id.iv_step_picture_preview);
+        stepSound = (EditText) view.findViewById(R.id.id_et_step_sound);
+        clearSound = (ImageButton) view.findViewById(R.id.id_ib_clear_step_sound_btn);
         Bundle arguments = getArguments();
         if (arguments != null) {
             taskId = (Long) arguments.get(ActivityProperties.TASK_ID);
@@ -93,7 +97,7 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         try {
             long stepId = stepTemplateRepository.create(stepName, order,
                     pictureId,
-                    (Long) null, taskId);
+                    soundId, taskId);
             showToastMessage(R.string.step_saved_message);
             return stepId;
 
@@ -114,6 +118,8 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         if (filePickerProxy.isFilePicked(resultCode)) {
             if (filePickerProxy.isPickFileRequested(requestCode, AssetType.PICTURE)) {
                 handleAssetSelecting(data, AssetType.PICTURE);
+            } else if (filePickerProxy.isPickFileRequested(requestCode, AssetType.SOUND)) {
+                handleAssetSelecting(data, AssetType.SOUND);
             }
         }
     }
@@ -134,6 +140,10 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
             clearPicture.setVisibility(View.VISIBLE);
             pictureId = assetId;
             showPreview();
+        } else {
+            stepSound.setText(assetName);
+            soundId = assetId;
+            clearSound.setVisibility(View.VISIBLE);
         }
     }
 
@@ -171,6 +181,17 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         args.putString("imgPath", retrieveImageFile());
         preview.setArguments(args);
         preview.show(getFragmentManager(), "preview");
+    }
+
+    @Override
+    public void selectStepSound() {
+        filePickerProxy.openFilePicker(StepCreateFragment.this, AssetType.SOUND);
+    }
+
+    @Override
+    public void clearStepSound() {
+        stepSound.setText("");
+        clearSound.setVisibility(View.INVISIBLE);
     }
 
     @Override

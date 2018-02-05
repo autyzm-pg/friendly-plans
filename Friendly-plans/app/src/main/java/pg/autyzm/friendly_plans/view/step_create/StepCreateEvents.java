@@ -16,5 +16,9 @@ public interface StepCreateEvents {
         void cleanStepPicture();
 
         void showPicture();
+
+        void selectStepSound();
+
+        void clearStepSound();
     }
 }
