@@ -34,6 +34,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static junit.framework.Assert.assertNull;
 import static org.hamcrest.core.Is.is;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -228,7 +229,7 @@ public class StepCreateFragmentTest {
                 .check(matches(withText(fileName)));
     }
     @Test
-    public void whenAddingNewTaskWithPictureExpectNewTaskAddedToDB()
+    public void whenAddingNewStepWithPictureExpectNewStepAddedToDB()
             throws InterruptedException, IOException {
         onView(withId(R.id.id_et_step_name))
                 .perform(replaceText(EXPECTED_NAME));
@@ -251,11 +252,59 @@ public class StepCreateFragmentTest {
                 .check(matches(isDisplayed()));
     }
 
+    @Test
+    public void whenSettingSoundExpectSoundNameIsDisplayed()
+            throws IOException, InterruptedException {
+        assetTestRule.setTestSound();
+        List<Asset> assets = assetRepository.getAll();
+
+        String fileName = (assets.get(0).getFilename()).replaceAll(REGEX_TRIM_NAME, "");
+        onView(withId(R.id.id_et_step_sound))
+                .check(matches(withText(fileName)));
+    }
+
+    @Test
+    public void whenAddingANewStepWithoutSoundExpectStepToBeAddedWithoutSound()
+            throws IOException, InterruptedException {
+        onView(withId(R.id.id_et_step_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+
+        onView(withId(R.id.id_btn_save_step))
+                .perform(click());
+
+        List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
+        idsToDelete.add(stepTemplates.get(0).getId());
+
+        assertThat(stepTemplates.size(), is(1));
+        assertNull(stepTemplates.get(0).getSoundId());
+    }
+
+    @Test
+    public void whenAddingANewStepWithSoundExpectStepToBeAddedWithSound()
+            throws IOException, InterruptedException {
+        onView(withId(R.id.id_et_step_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+        assetTestRule.setTestSound();
+
+        onView(withId(R.id.id_btn_save_step))
+                .perform(click());
+
+        List<Asset> assets = assetRepository.getAll();
+        List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
+        idsToDelete.add(stepTemplates.get(0).getId());
+
+        assertThat(stepTemplates.size(), is(1));
+        assertThat(stepTemplates.get(0).getSoundId(), is(assets.get(0).getId()));
+    }
+
     private void openStepCreate(){
         onView(withId(R.id.id_et_task_name))
                 .perform(replaceText(TASK_EXPECTED_NAME));
         closeSoftKeyboard();
-
         onView(withId(R.id.id_et_task_duration_time))
                 .perform(replaceText(TASK_EXPECTED_DURATION_TXT));
         closeSoftKeyboard();
