@@ -1,10 +1,8 @@
 package pg.autyzm.friendly_plans.view.step_create;
 
-import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.databinding.DataBindingUtil;
 import android.media.MediaPlayer;
-import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,18 +31,16 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
     private ImageView playSoundIcon;
     private Long soundId;
 
-    @TargetApi(VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+        FragmentStepCreateBinding binding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_step_create, container, false);
+        View view = binding.getRoot();
         AppComponent appComponent = ((App) getActivity().getApplication()).getAppComponent();
         appComponent.inject(this);
         SoundComponent soundComponent = SoundComponent.getSoundComponent(
                 soundId, playSoundIcon, getActivity().getApplicationContext(), appComponent);
-        FragmentStepCreateBinding binding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_step_create, container, false);
-        View view = binding.getRoot();
-
         binding.setSoundComponent(soundComponent);
         StepCreateData stepData = new StepCreateData("", "", "");
         binding.setStepData(stepData);

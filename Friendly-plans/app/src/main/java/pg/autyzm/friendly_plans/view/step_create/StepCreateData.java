@@ -1,6 +1,5 @@
 package pg.autyzm.friendly_plans.view.step_create;
 
-
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import pg.autyzm.friendly_plans.BR;
