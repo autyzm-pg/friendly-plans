@@ -60,9 +60,5 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         String picture = stepCreateData.getPictureName();
         String sound = stepCreateData.getSoundName();
         Log.i("step data", name + " " + picture + " " + sound);
-        Toast.makeText(getActivity(), name + " " + picture + " " + sound, Toast.LENGTH_SHORT)
-                .show();
     }
-
-
 }
