@@ -1,7 +1,7 @@
 ![Build Status](https://travis-ci.org/autyzm-pg/friendly-plans.svg?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d3492246876a494f88ba46031492b197)](https://www.codacy.com/app/autyzmpgprojectOrganization/friendly-plans?utm_source=github.com&utm_medium=referral&utm_content=autyzm-pg/friendly-plans&utm_campaign=badger)
 [![Open Source Helpers](https://www.codetriage.com/autyzm-pg/friendly-plans/badges/users.svg)](https://www.codetriage.com/autyzm-pg/friendly-plans)
-<script async defer src="https://autyzm-pg-slack.herokuapp.com/slackin.js"></script>
+[<img src="https://autyzm-pg-slack.herokuapp.com/badge.svg">](https://autyzm-pg-slack.herokuapp.com)
 
 # Friendly Plans
 <img src="/doc/graphic/friendly-plan-logo.png" width="200" height="200" />
