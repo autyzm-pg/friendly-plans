@@ -1,6 +1,7 @@
 ![Build Status](https://travis-ci.org/autyzm-pg/friendly-plans.svg?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d3492246876a494f88ba46031492b197)](https://www.codacy.com/app/autyzmpgprojectOrganization/friendly-plans?utm_source=github.com&utm_medium=referral&utm_content=autyzm-pg/friendly-plans&utm_campaign=badger)
 [![Open Source Helpers](https://www.codetriage.com/autyzm-pg/friendly-plans/badges/users.svg)](https://www.codetriage.com/autyzm-pg/friendly-plans)
+<script async defer src="https://autyzm-pg-slack.herokuapp.com/slackin.js"></script>
 
 # Friendly Plans
 <img src="/doc/graphic/friendly-plan-logo.png" width="200" height="200" />
@@ -23,7 +24,7 @@ The application is being developed in the cooperation with Code for Poland commu
 The project is developing by people who want to make other people's life easier. Because of this Friendly Plans is going to be free to use, download and develop for everybody, forever.
 Except as otherwise noted, this software is licensed under the [GNU General Public License, v3](https://www.gnu.org/licenses/gpl-3.0.txt)
 ## Join
-If you would like to become a part of community, you are welcome to join and contribute. Your help is needed. It is easy to get in touch via the [project's forum](http://autyzm.eti.pg.gda.pl/forum/), conversations in [issues](https://github.com/autyzm-pg/friendly-plans/issues) or [slack](https://autyzm-pg.slack.com).
+If you would like to become a part of community, you are welcome to join and contribute. Your help is needed. It is easy to get in touch via the [project's forum](http://autyzm.eti.pg.gda.pl/forum/), conversations in [issues](https://github.com/autyzm-pg/friendly-plans/issues) or [slack](https://autyzm-pg-slack.herokuapp.com).
 ## Workflow
 We are using [GitHub Flow](https://guides.github.com/introduction/flow/). Please create pull requests to master branch.
 ## Start
