@@ -78,11 +78,11 @@ public class TaskCreateActivityTest {
     private void setUpAppComponent() {
 
         final AppComponent appComponent = AppComponentBuilder.builder()
-                    .filePickerProxy(filePickerProxy)
-                    .taskTemplateRepository(taskTemplateRepository)
-                    .taskValidation(taskValidation)
-                    .toastUserNotifier(toastUserNotifier)
-                    .buildAppComponent();
+                .filePickerProxy(filePickerProxy)
+                .taskTemplateRepository(taskTemplateRepository)
+                .taskValidation(taskValidation)
+                .toastUserNotifier(toastUserNotifier)
+                .buildAppComponent();
         AppComponentInjector.injectIntoApp(appComponent);
     }
 
