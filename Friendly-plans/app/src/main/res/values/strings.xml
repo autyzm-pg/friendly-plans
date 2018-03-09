@@ -30,6 +30,7 @@
   <string name="main_create_plan">Create Plan</string>
   <string name="task_saved_message">Task saved</string>
   <string name="task_with_steps_saved_message">Task with steps saved</string>
+  <string name="step_saved_message">Step saved</string>
   <!--Validation messages-->
   <string name="only_letters_msg">Only letters and numbers are allowed</string>
   <string name="name_exist_msg">Name already exists</string>
@@ -43,4 +44,5 @@
   <string name="steps_list_info">Steps list</string>
   <string name="create_step_description">Create step view</string>
   <string name="save_task_error_message">An error occurred during saving the task.</string>
+  <string name="save_step_error_message">An error occurred during saving the step.</string>
 </resources>

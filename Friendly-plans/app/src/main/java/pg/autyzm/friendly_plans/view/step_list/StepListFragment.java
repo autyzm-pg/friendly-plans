@@ -79,7 +79,9 @@ public class StepListFragment extends Fragment implements StepListEvents {
 
     private void showStepCreate() {
         StepCreateFragment fragment = new StepCreateFragment();
-
+        Bundle args = new Bundle();
+        args.putLong(ActivityProperties.TASK_ID, task_id);
+        fragment.setArguments(args);
         FragmentTransaction transaction = getFragmentManager()
                 .beginTransaction();
         transaction.replace(R.id.task_container, fragment);

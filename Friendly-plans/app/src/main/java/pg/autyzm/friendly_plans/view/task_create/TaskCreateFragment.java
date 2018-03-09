@@ -85,7 +85,7 @@ public class TaskCreateFragment extends Fragment {
 
         AppComponent appComponent = ((App) getActivity().getApplication()).getAppComponent();
         soundComponent = SoundComponent.getSoundComponent(
-            soundId, playSoundIcon, getActivity().getApplicationContext(), appComponent);
+                soundId, playSoundIcon, getActivity().getApplicationContext(), appComponent);
         appComponent.inject(this);
 
         binding.setSoundComponent(soundComponent);
@@ -143,7 +143,6 @@ public class TaskCreateFragment extends Fragment {
                 filePickerProxy.openFilePicker(TaskCreateFragment.this, AssetType.SOUND);
             }
         });
-
 
         clearPicture.setOnClickListener(new OnClickListener() {
             @Override

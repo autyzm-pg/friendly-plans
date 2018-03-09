@@ -98,4 +98,3 @@ android.applicationVariants.all { variant ->
         assembleDebug.finalizedBy('assembleDebugUnitTest')
     }
 }
-
