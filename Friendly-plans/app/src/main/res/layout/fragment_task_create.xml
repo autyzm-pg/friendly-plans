@@ -2,6 +2,9 @@
 <layout>
   <data>
     <variable
+        name="events"
+        type="pg.autyzm.friendly_plans.view.task_create.TaskCreateActivityEvents"/>
+    <variable
       name="soundComponent"
       type="pg.autyzm.friendly_plans.view.components.SoundComponent"/>
   </data>
@@ -75,6 +78,7 @@
           android:layout_width="wrap_content"
           android:text="@string/steps"
           android:layout_height="match_parent"
+          android:onClick="@{events::eventListStep}"
           android:layout_marginStart="48dp"/>
 
           <Button
@@ -82,6 +86,7 @@
             android:layout_width="wrap_content"
             android:text="@string/save_and_finish"
             android:layout_height="match_parent"
+            android:onClick="@{events::eventSaveAndFinish}"
             android:layout_marginStart="48dp"/>
 
         </LinearLayout>
@@ -118,6 +123,7 @@
           android:layout_gravity="end|center_vertical"
           android:background="@android:drawable/ic_menu_close_clear_cancel"
           android:visibility="invisible"
+          android:onClick="@{events::eventClearPicture}"
           android:contentDescription="@string/clear_picture"/>
 
         <!--Select picture btn-->
@@ -126,6 +132,7 @@
           android:text="@string/select_picture"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:onClick="@{events::eventSelectPicture}"
           android:layout_marginStart="27dp"/>
 
         <!--Picture preview -->
@@ -135,6 +142,7 @@
           android:layout_height="match_parent"
           android:adjustViewBounds="true"
           android:scaleType="centerInside"
+          android:onClick="@{events::eventClickPreviewPicture}"
           android:contentDescription="@string/tasks_picture"/>
 
       </LinearLayout>
@@ -170,6 +178,7 @@
           android:layout_gravity="end|center_vertical"
           android:background="@android:drawable/ic_menu_close_clear_cancel"
           android:visibility="invisible"
+          android:onClick="@{events::eventClearSound}"
           android:contentDescription="@string/clear_sound"/>
 
         <!--select sound btn-->
@@ -178,6 +187,7 @@
           android:text="@string/select_sound"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:onClick="@{events::eventSelectSound}"
           android:layout_marginStart="35dp"/>
 
         <!--Play/Stop sound button-->
