@@ -42,7 +42,7 @@ import pg.autyzm.friendly_plans.view.components.SoundComponent;
 import pg.autyzm.friendly_plans.view.main_screen.MainActivity;
 import pg.autyzm.friendly_plans.view.step_list.StepListFragment;
 
-public class TaskCreateFragment extends Fragment {
+public class TaskCreateFragment extends Fragment implements TaskCreateActivityEvents{
 
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
 
@@ -63,10 +63,6 @@ public class TaskCreateFragment extends Fragment {
     private EditText taskPicture;
     private EditText taskSound;
     private EditText taskDurationTime;
-    private Button taskSteps;
-    private Button saveAndFinish;
-    private Button selectPicture;
-    private Button selectSound;
     private ImageButton clearSound;
     private ImageButton clearPicture;
     private ImageView picturePreview;
@@ -80,6 +76,8 @@ public class TaskCreateFragment extends Fragment {
             Bundle savedInstanceState) {
         FragmentTaskCreateBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_task_create, container, false);
+        binding.setEvents(this);
+
         View view = binding.getRoot();
         ImageView playSoundIcon = (ImageView) view.findViewById(R.id.id_iv_play_sound_icon);
 
@@ -114,71 +112,10 @@ public class TaskCreateFragment extends Fragment {
         taskPicture = (EditText) view.findViewById(R.id.id_et_task_picture);
         taskSound = (EditText) view.findViewById(R.id.id_et_task_sound);
         taskDurationTime = (EditText) view.findViewById(R.id.id_et_task_duration_time);
-        taskSteps = (Button) view.findViewById(R.id.id_btn_steps);
-        saveAndFinish = (Button) view.findViewById(R.id.id_btn_save_and_finish);
-        selectPicture = (Button) view.findViewById(R.id.id_btn_select_task_picture);
         picturePreview = (ImageView) view.findViewById(R.id.iv_picture_preview);
-        selectSound = (Button) view.findViewById(R.id.id_btn_select_task_sound);
         clearSound = (ImageButton) view.findViewById(R.id.id_ib_clear_sound_btn);
         clearPicture = (ImageButton) view.findViewById(R.id.id_ib_clear_img_btn);
 
-        selectPicture.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                filePickerProxy.openFilePicker(TaskCreateFragment.this, AssetType.PICTURE);
-            }
-        });
-
-        picturePreview.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ImagePreviewDialog preview = new ImagePreviewDialog();
-                Bundle args = new Bundle();
-                args.putString("imgPath", retrieveImageFile());
-                preview.setArguments(args);
-                preview.show(getFragmentManager(), "preview");
-            }
-        });
-
-        selectSound.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                filePickerProxy.openFilePicker(TaskCreateFragment.this, AssetType.SOUND);
-            }
-        });
-
-
-        clearPicture.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                taskPicture.setText("");
-                picturePreview.setImageResource(0);
-                clearPicture.setVisibility(View.INVISIBLE);
-            }
-        });
-
-        clearSound.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                taskSound.setText("");
-                clearSound.setVisibility(View.INVISIBLE);
-                soundComponent.stopActions();
-            }
-        });
-
-        taskSteps.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Long taskId = saveOrUpdate();
-                if (taskId != null) {
-                    showStepsList(taskId);
-                }
-            }
-        });
-        saveAndFinish.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Long taskId = saveOrUpdate();
-                if (taskId != null) {
-                    showMainMenu();
-                }
-            }
-        });
     }
 
     private Long saveOrUpdate() {
@@ -354,6 +291,55 @@ public class TaskCreateFragment extends Fragment {
         toastUserNotifier.displayNotifications(
                 resourceStringId,
                 getActivity().getApplicationContext());
+    }
+
+    @Override
+    public void eventListStep(View view) {
+        Long taskId = saveOrUpdate();
+        if (taskId != null) {
+            showStepsList(taskId);
+        }
+    }
+
+    @Override
+    public void eventSelectPicture(View view) {
+        filePickerProxy.openFilePicker(TaskCreateFragment.this, AssetType.PICTURE);
+    }
+
+    @Override
+    public void eventSelectSound(View view) {
+        filePickerProxy.openFilePicker(TaskCreateFragment.this, AssetType.SOUND);
+    }
+
+    @Override
+    public void eventSaveAndFinish(View view) {
+        Long taskId = saveOrUpdate();
+        if (taskId != null) {
+            showMainMenu();
+        }
+    }
+
+    @Override
+    public void eventClearPicture(View view) {
+        taskPicture.setText("");
+        picturePreview.setImageResource(0);
+        clearPicture.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void eventClearSound(View view) {
+        taskSound.setText("");
+        clearSound.setVisibility(View.INVISIBLE);
+        soundComponent.stopActions();
+    }
+
+    @Override
+    public void eventClickPreviewPicture(View view) {
+        ImagePreviewDialog preview = new ImagePreviewDialog();
+        Bundle args = new Bundle();
+        args.putString("imgPath", retrieveImageFile());
+        preview.setArguments(args);
+        preview.show(getFragmentManager(), "preview");
     }
 }
 
