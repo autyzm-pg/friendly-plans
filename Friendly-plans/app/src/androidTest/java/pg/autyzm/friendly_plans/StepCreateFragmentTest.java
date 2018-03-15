@@ -1,6 +1,35 @@
 package pg.autyzm.friendly_plans;
 
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+import android.view.WindowManager;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import database.entities.StepTemplate;
+import database.entities.TaskTemplate;
+import database.repository.StepTemplateRepository;
+import database.repository.TaskTemplateRepository;
+import pg.autyzm.friendly_plans.matcher.ToastMatcher;
+import pg.autyzm.friendly_plans.resource.AssetTestRule;
+import pg.autyzm.friendly_plans.resource.DaoSessionResource;
+import pg.autyzm.friendly_plans.view.step_create.StepCreateData;
+import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
+import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
+
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -12,42 +41,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.Is.is;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Context;
-import android.os.Bundle;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-import android.view.WindowManager;
-import database.entities.StepTemplate;
-import database.entities.TaskTemplate;
-import database.repository.AssetRepository;
-import database.repository.StepTemplateRepository;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import database.repository.TaskTemplateRepository;
-import pg.autyzm.friendly_plans.matcher.ToastMatcher;
-import pg.autyzm.friendly_plans.resource.AssetTestRule;
-import pg.autyzm.friendly_plans.resource.DaoSessionResource;
-import pg.autyzm.friendly_plans.view.step_create.StepCreateData;
-import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
-import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
-
 @RunWith(AndroidJUnit4.class)
 public class StepCreateFragmentTest {
 
     private static final String EXPECTED_NAME = "TEST STEP 11";
-    private static final String EXPECTED_NAME_OF_PICTURE = "TEST PICTURE";
-    private static final String EXPECTED_NAME_OF_SOUND = "TEST SOUND";
+//    private static final String EXPECTED_NAME_OF_PICTURE = "TEST PICTURE";
+//    private static final String EXPECTED_NAME_OF_SOUND = "TEST SOUND";
     private static final String TASK_EXPECTED_NAME = "TEST TASK 100";
     private static final String TASK_EXPECTED_DURATION_TXT = "1";
 
@@ -61,7 +60,6 @@ public class StepCreateFragmentTest {
     @Rule
     public AssetTestRule assetTestRule = new AssetTestRule(daoSessionResource, activityRule);
 
-    private StepCreateData stepCreateData;
     private StepTemplateRepository stepTemplateRepository;
     private TaskTemplateRepository taskTemplateRepository;
 
@@ -157,16 +155,4 @@ public class StepCreateFragmentTest {
             e.printStackTrace();
         }
     }
-
-    private void openStepCreateFragment() {
-        StepCreateFragment fragment = new StepCreateFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-
-        FragmentManager manager = activityRule.getActivity().getFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.task_container, fragment);
-        transaction.commit();
-    }
-
 }
