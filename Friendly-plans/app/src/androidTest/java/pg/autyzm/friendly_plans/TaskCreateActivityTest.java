@@ -144,6 +144,11 @@ public class TaskCreateActivityTest {
         assertThat(taskTemplates.size(), is(1));
         assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
         assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.button_createPlan)).check(matches(isDisplayed()));
     }
 
@@ -272,6 +277,11 @@ public class TaskCreateActivityTest {
     @Test
     public void whenAddingNewTaskAndNameHasForbiddenSymbolsExpectWarning()
             throws InterruptedException {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.id_et_task_name))
                 .perform(typeText(BAD_TASK_NAME));
         closeSoftKeyboard();
