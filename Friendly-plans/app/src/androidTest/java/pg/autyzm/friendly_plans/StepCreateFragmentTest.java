@@ -1,10 +1,7 @@
 package pg.autyzm.friendly_plans;
 
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
-import android.os.Bundle;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.WindowManager;
@@ -26,8 +23,6 @@ import database.repository.TaskTemplateRepository;
 import pg.autyzm.friendly_plans.matcher.ToastMatcher;
 import pg.autyzm.friendly_plans.resource.AssetTestRule;
 import pg.autyzm.friendly_plans.resource.DaoSessionResource;
-import pg.autyzm.friendly_plans.view.step_create.StepCreateData;
-import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
