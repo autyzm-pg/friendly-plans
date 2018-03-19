@@ -253,7 +253,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void whenAddingNewTaskAndDurationIsEmptyExpectWarning1() {
+    public void whenAddingNewTaskAndDurationIsEmptyExpectWarning() {
         onView(withId(R.id.id_et_task_name))
                 .perform(typeText(GOOD_TASK_NAME));
         closeSoftKeyboard();
