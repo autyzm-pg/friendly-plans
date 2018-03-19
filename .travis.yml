@@ -11,21 +11,21 @@ android:
     - build-tools-26.0.2
 
     - android-22  
-    - android-26
+    - android-25
 
-    - sys-img-armeabi-v7a-android-26
+    - sys-img-armeabi-v7a-addon-google_apis-google-25
 
     # Additional components
     - extra-android-m2repository
     - extra-google-google_play_services
     - extra-google-m2repository
-    - addon-google_apis-google-26
+    - addon-google_apis-google-25
 
 before_script:
   # Create and start emulator
   - cd Friendly-plans
   - android list targets
-  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a --skin WXGA800
+  - echo no | android create avd --force -n test -t android-25 --abi armeabi-v7a --skin WXGA800
   - emulator -avd test -no-audio -no-window &
   - travis_wait 30 android-wait-for-emulator
   - adb shell input keyevent 82 &
