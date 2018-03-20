@@ -43,7 +43,7 @@ public class TaskCreateActivityTest {
     private static final String EXPECTED_NAME = "TEST TASK";
     private static final String EXPECTED_DURATION_TXT = "1";
     private static final int EXPECTED_DURATION = 1;
-    private static final String BAD_TASK_NAME = "Bad task name!@$%*";
+    private static final String BAD_TASK_NAME = "Bad task name!@";
     private static final String GOOD_TASK_NAME = "good task name";
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
 
@@ -270,11 +270,13 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void whenAddingNewTaskAndNameHasForbiddenSymbolsExpectWarning()
-            throws InterruptedException {
+    public void whenAddingNewTaskAndForbiddenNameExpectWarning() {
         onView(withId(R.id.id_et_task_name))
                 .perform(typeText(BAD_TASK_NAME));
         closeSoftKeyboard();
+
+        onView(withId(R.id.id_btn_steps))
+                .perform(scrollTo());
 
         onView(withId(R.id.id_btn_steps))
                 .perform(click());
