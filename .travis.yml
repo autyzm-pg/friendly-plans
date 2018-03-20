@@ -13,7 +13,8 @@ android:
     - android-22  
     - android-24
 
-    - sys-img-armeabi-v7a-google_apis-22
+    - sys-img-armeabi-v7a-android-22
+    #- sys-img-armeabi-v7a-google_apis-22
 
     # Additional components
     - extra-android-m2repository
@@ -25,7 +26,7 @@ before_script:
   # Create and start emulator
   - cd Friendly-plans
   - android list targets
-  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a --skin WXGA800 --tag google_apis
+  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a --skin WXGA800 
   - emulator -avd test -no-audio -no-window &
   - travis_wait 30 android-wait-for-emulator
   - adb shell input keyevent 82 &
@@ -41,3 +42,4 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
+
