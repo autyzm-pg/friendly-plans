@@ -7,7 +7,6 @@ buildscript {
     }
     dependencies {
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
-        classpath 'com.android.databinding:baseLibrary:2.3.0'
     }
 }
 
