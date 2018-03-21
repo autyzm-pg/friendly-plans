@@ -4,6 +4,7 @@ apply plugin: 'org.greenrobot.greendao'
 buildscript {
     repositories {
         mavenCentral()
+        google()
     }
     dependencies {
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
