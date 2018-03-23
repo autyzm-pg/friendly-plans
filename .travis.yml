@@ -35,7 +35,7 @@ licenses:
   - 'google-gdk-license-.+'
 
 script: ./gradlew test --info
-script: ./gradlew test connectedAndroidTest --info --stacktrace
+script: ./gradlew test connectedAndroidTest --info
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
