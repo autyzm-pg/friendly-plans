@@ -4,15 +4,16 @@ apply plugin: 'org.greenrobot.greendao'
 buildscript {
     repositories {
         mavenCentral()
+        google()
     }
     dependencies {
-        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.1'
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
     }
 }
 
 android {
     compileSdkVersion 24
-    buildToolsVersion '24.0.2'
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "pg.autyzm.friendly_plans"
@@ -43,6 +44,12 @@ android {
         enabled = true
     }
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
 }
 
 greendao {
@@ -58,6 +65,9 @@ dependencies {
     compile 'commons-io:commons-io:2.4'
     compile 'org.hamcrest:hamcrest-core:1.3'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.android.databinding:library:1.3.1'
+    compile 'com.android.databinding:adapters:1.3.1'
+
     annotationProcessor "com.google.dagger:dagger-compiler:2.9"
     provided 'javax.annotation:jsr250-api:1.0'
 
