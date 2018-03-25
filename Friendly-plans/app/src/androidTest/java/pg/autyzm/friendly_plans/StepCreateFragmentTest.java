@@ -40,8 +40,6 @@ import static org.hamcrest.core.Is.is;
 public class StepCreateFragmentTest {
 
     private static final String EXPECTED_NAME = "TEST STEP 11";
-//    private static final String EXPECTED_NAME_OF_PICTURE = "TEST PICTURE";
-//    private static final String EXPECTED_NAME_OF_SOUND = "TEST SOUND";
     private static final String TASK_EXPECTED_NAME = "TEST TASK 100";
     private static final String TASK_EXPECTED_DURATION_TXT = "1";
 
