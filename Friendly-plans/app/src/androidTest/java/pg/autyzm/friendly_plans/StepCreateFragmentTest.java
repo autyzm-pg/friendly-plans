@@ -39,8 +39,8 @@ import static org.hamcrest.core.Is.is;
 @RunWith(AndroidJUnit4.class)
 public class StepCreateFragmentTest {
 
-    private static final String EXPECTED_NAME = "TEST STEP 11";
-    private static final String TASK_EXPECTED_NAME = "TEST TASK 100";
+    private static final String EXPECTED_NAME = "TEST STEP";
+    private static final String TASK_EXPECTED_NAME = "TEST TASK";
     private static final String TASK_EXPECTED_DURATION_TXT = "1";
 
     @ClassRule
