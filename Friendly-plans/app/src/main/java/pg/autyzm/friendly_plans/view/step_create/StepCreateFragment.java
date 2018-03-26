@@ -89,6 +89,7 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         String sound = stepCreateData.getSoundName();
         Long stepId = addStepToTask(name, 0);
         Log.i("step data", name + " " + picture + " " + sound+ " " + stepId);
+        if(stepId != null) getFragmentManager().popBackStack();
     }
 
 
