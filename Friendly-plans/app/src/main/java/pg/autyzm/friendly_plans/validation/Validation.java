@@ -5,18 +5,15 @@ import java.util.regex.Pattern;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.string_provider.StringsProvider;
 
-public class Validation {
+public abstract class Validation {
 
     private static final String NAME_REGEX = "^[a-zA-Z0-9_. -]*$";
     private static final String NUM_ONLY_REGEX = "^[0-9]*$";
 
     final StringsProvider stringProvider;
-    final TaskTemplateRepository taskTemplateRepository;
 
-    public Validation(StringsProvider stringsProvider,
-            TaskTemplateRepository taskTemplateRepository) {
+    public Validation(StringsProvider stringsProvider) {
         this.stringProvider = stringsProvider;
-        this.taskTemplateRepository = taskTemplateRepository;
     }
 
     ValidationResult isStringEmpty(String stringValue) {
@@ -35,6 +32,21 @@ public class Validation {
     ValidationResult isNumber(String stringValue) {
         return validatePattern(stringValue, NUM_ONLY_REGEX,
                 stringProvider.getString(R.string.only_numbers_msg));
+    }
+
+
+    ValidationResult isNameValid(String name) {
+        ValidationResult validationResult = isStringEmpty(name);
+        if (validationResult.getValidationStatus() == ValidationStatus.INVALID) {
+            return validationResult;
+        }
+
+        validationResult = isName(name);
+        if (validationResult.getValidationStatus() == ValidationStatus.INVALID) {
+            return validationResult;
+        }
+
+        return new ValidationResult(ValidationStatus.VALID);
     }
 
     private ValidationResult validatePattern(String textValue, String regex, String errMsg) {

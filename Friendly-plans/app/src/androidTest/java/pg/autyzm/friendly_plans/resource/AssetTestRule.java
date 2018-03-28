@@ -1,9 +1,12 @@
 package pg.autyzm.friendly_plans.resource;
 
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
+import android.util.Log;
+
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import database.entities.Asset;
 import database.repository.AssetRepository;
@@ -15,6 +18,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.rules.ExternalResource;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.asset.AssetType;
+import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateFragment;
 
 public class AssetTestRule extends ExternalResource {
@@ -83,7 +87,8 @@ public class AssetTestRule extends ExternalResource {
             throws InterruptedException {
         final Intent data = new Intent();
         data.putExtra(FilePickerActivity.RESULT_FILE_PATH, testAsset.getAbsolutePath());
-        final TaskCreateFragment fragment = getFragment();
+//        Log.i("error", activityRule.getActivity().getFragmentManager().getClass().getSimpleName());
+        final Fragment fragment = getTaskFragment();
         activityRule.getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 fragment.onActivityResult(assetType.ordinal(),
@@ -99,9 +104,13 @@ public class AssetTestRule extends ExternalResource {
         testFiles.add(new File(internalStorage, fileName));
     }
 
-    private TaskCreateFragment getFragment() {
-        return (TaskCreateFragment) activityRule.getActivity().getFragmentManager()
+    private Fragment getTaskFragment() {
+        return (Fragment) activityRule.getActivity().getFragmentManager()
                 .findFragmentById(R.id.task_container);
+    }
+    private StepCreateFragment getStepFragment() {
+        return (StepCreateFragment) activityRule.getActivity().getFragmentManager()
+                .findFragmentById(R.id.step_container);
     }
 
     private void removeTestFiles() {

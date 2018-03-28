@@ -8,18 +8,16 @@ import pg.autyzm.friendly_plans.string_provider.StringsProvider;
 
 public class TaskValidation extends Validation {
 
+    final TaskTemplateRepository taskTemplateRepository;
+
     public TaskValidation(StringsProvider stringsProvider,
             TaskTemplateRepository taskTemplateRepository) {
-        super(stringsProvider, taskTemplateRepository);
+        super(stringsProvider);
+        this.taskTemplateRepository = taskTemplateRepository;
     }
 
     public ValidationResult isNewNameValid(String name) {
-        ValidationResult validationResult = isStringEmpty(name);
-        if (validationResult.getValidationStatus() == ValidationStatus.INVALID) {
-            return validationResult;
-        }
-
-        validationResult = isName(name);
+        ValidationResult validationResult = isNameValid(name);
         if (validationResult.getValidationStatus() == ValidationStatus.INVALID) {
             return validationResult;
         }
@@ -33,12 +31,7 @@ public class TaskValidation extends Validation {
     }
 
     public ValidationResult isUpdateNameValid(Long taskId, String name) {
-        ValidationResult validationResult = isStringEmpty(name);
-        if (validationResult.getValidationStatus() == ValidationStatus.INVALID) {
-            return validationResult;
-        }
-
-        validationResult = isName(name);
+        ValidationResult validationResult = isNameValid(name);
         if (validationResult.getValidationStatus() == ValidationStatus.INVALID) {
             return validationResult;
         }
@@ -50,6 +43,7 @@ public class TaskValidation extends Validation {
 
         return new ValidationResult(ValidationStatus.VALID);
     }
+
 
     private boolean checkUpdateNameDoesNotExist(Long taskId, String name) {
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(name);

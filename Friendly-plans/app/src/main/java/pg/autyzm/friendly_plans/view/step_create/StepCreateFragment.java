@@ -200,7 +200,8 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         String picture = stepCreateData.getPictureName();
         String sound = stepCreateData.getSoundName();
         Long stepId = addStepToTask(name, 0);
-        Log.i("step data", name + " " + picture + " " + sound + " " + stepId);
+        Log.i("step data", name + " " + picture + " " + sound+ " " + stepId);
+        if(stepId != null) getFragmentManager().popBackStack();
     }
 
     private void showToastMessage(int resourceStringId) {
