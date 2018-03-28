@@ -1,5 +1,30 @@
 package pg.autyzm.friendly_plans;
 
+import android.content.Context;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+import android.view.WindowManager;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import database.entities.Asset;
+import database.entities.TaskTemplate;
+import database.repository.AssetRepository;
+import database.repository.TaskTemplateRepository;
+import pg.autyzm.friendly_plans.matcher.ToastMatcher;
+import pg.autyzm.friendly_plans.resource.AssetTestRule;
+import pg.autyzm.friendly_plans.resource.DaoSessionResource;
+import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
+
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -14,28 +39,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertNull;
 import static org.hamcrest.core.Is.is;
 import static pg.autyzm.friendly_plans.matcher.ErrorTextMatcher.hasErrorText;
-
-import android.content.Context;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-import android.view.WindowManager;
-import database.entities.Asset;
-import database.entities.TaskTemplate;
-import database.repository.AssetRepository;
-import database.repository.TaskTemplateRepository;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import pg.autyzm.friendly_plans.matcher.ToastMatcher;
-import pg.autyzm.friendly_plans.resource.AssetTestRule;
-import pg.autyzm.friendly_plans.resource.DaoSessionResource;
-import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 
 @RunWith(AndroidJUnit4.class)
 public class TaskCreateActivityTest {

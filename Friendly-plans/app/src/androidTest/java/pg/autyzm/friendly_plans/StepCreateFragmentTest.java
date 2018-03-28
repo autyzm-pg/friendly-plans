@@ -1,11 +1,11 @@
 package pg.autyzm.friendly_plans;
 
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.app.FragmentTransaction;
 import android.view.WindowManager;
 
 import org.junit.After;
@@ -21,7 +21,6 @@ import java.util.List;
 
 import database.entities.Asset;
 import database.entities.StepTemplate;
-import database.entities.TaskTemplate;
 import database.repository.AssetRepository;
 import database.repository.StepTemplateRepository;
 import database.repository.TaskTemplateRepository;
@@ -81,6 +80,8 @@ public class StepCreateFragmentTest {
         Context context = activityRule.getActivity().getApplicationContext();
         stepTemplateRepository = new StepTemplateRepository(daoSessionResource.getSession(context));
         taskTemplateRepository = new TaskTemplateRepository(daoSessionResource.getSession(context));
+        assetRepository = new AssetRepository(daoSessionResource.getSession(context));
+
         taskId = taskTemplateRepository.create(TASK_EXPECTED_NAME,
                 Integer.valueOf(TASK_EXPECTED_DURATION_TXT),
                 null,
@@ -140,7 +141,7 @@ public class StepCreateFragmentTest {
                 .perform(click());
 
         List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
-        stepIdsToDelete.add(stepTemplates.get(0).getId());
+        storeStepsToDelete(stepTemplates);
 
         assertThat(stepTemplates.size(), is(1));
         assertThat(stepTemplates.get(0).getName(), is(EXPECTED_NAME));
@@ -149,25 +150,19 @@ public class StepCreateFragmentTest {
     }
 
     @Test
-    public void whenAddingNewStepWithPictureExpectNewStepAddedToDB() {
+    public void whenAddingNewStepWithPictureExpectNewStepAddedToDB() throws IOException, InterruptedException {
         onView(withId(R.id.id_et_step_name))
                 .perform(replaceText(EXPECTED_NAME));
         closeSoftKeyboard();
 
-        try {
-            assetTestRule.setTestPicture();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        assetTestRule.setTestPicture();
 
         onView(withId(R.id.id_btn_save_step))
                 .perform(click());
 
         List<Asset> assets = assetRepository.getAll();
         List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
-        idsToDelete.add(stepTemplates.get(0).getId());
+        storeStepsToDelete(stepTemplates);
 
         assertThat(assets.size(), is(1));
         assertThat(stepTemplates.size(), is(1));
@@ -176,78 +171,59 @@ public class StepCreateFragmentTest {
         onView(withText(R.string.step_saved_message)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
     }
-//
-//    @Test
-//    public void whenSettingSoundExpectSoundNameIsDisplayed()
-//            throws IOException, InterruptedException {
-//        assetTestRule.setTestSound();
-//        List<Asset> assets = assetRepository.getAll();
-//
-//        String fileName = (assets.get(0).getFilename()).replaceAll(REGEX_TRIM_NAME, "");
-//        onView(withId(R.id.id_et_step_sound))
-//                .check(matches(withText(fileName)));
-//    }
-//
-//    @Test
-//    public void whenAddingANewStepWithoutSoundExpectStepToBeAddedWithoutSound()
-//            throws IOException, InterruptedException {
-//        onView(withId(R.id.id_et_step_name))
-//                .perform(replaceText(EXPECTED_NAME));
-//        closeSoftKeyboard();
-//
-//
-//        onView(withId(R.id.id_btn_save_step))
-//                .perform(click());
-//
-//        List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
-//        idsToDelete.add(stepTemplates.get(0).getId());
-//
-//        assertThat(stepTemplates.size(), is(1));
-//        assertNull(stepTemplates.get(0).getSoundId());
-//    }
-//
-//    @Test
-//    public void whenAddingANewStepWithSoundExpectStepToBeAddedWithSound()
-//            throws IOException, InterruptedException {
-//        onView(withId(R.id.id_et_step_name))
-//                .perform(replaceText(EXPECTED_NAME));
-//        closeSoftKeyboard();
-//
-//        assetTestRule.setTestSound();
-//
-//        onView(withId(R.id.id_btn_save_step))
-//                .perform(click());
-//
-//        List<Asset> assets = assetRepository.getAll();
-//        List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
-//        idsToDelete.add(stepTemplates.get(0).getId());
-//
-//        assertThat(stepTemplates.size(), is(1));
-//        assertThat(stepTemplates.get(0).getSoundId(), is(assets.get(0).getId()));
-//    }
 
-    private void openStepCreate(){
-        onView(withId(R.id.id_et_task_name))
-                .perform(replaceText(TASK_EXPECTED_NAME));
+    @Test
+    public void whenSettingSoundExpectSoundNameIsDisplayed()
+            throws IOException, InterruptedException {
+        assetTestRule.setTestSound();
+        List<Asset> assets = assetRepository.getAll();
+
+        String fileName = (assets.get(0).getFilename()).replaceAll(REGEX_TRIM_NAME, "");
+        onView(withId(R.id.id_et_step_sound))
+                .check(matches(withText(fileName)));
+    }
+
+    @Test
+    public void whenAddingANewStepWithoutSoundExpectStepToBeAddedWithoutSound()
+            throws IOException, InterruptedException {
+        onView(withId(R.id.id_et_step_name))
+                .perform(replaceText(EXPECTED_NAME));
         closeSoftKeyboard();
 
-        onView(withId(R.id.id_et_task_duration_time))
-                .perform(replaceText(TASK_EXPECTED_DURATION_TXT));
+
+        onView(withId(R.id.id_btn_save_step))
+                .perform(click());
+
+        List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
+        storeStepsToDelete(stepTemplates);
+
+        assertThat(stepTemplates.size(), is(1));
+        assertNull(stepTemplates.get(0).getSoundId());
+    }
+
+    @Test
+    public void whenAddingANewStepWithSoundExpectStepToBeAddedWithSound()
+            throws IOException, InterruptedException {
+        onView(withId(R.id.id_et_step_name))
+                .perform(replaceText(EXPECTED_NAME));
         closeSoftKeyboard();
 
-        onView(withId(R.id.id_btn_steps))
+        assetTestRule.setTestSound();
+
+        onView(withId(R.id.id_btn_save_step))
                 .perform(click());
 
-        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(TASK_EXPECTED_NAME);
-        taskIdsToDelete.add(taskTemplates.get(0).getId());
+        List<Asset> assets = assetRepository.getAll();
+        List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
+        storeStepsToDelete(stepTemplates);
 
-        onView(withId(R.id.id_btn_create_step))
-                .perform(click());
+        assertThat(stepTemplates.size(), is(1));
+        assertThat(stepTemplates.get(0).getSoundId(), is(assets.get(0).getId()));
+    }
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    private void storeStepsToDelete(List<StepTemplate> stepTemplates){
+        for (StepTemplate storedStep : stepTemplates) {
+            stepIdsToDelete.add(storedStep.getId());
         }
     }
 }

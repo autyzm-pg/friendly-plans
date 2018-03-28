@@ -5,21 +5,21 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
-import android.util.Log;
 
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
-import database.entities.Asset;
-import database.repository.AssetRepository;
+
+import org.apache.commons.io.FileUtils;
+import org.junit.rules.ExternalResource;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.io.FileUtils;
-import org.junit.rules.ExternalResource;
+
+import database.entities.Asset;
+import database.repository.AssetRepository;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.asset.AssetType;
-import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
-import pg.autyzm.friendly_plans.view.task_create.TaskCreateFragment;
 
 public class AssetTestRule extends ExternalResource {
 
@@ -87,7 +87,6 @@ public class AssetTestRule extends ExternalResource {
             throws InterruptedException {
         final Intent data = new Intent();
         data.putExtra(FilePickerActivity.RESULT_FILE_PATH, testAsset.getAbsolutePath());
-//        Log.i("error", activityRule.getActivity().getFragmentManager().getClass().getSimpleName());
         final Fragment fragment = getTaskFragment();
         activityRule.getActivity().runOnUiThread(new Runnable() {
             public void run() {
@@ -107,10 +106,6 @@ public class AssetTestRule extends ExternalResource {
     private Fragment getTaskFragment() {
         return (Fragment) activityRule.getActivity().getFragmentManager()
                 .findFragmentById(R.id.task_container);
-    }
-    private StepCreateFragment getStepFragment() {
-        return (StepCreateFragment) activityRule.getActivity().getFragmentManager()
-                .findFragmentById(R.id.step_container);
     }
 
     private void removeTestFiles() {
