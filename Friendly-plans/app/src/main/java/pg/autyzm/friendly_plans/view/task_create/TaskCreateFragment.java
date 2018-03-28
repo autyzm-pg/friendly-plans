@@ -83,7 +83,7 @@ public class TaskCreateFragment extends Fragment implements TaskCreateActivityEv
 
         AppComponent appComponent = ((App) getActivity().getApplication()).getAppComponent();
         soundComponent = SoundComponent.getSoundComponent(
-            soundId, playSoundIcon, getActivity().getApplicationContext(), appComponent);
+                soundId, playSoundIcon, getActivity().getApplicationContext(), appComponent);
         appComponent.inject(this);
 
         binding.setSoundComponent(soundComponent);
@@ -115,7 +115,6 @@ public class TaskCreateFragment extends Fragment implements TaskCreateActivityEv
         picturePreview = (ImageView) view.findViewById(R.id.iv_picture_preview);
         clearSound = (ImageButton) view.findViewById(R.id.id_ib_clear_sound_btn);
         clearPicture = (ImageButton) view.findViewById(R.id.id_ib_clear_img_btn);
-
     }
 
     private Long saveOrUpdate() {

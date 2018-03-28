@@ -144,6 +144,11 @@ public class TaskCreateActivityTest {
         assertThat(taskTemplates.size(), is(1));
         assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
         assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.button_createPlan)).check(matches(isDisplayed()));
     }
 
