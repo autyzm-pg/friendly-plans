@@ -136,15 +136,15 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
 
     private void setAssetValue(AssetType assetType, String assetName, Long assetId) {
 
-        assetName = assetName.replaceAll(REGEX_TRIM_NAME, "");
+        String assetNameTrimed = assetName.replaceAll(REGEX_TRIM_NAME, "");
 
         if (assetType.equals(AssetType.PICTURE)) {
-            stepPicture.setText(assetName);
+            stepPicture.setText(assetNameTrimed);
             clearPicture.setVisibility(View.VISIBLE);
             pictureId = assetId;
             showPreview();
         } else {
-            stepSound.setText(assetName);
+            stepSound.setText(assetNameTrimed);
             soundId = assetId;
             clearSound.setVisibility(View.VISIBLE);
         }

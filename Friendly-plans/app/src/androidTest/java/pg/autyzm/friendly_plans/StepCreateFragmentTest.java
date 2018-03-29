@@ -46,9 +46,6 @@ import static org.hamcrest.core.Is.is;
 public class StepCreateFragmentTest {
 
     private static final String EXPECTED_NAME = "TEST STEP";
-    private static final String EXPECTED_NAME_OF_PICTURE = "TEST PICTURE";
-    private static final String EXPECTED_NAME_OF_SOUND = "TEST SOUND";
-
     private static final String TASK_EXPECTED_NAME = "TEST TASK";
     private static final String TASK_EXPECTED_DURATION_TXT = "1";
 
@@ -64,14 +61,12 @@ public class StepCreateFragmentTest {
     @Rule
     public AssetTestRule assetTestRule = new AssetTestRule(daoSessionResource, activityRule);
 
+    private AssetRepository assetRepository;
     private StepTemplateRepository stepTemplateRepository;
     private TaskTemplateRepository taskTemplateRepository;
 
-    private List<Long> taskIdsToDelete = new ArrayList<>();
     private List<Long> stepIdsToDelete = new ArrayList<>();
 
-    private AssetRepository assetRepository;
-    private List<Long> idsToDelete = new ArrayList<>();
 
     private Long taskId;
 
