@@ -122,13 +122,13 @@ public class StepCreateFragmentTest {
     @Test
     public void whenStepCreateFragmentDisplayedExpectHeaderAndEmptyFields() {
         onView(withId(R.id.id_step_create_description))
-                .check(matches(withText(R.string.create_step_description)));
+            .check(matches(withText(R.string.create_step_description)));
         onView(withId(R.id.id_et_step_name))
-                .check(matches(withText("")));
+            .check(matches(withText("")));
         onView(withId(R.id.id_et_step_picture))
-                .check(matches(withText("")));
+            .check(matches(withText("")));
         onView(withId(R.id.id_et_step_sound))
-                .check(matches(withText("")));
+            .check(matches(withText("")));
     }
 
     @Test

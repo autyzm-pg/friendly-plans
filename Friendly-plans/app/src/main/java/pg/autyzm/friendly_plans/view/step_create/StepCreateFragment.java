@@ -16,12 +16,16 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
 import com.squareup.picasso.Picasso;
-import database.repository.AssetRepository;
-import database.repository.StepTemplateRepository;
+
 import java.io.File;
 import java.io.IOException;
+
 import javax.inject.Inject;
+
+import database.repository.AssetRepository;
+import database.repository.StepTemplateRepository;
 import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.AppComponent;
@@ -77,7 +81,6 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         binding.setStepDataClick(this);
         return view;
     }
-
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
