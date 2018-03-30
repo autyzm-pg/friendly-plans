@@ -324,6 +324,11 @@ public class TaskCreateActivityTest {
     public void whenFieldsEmptyAndPlayBtnPressedThenToastExpected() {
         onView(withId(R.id.id_btn_play_sound))
                 .perform(click());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withText(R.string.no_file_to_play_error)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
     }
@@ -355,7 +360,7 @@ public class TaskCreateActivityTest {
                 .perform(click());
 
         try {
-            Thread.sleep(500);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -363,7 +368,7 @@ public class TaskCreateActivityTest {
         Espresso.pressBack();
 
         try {
-            Thread.sleep(500);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
