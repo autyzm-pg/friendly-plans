@@ -48,7 +48,6 @@ public class TaskCreateActivityTest {
     private static final String EXPECTED_DURATION_TXT = "1";
     private static final int EXPECTED_DURATION = 1;
     private static final String BAD_TASK_NAME = "Bad task name!@";
-    private static final String GOOD_TASK_NAME = "good task name";
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
 
     @ClassRule
@@ -259,7 +258,7 @@ public class TaskCreateActivityTest {
     @Test
     public void whenAddingNewTaskAndDurationIsEmptyExpectWarning() {
         onView(withId(R.id.id_et_task_name))
-                .perform(typeText(GOOD_TASK_NAME));
+                .perform(typeText(EXPECTED_NAME));
         closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_steps))
@@ -293,10 +292,10 @@ public class TaskCreateActivityTest {
     @Test
     public void whenAddTaskWithExistingNameExpectWarning() {
         idsToDelete.add(taskTemplateRepository
-                .create(GOOD_TASK_NAME, Integer.valueOf(EXPECTED_DURATION_TXT), null, null));
+                .create(EXPECTED_NAME, Integer.valueOf(EXPECTED_DURATION_TXT), null, null));
 
         onView(withId(R.id.id_et_task_name))
-                .perform(typeText(GOOD_TASK_NAME));
+                .perform(typeText(EXPECTED_NAME));
 
         closeSoftKeyboard();
 
@@ -317,6 +316,8 @@ public class TaskCreateActivityTest {
 
     @Test
     public void whenFieldsEmptyAndPlayBtnPressedThenToastExpected() {
+        closeSoftKeyboard();
+
         onView(withId(R.id.id_btn_play_sound))
                 .perform(click());
         onView(withText(R.string.no_file_to_play_error)).inRoot(new ToastMatcher())
@@ -350,6 +351,8 @@ public class TaskCreateActivityTest {
                 .perform(click());
 
         Espresso.pressBack();
+
+        closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_save_and_finish))
                 .perform(click());
