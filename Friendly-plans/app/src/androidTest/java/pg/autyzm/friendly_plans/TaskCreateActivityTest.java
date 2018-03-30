@@ -16,6 +16,7 @@ import static org.hamcrest.core.Is.is;
 import static pg.autyzm.friendly_plans.matcher.ErrorTextMatcher.hasErrorText;
 
 import android.content.Context;
+import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.WindowManager;
@@ -335,5 +336,40 @@ public class TaskCreateActivityTest {
         closeSoftKeyboard();
         onView(withText(R.string.no_file_to_play_error)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void whenMovingBackFromStepListNewTaskCanBeUpdated() {
+        onView(withId(R.id.id_et_task_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_et_task_duration_time))
+                .perform(replaceText(EXPECTED_DURATION_TXT));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_btn_steps))
+                .perform(click());
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Espresso.pressBack();
+
+        onView(withId(R.id.id_btn_save_and_finish))
+                .perform(click());
+
+        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
+        idsToDelete.add(taskTemplates.get(0).getId());
+
+        assertThat(taskTemplates.size(), is(1));
+        assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
+        assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
+        onView(withText(R.string.task_saved_message)).inRoot(new ToastMatcher())
+            .check(matches(isDisplayed()));
+        onView(withId(R.id.button_createPlan)).check(matches(isDisplayed()));
     }
 }
