@@ -294,7 +294,7 @@ public class TaskCreateFragment extends Fragment implements TaskCreateActivityEv
 
     @Override
     public void eventListStep(View view) {
-        Long taskId = saveOrUpdate();
+        taskId = saveOrUpdate();
         if (taskId != null) {
             showStepsList(taskId);
         }
