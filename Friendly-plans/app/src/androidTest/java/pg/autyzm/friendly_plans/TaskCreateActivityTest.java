@@ -1,6 +1,7 @@
 package pg.autyzm.friendly_plans;
 
 import android.content.Context;
+import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.WindowManager;
@@ -47,7 +48,6 @@ public class TaskCreateActivityTest {
     private static final String EXPECTED_DURATION_TXT = "1";
     private static final int EXPECTED_DURATION = 1;
     private static final String BAD_TASK_NAME = "Bad task name!@";
-    private static final String GOOD_TASK_NAME = "good task name";
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
 
     @ClassRule
@@ -147,11 +147,6 @@ public class TaskCreateActivityTest {
         assertThat(taskTemplates.size(), is(1));
         assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
         assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         onView(withId(R.id.button_createPlan)).check(matches(isDisplayed()));
     }
 
@@ -263,7 +258,7 @@ public class TaskCreateActivityTest {
     @Test
     public void whenAddingNewTaskAndDurationIsEmptyExpectWarning() {
         onView(withId(R.id.id_et_task_name))
-                .perform(typeText(GOOD_TASK_NAME));
+                .perform(typeText(EXPECTED_NAME));
         closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_steps))
@@ -297,10 +292,10 @@ public class TaskCreateActivityTest {
     @Test
     public void whenAddTaskWithExistingNameExpectWarning() {
         idsToDelete.add(taskTemplateRepository
-                .create(GOOD_TASK_NAME, Integer.valueOf(EXPECTED_DURATION_TXT), null, null));
+                .create(EXPECTED_NAME, Integer.valueOf(EXPECTED_DURATION_TXT), null, null));
 
         onView(withId(R.id.id_et_task_name))
-                .perform(typeText(GOOD_TASK_NAME));
+                .perform(typeText(EXPECTED_NAME));
 
         closeSoftKeyboard();
 
@@ -321,6 +316,8 @@ public class TaskCreateActivityTest {
 
     @Test
     public void whenFieldsEmptyAndPlayBtnPressedThenToastExpected() {
+        closeSoftKeyboard();
+
         onView(withId(R.id.id_btn_play_sound))
                 .perform(click());
         onView(withText(R.string.no_file_to_play_error)).inRoot(new ToastMatcher())
@@ -338,5 +335,34 @@ public class TaskCreateActivityTest {
         closeSoftKeyboard();
         onView(withText(R.string.no_file_to_play_error)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void whenMovingBackFromStepListNewTaskCanBeUpdated() {
+        onView(withId(R.id.id_et_task_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_et_task_duration_time))
+                .perform(replaceText(EXPECTED_DURATION_TXT));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_btn_steps))
+                .perform(click());
+
+        Espresso.pressBack();
+
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_btn_save_and_finish))
+                .perform(click());
+
+        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
+        idsToDelete.add(taskTemplates.get(0).getId());
+
+        assertThat(taskTemplates.size(), is(1));
+        assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
+        assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
+        onView(withId(R.id.button_createPlan)).check(matches(isDisplayed()));
     }
 }
