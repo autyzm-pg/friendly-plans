@@ -7,17 +7,20 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import javax.inject.Inject;
 
+import database.entities.StepTemplate;
 import database.repository.StepTemplateRepository;
 import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.FragmentStepListBinding;
+import pg.autyzm.friendly_plans.item_touch_helper.SimpleItemTouchHelperCallback;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.view.main_screen.MainActivity;
 import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
@@ -31,15 +34,40 @@ public class StepListFragment extends Fragment implements StepListEvents {
 
     StepListRecyclerViewAdapter.StepItemClickListener stepItemClickListener =
             new StepListRecyclerViewAdapter.StepItemClickListener() {
+
+                private boolean removedStep = false;
                 @Override
                 public void onRemoveStepClick(long itemId) {
                     stepTemplateRepository.delete(itemId);
                     stepListRecyclerViewAdapter
                             .setStepItemListItems(stepTemplateRepository.getAll(task_id));
+                    toastUserNotifier.displayNotifications(
+                            R.string.step_removed_message,
+                            getActivity().getApplicationContext());
+                    removedStep = true;
+                }
+
+                @Override
+                public void onMoveItem() {
+                    Boolean reordered = false;
+                    for(int i = 0; i < stepListRecyclerViewAdapter.getItemCount(); i++){
+                        StepTemplate stepItem =  stepListRecyclerViewAdapter.getStepTemplate(i);
+                        if(i != stepItem.getOrder()) {
+                            stepTemplateRepository.update(stepItem.getId(), stepItem.getName(), i, stepItem.getPictureId(), stepItem.getSoundId(), stepItem.getTaskTemplateId());
+                            reordered = true;
+                        }
+                        if(!removedStep && reordered){
+                            toastUserNotifier.displayNotifications(
+                                    R.string.steps_reordered_message,
+                                    getActivity().getApplicationContext());
+                        }
+                    }
                 }
             };
 
     private StepListRecyclerViewAdapter stepListRecyclerViewAdapter;
+    private ItemTouchHelper mItemTouchHelper;
+
     private long task_id;
 
     @Override
@@ -77,6 +105,10 @@ public class StepListFragment extends Fragment implements StepListEvents {
         recyclerView.setAdapter(stepListRecyclerViewAdapter);
 
         stepListRecyclerViewAdapter.setStepItemListItems(stepTemplateRepository.getAll(taskId));
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(stepListRecyclerViewAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     private void showStepCreate() {
