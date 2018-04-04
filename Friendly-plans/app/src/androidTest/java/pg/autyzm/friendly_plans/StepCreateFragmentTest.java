@@ -114,17 +114,17 @@ public class StepCreateFragmentTest {
         taskTemplateRepository.delete(taskId);
     }
 
-//    @Test
-//    public void whenStepCreateFragmentDisplayedExpectHeaderAndEmptyFields() {
-//        onView(withId(R.id.id_step_create_description))
-//            .check(matches(withText(R.string.create_step_description)));
-//        onView(withId(R.id.id_et_step_name))
-//            .check(matches(withText("")));
-//        onView(withId(R.id.id_et_step_picture))
-//            .check(matches(withText("")));
-//        onView(withId(R.id.id_et_step_sound))
-//            .check(matches(withText("")));
-//    }
+    @Test
+    public void whenStepCreateFragmentDisplayedExpectHeaderAndEmptyFields() {
+        onView(withId(R.id.id_step_create_description))
+            .check(matches(withText(R.string.create_step_description)));
+        onView(withId(R.id.id_et_step_name))
+            .check(matches(withText("")));
+        onView(withId(R.id.id_et_step_picture))
+            .check(matches(withText("")));
+        onView(withId(R.id.id_et_step_sound))
+            .check(matches(withText("")));
+    }
 //
 //    @Test
 //    public void whenAddingNewStepExpectNewStepAddedToDB() {
