@@ -139,10 +139,11 @@ public class StepCreateFragmentTest {
         storeStepsToDelete(stepTemplates);
 
         try {
-            Thread.sleep(500);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         assertThat(stepTemplates.size(), is(1));
         assertThat(stepTemplates.get(0).getName(), is(EXPECTED_NAME));
         onView(withText(R.string.step_saved_message)).inRoot(new ToastMatcher())
@@ -164,6 +165,12 @@ public class StepCreateFragmentTest {
         List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
         storeStepsToDelete(stepTemplates);
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         assertThat(assets.size(), is(1));
         assertThat(stepTemplates.size(), is(1));
         assertThat(stepTemplates.get(0).getName(), is(EXPECTED_NAME));
@@ -179,6 +186,15 @@ public class StepCreateFragmentTest {
         List<Asset> assets = assetRepository.getAll();
 
         String fileName = (assets.get(0).getFilename()).replaceAll(REGEX_TRIM_NAME, "");
+
+        closeSoftKeyboard();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         onView(withId(R.id.id_et_step_sound))
                 .check(matches(withText(fileName)));
     }
