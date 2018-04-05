@@ -48,9 +48,7 @@ public class StepCreateFragmentTest {
     private static final String EXPECTED_NAME = "TEST STEP";
     private static final String TASK_EXPECTED_NAME = "TEST TASK";
     private static final String TASK_EXPECTED_DURATION_TXT = "1";
-
-    private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
-
+    
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
 
