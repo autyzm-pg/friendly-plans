@@ -197,23 +197,23 @@ public class StepCreateFragmentTest {
 //                .check(matches(withText(fileName)));
 //    }
 //
-//    @Test
-//    public void whenAddingANewStepWithoutSoundExpectStepToBeAddedWithoutSound()
-//            throws IOException, InterruptedException {
-//        onView(withId(R.id.id_et_step_name))
-//                .perform(replaceText(EXPECTED_NAME));
-//        closeSoftKeyboard();
-//
-//
-//        onView(withId(R.id.id_btn_save_step))
-//                .perform(click());
-//
-//        List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
-//        storeStepsToDelete(stepTemplates);
-//
-//        assertThat(stepTemplates.size(), is(1));
-//        assertNull(stepTemplates.get(0).getSoundId());
-//    }
+    @Test
+    public void whenAddingANewStepWithoutSoundExpectStepToBeAddedWithoutSound()
+            throws IOException, InterruptedException {
+        onView(withId(R.id.id_et_step_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+
+        onView(withId(R.id.id_btn_save_step))
+                .perform(click());
+
+        List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
+        storeStepsToDelete(stepTemplates);
+
+        assertThat(stepTemplates.size(), is(1));
+        assertNull(stepTemplates.get(0).getSoundId());
+    }
 //
 //    @Test
 //    public void whenAddingANewStepWithSoundExpectStepToBeAddedWithSound()
