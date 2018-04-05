@@ -213,27 +213,28 @@ public class StepCreateFragmentTest {
 
         assertThat(stepTemplates.size(), is(1));
         assertNull(stepTemplates.get(0).getSoundId());
+        assertThat(stepTemplates.get(0).getName(), is(EXPECTED_NAME));
     }
-//
-//    @Test
-//    public void whenAddingANewStepWithSoundExpectStepToBeAddedWithSound()
-//            throws IOException, InterruptedException {
-//        onView(withId(R.id.id_et_step_name))
-//                .perform(replaceText(EXPECTED_NAME));
-//        closeSoftKeyboard();
-//
-//        assetTestRule.setTestSound();
-//
-//        onView(withId(R.id.id_btn_save_step))
-//                .perform(click());
-//
-//        List<Asset> assets = assetRepository.getAll();
-//        List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
-//        storeStepsToDelete(stepTemplates);
-//
-//        assertThat(stepTemplates.size(), is(1));
-//        assertThat(stepTemplates.get(0).getSoundId(), is(assets.get(0).getId()));
-//    }
+
+    @Test
+    public void whenAddingANewStepWithSoundExpectStepToBeAddedWithSound()
+            throws IOException, InterruptedException {
+        onView(withId(R.id.id_et_step_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+        assetTestRule.setTestSound();
+
+        onView(withId(R.id.id_btn_save_step))
+                .perform(click());
+
+        List<Asset> assets = assetRepository.getAll();
+        List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
+        storeStepsToDelete(stepTemplates);
+
+        assertThat(stepTemplates.size(), is(1));
+        assertThat(stepTemplates.get(0).getSoundId(), is(assets.get(0).getId()));
+    }
 
     private void storeStepsToDelete(List<StepTemplate> stepTemplates){
         for (StepTemplate storedStep : stepTemplates) {
