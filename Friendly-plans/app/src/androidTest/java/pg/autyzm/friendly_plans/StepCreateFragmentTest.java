@@ -127,57 +127,6 @@ public class StepCreateFragmentTest {
     }
 //
 //    @Test
-//    public void whenAddingNewStepExpectNewStepAddedToDB() {
-//        onView(withId(R.id.id_et_step_name))
-//                .perform(replaceText(EXPECTED_NAME));
-//        closeSoftKeyboard();
-//
-//        onView(withId(R.id.id_btn_save_step))
-//                .perform(click());
-//
-//        List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
-//        storeStepsToDelete(stepTemplates);
-//
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-//        assertThat(stepTemplates.size(), is(1));
-//        assertThat(stepTemplates.get(0).getName(), is(EXPECTED_NAME));
-//    }
-//
-//    @Test
-//    public void whenAddingNewStepWithPictureExpectNewStepAddedToDB() throws IOException, InterruptedException {
-//        onView(withId(R.id.id_et_step_name))
-//                .perform(replaceText(EXPECTED_NAME));
-//        closeSoftKeyboard();
-//
-//        assetTestRule.setTestPicture();
-//
-//        onView(withId(R.id.id_btn_save_step))
-//                .perform(click());
-//
-//        List<Asset> assets = assetRepository.getAll();
-//        List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
-//        storeStepsToDelete(stepTemplates);
-//
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-//        assertThat(assets.size(), is(1));
-//        assertThat(stepTemplates.size(), is(1));
-//        assertThat(stepTemplates.get(0).getName(), is(EXPECTED_NAME));
-//        assertThat(stepTemplates.get(0).getPictureId(), is(assets.get(0).getId()));
-//        onView(withText(R.string.step_saved_message)).inRoot(new ToastMatcher())
-//                .check(matches(isDisplayed()));
-//    }
-//
-//    @Test
 //    public void whenSettingSoundExpectSoundNameIsDisplayed()
 //            throws IOException, InterruptedException {
 //        assetTestRule.setTestSound();
@@ -234,6 +183,27 @@ public class StepCreateFragmentTest {
 
         assertThat(stepTemplates.size(), is(1));
         assertThat(stepTemplates.get(0).getSoundId(), is(assets.get(0).getId()));
+    }
+
+    @Test
+    public void whenAddingNewStepWithPictureExpectNewStepAddedToDB() throws IOException, InterruptedException {
+        onView(withId(R.id.id_et_step_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+        assetTestRule.setTestPicture();
+
+        onView(withId(R.id.id_btn_save_step))
+                .perform(click());
+
+        List<Asset> assets = assetRepository.getAll();
+        List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
+        storeStepsToDelete(stepTemplates);
+
+        assertThat(assets.size(), is(1));
+        assertThat(stepTemplates.size(), is(1));
+        assertThat(stepTemplates.get(0).getName(), is(EXPECTED_NAME));
+        assertThat(stepTemplates.get(0).getPictureId(), is(assets.get(0).getId()));
     }
 
     private void storeStepsToDelete(List<StepTemplate> stepTemplates){
