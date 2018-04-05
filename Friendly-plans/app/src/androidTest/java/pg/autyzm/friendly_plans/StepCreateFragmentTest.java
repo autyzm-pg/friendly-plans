@@ -114,30 +114,16 @@ public class StepCreateFragmentTest {
         taskTemplateRepository.delete(taskId);
     }
 
-//    @Test
-//    public void whenStepCreateFragmentDisplayedExpectHeaderAndEmptyFields() {
-//        onView(withId(R.id.id_step_create_description))
-//            .check(matches(withText(R.string.create_step_description)));
-//        onView(withId(R.id.id_et_step_name))
-//            .check(matches(withText("")));
-//        onView(withId(R.id.id_et_step_picture))
-//            .check(matches(withText("")));
-//        onView(withId(R.id.id_et_step_sound))
-//            .check(matches(withText("")));
-//    }
-
     @Test
-    public void whenSettingSoundExpectSoundNameIsDisplayed()
-            throws IOException, InterruptedException {
-        assetTestRule.setTestSound();
-        List<Asset> assets = assetRepository.getAll();
-
-        String fileName = (assets.get(0).getFilename()).replaceAll(REGEX_TRIM_NAME, "");
-
-        closeSoftKeyboard();
-
+    public void whenStepCreateFragmentDisplayedExpectHeaderAndEmptyFields() {
+        onView(withId(R.id.id_step_create_description))
+            .check(matches(withText(R.string.create_step_description)));
+        onView(withId(R.id.id_et_step_name))
+            .check(matches(withText("")));
+        onView(withId(R.id.id_et_step_picture))
+            .check(matches(withText("")));
         onView(withId(R.id.id_et_step_sound))
-                .check(matches(withText(fileName)));
+            .check(matches(withText("")));
     }
 
     @Test
