@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,6 +49,8 @@ public class StepCreateFragmentTest {
     private static final String EXPECTED_NAME = "TEST STEP";
     private static final String TASK_EXPECTED_NAME = "TEST TASK";
     private static final String TASK_EXPECTED_DURATION_TXT = "1";
+
+    private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
     
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
@@ -183,6 +186,19 @@ public class StepCreateFragmentTest {
         assertThat(stepTemplates.get(0).getName(), is(EXPECTED_NAME));
         assertThat(stepTemplates.get(0).getPictureId(), is(assets.get(0).getId()));
     }
+
+    @Ignore
+    @Test
+    public void whenSettingSoundExpectSoundNameIsDisplayed()
+             throws IOException, InterruptedException {
+        assetTestRule.setTestSound();
+        List<Asset> assets = assetRepository.getAll();
+
+        String fileName = (assets.get(0).getFilename()).replaceAll(REGEX_TRIM_NAME, "");
+
+        closeSoftKeyboard();
+    }
+
 
     private void storeStepsToDelete(List<StepTemplate> stepTemplates){
         for (StepTemplate storedStep : stepTemplates) {
