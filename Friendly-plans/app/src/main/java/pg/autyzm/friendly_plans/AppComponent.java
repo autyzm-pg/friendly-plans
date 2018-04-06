@@ -46,4 +46,6 @@ public interface AppComponent {
     void inject(TaskListActivity activity);
 
     void inject(StepListFragment stepListFragment);
+
+    void inject(PlanCreateFragment activity);
 }
