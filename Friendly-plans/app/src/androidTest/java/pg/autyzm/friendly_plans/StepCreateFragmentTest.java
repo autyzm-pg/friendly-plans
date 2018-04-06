@@ -197,6 +197,9 @@ public class StepCreateFragmentTest {
         String fileName = (assets.get(0).getFilename()).replaceAll(REGEX_TRIM_NAME, "");
 
         closeSoftKeyboard();
+
+        onView(withId(R.id.id_et_step_sound))
+            .check(matches(withText(fileName)));
     }
 
 
