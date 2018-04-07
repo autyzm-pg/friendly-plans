@@ -10,5 +10,15 @@ public interface StepCreateEvents {
     public interface StepData {
 
         void saveStepData(StepCreateData stepCreateData);
+
+        void selectStepPicture();
+
+        void cleanStepPicture();
+
+        void showPicture();
+
+        void selectStepSound();
+
+        void clearStepSound();
     }
 }
