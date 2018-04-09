@@ -66,7 +66,6 @@ public class StepListFragment extends Fragment implements StepListEvents {
             };
 
     private StepListRecyclerViewAdapter stepListRecyclerViewAdapter;
-    private ItemTouchHelper mItemTouchHelper;
 
     private long task_id;
 
@@ -107,7 +106,7 @@ public class StepListFragment extends Fragment implements StepListEvents {
         stepListRecyclerViewAdapter.setStepItemListItems(stepTemplateRepository.getAll(taskId));
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(stepListRecyclerViewAdapter);
-        mItemTouchHelper = new ItemTouchHelper(callback);
+        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
