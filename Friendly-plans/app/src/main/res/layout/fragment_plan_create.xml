@@ -37,17 +37,18 @@
       android:layout_row="1"
       android:cursorVisible="true"
       android:inputType="text"
-      android:minWidth="100dp"
+      android:minWidth="250dp"
       tools:text="This is plan name." />
 
     <!--Next btn-->
     <Button
       android:id="@+id/id_btn_plan_next"
       android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="150dp"
       android:layout_column="4"
       android:layout_row="5"
       android:text="@string/next" />
-
 
   </GridLayout>
 </ScrollView>

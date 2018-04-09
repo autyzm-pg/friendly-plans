@@ -6,10 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by user on 2018-04-05.
- */
-
 public class PlanCreateFragment extends Fragment {
 
     @Override
@@ -18,6 +14,8 @@ public class PlanCreateFragment extends Fragment {
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
         return inflater.inflate(R.layout.fragment_plan_create, container, false);
     }
+
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {}
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+    }
 }
