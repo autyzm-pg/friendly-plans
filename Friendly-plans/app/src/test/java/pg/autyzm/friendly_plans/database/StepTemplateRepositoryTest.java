@@ -25,7 +25,7 @@ public class StepTemplateRepositoryTest {
     private final static Long PICTURE_ID = 2L;
     private final static Long SOUND_ID = 3L;
     private final static Long TASK_TEMPLATE_ID = 4L;
-    private static final Long STEP_ID = 5L;
+    private final static Long STEP_ID = 5L;
 
     @InjectMocks
     StepTemplateRepository stepTemplateRepository;
@@ -40,7 +40,7 @@ public class StepTemplateRepositoryTest {
     }
 
     @Test
-    public void When_CreatingAStepTemplate_Expect_InsertMethodBeCalled() {
+    public void whenCreatingAStepTemplateExpectInsertMethodBeCalled() {
         stepTemplateRepository.create(STEP_NAME, ORDER, PICTURE_ID, SOUND_ID, TASK_TEMPLATE_ID);
 
         ArgumentCaptor<StepTemplate> stepTemplateArgumentCaptor = ArgumentCaptor
@@ -56,7 +56,7 @@ public class StepTemplateRepositoryTest {
     }
 
     @Test
-    public void When_DeletingAStepTemplate_Expect_DeleteMethodBeCalled() {
+    public void whenDeletingAStepTemplateExpectDeleteMethodBeCalled() {
         stepTemplateRepository.delete(STEP_ID);
 
         verify(stepTemplateDao).deleteByKey(STEP_ID);

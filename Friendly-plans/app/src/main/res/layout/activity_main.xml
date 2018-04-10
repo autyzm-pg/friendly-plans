@@ -1,11 +1,11 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout>
     <data>
         <variable
             name="events"
-            type="pg.autyzm.friendly_plans.MainActivityEvents"/>
+            type="pg.autyzm.friendly_plans.view.main_screen.MainActivityEvents"/>
     </data>
 
-    <ScrollView
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/ScrollView01"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -19,7 +19,7 @@
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
-            tools:context="pg.autyzm.friendly_plans.MainActivity">
+            tools:context=".view.main_screen.MainActivity">
 
             <!-- plan-->
             <Button

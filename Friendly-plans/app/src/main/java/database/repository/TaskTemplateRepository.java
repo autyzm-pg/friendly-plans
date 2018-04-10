@@ -23,6 +23,17 @@ public class TaskTemplateRepository {
         return daoSession.getTaskTemplateDao().insert(taskTemplate);
     }
 
+    public void update(Long taskId, String name, int durationTime, Long pictureId, Long soundId) {
+        TaskTemplate taskTemplate = new TaskTemplate();
+        taskTemplate.setId(taskId);
+        taskTemplate.setName(name);
+        taskTemplate.setDurationTime(durationTime);
+        taskTemplate.setPictureId(pictureId);
+        taskTemplate.setSoundId(soundId);
+
+        daoSession.getTaskTemplateDao().update(taskTemplate);
+    }
+
     public TaskTemplate get(Long id) {
         return daoSession.getTaskTemplateDao().load(id);
     }
@@ -44,9 +55,5 @@ public class TaskTemplateRepository {
 
     public void deleteAll() {
         daoSession.getTaskTemplateDao().deleteAll();
-    }
-
-    public boolean isNameExists(String name) {
-        return get(name).size() > 0;
     }
 }

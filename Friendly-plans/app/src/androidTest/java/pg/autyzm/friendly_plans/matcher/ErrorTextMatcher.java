@@ -1,0 +1,44 @@
+package pg.autyzm.friendly_plans.matcher;
+
+import android.view.View;
+import android.widget.EditText;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
+
+/**
+ * Use this custom pg.autyzm.friendly_plans.matcher when you need match/assert <b>error text</b> on mandatory(*) EditText
+ * fields in xml layout.
+ */
+
+public class ErrorTextMatcher {
+
+    private static final String DESCRIPTION_TEXT = "Error text on the field doesn't match expected text: ";
+
+    private ErrorTextMatcher() {
+    }
+
+    public static Matcher<View> hasErrorText(final String expectedErrorText) {
+        return new TypeSafeMatcher<View>() {
+            @Override
+            public boolean matchesSafely(View view) {
+                if (!(view instanceof EditText)) {
+                    return false;
+                }
+
+                CharSequence error = ((EditText) view).getError();
+                if (error == null) {
+                    return false;
+                }
+
+                String actualError = error.toString();
+                return expectedErrorText.equals(actualError);
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText(DESCRIPTION_TEXT + expectedErrorText);
+            }
+        };
+    }
+}

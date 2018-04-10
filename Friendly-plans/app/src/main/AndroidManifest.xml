@@ -10,7 +10,7 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
     <activity
-      android:name=".MainActivity"
+      android:name=".view.main_screen.MainActivity"
       android:screenOrientation="landscape">
 
       <intent-filter>
@@ -19,15 +19,15 @@
       </intent-filter>
     </activity>
     <activity
-      android:name=".PlanCreateActivity"
+      android:name=".view.plan_create.PlanCreateActivity"
       android:screenOrientation="landscape">
     </activity>
     <activity
-      android:name=".TaskCreateActivity"
+      android:name=".view.task_create.TaskCreateActivity"
       android:screenOrientation="landscape">
     </activity>
     <activity
-      android:name=".TaskListActivity"
+      android:name=".view.task_list.TaskListActivity"
       android:screenOrientation="landscape"/>
   </application>
 </manifest>

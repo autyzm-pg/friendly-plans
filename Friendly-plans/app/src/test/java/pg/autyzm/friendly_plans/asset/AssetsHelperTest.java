@@ -4,7 +4,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.matchesPattern;
+import static org.hamcrest.text.MatchesPattern.matchesPattern;
 
 import android.content.Context;
 import java.io.File;
@@ -16,12 +16,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import pg.autyzm.friendly_plans.BuildConfig;
 
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 public class AssetsHelperTest {
 
@@ -66,7 +66,7 @@ public class AssetsHelperTest {
     }
 
     @Test
-    public void When_MakingSafeCopy_Expect_NewFilePathBeReturned()
+    public void whenMakingSafeCopyExpectNewFilePathBeReturned()
             throws IOException {
         String safeCopyName = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath());
         addToTestFiles(safeCopyName);
@@ -74,7 +74,7 @@ public class AssetsHelperTest {
     }
 
     @Test
-    public void When_MakingSafeCopyJPG_Expect_NewFilePathBeReturned()
+    public void whenMakingSafeCopyJPGExpectNewFilePathBeReturned()
             throws IOException {
         String safeCopyName = assetsHelper.makeSafeCopy(jpgUpperFile.getAbsolutePath());
         addToTestFiles(safeCopyName);
@@ -82,7 +82,7 @@ public class AssetsHelperTest {
     }
 
     @Test
-    public void When_MakingSafeCopyJPEG_Expect_NewFilePathBeReturned()
+    public void whenMakingSafeCopyJPEGExpectNewFilePathBeReturned()
             throws IOException {
         String safeCopyName = assetsHelper.makeSafeCopy(jpegFile.getAbsolutePath());
         addToTestFiles(safeCopyName);
@@ -90,7 +90,7 @@ public class AssetsHelperTest {
     }
 
     @Test
-    public void When_MakingSafeCopyPNG_Expect_NewFilePathBeReturned()
+    public void whenMakingSafeCopyPNGExpectNewFilePathBeReturned()
             throws IOException {
         String safeCopyName = assetsHelper.makeSafeCopy(pngFile.getAbsolutePath());
         addToTestFiles(safeCopyName);
@@ -98,7 +98,7 @@ public class AssetsHelperTest {
     }
 
     @Test
-    public void When_MakingSafeCopy_Expect_FileCopyHasBeenCreated()
+    public void whenMakingSafeCopyExpectFileCopyHasBeenCreated()
             throws IOException {
         String safeCopyName = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath());
         addToTestFiles(safeCopyName);
@@ -106,7 +106,7 @@ public class AssetsHelperTest {
     }
 
     @Test
-    public void When_MakingSafeCopyJPEG_Expect_FileCopyHasBeenCreated()
+    public void whenMakingSafeCopyJPEGExpectFileCopyHasBeenCreated()
             throws IOException {
         String safeCopyName = assetsHelper.makeSafeCopy(jpegFile.getAbsolutePath());
         addToTestFiles(safeCopyName);
@@ -114,7 +114,7 @@ public class AssetsHelperTest {
     }
 
     @Test
-    public void When_MakingSafeCopyPNG_Expect_FileCopyHasBeenCreated()
+    public void whenMakingSafeCopyPNGExpectFileCopyHasBeenCreated()
             throws IOException {
         String safeCopyName = assetsHelper.makeSafeCopy(pngFile.getAbsolutePath());
         addToTestFiles(safeCopyName);
@@ -122,7 +122,7 @@ public class AssetsHelperTest {
     }
 
     @Test
-    public void When_MakingSafeCopy_Expect_EachFilePathBeDifferent()
+    public void whenMakingSafeCopyExpectEachFilePathBeDifferent()
             throws IOException {
         String safeCopyName = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath());
         String secondSafeCopyName = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath());

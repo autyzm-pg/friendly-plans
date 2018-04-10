@@ -4,7 +4,7 @@
   android:layout_width="wrap_content"
   android:layout_height="wrap_content"
   android:orientation="vertical"
-  tools:context=".ImagePreviewDialog">
+  tools:context=".view.task_create.ImagePreviewDialog">
   <ImageView
     android:id="@+id/iv_picture_preview_full"
     android:layout_width="wrap_content"

@@ -1,15 +1,20 @@
 package pg.autyzm.friendly_plans;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.assertion.ViewAssertions.selectedDescendantsMatch;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static matcher.RecyclerViewMatcher.withRecyclerView;
+import static pg.autyzm.friendly_plans.matcher.RecyclerViewMatcher.withRecyclerView;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.test.espresso.UiController;
+import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
@@ -22,14 +27,18 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import pg.autyzm.friendly_plans.resource.DaoSessionResource;
+import pg.autyzm.friendly_plans.resource.TaskTemplateRule;
+import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
+import pg.autyzm.friendly_plans.view.step_list.StepListFragment;
 
 @RunWith(AndroidJUnit4.class)
 public class StepListFragmentTest {
 
-    public static final String STEP_NAME_1 = "STEP_NAME_1";
-    public static final String STEP_NAME_2 = "STEP_NAME_2";
-    public static final String TASK_NAME_1 = "TASK_NAME_1";
-    public static final String TASK_ID = "task_id";
+    private static final String STEP_NAME_1 = "STEP_NAME_1";
+    private static final String STEP_NAME_2 = "STEP_NAME_2";
+    private static final String TASK_NAME_1 = "TASK_NAME_1";
+    private static final String TASK_ID = "TASK_ID";
 
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
@@ -50,7 +59,7 @@ public class StepListFragmentTest {
     }
 
     @Test
-    public void WhenTaskHasStepsExpectStepsToBeDisplayed() {
+    public void whenTaskHasStepsExpectStepsToBeDisplayed() {
         long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
         openStepsListFragment(taskId);
 
@@ -59,11 +68,33 @@ public class StepListFragmentTest {
     }
 
     @Test
-    public void WhenTaskHasNoStepsExpectNoStepsToBeDisplayed() {
+    public void whenTaskHasNoStepsExpectNoStepsToBeDisplayed() {
         long taskId = taskTemplateRule.createTask(TASK_NAME_1);
         openStepsListFragment(taskId);
 
         onView(withId(R.id.rv_step_list)).check(matches(withSize(0)));
+    }
+
+    @Test
+    public void whenSaveAndFinishClickedMainMenuShouldBeDisplayed() {
+        long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
+        openStepsListFragment(taskId);
+        onView(withId(R.id.id_btn_next))
+            .perform(click());
+
+        onView(withId(R.id.button_createPlan)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void whenStepIsRemovedExpectStepIsNotOnTheList() {
+        long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
+        openStepsListFragment(taskId);
+
+        onView(withId(R.id.rv_step_list)).perform(
+                RecyclerViewActions
+                        .actionOnItemAtPosition(0, clickChildViewWithId(R.id.id_remove_step)));
+
+        assertStepDisplayed(0, STEP_NAME_2);
     }
 
     private void openStepsListFragment(long taskId) {
@@ -83,6 +114,26 @@ public class StepListFragmentTest {
                 .atPosition(position))
                 .check(selectedDescendantsMatch(withId(R.id.id_tv_step_name),
                         withText(stepName)));
+    }
+
+    public static ViewAction clickChildViewWithId(final int id) {
+        return new ViewAction() {
+            @Override
+            public Matcher<View> getConstraints() {
+                return null;
+            }
+
+            @Override
+            public String getDescription() {
+                return null;
+            }
+
+            @Override
+            public void perform(UiController uiController, View view) {
+                View v = view.findViewById(id);
+                v.performClick();
+            }
+        };
     }
 
     static Matcher<View> withSize(final int expectedSize) {
