@@ -51,7 +51,6 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
     @Inject
     public FilePickerProxy filePickerProxy;
 
-    private ImageButton playSoundIcon;
     private Long soundId;
     private Long taskId;
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
@@ -72,7 +71,7 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
                 inflater, R.layout.fragment_step_create, container, false);
 
         View view = binding.getRoot();
-        playSoundIcon = (ImageButton) view.findViewById(R.id.id_btn_play_step_sound);
+        ImageButton playSoundIcon = (ImageButton) view.findViewById(R.id.id_btn_play_step_sound);
 
         AppComponent appComponent = ((App) getActivity().getApplication()).getAppComponent();
         soundComponent = SoundComponent.getSoundComponent(
