@@ -1,14 +1,5 @@
 package pg.autyzm.friendly_plans;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.assertion.ViewAssertions.selectedDescendantsMatch;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static pg.autyzm.friendly_plans.matcher.RecyclerViewMatcher.withRecyclerView;
-
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -19,6 +10,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -27,10 +19,21 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import pg.autyzm.friendly_plans.resource.DaoSessionResource;
 import pg.autyzm.friendly_plans.resource.TaskTemplateRule;
-import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 import pg.autyzm.friendly_plans.view.step_list.StepListFragment;
+import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.swipeLeft;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.assertion.ViewAssertions.selectedDescendantsMatch;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static pg.autyzm.friendly_plans.matcher.RecyclerViewMatcher.withRecyclerView;
 
 @RunWith(AndroidJUnit4.class)
 public class StepListFragmentTest {
@@ -97,7 +100,19 @@ public class StepListFragmentTest {
         assertStepDisplayed(0, STEP_NAME_2);
     }
 
-    private void openStepsListFragment(long taskId) {
+    @Test
+    public void whenStepIsRemovedBySwipeExpectStepIsNotOnTheList() {
+        long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
+        openStepsListFragment(taskId);
+
+        onView(withId(R.id.rv_step_list)).perform(
+                RecyclerViewActions
+                        .actionOnItemAtPosition(0, swipeLeft()));
+
+        assertStepDisplayed(0, STEP_NAME_2);
+    }
+
+     private void openStepsListFragment(long taskId) {
         StepListFragment fragment = new StepListFragment();
         Bundle args = new Bundle();
         args.putLong(TASK_ID, taskId);
