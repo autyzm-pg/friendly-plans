@@ -142,17 +142,35 @@
           android:text="@={stepData.soundName}"
           tools:text="Sound name" />
 
-        <!--"x" clear sound btn -->
-        <ImageButton
-          android:id="@+id/id_ib_clear_step_sound_btn"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginStart="2dp"
-          android:layout_gravity="end|center_vertical"
-          android:background="@android:drawable/ic_menu_close_clear_cancel"
-          android:contentDescription="@string/clear_sound"
-          android:onClick="@{() -> stepDataClick.clearStepSound()}"
-          android:visibility="invisible" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+          <!--"x" clear sound btn -->
+          <ImageButton
+              android:id="@+id/id_ib_clear_step_sound_btn"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="2dp"
+              android:layout_gravity="end|center_vertical"
+              android:background="@android:drawable/ic_menu_close_clear_cancel"
+              android:contentDescription="@string/clear_sound"
+              android:onClick="@{() -> stepDataClick.clearStepSound()}"
+              android:visibility="invisible" />
+
+          <!--Play/Stop sound button-->
+          <ImageButton
+              android:id="@+id/id_btn_play_step_sound"
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent"
+              android:scaleType="fitCenter"
+              android:adjustViewBounds="true"
+              android:layout_marginStart="40dp"
+              android:background="@color/transparent"
+              android:elevation="1dp"
+              android:onClick="@{soundComponent::onPlayStopSoundClick}"
+              android:src="@drawable/ic_play_sound" />
+        </RelativeLayout>
 
         <!--select sound btn-->
         <Button
@@ -163,28 +181,6 @@
           android:onClick="@{() -> stepDataClick.selectStepSound()}"
           android:text="@string/select_sound" />
 
-        <!--Play/Stop sound button-->
-        <FrameLayout
-          android:id="@+id/frame"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content">
-          <Button
-            android:id="@+id/id_btn_play_step_sound"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:elevation="1dp"
-            android:onClick="@{soundComponent::onPlayStopSoundClick}" />
-          <ImageView
-            android:id="@+id/id_iv_play_step_sound_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:contentDescription="@string/listen_sound"
-            android:elevation="2dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_play_sound" />
-        </FrameLayout>
       </LinearLayout>
 
       <!-- Save/Cancel -->

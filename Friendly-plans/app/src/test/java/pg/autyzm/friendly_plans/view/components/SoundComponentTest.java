@@ -1,17 +1,12 @@
 package pg.autyzm.friendly_plans.view.components;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import database.entities.Asset;
-import database.repository.AssetRepository;
-import java.io.IOException;
+import android.widget.ImageButton;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,11 +14,19 @@ import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+
+import java.io.IOException;
+
+import database.entities.Asset;
+import database.repository.AssetRepository;
 import pg.autyzm.friendly_plans.AppComponent;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.asset.AssetsHelper;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.test_helpers.AppComponentBuilder;
+
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(AnimationUtils.class)
@@ -34,7 +37,7 @@ public class SoundComponentTest {
     private static final String SOUND_FULL_PATH = "/test/sound/file/path.mp3";
 
     @Mock
-    private ImageView playSoundIcon;
+    private ImageButton playSoundIcon;
     @Mock
     private Context context;
     @Mock
@@ -125,7 +128,7 @@ public class SoundComponentTest {
 
     private void verifyAnimationStopped() {
         verify(playSoundIcon).clearAnimation();
-        verify(playSoundIcon).setImageResource(R.drawable.ic_play_sound);
+        verify(playSoundIcon).setImageResource( R.drawable.ic_play_sound);
     }
 
     private void verifySoundStarted(MediaPlayer mediaPlayer) throws IOException {
@@ -136,7 +139,7 @@ public class SoundComponentTest {
     }
 
     private void verifyAnimationStarted() {
-        verify(playSoundIcon).setImageResource(R.drawable.ic_playing_sound);
+        verify(playSoundIcon).setImageResource( R.drawable.ic_playing_sound);
         verify(playSoundIcon).startAnimation(rotation);
     }
 
