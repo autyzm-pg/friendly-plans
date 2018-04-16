@@ -45,11 +45,11 @@ android {
     }
 
     testOptions {
-        unitTests {
+        unitTests.all {
             includeAndroidResources = true
+            excludeCategories 'pg.autyzm.friendly_plans.annotations.IgnoreForTravis'
         }
     }
-
 }
 
 greendao {
@@ -109,3 +109,8 @@ android.applicationVariants.all { variant ->
     }
 }
 
+task testOnTravis(type: Test) {
+    useJUnit {
+        excludeCategories 'pg.autyzm.friendly_plans.annotations.IgnoreForTravis'
+    }
+}

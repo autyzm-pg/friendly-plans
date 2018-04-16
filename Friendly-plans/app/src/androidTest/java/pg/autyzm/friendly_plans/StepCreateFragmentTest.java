@@ -51,7 +51,7 @@ public class StepCreateFragmentTest {
     private static final String TASK_EXPECTED_DURATION_TXT = "1";
 
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
-    
+
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
 
@@ -187,7 +187,7 @@ public class StepCreateFragmentTest {
         assertThat(stepTemplates.get(0).getPictureId(), is(assets.get(0).getId()));
     }
 
-    @Ignore
+    @Category(IgnoreForTravis.class)
     @Test
     public void whenSettingSoundExpectSoundNameIsDisplayed()
              throws IOException, InterruptedException {
