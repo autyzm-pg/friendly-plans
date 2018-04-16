@@ -6,11 +6,14 @@ import android.media.MediaPlayer;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
+import android.widget.ImageButton;
+
+import java.io.IOException;
+
+import javax.inject.Inject;
+
 import database.entities.Asset;
 import database.repository.AssetRepository;
-import java.io.IOException;
-import javax.inject.Inject;
 import pg.autyzm.friendly_plans.AppComponent;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.asset.AssetsHelper;
@@ -29,10 +32,10 @@ public final class SoundComponent {
 
 
     private Long soundId;
-    private ImageView playSoundIcon;
+    private ImageButton playSoundIcon;
     private Context context;
 
-    public static SoundComponent getSoundComponent(Long soundId, ImageView playSoundIcon,
+    public static SoundComponent getSoundComponent(Long soundId, ImageButton playSoundIcon,
             Context context, AppComponent appComponent) {
         final SoundComponent soundComponent = new SoundComponent(soundId, playSoundIcon, context);
         appComponent.inject(soundComponent);
@@ -45,7 +48,7 @@ public final class SoundComponent {
         return soundComponent;
     }
 
-    private SoundComponent(Long soundId, ImageView playSoundIcon,
+    private SoundComponent(Long soundId, ImageButton playSoundIcon,
             Context context) {
         this.soundId = soundId;
         this.playSoundIcon = playSoundIcon;
@@ -64,6 +67,11 @@ public final class SoundComponent {
         stopSound();
         stopAnimation();
     }
+
+    public void setSoundId(Long soundId){
+        this.soundId = soundId;
+    }
+
 
     private void handleSoundPlaying() {
         if (!mediaPlayer.isPlaying()) {
@@ -89,14 +97,14 @@ public final class SoundComponent {
     }
 
     private void runAnimation() {
-        playSoundIcon.setImageResource(R.drawable.ic_playing_sound);
+        playSoundIcon.setImageResource( R.drawable.ic_playing_sound);
         Animation rotation = AnimationUtils.loadAnimation(context, R.anim.ic_play_sound_animation);
         playSoundIcon.startAnimation(rotation);
     }
 
     private void stopAnimation() {
         playSoundIcon.clearAnimation();
-        playSoundIcon.setImageResource(R.drawable.ic_play_sound);
+        playSoundIcon.setImageResource( R.drawable.ic_play_sound);
     }
 
     private void stopSound() {

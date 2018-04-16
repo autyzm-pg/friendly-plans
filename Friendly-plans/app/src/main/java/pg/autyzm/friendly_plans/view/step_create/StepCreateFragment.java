@@ -51,7 +51,6 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
     @Inject
     public FilePickerProxy filePickerProxy;
 
-    private ImageView playSoundIcon;
     private Long soundId;
     private Long taskId;
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
@@ -61,19 +60,23 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
     private EditText stepSound;
     private ImageButton clearSound;
     private ImageView picturePreview;
+    private SoundComponent soundComponent;
 
 
     @TargetApi(VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        AppComponent appComponent = ((App) getActivity().getApplication()).getAppComponent();
-        appComponent.inject(this);
-        SoundComponent soundComponent = SoundComponent.getSoundComponent(
-                soundId, playSoundIcon, getActivity().getApplicationContext(), appComponent);
         FragmentStepCreateBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_step_create, container, false);
+
         View view = binding.getRoot();
+        ImageButton playSoundIcon = (ImageButton) view.findViewById(R.id.id_btn_play_step_sound);
+
+        AppComponent appComponent = ((App) getActivity().getApplication()).getAppComponent();
+        soundComponent = SoundComponent.getSoundComponent(
+                soundId, playSoundIcon, getActivity().getApplicationContext(), appComponent);
+        appComponent.inject(this);
 
         binding.setSoundComponent(soundComponent);
         StepCreateData stepData = new StepCreateData("", "", "");
@@ -86,7 +89,6 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
     public void onViewCreated(View view, Bundle savedInstanceState) {
         stepPicture = (EditText) view.findViewById(R.id.id_et_step_picture);
         clearPicture = (ImageButton) view.findViewById(R.id.id_ib_step_clear_img_btn);
-        playSoundIcon = (ImageView) view.findViewById(R.id.id_iv_play_step_sound_icon);
         picturePreview = (ImageView) view.findViewById(R.id.iv_step_picture_preview);
         stepSound = (EditText) view.findViewById(R.id.id_et_step_sound);
         clearSound = (ImageButton) view.findViewById(R.id.id_ib_clear_step_sound_btn);
@@ -146,6 +148,7 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         } else {
             stepSound.setText(assetNameTrimed);
             soundId = assetId;
+            soundComponent.setSoundId(assetId);
             clearSound.setVisibility(View.VISIBLE);
         }
     }
