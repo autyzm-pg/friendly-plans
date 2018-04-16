@@ -11,6 +11,15 @@
     android:layout_width="67dp"
     android:layout_height="66dp"
     app:srcCompat="@drawable/ic_placeholder" />
+
+  <ImageView
+      android:id="@+id/handle"
+      android:layout_width="?listPreferredItemHeight"
+      android:layout_height="match_parent"
+      android:layout_gravity="center_vertical|right"
+      android:scaleType="center"
+      android:src="@drawable/ic_reorder_black_24dp" />
+
   <TextView
     android:id="@+id/id_tv_step_name"
     android:layout_width="0dp"
