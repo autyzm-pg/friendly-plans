@@ -67,7 +67,6 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
     private ImageView picturePreview;
     private SoundComponent soundComponent;
 
-
     @TargetApi(VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
