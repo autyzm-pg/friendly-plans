@@ -28,6 +28,11 @@
   <string name="main_add_remove_child">Add / Remove Child</string>
   <string name="main_change_active_child">Change Active Child</string>
   <string name="main_create_plan">Create Plan</string>
+  <string name="plan_create_description">Step 1: Enter plan\'s name</string>
+  <string name="plan_name">Plan\'s name:</string>
+  <string name="name">Name</string>
+  <string name="tasks">Tasks</string>
+  <string name="break_time_tasks">Break time tasks</string>
   <string name="task_saved_message">Task saved</string>
   <string name="task_with_steps_saved_message">Task with steps saved</string>
   <string name="step_removed_message">Step removed</string>
