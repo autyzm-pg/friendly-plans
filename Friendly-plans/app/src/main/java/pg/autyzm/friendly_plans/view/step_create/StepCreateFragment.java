@@ -24,6 +24,8 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
+import database.entities.Asset;
+import database.entities.StepTemplate;
 import database.repository.AssetRepository;
 import database.repository.StepTemplateRepository;
 import pg.autyzm.friendly_plans.ActivityProperties;
@@ -53,6 +55,9 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
 
     private Long soundId;
     private Long taskId;
+    private Long stepId;
+    private StepCreateData stepData;
+    private StepTemplate step;
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
     private Long pictureId;
     private EditText stepPicture;
@@ -79,7 +84,22 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         appComponent.inject(this);
 
         binding.setSoundComponent(soundComponent);
-        StepCreateData stepData = new StepCreateData("", "", "");
+
+        String stepName = "";
+
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            if(arguments.containsKey(ActivityProperties.TASK_ID)) {
+                taskId = (Long) arguments.get(ActivityProperties.TASK_ID);
+            }
+            if(arguments.containsKey(ActivityProperties.STEP_ID)) {
+                stepId = (Long) arguments.get(ActivityProperties.STEP_ID);
+                step = stepTemplateRepository.get(stepId);
+                stepName = step.getName();
+            }
+        }
+
+        stepData = new StepCreateData(stepName, "", "");
         binding.setStepData(stepData);
         binding.setStepDataClick(this);
         return view;
@@ -92,20 +112,34 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         picturePreview = (ImageView) view.findViewById(R.id.iv_step_picture_preview);
         stepSound = (EditText) view.findViewById(R.id.id_et_step_sound);
         clearSound = (ImageButton) view.findViewById(R.id.id_ib_clear_step_sound_btn);
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            taskId = (Long) arguments.get(ActivityProperties.TASK_ID);
+
+        if(step != null) {
+            Asset picture = step.getPicture();
+            Asset sound = step.getSound();
+            if (picture != null) {
+                setAssetValue(AssetType.PICTURE, picture.getFilename(), picture.getId());
+            }
+            if (sound != null) {
+                setAssetValue(AssetType.SOUND, sound.getFilename(), sound.getId());
+            }
         }
     }
 
-    private Long addStepToTask(String stepName, int order) {
+    private Long addOrUpdateStepToTask(String stepName, int order) {
         try {
-            long stepId = stepTemplateRepository.create(stepName, order,
-                    pictureId,
-                    soundId, taskId);
-            showToastMessage(R.string.step_saved_message);
-            return stepId;
-
+            if(stepId != null) {
+                stepTemplateRepository.update(stepId, stepName, order,
+                        pictureId,
+                        soundId, taskId);
+                showToastMessage(R.string.step_saved_message);
+                return stepId;
+            } else {
+                long stepId = stepTemplateRepository.create(stepName, order,
+                        pictureId,
+                        soundId, taskId);
+                showToastMessage(R.string.step_saved_message);
+                return stepId;
+            }
         } catch (RuntimeException exception) {
             return handleSavingError(exception);
         }
@@ -134,6 +168,7 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         stepPicture.setText("");
         picturePreview.setImageResource(0);
         clearPicture.setVisibility(View.INVISIBLE);
+        pictureId = null;
     }
 
     private void setAssetValue(AssetType assetType, String assetName, Long assetId) {
@@ -141,12 +176,12 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         String assetNameTrimed = assetName.replaceAll(REGEX_TRIM_NAME, "");
 
         if (assetType.equals(AssetType.PICTURE)) {
-            stepPicture.setText(assetNameTrimed);
+            stepData.setPictureName(assetNameTrimed);
             clearPicture.setVisibility(View.VISIBLE);
             pictureId = assetId;
             showPreview();
         } else {
-            stepSound.setText(assetNameTrimed);
+            stepData.setSoundName(assetNameTrimed);
             soundId = assetId;
             soundComponent.setSoundId(assetId);
             clearSound.setVisibility(View.VISIBLE);
@@ -198,6 +233,7 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
     public void clearStepSound() {
         stepSound.setText("");
         clearSound.setVisibility(View.INVISIBLE);
+        soundId = null;
     }
 
     @Override
@@ -205,7 +241,7 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         String name = stepCreateData.getStepName();
         String picture = stepCreateData.getPictureName();
         String sound = stepCreateData.getSoundName();
-        Long stepId = addStepToTask(name, 0);
+        Long stepId = addOrUpdateStepToTask(name, 0);
         Log.i("step data", name + " " + picture + " " + sound+ " " + stepId);
         if(stepId != null) getFragmentManager().popBackStack();
     }

@@ -63,6 +63,20 @@ public class StepListFragment extends Fragment implements StepListEvents {
                         }
                     }
                 }
+
+                @Override
+                public void onShowStepClick(long itemId) {
+                    StepCreateFragment fragment = new StepCreateFragment();
+                    Bundle args = new Bundle();
+                    args.putLong(ActivityProperties.TASK_ID, task_id);
+                    args.putLong(ActivityProperties.STEP_ID, itemId);
+                    fragment.setArguments(args);
+                    FragmentTransaction transaction = getFragmentManager()
+                            .beginTransaction();
+                    transaction.replace(R.id.task_container, fragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
             };
 
     private StepListRecyclerViewAdapter stepListRecyclerViewAdapter;
