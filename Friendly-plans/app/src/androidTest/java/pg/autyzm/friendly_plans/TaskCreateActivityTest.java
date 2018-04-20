@@ -32,6 +32,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -333,6 +334,117 @@ public class TaskCreateActivityTest {
         onView(withId(R.id.id_btn_play_sound))
                 .perform(click());
         closeSoftKeyboard();
+        onView(withText(R.string.no_file_to_play_error)).inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void whenImageSelectedAndCrossBtnPressedAndSaveExpectedSaveTaskWithoutImage()
+            throws IOException, InterruptedException {
+
+        onView(withId(R.id.id_et_task_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_et_task_duration_time))
+                .perform(replaceText(EXPECTED_DURATION_TXT));
+        closeSoftKeyboard();
+
+        assetTestRule.setTestPicture();
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_ib_clear_img_btn))
+                .perform(click());
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_btn_steps))
+                .perform(click());
+
+        List<Asset> assets = assetRepository.getAll();
+        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
+        idsToDelete.add(taskTemplates.get(0).getId());
+
+        assertThat(taskTemplates.size(), is(1));
+        assertNull(taskTemplates.get(0).getPictureId());
+    }
+
+    @Test
+    public void whenImageSelectedAndCrossBtnPressedExpectedClearPreviewAndEditText()
+            throws IOException, InterruptedException {
+
+        assetTestRule.setTestPicture();
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_ib_clear_img_btn))
+                .perform(click());
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_iv_task_picture))
+                .check(doesNotExist());
+
+        onView(withId(R.id.id_et_task_picture))
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void whenSoundSelectedAndCrossBtnPressedAndSaveExpectedSaveTaskWithoutSound()
+            throws IOException, InterruptedException {
+
+        onView(withId(R.id.id_et_task_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_et_task_duration_time))
+                .perform(replaceText(EXPECTED_DURATION_TXT));
+        closeSoftKeyboard();
+
+        assetTestRule.setTestSound();
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_ib_clear_sound_btn))
+                .perform(click());
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_btn_steps))
+                .perform(click());
+
+        List<Asset> assets = assetRepository.getAll();
+        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
+        idsToDelete.add(taskTemplates.get(0).getId());
+
+        assertThat(taskTemplates.size(), is(1));
+        assertNull(taskTemplates.get(0).getSoundId());
+    }
+
+    @Test
+    public void whenSoundSelectedAndCrossBtnPressedExpectedClearEditText()
+            throws IOException, InterruptedException {
+
+        assetTestRule.setTestSound();
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_ib_clear_sound_btn))
+                .perform(click());
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_et_task_sound))
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void whenSoundSelectedAndCrossBtnPressedAndPlayBtnPressedThenToastExpected()
+            throws IOException, InterruptedException {
+
+        assetTestRule.setTestSound();
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_ib_clear_sound_btn))
+                .perform(click());
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_btn_play_sound))
+                .perform(click());
+
         onView(withText(R.string.no_file_to_play_error)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
     }
