@@ -360,7 +360,6 @@ public class TaskCreateActivityTest {
         onView(withId(R.id.id_btn_steps))
                 .perform(click());
 
-        List<Asset> assets = assetRepository.getAll();
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
         idsToDelete.add(taskTemplates.get(0).getId());
 
@@ -408,7 +407,6 @@ public class TaskCreateActivityTest {
         onView(withId(R.id.id_btn_steps))
                 .perform(click());
 
-        List<Asset> assets = assetRepository.getAll();
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
         idsToDelete.add(taskTemplates.get(0).getId());
 
