@@ -64,6 +64,8 @@ public class StepListRecyclerViewAdapter extends
         void onRemoveStepClick(long itemId);
 
         void onMoveItem();
+
+        void onShowStepClick(long itemId);
     }
 
     @Override
@@ -117,6 +119,13 @@ public class StepListRecyclerViewAdapter extends
             super(itemView);
             this.stepName = (TextView) itemView
                     .findViewById(R.id.id_tv_step_name);
+            this.stepName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    long id = stepItemList.get(getAdapterPosition()).getId();
+                    stepItemClickListener.onShowStepClick(id);
+                }
+            });
             this.stepPicture = (ImageView) itemView
                     .findViewById(R.id.id_iv_step_picture);
             this.removeButton = (ImageButton) itemView

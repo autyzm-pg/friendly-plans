@@ -112,6 +112,18 @@ public class StepListFragmentTest {
         assertStepDisplayed(0, STEP_NAME_2);
     }
 
+    @Test
+    public void whenStepIsClickedEditStepIsOpened() {
+        long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
+        openStepsListFragment(taskId);
+
+        onView(withId(R.id.rv_step_list)).perform(
+                RecyclerViewActions
+                        .actionOnItemAtPosition(0, click()));
+
+        onView(withId(R.id.id_et_step_name)).check(matches(withText("STEP_NAME_1")));
+    }
+
      private void openStepsListFragment(long taskId) {
         StepListFragment fragment = new StepListFragment();
         Bundle args = new Bundle();
