@@ -65,8 +65,7 @@ public class StepCreateFragmentTest {
     private TaskTemplateRepository taskTemplateRepository;
 
     private List<Long> stepIdsToDelete = new ArrayList<>();
-
-
+    
     private Long taskId;
 
     @Before

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.ActivityMainBinding;
+import pg.autyzm.friendly_plans.view.plan_create.PlanCreateActivity;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 import pg.autyzm.friendly_plans.view.task_list.TaskListActivity;
 
@@ -29,6 +30,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityEvent
     @Override
     public void eventShowTaskList(View view) {
         Intent intent = new Intent(this, TaskListActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void eventCreatePlan(View view) {
+        Intent intent = new Intent(this, PlanCreateActivity.class);
         startActivity(intent);
     }
 }

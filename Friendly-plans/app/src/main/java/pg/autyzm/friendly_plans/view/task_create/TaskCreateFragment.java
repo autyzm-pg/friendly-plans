@@ -10,21 +10,23 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.IOException;
+
+import javax.inject.Inject;
+
 import database.entities.Asset;
 import database.entities.TaskTemplate;
 import database.repository.AssetRepository;
 import database.repository.TaskTemplateRepository;
-import java.io.File;
-import java.io.IOException;
-import javax.inject.Inject;
 import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.AppComponent;
@@ -42,7 +44,7 @@ import pg.autyzm.friendly_plans.view.components.SoundComponent;
 import pg.autyzm.friendly_plans.view.main_screen.MainActivity;
 import pg.autyzm.friendly_plans.view.step_list.StepListFragment;
 
-public class TaskCreateFragment extends Fragment implements TaskCreateActivityEvents{
+public class TaskCreateFragment extends Fragment implements TaskCreateActivityEvents {
 
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
 
@@ -79,7 +81,7 @@ public class TaskCreateFragment extends Fragment implements TaskCreateActivityEv
         binding.setEvents(this);
 
         View view = binding.getRoot();
-        ImageView playSoundIcon = (ImageView) view.findViewById(R.id.id_iv_play_sound_icon);
+        ImageButton playSoundIcon = (ImageButton) view.findViewById(R.id.id_btn_play_sound);
 
         AppComponent appComponent = ((App) getActivity().getApplication()).getAppComponent();
         soundComponent = SoundComponent.getSoundComponent(
@@ -269,8 +271,9 @@ public class TaskCreateFragment extends Fragment implements TaskCreateActivityEv
             showPreview();
         } else {
             taskSound.setText(assetName);
-            soundId = assetId;
             clearSound.setVisibility(View.VISIBLE);
+            soundId = assetId;
+            soundComponent.setSoundId(soundId);
         }
     }
 
@@ -321,14 +324,17 @@ public class TaskCreateFragment extends Fragment implements TaskCreateActivityEv
     @Override
     public void eventClearPicture(View view) {
         taskPicture.setText("");
-        picturePreview.setImageResource(0);
+        pictureId = null;
+        picturePreview.setImageDrawable(null);
         clearPicture.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void eventClearSound(View view) {
         taskSound.setText("");
+        soundId = null;
         clearSound.setVisibility(View.INVISIBLE);
+        soundComponent.setSoundId(null);
         soundComponent.stopActions();
     }
 

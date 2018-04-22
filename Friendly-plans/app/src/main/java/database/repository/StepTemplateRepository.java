@@ -25,6 +25,18 @@ public class StepTemplateRepository {
         return daoSession.getStepTemplateDao().insert(stepTemplate);
     }
 
+    public void update(Long stepId, String name, int order, Long pictureId, Long soundId, Long taskTemplateId) {
+        StepTemplate stepTemplate = new StepTemplate();
+        stepTemplate.setId(stepId);
+        stepTemplate.setName(name);
+        stepTemplate.setOrder(order);
+        stepTemplate.setSoundId(soundId);
+        stepTemplate.setPictureId(pictureId);
+        stepTemplate.setTaskTemplateId(taskTemplateId);
+
+        daoSession.getStepTemplateDao().update(stepTemplate);
+    }
+
     public List<StepTemplate> get(String stepTemplateName) {
         return daoSession.getStepTemplateDao()
                 .queryBuilder()
@@ -32,11 +44,16 @@ public class StepTemplateRepository {
                 .list();
     }
 
+    public StepTemplate get(Long id) {
+        return daoSession.getStepTemplateDao().load(id);
+    }
+
 
     public List<StepTemplate> getAll(Long taskTemplateId) {
         return daoSession.getStepTemplateDao()
                 .queryBuilder()
                 .where(Properties.TaskTemplateId.eq(taskTemplateId))
+                .orderAsc(Properties.Order)
                 .list();
     }
 
