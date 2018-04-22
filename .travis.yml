@@ -22,7 +22,7 @@ before_script:
   - adb shell input keyevent 82 &
 
 script: ./gradlew test
-script: ./gradlew connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.notAnnotation=pg.autyzm.friendly_plans.annotations.IgnoreForTravis
+script: ./gradlew connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.notAnnotation=pg.autyzm.friendly_plans.annotations.IgnoreForTravis
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
