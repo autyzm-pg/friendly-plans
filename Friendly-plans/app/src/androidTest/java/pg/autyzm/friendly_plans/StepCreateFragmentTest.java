@@ -11,7 +11,6 @@ import android.view.WindowManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +24,7 @@ import database.entities.StepTemplate;
 import database.repository.AssetRepository;
 import database.repository.StepTemplateRepository;
 import database.repository.TaskTemplateRepository;
-import pg.autyzm.friendly_plans.matcher.ToastMatcher;
+import pg.autyzm.friendly_plans.annotations.IgnoreForTravis;
 import pg.autyzm.friendly_plans.resource.AssetTestRule;
 import pg.autyzm.friendly_plans.resource.DaoSessionResource;
 import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
@@ -37,7 +36,6 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertNull;
@@ -128,8 +126,7 @@ public class StepCreateFragmentTest {
     }
 
     @Test
-    public void whenAddingANewStepWithoutSoundExpectStepToBeAddedWithoutSound()
-            throws IOException, InterruptedException {
+    public void whenAddingANewStepWithoutSoundExpectStepToBeAddedWithoutSound() {
         onView(withId(R.id.id_et_step_name))
                 .perform(replaceText(EXPECTED_NAME));
         closeSoftKeyboard();
@@ -187,7 +184,7 @@ public class StepCreateFragmentTest {
         assertThat(stepTemplates.get(0).getPictureId(), is(assets.get(0).getId()));
     }
 
-    @Category(IgnoreForTravis.class)
+    @IgnoreForTravis
     @Test
     public void whenSettingSoundExpectSoundNameIsDisplayed()
              throws IOException, InterruptedException {
@@ -201,7 +198,6 @@ public class StepCreateFragmentTest {
         onView(withId(R.id.id_et_step_sound))
             .check(matches(withText(fileName)));
     }
-
 
     private void storeStepsToDelete(List<StepTemplate> stepTemplates){
         for (StepTemplate storedStep : stepTemplates) {

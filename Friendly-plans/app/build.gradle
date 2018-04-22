@@ -45,10 +45,7 @@ android {
     }
 
     testOptions {
-        unitTests.all {
-            includeAndroidResources = true
-            excludeCategories 'pg.autyzm.friendly_plans.annotations.IgnoreForTravis'
-        }
+        unitTests.includeAndroidResources = true
     }
 }
 
@@ -106,11 +103,5 @@ android.applicationVariants.all { variant ->
         def aptOutputDir = new File(buildDir, "generated/source/apt/${variant.unitTestVariant.dirName}")
         variant.unitTestVariant.addJavaSourceFoldersToModel(aptOutputDir)
         assembleDebug.finalizedBy('assembleDebugUnitTest')
-    }
-}
-
-task testOnTravis(type: Test) {
-    useJUnit {
-        excludeCategories 'pg.autyzm.friendly_plans.annotations.IgnoreForTravis'
     }
 }
