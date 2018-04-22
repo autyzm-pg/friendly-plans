@@ -21,7 +21,6 @@ import database.entities.Asset;
 import database.entities.TaskTemplate;
 import database.repository.AssetRepository;
 import database.repository.TaskTemplateRepository;
-import pg.autyzm.friendly_plans.annotations.IgnoreForTravis;
 import pg.autyzm.friendly_plans.matcher.ToastMatcher;
 import pg.autyzm.friendly_plans.resource.AssetTestRule;
 import pg.autyzm.friendly_plans.resource.DaoSessionResource;
