@@ -169,6 +169,7 @@
               android:background="@color/transparent"
               android:elevation="1dp"
               android:onClick="@{soundComponent::onPlayStopSoundClick}"
+              android:visibility="invisible"
               android:src="@drawable/ic_play_sound" />
         </RelativeLayout>
 

@@ -195,6 +195,7 @@
               android:adjustViewBounds="true"
               android:layout_marginStart="40dp"
               android:background="@color/transparent"
+              android:visibility="invisible"
               android:elevation="1dp"
               android:onClick="@{soundComponent::onPlayStopSoundClick}"
               android:src="@drawable/ic_play_sound" />
