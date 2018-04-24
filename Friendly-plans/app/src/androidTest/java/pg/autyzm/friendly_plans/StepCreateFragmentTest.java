@@ -207,6 +207,8 @@ public class StepCreateFragmentTest {
 
         assetTestRule.setTestSound();
 
+        closeSoftKeyboard();
+
         onView(withId(R.id.id_btn_play_step_sound))
                 .check(matches(isDisplayed()));
         onView(withId(R.id.id_ib_clear_step_sound_btn))
@@ -218,6 +220,8 @@ public class StepCreateFragmentTest {
             throws IOException, InterruptedException {
 
         assetTestRule.setTestSound();
+
+        closeSoftKeyboard();
 
         onView(withId(R.id.id_ib_clear_step_sound_btn))
                 .perform(click());
