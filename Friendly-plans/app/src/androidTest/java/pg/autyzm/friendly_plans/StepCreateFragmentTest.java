@@ -188,7 +188,7 @@ public class StepCreateFragmentTest {
 
     @Ignore
     @Test
-    public void whenSettingSoundExpectSoundNameIsDisplayed()
+    public void whenSettingSoundExpectSoundNameAndBtnsAreDisplayed()
              throws IOException, InterruptedException {
         assetTestRule.setTestSound();
         List<Asset> assets = assetRepository.getAll();
@@ -199,15 +199,6 @@ public class StepCreateFragmentTest {
 
         onView(withId(R.id.id_et_step_sound))
             .check(matches(withText(fileName)));
-    }
-
-    @Test
-    public void whenAddingSoundPlayAndCrossBtnsAreDisplayed()
-            throws IOException, InterruptedException {
-
-        assetTestRule.setTestSound();
-
-        closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_play_step_sound))
                 .check(matches(isDisplayed()));
