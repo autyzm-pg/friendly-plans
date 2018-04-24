@@ -25,4 +25,10 @@ public class RepositoryModule {
     public StepTemplateRepository getStepTemplateRepository(DaoSession daoSession) {
         return new StepTemplateRepository(daoSession);
     }
+
+    @Provides
+    @Singleton
+    public PlanTemplateRepository getPlanTemplateRepository(DaoSession daoSession) {
+        return new PlanTemplateRepository(daoSession);
+    }
 }

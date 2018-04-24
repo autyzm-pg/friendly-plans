@@ -31,6 +31,7 @@
   <string name="plan_create_description">Step 1: Enter plan\'s name</string>
   <string name="plan_name">Plan\'s name:</string>
   <string name="name">Name</string>
+  <string name="plan_saved_message">Plan saved</string>
   <string name="tasks">Tasks</string>
   <string name="break_time_tasks">Break time tasks</string>
   <string name="task_saved_message">Task saved</string>
@@ -52,4 +53,5 @@
   <string name="create_step_description">Create step view</string>
   <string name="save_task_error_message">An error occurred during saving the task.</string>
   <string name="save_step_error_message">An error occurred during saving the step.</string>
+  <string name="save_plan_error_message">An error occurred during saving the plan.</string>
 </resources>
