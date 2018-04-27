@@ -30,7 +30,7 @@ import pg.autyzm.friendly_plans.view.plan_create.PlanCreateActivity;
 @RunWith(AndroidJUnit4.class)
 public class PlanCreateActivityTest {
 
-    private static final String EXPECTED_NAME = "PLAN'S NAME";
+    private static final String EXPECTED_NAME = "PLANS NAME";
 
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
@@ -78,7 +78,7 @@ public class PlanCreateActivityTest {
     }
 
     @Test
-    public void whenAddingNewPlanExpectNewStepAddedToDB() {
+    public void whenAddingNewPlanExpectNewPlanAddedToDB() {
         onView(withId(R.id.id_et_plan_name))
                 .perform(replaceText(EXPECTED_NAME));
         closeSoftKeyboard();
@@ -92,4 +92,5 @@ public class PlanCreateActivityTest {
         assertThat(planTemplates.size(), is(1));
         assertThat(planTemplates.get(0).getName(), is(EXPECTED_NAME));
     }
+
 }

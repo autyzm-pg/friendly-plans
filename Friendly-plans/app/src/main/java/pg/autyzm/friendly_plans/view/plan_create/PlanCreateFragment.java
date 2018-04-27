@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import database.repository.PlanTemplateRepository;
 import javax.inject.Inject;
 import pg.autyzm.friendly_plans.App;
@@ -15,6 +17,9 @@ import pg.autyzm.friendly_plans.AppComponent;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.FragmentPlanCreateBinding;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
+import pg.autyzm.friendly_plans.validation.PlanValidation;
+import pg.autyzm.friendly_plans.validation.ValidationResult;
+import pg.autyzm.friendly_plans.validation.ValidationStatus;
 
 public class PlanCreateFragment extends Fragment implements PlanCreateActivityEvents {
 
@@ -24,6 +29,11 @@ public class PlanCreateFragment extends Fragment implements PlanCreateActivityEv
 
     @Inject
     ToastUserNotifier toastUserNotifier;
+
+    @Inject
+    PlanValidation planValidation;
+
+    PlanCreateData planData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,20 +45,23 @@ public class PlanCreateFragment extends Fragment implements PlanCreateActivityEv
         AppComponent appComponent = ((App) getActivity().getApplication()).getAppComponent();
         appComponent.inject(this);
 
-        PlanCreateData planData = new PlanCreateData("");
+        planData = new PlanCreateData("");
         binding.setPlanData(planData);
         binding.setPlanDataClick(this);
         return view;
     }
 
     private Long addPlan(String planName) {
-        try {
-            long planId = planTemplateRepository.create(planName);
-            showToastMessage(R.string.plan_saved_message);
-            return planId;
-        } catch (RuntimeException exception) {
-            return handleSavingError(exception);
+        if (validateName(planName)) {
+            try {
+                long planId = planTemplateRepository.create(planName);
+                showToastMessage(R.string.plan_saved_message);
+                return planId;
+            } catch (RuntimeException exception) {
+                return handleSavingError(exception);
+            }
         }
+        return null;
     }
 
     @Nullable
@@ -68,5 +81,23 @@ public class PlanCreateFragment extends Fragment implements PlanCreateActivityEv
     public void savePlanData(PlanCreateData planCreateData) {
         addPlan(planCreateData.getPlanName());
     }
+
+    private boolean validateName(String taskName) {
+        ValidationResult validationResult = planValidation
+                .isNewNameValid(taskName);
+        if (validationResult.getValidationStatus().equals(ValidationStatus.INVALID)) {
+            planData.setNameFieldError(validationResult.getValidationInfo());
+            Toast toast = Toast.makeText(
+                    getActivity().getApplicationContext(),
+                    validationResult.getValidationInfo(),
+                    Toast.LENGTH_SHORT
+            );
+            toast.show();
+            return false;
+        }
+        return true;
+    }
+
+
 
 }
