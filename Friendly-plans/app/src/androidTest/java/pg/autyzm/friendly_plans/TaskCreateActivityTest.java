@@ -246,6 +246,18 @@ public class TaskCreateActivityTest {
     }
 
     @Test
+    public void whenAddingSoundPlayAndCrossBtnsAreDisplayed()
+            throws IOException, InterruptedException {
+
+        assetTestRule.setTestSound();
+
+        onView(withId(R.id.id_btn_play_sound))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.id_ib_clear_sound_btn))
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
     public void whenAddingNewTaskAndNameIsEmptyExpectWarning() {
         closeSoftKeyboard();
         onView(withId(R.id.id_btn_steps))
@@ -313,29 +325,6 @@ public class TaskCreateActivityTest {
         onView(withId(R.id.id_et_task_name))
                 .check(matches(hasErrorText(
                         activityRule.getActivity().getString(R.string.name_exist_msg))));
-    }
-
-    @Test
-    public void whenFieldsEmptyAndPlayBtnPressedThenToastExpected() {
-        closeSoftKeyboard();
-
-        onView(withId(R.id.id_btn_play_sound))
-                .perform(click());
-        onView(withText(R.string.no_file_to_play_error)).inRoot(new ToastMatcher())
-                .check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void whenImageSelectedAndPlayBtnPressedThenToastExpected()
-            throws IOException, InterruptedException {
-
-        assetTestRule.setTestPicture();
-        closeSoftKeyboard();
-        onView(withId(R.id.id_btn_play_sound))
-                .perform(click());
-        closeSoftKeyboard();
-        onView(withText(R.string.no_file_to_play_error)).inRoot(new ToastMatcher())
-                .check(matches(isDisplayed()));
     }
 
     @Test
@@ -426,24 +415,6 @@ public class TaskCreateActivityTest {
         closeSoftKeyboard();
 
         onView(withId(R.id.id_et_task_sound))
-                .check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void whenSoundSelectedAndCrossBtnPressedAndPlayBtnPressedThenToastExpected()
-            throws IOException, InterruptedException {
-
-        assetTestRule.setTestSound();
-        closeSoftKeyboard();
-
-        onView(withId(R.id.id_ib_clear_sound_btn))
-                .perform(click());
-        closeSoftKeyboard();
-
-        onView(withId(R.id.id_btn_play_sound))
-                .perform(click());
-
-        onView(withText(R.string.no_file_to_play_error)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
     }
 

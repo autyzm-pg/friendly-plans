@@ -36,6 +36,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertNull;
@@ -196,6 +197,18 @@ public class StepCreateFragmentTest {
 
         onView(withId(R.id.id_et_step_sound))
             .check(matches(withText(fileName)));
+    }
+
+    @Test
+    public void whenAddingSoundPlayAndCrossBtnsAreDisplayed()
+            throws IOException, InterruptedException {
+
+        assetTestRule.setTestSound();
+
+        onView(withId(R.id.id_btn_play_step_sound))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.id_ib_clear_step_sound_btn))
+                .check(matches(isDisplayed()));
     }
 
     private void storeStepsToDelete(List<StepTemplate> stepTemplates){
