@@ -231,8 +231,11 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
     @Override
     public void clearStepSound() {
         stepSound.setText("");
-        clearSound.setVisibility(View.INVISIBLE);
         soundId = null;
+        clearSound.setVisibility(View.INVISIBLE);
+        soundComponent.setSoundId(null);
+        soundComponent.stopActions();
+
     }
 
     @Override

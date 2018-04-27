@@ -25,7 +25,6 @@ import database.entities.StepTemplate;
 import database.repository.AssetRepository;
 import database.repository.StepTemplateRepository;
 import database.repository.TaskTemplateRepository;
-import pg.autyzm.friendly_plans.matcher.ToastMatcher;
 import pg.autyzm.friendly_plans.resource.AssetTestRule;
 import pg.autyzm.friendly_plans.resource.DaoSessionResource;
 import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
@@ -42,6 +41,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertNull;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
 public class StepCreateFragmentTest {
@@ -188,7 +188,7 @@ public class StepCreateFragmentTest {
 
     @Ignore
     @Test
-    public void whenSettingSoundExpectSoundNameIsDisplayed()
+    public void whenSettingSoundExpectSoundNameAndBtnsAreDisplayed()
              throws IOException, InterruptedException {
         assetTestRule.setTestSound();
         List<Asset> assets = assetRepository.getAll();
@@ -199,19 +199,30 @@ public class StepCreateFragmentTest {
 
         onView(withId(R.id.id_et_step_sound))
             .check(matches(withText(fileName)));
-    }
-
-    @Test
-    public void whenAddingSoundPlayAndCrossBtnsAreDisplayed()
-            throws IOException, InterruptedException {
-
-        assetTestRule.setTestSound();
 
         onView(withId(R.id.id_btn_play_step_sound))
                 .check(matches(isDisplayed()));
         onView(withId(R.id.id_ib_clear_step_sound_btn))
                 .check(matches(isDisplayed()));
     }
+
+    @Test
+    public void whenSoundCrossBtnIsPressedPlayAndCrossBtnsAreNotDisplayed()
+            throws IOException, InterruptedException {
+
+        assetTestRule.setTestSound();
+
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_ib_clear_step_sound_btn))
+                .perform(click());
+
+        onView(withId(R.id.id_btn_play_step_sound))
+                .check(matches(not(isDisplayed())));
+        onView(withId(R.id.id_ib_clear_step_sound_btn))
+                .check(matches(not(isDisplayed())));
+    }
+
 
     private void storeStepsToDelete(List<StepTemplate> stepTemplates){
         for (StepTemplate storedStep : stepTemplates) {
