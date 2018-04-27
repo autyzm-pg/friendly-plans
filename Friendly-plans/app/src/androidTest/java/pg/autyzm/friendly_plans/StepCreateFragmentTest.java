@@ -199,6 +199,7 @@ public class StepCreateFragmentTest {
             .check(matches(withText(fileName)));
     }
 
+    @IgnoreForTravis
     @Test
     public void whenAddingSoundPlayAndCrossBtnsAreDisplayed()
             throws IOException, InterruptedException {
