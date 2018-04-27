@@ -4,6 +4,7 @@ import android.media.MediaPlayer;
 import dagger.Component;
 import database.repository.AssetRepository;
 import database.repository.DaoSessionModule;
+import database.repository.PlanTemplateRepository;
 import database.repository.RepositoryModule;
 import database.repository.StepTemplateRepository;
 import database.repository.TaskTemplateRepository;
@@ -46,6 +47,9 @@ public interface AppComponent {
 
     @SuppressWarnings("unused")
     StepTemplateRepository stepTemplateRepository();
+
+    @SuppressWarnings("unused")
+    PlanTemplateRepository planTemplateRepository();
 
     @SuppressWarnings("unused")
     AssetRepository assetRepository();
