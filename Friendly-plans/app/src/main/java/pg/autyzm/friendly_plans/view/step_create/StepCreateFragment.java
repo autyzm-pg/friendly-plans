@@ -37,6 +37,9 @@ import pg.autyzm.friendly_plans.asset.AssetsHelper;
 import pg.autyzm.friendly_plans.databinding.FragmentStepCreateBinding;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
+import pg.autyzm.friendly_plans.validation.StepValidation;
+import pg.autyzm.friendly_plans.validation.ValidationResult;
+import pg.autyzm.friendly_plans.validation.ValidationStatus;
 import pg.autyzm.friendly_plans.view.components.SoundComponent;
 import pg.autyzm.friendly_plans.view.task_create.ImagePreviewDialog;
 
@@ -46,6 +49,8 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
     MediaPlayer mediaPlayer;
     @Inject
     StepTemplateRepository stepTemplateRepository;
+    @Inject
+    StepValidation stepValidation;
     @Inject
     AssetRepository assetRepository;
     @Inject
@@ -60,6 +65,7 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
     private StepTemplate step;
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
     private Long pictureId;
+    private EditText stepNameView;
     private EditText stepPicture;
     private ImageButton clearPicture;
     private EditText stepSound;
@@ -84,7 +90,7 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
 
         binding.setSoundComponent(soundComponent);
 
-        String stepName = "";
+        String initialStepName = "";
 
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -94,11 +100,11 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
             if(arguments.containsKey(ActivityProperties.STEP_ID)) {
                 stepId = (Long) arguments.get(ActivityProperties.STEP_ID);
                 step = stepTemplateRepository.get(stepId);
-                stepName = step.getName();
+                initialStepName = step.getName();
             }
         }
 
-        stepData = new StepCreateData(stepName, "", "");
+        stepData = new StepCreateData(initialStepName, "", "");
         binding.setStepData(stepData);
         binding.setStepDataClick(this);
         return view;
@@ -106,6 +112,7 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        stepNameView = (EditText) view.findViewById(R.id.id_et_step_name);
         stepPicture = (EditText) view.findViewById(R.id.id_et_step_picture);
         clearPicture = (ImageButton) view.findViewById(R.id.id_ib_step_clear_img_btn);
         picturePreview = (ImageView) view.findViewById(R.id.iv_step_picture_preview);
@@ -126,22 +133,48 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
 
     private Long addOrUpdateStepToTask(String stepName, int order) {
         try {
-            if(stepId != null) {
-                stepTemplateRepository.update(stepId, stepName, order,
-                        pictureId,
-                        soundId, taskId);
-                showToastMessage(R.string.step_saved_message);
-                return stepId;
+            if (stepId != null) {
+                if(validateName(stepId, stepNameView)) {
+
+                    stepTemplateRepository.update(stepId, stepName, order,
+                            pictureId,
+                            soundId, taskId);
+                    showToastMessage(R.string.step_saved_message);
+                    return stepId;
+                }
             } else {
-                long stepId = stepTemplateRepository.create(stepName, order,
-                        pictureId,
-                        soundId, taskId);
-                showToastMessage(R.string.step_saved_message);
-                return stepId;
+                if(validateName(stepNameView)) {
+                    long stepId = stepTemplateRepository.create(stepName, order,
+                            pictureId,
+                            soundId, taskId);
+                    showToastMessage(R.string.step_saved_message);
+                    return stepId;
+                }
             }
         } catch (RuntimeException exception) {
             return handleSavingError(exception);
         }
+        return null;
+    }
+
+    private boolean validateName(EditText stepName) {
+        ValidationResult validationResult = stepValidation
+                .isNewNameValid(taskId, stepName.getText().toString());
+        return handleInvalidResult(stepName, validationResult);
+    }
+
+    private boolean validateName(Long stepId, EditText stepName) {
+        ValidationResult validationResult = stepValidation
+                .isUpdateNameValid(stepId, taskId, stepName.getText().toString());
+        return handleInvalidResult(stepName, validationResult);
+    }
+
+    private boolean handleInvalidResult(EditText editText, ValidationResult validationResult) {
+        if (validationResult.getValidationStatus().equals(ValidationStatus.INVALID)) {
+            editText.setError(validationResult.getValidationInfo());
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -240,7 +273,10 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         String name = stepCreateData.getStepName();
         String picture = stepCreateData.getPictureName();
         String sound = stepCreateData.getSoundName();
-        Long stepId = addOrUpdateStepToTask(name, 0);
+        soundComponent.stopActions();
+        int order = stepTemplateRepository.getAll(taskId).size();
+        if(stepId != null) order = step.getOrder();
+        Long stepId = addOrUpdateStepToTask(name, order);
         Log.i("step data", name + " " + picture + " " + sound+ " " + stepId);
         if(stepId != null) getFragmentManager().popBackStack();
     }
