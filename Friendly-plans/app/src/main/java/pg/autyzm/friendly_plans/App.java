@@ -1,6 +1,7 @@
 package pg.autyzm.friendly_plans;
 
 import android.app.Application;
+
 import database.repository.DaoSessionModule;
 import database.repository.RepositoryModule;
 import pg.autyzm.friendly_plans.asset.AssetsHelperModule;
