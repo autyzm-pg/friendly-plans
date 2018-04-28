@@ -44,10 +44,6 @@ public class StepCreateFragmentTest {
     @Mock
     private ToastUserNotifier toastUserNotifier;
 
-    @Mock
-    private StepValidation stepValidation;
-
-
     private TaskCreateActivity activity;
     private StepCreateFragment fragment;
 
