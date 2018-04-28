@@ -44,6 +44,14 @@ public class StepTemplateRepository {
                 .list();
     }
 
+    public List<StepTemplate> get(String stepTemplateName, Long taskId) {
+        return daoSession.getStepTemplateDao()
+                .queryBuilder()
+                .where(StepTemplateDao.Properties.Name.eq(stepTemplateName))
+                .where(Properties.TaskTemplateId.eq(taskId))
+                .list();
+    }
+
     public StepTemplate get(Long id) {
         return daoSession.getStepTemplateDao().load(id);
     }
