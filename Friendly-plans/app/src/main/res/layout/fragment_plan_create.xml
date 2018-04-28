@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/id_layout_plan_activity"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:scrollbarAlwaysDrawHorizontalTrack="false"
+  tools:context=".view.plan_create.PlanCreateFragment">
+
+  <GridLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:alignmentMode="alignBounds"
+    android:columnCount="5"
+    android:orientation="vertical"
+    android:stretchMode="columnWidth">
+
+    <TextView
+      android:id="@+id/id_plan_create_description"
+      android:layout_columnSpan="5"
+      android:background="#cccccc"
+      android:text="@string/plan_create_description"
+      android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+      android:id="@+id/id_tv_plan_name_label"
+      android:layout_column="0"
+      android:layout_row="1"
+      android:text="@string/plan_name" />
+
+    <!--Plan name -->
+    <EditText
+      android:id="@+id/id_et_plan_name"
+      android:layout_column="1"
+      android:layout_row="1"
+      android:cursorVisible="true"
+      android:inputType="text"
+      android:minWidth="200dp"
+      tools:text="This is plan name." />
+
+    <!--Next btn-->
+    <Button
+      android:id="@+id/id_btn_plan_next"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_column="4"
+      android:layout_row="5"
+      android:text="@string/next" />
+
+  </GridLayout>
+</ScrollView>

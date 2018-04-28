@@ -19,6 +19,10 @@
       </intent-filter>
     </activity>
     <activity
+      android:name=".view.plan_create.PlanCreateActivity"
+      android:screenOrientation="landscape">
+    </activity>
+    <activity
       android:name=".view.task_create.TaskCreateActivity"
       android:screenOrientation="landscape">
     </activity>

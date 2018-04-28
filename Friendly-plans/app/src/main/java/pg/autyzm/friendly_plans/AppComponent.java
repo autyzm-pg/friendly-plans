@@ -16,6 +16,7 @@ import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifierModule;
 import pg.autyzm.friendly_plans.view.components.SoundComponent;
 import pg.autyzm.friendly_plans.string_provider.StringProviderModule;
+import pg.autyzm.friendly_plans.view.plan_create.PlanCreateFragment;
 import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateFragment;
 import pg.autyzm.friendly_plans.validation.TaskValidation;
@@ -63,6 +64,8 @@ public interface AppComponent {
     void inject(TaskListActivity activity);
 
     void inject(StepListFragment stepListFragment);
+
+    void inject(PlanCreateFragment activity);
 
     void inject(StepCreateFragment stepCreateFragment);
 

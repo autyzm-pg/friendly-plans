@@ -44,7 +44,7 @@ import pg.autyzm.friendly_plans.view.components.SoundComponent;
 import pg.autyzm.friendly_plans.view.main_screen.MainActivity;
 import pg.autyzm.friendly_plans.view.step_list.StepListFragment;
 
-public class TaskCreateFragment extends Fragment implements TaskCreateActivityEvents{
+public class TaskCreateFragment extends Fragment implements TaskCreateActivityEvents {
 
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
 
@@ -271,9 +271,9 @@ public class TaskCreateFragment extends Fragment implements TaskCreateActivityEv
             showPreview();
         } else {
             taskSound.setText(assetName);
-            soundId = assetId;
-            soundComponent.setSoundId(assetId);
             clearSound.setVisibility(View.VISIBLE);
+            soundId = assetId;
+            soundComponent.setSoundId(soundId);
         }
     }
 
@@ -324,14 +324,17 @@ public class TaskCreateFragment extends Fragment implements TaskCreateActivityEv
     @Override
     public void eventClearPicture(View view) {
         taskPicture.setText("");
-        picturePreview.setImageResource(0);
+        pictureId = null;
+        picturePreview.setImageDrawable(null);
         clearPicture.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void eventClearSound(View view) {
         taskSound.setText("");
+        soundId = null;
         clearSound.setVisibility(View.INVISIBLE);
+        soundComponent.setSoundId(null);
         soundComponent.stopActions();
     }
 

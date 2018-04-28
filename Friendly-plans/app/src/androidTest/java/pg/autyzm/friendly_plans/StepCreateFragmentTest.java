@@ -201,6 +201,17 @@ public class StepCreateFragmentTest {
             .check(matches(withText(fileName)));
     }
 
+    @Test
+    public void whenAddingSoundPlayAndCrossBtnsAreDisplayed()
+            throws IOException, InterruptedException {
+
+        assetTestRule.setTestSound();
+
+        onView(withId(R.id.id_btn_play_step_sound))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.id_ib_clear_step_sound_btn))
+                .check(matches(isDisplayed()));
+    }
 
     private void storeStepsToDelete(List<StepTemplate> stepTemplates){
         for (StepTemplate storedStep : stepTemplates) {

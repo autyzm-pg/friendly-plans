@@ -70,6 +70,11 @@ public final class SoundComponent {
 
     public void setSoundId(Long soundId){
         this.soundId = soundId;
+        if(soundId == null) {
+            playSoundIcon.setVisibility(View.INVISIBLE);
+        } else {
+            playSoundIcon.setVisibility(View.VISIBLE);
+        }
     }
 
 
