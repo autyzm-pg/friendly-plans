@@ -22,6 +22,7 @@ import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifierModule;
 import pg.autyzm.friendly_plans.string_provider.StringProviderModule;
 import pg.autyzm.friendly_plans.string_provider.StringsProvider;
+import pg.autyzm.friendly_plans.validation.StepValidation;
 import pg.autyzm.friendly_plans.validation.TaskValidation;
 import pg.autyzm.friendly_plans.validation.ValidationModule;
 
@@ -42,6 +43,7 @@ public final class AppComponentBuilder {
     private StepTemplateRepository stepTemplateRepository;
     private StringsProvider stringsProvider;
     private TaskValidation taskValidation;
+    private StepValidation stepValidation;
     private FilePickerProxy filePickerProxy;
     private MediaPlayer mediaPlayer;
     private ToastUserNotifier toastUserNotifier;
@@ -83,6 +85,9 @@ public final class AppComponentBuilder {
         when(validationModule
                 .getTaskValidation(any(StringsProvider.class), any(TaskTemplateRepository.class)))
                 .thenReturn(taskValidation);
+        when(validationModule
+                .getStepValidation(any(StringsProvider.class), any(StepTemplateRepository.class)))
+                .thenReturn(stepValidation);
         when(filePickerModule.getFilePickerProxy()).thenReturn(filePickerProxy);
         when(mediaPlayerModule.getMediaPlayer()).thenReturn(mediaPlayer);
         when(toastUserNotifierModule.getToastUserNotifier()).thenReturn(toastUserNotifier);
@@ -119,6 +124,11 @@ public final class AppComponentBuilder {
 
     public AppComponentBuilder taskValidation(TaskValidation taskValidation) {
         this.taskValidation = taskValidation;
+        return this;
+    }
+
+    public AppComponentBuilder stepValidation(StepValidation stepValidation) {
+        this.stepValidation = stepValidation;
         return this;
     }
 
@@ -161,6 +171,7 @@ public final class AppComponentBuilder {
         stepTemplateRepository = mock(StepTemplateRepository.class);
         stringsProvider = mock(StringsProvider.class);
         taskValidation = mock(TaskValidation.class);
+        stepValidation = mock(StepValidation.class);
         filePickerProxy = mock(FilePickerProxy.class);
         mediaPlayer = mock(MediaPlayer.class);
         toastUserNotifier = mock(ToastUserNotifier.class);
