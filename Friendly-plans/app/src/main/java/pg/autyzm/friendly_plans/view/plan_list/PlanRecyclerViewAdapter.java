@@ -13,10 +13,8 @@ import pg.autyzm.friendly_plans.R;
 public class PlanRecyclerViewAdapter extends RecyclerView.Adapter<PlanRecyclerViewAdapter.PlanListViewHolder> {
 
     private List<PlanTemplate> planItemList;
-    private PlanRecyclerViewAdapter.PlanItemClickListener planItemClickListener;
 
-    PlanRecyclerViewAdapter(PlanRecyclerViewAdapter.PlanItemClickListener planItemClickListener) {
-        this.planItemClickListener = planItemClickListener;
+    PlanRecyclerViewAdapter() {
         this.planItemList = Collections.emptyList();
     }
 
@@ -24,7 +22,7 @@ public class PlanRecyclerViewAdapter extends RecyclerView.Adapter<PlanRecyclerVi
     public PlanRecyclerViewAdapter.PlanListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_plan, parent, false);
-        return new PlanRecyclerViewAdapter.PlanListViewHolder(view, planItemClickListener);
+        return new PlanRecyclerViewAdapter.PlanListViewHolder(view);
     }
     @Override
     public void onBindViewHolder(PlanRecyclerViewAdapter.PlanListViewHolder holder, int position) {
@@ -44,29 +42,15 @@ public class PlanRecyclerViewAdapter extends RecyclerView.Adapter<PlanRecyclerVi
         notifyDataSetChanged();
     }
 
-    PlanTemplate getPlanItem(int position) {
-        return planItemList.get(position);
-    }
-
-    interface PlanItemClickListener {
-
-        void onPlanItemClick(int position);
-    }
 
     static class PlanListViewHolder extends RecyclerView.ViewHolder {
 
         TextView planName;
 
-        PlanListViewHolder(View itemView, final PlanRecyclerViewAdapter.PlanItemClickListener planItemClickListener) {
+        PlanListViewHolder(View itemView) {
             super(itemView);
             this.planName = (TextView) itemView
                     .findViewById(R.id.id_tv_plan_name);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    planItemClickListener.onPlanItemClick(getAdapterPosition());
-                }
-            });
         }
     }
 }

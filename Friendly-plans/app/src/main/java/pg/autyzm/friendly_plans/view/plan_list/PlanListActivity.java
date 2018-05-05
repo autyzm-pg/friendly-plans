@@ -17,13 +17,13 @@ public class PlanListActivity extends AppCompatActivity {
 
     private PlanRecyclerViewAdapter planListAdapter;
 
-    PlanRecyclerViewAdapter.PlanItemClickListener planItemClickListener =
-            new PlanRecyclerViewAdapter.PlanItemClickListener() {
-                @Override
-                public void onPlanItemClick(int position) {
-
-                }
-            };
+//    PlanRecyclerViewAdapter.PlanItemClickListener planItemClickListener =
+//            new PlanRecyclerViewAdapter.PlanItemClickListener() {
+//                @Override
+//                public void onPlanItemClick(int position) {
+//
+//                }
+//            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class PlanListActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_plan_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        planListAdapter = new PlanRecyclerViewAdapter(planItemClickListener);
+        planListAdapter = new PlanRecyclerViewAdapter();
         recyclerView.setAdapter(planListAdapter);
     }
 }
