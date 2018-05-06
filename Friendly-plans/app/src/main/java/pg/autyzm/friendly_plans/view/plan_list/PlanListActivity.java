@@ -17,14 +17,6 @@ public class PlanListActivity extends AppCompatActivity {
 
     private PlanRecyclerViewAdapter planListAdapter;
 
-//    PlanRecyclerViewAdapter.PlanItemClickListener planItemClickListener =
-//            new PlanRecyclerViewAdapter.PlanItemClickListener() {
-//                @Override
-//                public void onPlanItemClick(int position) {
-//
-//                }
-//            };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

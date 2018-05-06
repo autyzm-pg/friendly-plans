@@ -6,7 +6,6 @@
   android:padding="8dp"
   android:orientation="horizontal">
 
-  <!--task name-->
   <TextView
     android:id="@+id/id_tv_plan_name"
     android:layout_width="0dp"
