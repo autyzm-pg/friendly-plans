@@ -25,7 +25,6 @@ import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.test_helpers.AppComponentBuilder;
 import pg.autyzm.friendly_plans.test_helpers.AppComponentInjector;
-import pg.autyzm.friendly_plans.validation.StepValidation;
 import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 
