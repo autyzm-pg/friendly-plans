@@ -49,7 +49,6 @@ android {
             includeAndroidResources = true
         }
     }
-
 }
 
 greendao {
@@ -108,4 +107,3 @@ android.applicationVariants.all { variant ->
         assembleDebug.finalizedBy('assembleDebugUnitTest')
     }
 }
-

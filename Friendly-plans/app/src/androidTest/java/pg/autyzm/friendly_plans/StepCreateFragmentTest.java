@@ -11,7 +11,6 @@ import android.view.WindowManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +24,8 @@ import database.entities.StepTemplate;
 import database.repository.AssetRepository;
 import database.repository.StepTemplateRepository;
 import database.repository.TaskTemplateRepository;
+import pg.autyzm.friendly_plans.annotations.IgnoreForTravis;
+
 import pg.autyzm.friendly_plans.resource.AssetTestRule;
 import pg.autyzm.friendly_plans.resource.DaoSessionResource;
 import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
@@ -51,7 +52,7 @@ public class StepCreateFragmentTest {
     private static final String TASK_EXPECTED_DURATION_TXT = "1";
 
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
-    
+
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
 
@@ -127,8 +128,7 @@ public class StepCreateFragmentTest {
     }
 
     @Test
-    public void whenAddingANewStepWithoutSoundExpectStepToBeAddedWithoutSound()
-            throws IOException, InterruptedException {
+    public void whenAddingANewStepWithoutSoundExpectStepToBeAddedWithoutSound() {
         onView(withId(R.id.id_et_step_name))
                 .perform(replaceText(EXPECTED_NAME));
         closeSoftKeyboard();
@@ -186,7 +186,7 @@ public class StepCreateFragmentTest {
         assertThat(stepTemplates.get(0).getPictureId(), is(assets.get(0).getId()));
     }
 
-    @Ignore
+    @IgnoreForTravis
     @Test
     public void whenSettingSoundExpectSoundNameAndBtnsAreDisplayed()
              throws IOException, InterruptedException {
@@ -206,6 +206,7 @@ public class StepCreateFragmentTest {
                 .check(matches(isDisplayed()));
     }
 
+    @IgnoreForTravis
     @Test
     public void whenSoundCrossBtnIsPressedPlayAndCrossBtnsAreNotDisplayed()
             throws IOException, InterruptedException {
