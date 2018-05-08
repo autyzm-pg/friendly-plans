@@ -48,7 +48,6 @@ import static org.mockito.Mockito.when;
 public class StepCreateFragmentTest {
 
     private static final String TEST_FILE_PATH = "Test";
-    private final static Long TASK_TEMPLATE_ID = 4L;
 
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
