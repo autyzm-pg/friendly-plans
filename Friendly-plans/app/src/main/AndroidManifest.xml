@@ -23,6 +23,9 @@
       android:screenOrientation="landscape">
     </activity>
     <activity
+      android:name=".view.plan_list.PlanListActivity"
+      android:screenOrientation="landscape"/>
+    <activity
       android:name=".view.task_create.TaskCreateActivity"
       android:screenOrientation="landscape">
     </activity>
