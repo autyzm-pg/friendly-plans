@@ -109,7 +109,6 @@ public class TaskCreateFragment extends Fragment implements TaskCreateActivityEv
         labelTaskName = (TextView) view.findViewById(R.id.id_tv_task_name_label);
         Utils.markFieldMandatory(labelTaskName);
         labelDurationTime = (TextView) view.findViewById(R.id.id_tv_task_duration_time);
-        Utils.markFieldMandatory(labelDurationTime);
         taskName = (EditText) view.findViewById(R.id.id_et_task_name);
         taskPicture = (EditText) view.findViewById(R.id.id_et_task_picture);
         taskSound = (EditText) view.findViewById(R.id.id_et_task_sound);
@@ -135,8 +134,13 @@ public class TaskCreateFragment extends Fragment implements TaskCreateActivityEv
 
     private Long addTask() {
         try {
+            Integer duration = null;
+            if (!taskDurationTime.getText().toString().isEmpty()) {
+                duration = Integer.valueOf(taskDurationTime.getText().toString());
+            }
+
             long taskId = taskTemplateRepository.create(taskName.getText().toString(),
-                    Integer.valueOf(taskDurationTime.getText().toString()),
+                    duration,
                     pictureId,
                     soundId);
             showToastMessage(R.string.task_saved_message);

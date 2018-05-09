@@ -13,7 +13,7 @@ public class TaskTemplateRepository {
         this.daoSession = daoSession;
     }
 
-    public long create(String name, int durationTime, Long pictureId, Long soundId) {
+    public long create(String name, Integer durationTime, Long pictureId, Long soundId) {
         TaskTemplate taskTemplate = new TaskTemplate();
         taskTemplate.setName(name);
         taskTemplate.setDurationTime(durationTime);
