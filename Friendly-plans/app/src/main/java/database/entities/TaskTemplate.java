@@ -17,7 +17,7 @@ public class TaskTemplate {
 
     private String name;
 
-    private int durationTime;
+    private Integer durationTime;
 
     private Long pictureId;
 
@@ -53,8 +53,8 @@ public class TaskTemplate {
     @Generated(hash = 286221468)
     private transient Long sound__resolvedKey;
 
-    @Generated(hash = 698044924)
-    public TaskTemplate(Long id, String name, int durationTime, Long pictureId, Long soundId) {
+    @Generated(hash = 1355262617)
+    public TaskTemplate(Long id, String name, Integer durationTime, Long pictureId, Long soundId) {
         this.id = id;
         this.name = name;
         this.durationTime = durationTime;
@@ -82,11 +82,11 @@ public class TaskTemplate {
         this.name = name;
     }
 
-    public int getDurationTime() {
+    public Integer getDurationTime() {
         return this.durationTime;
     }
 
-    public void setDurationTime(int durationTime) {
+    public void setDurationTime(Integer durationTime) {
         this.durationTime = durationTime;
     }
 
