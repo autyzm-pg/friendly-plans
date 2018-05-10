@@ -23,7 +23,7 @@ public class TaskTemplateRepository {
         return daoSession.getTaskTemplateDao().insert(taskTemplate);
     }
 
-    public void update(Long taskId, String name, int durationTime, Long pictureId, Long soundId) {
+    public void update(Long taskId, String name, Integer durationTime, Long pictureId, Long soundId) {
         TaskTemplate taskTemplate = new TaskTemplate();
         taskTemplate.setId(taskId);
         taskTemplate.setName(name);
