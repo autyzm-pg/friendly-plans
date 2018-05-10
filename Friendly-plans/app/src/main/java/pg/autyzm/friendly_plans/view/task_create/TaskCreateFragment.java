@@ -135,7 +135,8 @@ public class TaskCreateFragment extends Fragment implements TaskCreateActivityEv
     private Long addTask() {
         try {
             Integer duration = null;
-            if (!taskDurationTime.getText().toString().isEmpty()) {
+            if (!taskDurationTime.getText().toString().isEmpty() &&
+                    !taskDurationTime.getText().toString().equals("0")) {
                 duration = Integer.valueOf(taskDurationTime.getText().toString());
             }
 
@@ -154,9 +155,15 @@ public class TaskCreateFragment extends Fragment implements TaskCreateActivityEv
 
     private Long updateTask(Long taskId) {
         try {
+            Integer duration = null;
+            if (!taskDurationTime.getText().toString().isEmpty() &&
+                    !taskDurationTime.getText().toString().equals("0")) {
+                duration = Integer.valueOf(taskDurationTime.getText().toString());
+            }
+
             taskTemplateRepository.update(taskId,
                     taskName.getText().toString(),
-                    Integer.valueOf(taskDurationTime.getText().toString()),
+                    duration,
                     pictureId,
                     soundId);
             showToastMessage(R.string.task_saved_message);
@@ -207,7 +214,9 @@ public class TaskCreateFragment extends Fragment implements TaskCreateActivityEv
 
         TaskTemplate task = taskTemplateRepository.get(taskId);
         taskName.setText(task.getName());
-        taskDurationTime.setText(String.valueOf(task.getDurationTime()));
+        if (task.getDurationTime() != null){
+            taskDurationTime.setText(String.valueOf(task.getDurationTime()));
+        }
         Asset picture = task.getPicture();
         Asset sound = task.getSound();
         if (picture != null) {
