@@ -35,6 +35,8 @@ import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -43,12 +45,15 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertNull;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
+import static pg.autyzm.friendly_plans.matcher.ErrorTextMatcher.hasErrorText;
 
 @RunWith(AndroidJUnit4.class)
 public class StepCreateFragmentTest {
 
     private static final String EXPECTED_NAME = "TEST STEP";
     private static final String TASK_EXPECTED_NAME = "TEST TASK";
+    private static final String BAD_STEP_NAME = "Bad step name!@";
+
     private static final String TASK_EXPECTED_DURATION_TXT = "1";
 
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
@@ -224,6 +229,55 @@ public class StepCreateFragmentTest {
                 .check(matches(not(isDisplayed())));
     }
 
+
+    @Test
+    public void whenAddingNewStepAndNameIsEmptyExpectWarning() {
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_btn_save_step))
+                .perform(click());
+
+        onView(withId(R.id.id_et_step_name))
+                .check(matches(hasErrorText(
+                        activityRule.getActivity().getString(R.string.not_empty_msg))));
+    }
+    @Test
+    public void whenAddingNewStepAndForbiddenNameExpectWarning() {
+        onView(withId(R.id.id_et_step_name))
+                .perform(typeText(BAD_STEP_NAME));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_btn_save_step))
+                .perform(scrollTo());
+
+        onView(withId(R.id.id_btn_save_step))
+                .perform(click());
+
+        onView(withId(R.id.id_et_step_name))
+                .check(matches(hasErrorText(
+                        activityRule.getActivity().getString(R.string.only_letters_msg))));
+    }
+
+    @Test
+    public void whenAddStepWithExistingNameExpectWarning() {
+        stepIdsToDelete.add(stepTemplateRepository
+                .create(EXPECTED_NAME, 0,  null, null, taskId));
+
+        onView(withId(R.id.id_et_step_name))
+                .perform(typeText(EXPECTED_NAME));
+
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_btn_save_step))
+                .perform(scrollTo());
+
+        onView(withId(R.id.id_btn_save_step))
+                .perform(click());
+
+        onView(withId(R.id.id_et_step_name))
+                .check(matches(hasErrorText(
+                        activityRule.getActivity().getString(R.string.name_exist_msg))));
+    }
 
     private void storeStepsToDelete(List<StepTemplate> stepTemplates){
         for (StepTemplate storedStep : stepTemplates) {
