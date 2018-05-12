@@ -1,6 +1,7 @@
 package pg.autyzm.friendly_plans.view.plan_create;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import pg.autyzm.friendly_plans.AppComponent;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.FragmentPlanCreateBinding;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
+import pg.autyzm.friendly_plans.view.plan_create_task_list.PlanTaskListFragment;
 
 public class PlanCreateFragment extends Fragment implements PlanCreateActivityEvents {
 
@@ -67,6 +69,16 @@ public class PlanCreateFragment extends Fragment implements PlanCreateActivityEv
     @Override
     public void savePlanData(PlanCreateData planCreateData) {
         addPlan(planCreateData.getPlanName());
+        showPlanTaskList();
     }
 
+    private void showPlanTaskList() {
+        PlanTaskListFragment fragment = new PlanTaskListFragment();
+
+        FragmentTransaction transaction = getFragmentManager()
+                .beginTransaction();
+        transaction.replace(R.id.plan_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 }
