@@ -1,6 +1,7 @@
 package pg.autyzm.friendly_plans;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -51,5 +52,30 @@ public class PlanListActivityTest {
                 .atPosition(testedPlanPosition))
                 .check(matches(hasDescendant(withText(expectedName
                         + testedPlanPosition))));
+    }
+
+    @Test
+    public void searchForASinglePlan() {
+        final int testedPlanPosition = 5;
+
+        onView(withId(R.id.et_search_plan_list)).perform(typeText(expectedName + testedPlanPosition));
+        onView(withRecyclerView(R.id.rv_plan_list)
+                .atPosition(0))
+                .check(matches(hasDescendant(withText(expectedName
+                        + testedPlanPosition))));
+    }
+
+    @Test
+    public void searchForEveryPlan() {
+        final int numberOfPlans = 10;
+
+        onView(withId(R.id.et_search_plan_list)).perform(typeText(expectedName.charAt(0)+ ""));
+        for (int planNumber = 0; planNumber < numberOfPlans; planNumber++) {
+            onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(planNumber));
+            onView(withRecyclerView(R.id.rv_plan_list)
+                    .atPosition(planNumber))
+                    .check(matches(hasDescendant(withText(expectedName
+                            + planNumber))));
+        }
     }
 }

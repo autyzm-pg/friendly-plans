@@ -5,12 +5,26 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-  <android.support.v7.widget.RecyclerView
-    android:id="@+id/rv_plan_list"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="8dp"
-    android:scrollbars="vertical"
-    tools:listitem="@layout/item_plan">
-  </android.support.v7.widget.RecyclerView>
+
+    <EditText
+        android:id="@+id/et_search_plan_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rv_plan_list"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-55dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/search" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_plan_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="52dp"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/item_plan" />
+
 </RelativeLayout>

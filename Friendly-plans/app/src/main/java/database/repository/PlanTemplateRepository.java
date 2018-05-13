@@ -27,7 +27,7 @@ public class PlanTemplateRepository {
     public List<PlanTemplate> get(String planName) {
         return daoSession.getPlanTemplateDao()
                 .queryBuilder()
-                .where(PlanTemplateDao.Properties.Name.eq(planName))
+                .where(PlanTemplateDao.Properties.Name.like("%" + planName + "%"))
                 .list();
     }
     public List<PlanTemplate> getAll() {
