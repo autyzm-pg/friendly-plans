@@ -6,16 +6,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import javax.inject.Inject;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.FragmentPlanTaskListBinding;
-import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 
 public class PlanTaskListFragment extends Fragment {
-
-    @Inject
-    ToastUserNotifier toastUserNotifier;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
