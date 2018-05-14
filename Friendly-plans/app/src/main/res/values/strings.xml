@@ -39,6 +39,8 @@
   <string name="step_removed_message">Step removed</string>
   <string name="step_saved_message">Step saved</string>
   <string name="steps_reordered_message">Steps reordered and saved</string>
+  <string name="create_plan_tasks_list_info">Step 2.1: Add new tasks and put them in order</string>
+  <string name="create_plan_add_tasks">Add tasks</string>
   <!--Validation messages-->
   <string name="only_letters_msg">Only letters and numbers are allowed</string>
   <string name="name_exist_msg">Name already exists</string>
