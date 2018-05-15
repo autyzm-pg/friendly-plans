@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import database.entities.PlanTemplate;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import pg.autyzm.friendly_plans.R;
 
@@ -19,7 +19,7 @@ public class PlanRecyclerViewAdapter extends
 
     PlanRecyclerViewAdapter(PlanItemClickListener planItemClickListener) {
         this.planItemClickListener = planItemClickListener;
-        this.planItemList = Collections.emptyList();
+        this.planItemList = new ArrayList<>();
     }
 
     interface PlanItemClickListener {
