@@ -14,7 +14,7 @@ import pg.autyzm.friendly_plans.R;
 public class PlanRecyclerViewAdapter extends
         RecyclerView.Adapter<PlanRecyclerViewAdapter.PlanListViewHolder> {
 
-    private static List<PlanTemplate> planItemList;
+    private List<PlanTemplate> planItemList;
     private PlanItemClickListener planItemClickListener;
 
     PlanRecyclerViewAdapter(PlanItemClickListener planItemClickListener) {
@@ -32,7 +32,7 @@ public class PlanRecyclerViewAdapter extends
             int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_plan, parent, false);
-        return new PlanRecyclerViewAdapter.PlanListViewHolder(view, planItemClickListener);
+        return new PlanRecyclerViewAdapter.PlanListViewHolder(view, planItemClickListener, planItemList);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class PlanRecyclerViewAdapter extends
         TextView planName;
         ImageButton removeButton;
 
-        PlanListViewHolder(View itemView, final PlanItemClickListener planItemClickListener) {
+        PlanListViewHolder(View itemView, final PlanItemClickListener planItemClickListener, final List<PlanTemplate> planItemList) {
             super(itemView);
             this.planName = (TextView) itemView
                     .findViewById(R.id.id_tv_plan_name);
