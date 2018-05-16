@@ -2,11 +2,22 @@ package pg.autyzm.friendly_plans.view.task_create;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+
+import javax.inject.Inject;
+
+import pg.autyzm.friendly_plans.App;
+import pg.autyzm.friendly_plans.AppComponent;
 import pg.autyzm.friendly_plans.R;
+import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 
 public class TaskCreateActivity extends FragmentActivity {
+
+    @Inject
+    ToastUserNotifier toastUserNotifier;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,5 +38,25 @@ public class TaskCreateActivity extends FragmentActivity {
                 .beginTransaction()
                 .add(R.id.task_menu, new TaskMenuFragment())
                 .commit();
+
+        AppComponent appComponent = ((App) getApplication()).getAppComponent();
+        appComponent.inject(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int permsRequestCode, String[] permissions, int[] grantResults) {
+        if(permsRequestCode == 1) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                toastUserNotifier.displayNotifications(
+                        R.string.storage_permission_granted,
+                        getApplicationContext());
+
+            } else {
+                toastUserNotifier.displayNotifications(
+                        R.string.storage_permission_denied,
+                        getApplicationContext());
+            }
+        }
     }
 }

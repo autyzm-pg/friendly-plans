@@ -22,6 +22,7 @@ import pg.autyzm.friendly_plans.view.plan_create_add_tasks.AddTasksToPlanFragmen
 import pg.autyzm.friendly_plans.view.plan_create_task_list.PlanTaskListFragment;
 import pg.autyzm.friendly_plans.view.plan_list.PlanListActivity;
 import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
+import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateFragment;
 import pg.autyzm.friendly_plans.validation.TaskValidation;
 import pg.autyzm.friendly_plans.validation.ValidationModule;
@@ -65,6 +66,9 @@ public interface AppComponent {
 
     @SuppressWarnings("unused")
     AssetsHelper assetsHelper();
+
+
+    void inject(TaskCreateActivity taskCreateActivity);
 
     void inject(TaskCreateFragment activity);
 
