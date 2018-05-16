@@ -45,22 +45,17 @@ public class TaskCreateActivity extends FragmentActivity {
 
     @Override
     public void onRequestPermissionsResult(int permsRequestCode, String[] permissions, int[] grantResults) {
+        if(permsRequestCode == 1) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                toastUserNotifier.displayNotifications(
+                        R.string.storage_permission_granted,
+                        getApplicationContext());
 
-        switch (permsRequestCode) {
-
-            case 1: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    toastUserNotifier.displayNotifications(
-                            R.string.storage_permission_granted,
-                            getApplicationContext());
-
-                } else {
-                    toastUserNotifier.displayNotifications(
-                            R.string.storage_permission_denied,
-                            getApplicationContext());
-                }
-                return;
+            } else {
+                toastUserNotifier.displayNotifications(
+                        R.string.storage_permission_denied,
+                        getApplicationContext());
             }
         }
     }
