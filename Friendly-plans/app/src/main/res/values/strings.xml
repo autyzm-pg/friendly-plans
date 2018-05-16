@@ -42,6 +42,9 @@
   <string name="steps_reordered_message">Steps reordered and saved</string>
   <string name="create_plan_tasks_list_info">Step 2.1: Add new tasks and put them in order</string>
   <string name="create_plan_add_tasks">Add tasks</string>
+  <string name="storage_permission_granted">Permission granted. You can now select the file</string>
+  <string name="storage_permission_denied">Permission denied. You can\'t add files from storage</string>
+
   <!--Validation messages-->
   <string name="only_letters_msg">Only letters and numbers are allowed</string>
   <string name="name_exist_msg">Name already exists</string>
