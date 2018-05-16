@@ -31,6 +31,8 @@
   <string name="plan_create_description">Step 1: Enter plan\'s name</string>
   <string name="plan_name">Plan\'s name:</string>
   <string name="name">Name</string>
+  <string name="add">Add</string>
+  <string name="create_plan_add_tasks_info">Step 2.2: Select tasks which you\'d like to add</string>
   <string name="plan_saved_message">Plan saved</string>
   <string name="plan_removed_message">Plan removed</string>
   <string name="tasks">Tasks</string>

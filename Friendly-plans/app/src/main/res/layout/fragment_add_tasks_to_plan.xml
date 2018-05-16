@@ -1,9 +1,4 @@
 <layout>
-  <data>
-    <variable
-      name="planTaskListEvents"
-      type="pg.autyzm.friendly_plans.view.plan_create_task_list.PlanTaskListEvents"/>
-  </data>
   <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,29 +11,24 @@
       android:weightSum="1">
 
       <TextView
-        android:id="@+id/id_tv_plan_tasks_list_info"
+        android:id="@+id/id_tv_add_tasks_to_plan_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1.00"
         android:background="#cccccc"
-        android:text="@string/create_plan_tasks_list_info"
+        android:text="@string/create_plan_add_tasks_info"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
+
       <Button
-        android:id="@+id/id_btn_create_plan_add_tasks"
+        android:id="@+id/id_btn_add_tasks_to_plan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="@{planTaskListEvents::eventAddTasksToPlan}"
-        android:text="@string/create_plan_add_tasks"/>
-      <Button
-        android:id="@+id/id_btn_save_plan_tasks"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/save"/>
+        android:text="@string/add"/>
 
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-      android:id="@+id/rv_create_plan_task_list"
+      android:id="@+id/rv_create_plan_add_tasks"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_marginLeft="8dp"
