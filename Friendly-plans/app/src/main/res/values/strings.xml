@@ -32,6 +32,7 @@
   <string name="plan_name">Plan\'s name:</string>
   <string name="name">Name</string>
   <string name="plan_saved_message">Plan saved</string>
+  <string name="plan_removed_message">Plan removed</string>
   <string name="tasks">Tasks</string>
   <string name="break_time_tasks">Break time tasks</string>
   <string name="task_saved_message">Task saved</string>
