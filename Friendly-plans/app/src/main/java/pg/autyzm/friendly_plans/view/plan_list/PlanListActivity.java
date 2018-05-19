@@ -20,7 +20,6 @@ public class PlanListActivity extends AppCompatActivity {
     PlanTemplateRepository planTemplateRepository;
 
     private PlanRecyclerViewAdapter planListAdapter;
-    private EditText etSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +29,7 @@ public class PlanListActivity extends AppCompatActivity {
         setUpViews();
         planListAdapter.setPlanItems(planTemplateRepository.getAll());
 
-        etSearch = (EditText) findViewById(R.id.et_search_plan_list);
+        EditText etSearch = (EditText) findViewById(R.id.et_search_plan_list);
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -38,9 +37,11 @@ public class PlanListActivity extends AppCompatActivity {
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,int after) {
+                // TextWatcher method
             }
             @Override
             public void afterTextChanged(Editable s) {
+                // TextWatcher method
             }
         });
     }
