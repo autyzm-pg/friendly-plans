@@ -7,12 +7,18 @@ import static android.support.test.espresso.contrib.RecyclerViewActions.scrollTo
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.not;
 import static pg.autyzm.friendly_plans.matcher.RecyclerViewMatcher.withRecyclerView;
 
 import android.content.Intent;
+import android.support.test.espresso.UiController;
+import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
 import database.repository.PlanTemplateRepository;
+import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -77,5 +83,37 @@ public class PlanListActivityTest {
                     .check(matches(hasDescendant(withText(expectedName
                             + planNumber))));
         }
+
+    public void whenPlanIsRemovedExpectPlanIsNotOnTheList() {
+        final int testedTaskPosition = 3;
+        onView(withId(R.id.rv_plan_list))
+                .perform(RecyclerViewActions
+                        .actionOnItemAtPosition(testedTaskPosition,
+                                clickChildViewWithId(R.id.id_remove_plan)));
+        onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(testedTaskPosition));
+        onView(withRecyclerView(R.id.rv_plan_list)
+                .atPosition(testedTaskPosition))
+                .check(matches(not(hasDescendant(withText(expectedName
+                        + testedTaskPosition)))));
+    }
+
+    public static ViewAction clickChildViewWithId(final int id) {
+        return new ViewAction() {
+            @Override
+            public Matcher<View> getConstraints() {
+                return null;
+            }
+
+            @Override
+            public String getDescription() {
+                return null;
+            }
+
+            @Override
+            public void perform(UiController uiController, View view) {
+                View v = view.findViewById(id);
+                v.performClick();
+            }
+        };
     }
 }
