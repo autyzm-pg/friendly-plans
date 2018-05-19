@@ -34,7 +34,7 @@ public class PlanListActivity extends AppCompatActivity {
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                planListAdapter.setPlanItems(planTemplateRepository.get(s.toString()));
+                planListAdapter.setPlanItems(planTemplateRepository.getFilteredByName(s.toString()));
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,int after) {
