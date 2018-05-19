@@ -75,7 +75,7 @@ public class PlanListActivityTest {
     public void searchForEveryPlan() {
         final int numberOfPlans = 10;
 
-        onView(withId(R.id.et_search_plan_list)).perform(typeText(expectedName.charAt(0)+ ""));
+        onView(withId(R.id.et_search_plan_list)).perform(typeText(expectedName.charAt(0) + ""));
         for (int planNumber = 0; planNumber < numberOfPlans; planNumber++) {
             onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(planNumber));
             onView(withRecyclerView(R.id.rv_plan_list)
@@ -83,6 +83,7 @@ public class PlanListActivityTest {
                     .check(matches(hasDescendant(withText(expectedName
                             + planNumber))));
         }
+    }
 
     public void whenPlanIsRemovedExpectPlanIsNotOnTheList() {
         final int testedTaskPosition = 3;
