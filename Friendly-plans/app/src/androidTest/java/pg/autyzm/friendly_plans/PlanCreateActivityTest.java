@@ -6,6 +6,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.Is.is;
@@ -24,6 +25,7 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import pg.autyzm.friendly_plans.matcher.ToastMatcher;
 import pg.autyzm.friendly_plans.resource.DaoSessionResource;
 import pg.autyzm.friendly_plans.view.plan_create.PlanCreateActivity;
 
@@ -31,6 +33,7 @@ import pg.autyzm.friendly_plans.view.plan_create.PlanCreateActivity;
 public class PlanCreateActivityTest {
 
     private static final String EXPECTED_NAME = "PLANS NAME";
+    private static final String DUPLICATED_NAME = "DUPLICATED NAME";
 
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
@@ -46,6 +49,9 @@ public class PlanCreateActivityTest {
     public void setUp() {
         Context context = activityRule.getActivity().getApplicationContext();
         planTemplateRepository = new PlanTemplateRepository(daoSessionResource.getSession(context));
+
+        long id = planTemplateRepository.create(DUPLICATED_NAME);
+        idsToDelete.add(id);
     }
 
     @Before
@@ -93,4 +99,19 @@ public class PlanCreateActivityTest {
         assertThat(planTemplates.get(0).getName(), is(EXPECTED_NAME));
     }
 
+    @Test
+    public void whenAddingNewPlanAndPlanAlreadyExistsExpectPlanNotAdded() {
+        onView(withId(R.id.id_et_plan_name))
+                .perform(replaceText(DUPLICATED_NAME));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_btn_plan_next))
+                .perform(click());
+
+        onView(withText(R.string.name_exist_msg)).inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
+
+        List<PlanTemplate> planTemplates = planTemplateRepository.get(DUPLICATED_NAME);
+        assertThat(planTemplates.size(), is(1));
+    }
 }
