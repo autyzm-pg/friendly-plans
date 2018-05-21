@@ -108,6 +108,8 @@ public class PlanCreateActivityTest {
         onView(withId(R.id.id_btn_plan_next))
                 .perform(click());
 
+        closeSoftKeyboard();
+
         onView(withText(R.string.name_exist_msg)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
 
