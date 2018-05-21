@@ -60,7 +60,6 @@ public class TaskCreateFragment extends Fragment implements TaskCreateActivityEv
     ToastUserNotifier toastUserNotifier;
 
     private TextView labelTaskName;
-    private TextView labelDurationTime;
     private EditText taskName;
     private EditText taskPicture;
     private EditText taskSound;
@@ -108,7 +107,6 @@ public class TaskCreateFragment extends Fragment implements TaskCreateActivityEv
     private void registerViews(View view) {
         labelTaskName = (TextView) view.findViewById(R.id.id_tv_task_name_label);
         Utils.markFieldMandatory(labelTaskName);
-        labelDurationTime = (TextView) view.findViewById(R.id.id_tv_task_duration_time);
         taskName = (EditText) view.findViewById(R.id.id_et_task_name);
         taskPicture = (EditText) view.findViewById(R.id.id_et_task_picture);
         taskSound = (EditText) view.findViewById(R.id.id_et_task_sound);
@@ -134,12 +132,7 @@ public class TaskCreateFragment extends Fragment implements TaskCreateActivityEv
 
     private Long addTask() {
         try {
-            Integer duration = null;
-            if (!taskDurationTime.getText().toString().isEmpty() &&
-                    !taskDurationTime.getText().toString().equals("0")) {
-                duration = Integer.valueOf(taskDurationTime.getText().toString());
-            }
-
+            Integer duration = getDuration();
             long taskId = taskTemplateRepository.create(taskName.getText().toString(),
                     duration,
                     pictureId,
@@ -155,12 +148,7 @@ public class TaskCreateFragment extends Fragment implements TaskCreateActivityEv
 
     private Long updateTask(Long taskId) {
         try {
-            Integer duration = null;
-            if (!taskDurationTime.getText().toString().isEmpty() &&
-                    !taskDurationTime.getText().toString().equals("0")) {
-                duration = Integer.valueOf(taskDurationTime.getText().toString());
-            }
-
+            Integer duration = getDuration();
             taskTemplateRepository.update(taskId,
                     taskName.getText().toString(),
                     duration,
@@ -306,6 +294,14 @@ public class TaskCreateFragment extends Fragment implements TaskCreateActivityEv
         toastUserNotifier.displayNotifications(
                 resourceStringId,
                 getActivity().getApplicationContext());
+    }
+
+    private Integer getDuration() {
+        if (!taskDurationTime.getText().toString().isEmpty() &&
+                !taskDurationTime.getText().toString().equals("0")) {
+            return Integer.valueOf(taskDurationTime.getText().toString());
+        }
+        return null;
     }
 
     @Override
