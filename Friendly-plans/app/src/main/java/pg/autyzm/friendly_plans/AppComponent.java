@@ -18,7 +18,11 @@ import pg.autyzm.friendly_plans.notifications.ToastUserNotifierModule;
 import pg.autyzm.friendly_plans.view.components.SoundComponent;
 import pg.autyzm.friendly_plans.string_provider.StringProviderModule;
 import pg.autyzm.friendly_plans.view.plan_create.PlanCreateFragment;
+import pg.autyzm.friendly_plans.view.plan_create_add_tasks.AddTasksToPlanFragment;
+import pg.autyzm.friendly_plans.view.plan_create_task_list.PlanTaskListFragment;
+import pg.autyzm.friendly_plans.view.plan_list.PlanListActivity;
 import pg.autyzm.friendly_plans.view.step_create.StepCreateFragment;
+import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateFragment;
 import pg.autyzm.friendly_plans.validation.TaskValidation;
 import pg.autyzm.friendly_plans.validation.ValidationModule;
@@ -63,6 +67,9 @@ public interface AppComponent {
     @SuppressWarnings("unused")
     AssetsHelper assetsHelper();
 
+
+    void inject(TaskCreateActivity taskCreateActivity);
+
     void inject(TaskCreateFragment activity);
 
     void inject(TaskListActivity activity);
@@ -70,6 +77,12 @@ public interface AppComponent {
     void inject(StepListFragment stepListFragment);
 
     void inject(PlanCreateFragment activity);
+
+    void inject(PlanListActivity activity);
+
+    void inject(PlanTaskListFragment planTaskListFragment);
+
+    void inject(AddTasksToPlanFragment addTasksToPlanFragment);
 
     void inject(StepCreateFragment stepCreateFragment);
 

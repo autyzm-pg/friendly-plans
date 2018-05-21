@@ -30,8 +30,14 @@ public class PlanTemplateRepository {
                 .where(PlanTemplateDao.Properties.Name.eq(planName))
                 .list();
     }
-
+    public List<PlanTemplate> getAll() {
+        return daoSession.getPlanTemplateDao().loadAll();
+    }
     public void delete(Long id) {
         daoSession.getPlanTemplateDao().deleteByKey(id);
+    }
+
+    public void deleteAll() {
+        daoSession.getPlanTemplateDao().deleteAll();
     }
 }

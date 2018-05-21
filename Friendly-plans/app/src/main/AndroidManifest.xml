@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="pg.autyzm.friendly_plans">
 
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
   <application
     android:allowBackup="true"
     android:icon="@mipmap/ic_launcher"
@@ -22,6 +24,9 @@
       android:name=".view.plan_create.PlanCreateActivity"
       android:screenOrientation="landscape">
     </activity>
+    <activity
+      android:name=".view.plan_list.PlanListActivity"
+      android:screenOrientation="landscape"/>
     <activity
       android:name=".view.task_create.TaskCreateActivity"
       android:screenOrientation="landscape">

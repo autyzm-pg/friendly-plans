@@ -9,4 +9,6 @@ public interface MainActivityEvents {
     void eventCreateTask(View view);
 
     void eventCreatePlan(View view);
+
+    void eventShowPlanList(View view);
 }
