@@ -61,11 +61,6 @@ public class TaskValidation extends Validation {
             return new ValidationResult(ValidationStatus.VALID);
         }
 
-        ValidationResult validationResult = isNumber(duration);
-        if (validationResult.getValidationStatus() == ValidationStatus.INVALID) {
-            return validationResult;
-        }
-
-        return new ValidationResult(ValidationStatus.VALID);
+        return isNumber(duration);
     }
 }
