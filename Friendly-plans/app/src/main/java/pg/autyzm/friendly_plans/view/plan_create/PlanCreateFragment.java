@@ -25,7 +25,6 @@ import pg.autyzm.friendly_plans.view.plan_create_task_list.PlanTaskListFragment;
 
 public class PlanCreateFragment extends Fragment implements PlanCreateActivityEvents {
 
-
     @Inject
     PlanTemplateRepository planTemplateRepository;
 
@@ -53,6 +52,21 @@ public class PlanCreateFragment extends Fragment implements PlanCreateActivityEv
         return view;
     }
 
+    @Override
+    public void savePlanData(PlanCreateData planCreateData) {
+        Long planId = addPlan(planCreateData.getPlanName());
+        if (planId != null) {
+            showPlanTaskList();
+        }
+    }
+
+    @Nullable
+    private Long handleSavingError(RuntimeException exception) {
+        Log.e("Plan Create View", "Error saving plan", exception);
+        showToastMessage(R.string.save_plan_error_message);
+        return null;
+    }
+
     private Long addPlan(String planName) {
         if (validateName(planName)) {
             try {
@@ -66,23 +80,10 @@ public class PlanCreateFragment extends Fragment implements PlanCreateActivityEv
         return null;
     }
 
-    @Nullable
-    private Long handleSavingError(RuntimeException exception) {
-        Log.e("Plan Create View", "Error saving plan", exception);
-        showToastMessage(R.string.save_plan_error_message);
-        return null;
-    }
-
     private void showToastMessage(int resourceStringId) {
         toastUserNotifier.displayNotifications(
                 resourceStringId,
                 getActivity().getApplicationContext());
-    }
-
-    @Override
-    public void savePlanData(PlanCreateData planCreateData) {
-        addPlan(planCreateData.getPlanName());
-        showPlanTaskList();
     }
 
     private boolean validateName(String taskName) {
@@ -100,8 +101,6 @@ public class PlanCreateFragment extends Fragment implements PlanCreateActivityEv
         }
         return true;
     }
-
-
 
     private void showPlanTaskList() {
         PlanTaskListFragment fragment = new PlanTaskListFragment();
