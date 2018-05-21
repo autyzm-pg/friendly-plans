@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import database.repository.StepTemplateRepository;
+import database.repository.PlanTemplateRepository;
 import database.repository.TaskTemplateRepository;
 import pg.autyzm.friendly_plans.string_provider.StringsProvider;
 
@@ -18,6 +19,12 @@ public class ValidationModule {
         return new TaskValidation(stringsProvider, taskTemplateRepository);
     }
 
+    @Provides
+    @Singleton
+    public PlanValidation getPlanValidation(
+            StringsProvider stringsProvider, PlanTemplateRepository planTemplateRepository) {
+        return new PlanValidation(stringsProvider, planTemplateRepository);
+    }
 
     @Provides
     @Singleton
