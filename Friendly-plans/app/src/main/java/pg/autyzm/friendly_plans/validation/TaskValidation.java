@@ -57,9 +57,8 @@ public class TaskValidation extends Validation {
     }
 
     public ValidationResult isDurationValid(String duration) {
-        ValidationResult validationResult = isStringEmpty(duration);
-        if (validationResult.getValidationStatus().equals(ValidationStatus.INVALID)) {
-            return validationResult;
+        if (duration.isEmpty()) {
+            return new ValidationResult(ValidationStatus.VALID);
         }
 
         return isNumber(duration);

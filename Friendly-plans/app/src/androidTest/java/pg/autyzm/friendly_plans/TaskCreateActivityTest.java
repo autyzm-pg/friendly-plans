@@ -269,7 +269,7 @@ public class TaskCreateActivityTest {
     }
 
     @Test
-    public void whenAddingNewTaskAndDurationIsEmptyExpectWarning() {
+    public void whenAddingNewTaskWithoutDurationExpectTaskToBeAddedWithoutDuration() {
         onView(withId(R.id.id_et_task_name))
                 .perform(typeText(EXPECTED_NAME));
         closeSoftKeyboard();
@@ -280,9 +280,11 @@ public class TaskCreateActivityTest {
         onView(withId(R.id.id_btn_steps))
                 .perform(click());
 
-        onView(withId(R.id.id_et_task_duration_time))
-                .check(matches(hasErrorText(
-                        activityRule.getActivity().getString(R.string.not_empty_msg))));
+        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
+        idsToDelete.add(taskTemplates.get(0).getId());
+
+        assertThat(taskTemplates.size(), is(1));
+        assertNull(taskTemplates.get(0).getDurationTime());
     }
 
     @Test

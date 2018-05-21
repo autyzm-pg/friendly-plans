@@ -34,7 +34,6 @@ public abstract class Validation {
                 stringProvider.getString(R.string.only_numbers_msg));
     }
 
-
     ValidationResult isNameValid(String name) {
         ValidationResult validationResult = isStringEmpty(name);
         if (validationResult.getValidationStatus() == ValidationStatus.INVALID) {
