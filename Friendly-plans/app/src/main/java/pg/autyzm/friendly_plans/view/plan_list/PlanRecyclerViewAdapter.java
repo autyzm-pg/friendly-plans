@@ -40,6 +40,7 @@ public class PlanRecyclerViewAdapter extends
         if (planItemList != null && !planItemList.isEmpty()) {
             PlanTemplate planItem = planItemList.get(position);
             holder.planName.setText(planItem.getName());
+            holder.planItemList = planItemList;
         }
     }
 
@@ -58,20 +59,25 @@ public class PlanRecyclerViewAdapter extends
 
         TextView planName;
         ImageButton removeButton;
-
-        PlanListViewHolder(View itemView, final PlanItemClickListener planItemClickListener, final List<PlanTemplate> planItemList) {
+        PlanItemClickListener planItemClickListener;
+        List<PlanTemplate> planItemList;
+        PlanListViewHolder(View itemView, PlanItemClickListener planItemClickListener, List<PlanTemplate> planItemList) {
             super(itemView);
             this.planName = (TextView) itemView
                     .findViewById(R.id.id_tv_plan_name);
             this.removeButton = (ImageButton) itemView
                     .findViewById(R.id.id_remove_plan);
-            this.removeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    long id = planItemList.get(getAdapterPosition()).getId();
-                    planItemClickListener.onRemovePlanClick(id);
-                }
-            });
+            this.planItemList = planItemList;
+            this.planItemClickListener = planItemClickListener;
+            this.removeButton.setOnClickListener(deleteButtonListener);
         }
+
+        View.OnClickListener deleteButtonListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long id = planItemList.get(getAdapterPosition()).getId();
+                planItemClickListener.onRemovePlanClick(id);
+            }
+        };
     }
 }

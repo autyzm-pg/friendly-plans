@@ -1,12 +1,16 @@
 package pg.autyzm.friendly_plans;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
 import static pg.autyzm.friendly_plans.matcher.RecyclerViewMatcher.withRecyclerView;
 
@@ -30,6 +34,8 @@ import pg.autyzm.friendly_plans.view.plan_list.PlanListActivity;
 @RunWith(AndroidJUnit4.class)
 public class PlanListActivityTest {
 
+    private final int numberOfPlans = 10;
+
     private static final String expectedName = "TEST PLAN ";
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
@@ -39,7 +45,6 @@ public class PlanListActivityTest {
 
     @Before
     public void setUp() {
-        final int numberOfPlans = 10;
         PlanTemplateRepository planTemplateRepository = new PlanTemplateRepository(
                 daoSessionResource.getSession(activityRule.getActivity().getApplicationContext()));
         planTemplateRepository.deleteAll();
@@ -72,9 +77,18 @@ public class PlanListActivityTest {
     }
 
     @Test
-    public void searchForEveryPlan() {
-        final int numberOfPlans = 10;
+    public void searchForASinglePlanUsingOnlyOneCharacter() {
+        final int testedPlanPosition = 5;
 
+        onView(withId(R.id.et_search_plan_list)).perform(typeText(Integer.toString(testedPlanPosition)));
+        onView(withRecyclerView(R.id.rv_plan_list)
+                .atPosition(0))
+                .check(matches(hasDescendant(withText(expectedName
+                        + testedPlanPosition))));
+    }
+
+    @Test
+    public void searchForEveryPlan() {
         onView(withId(R.id.et_search_plan_list)).perform(typeText(expectedName.charAt(0) + ""));
         for (int planNumber = 0; planNumber < numberOfPlans; planNumber++) {
             onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(planNumber));
@@ -96,6 +110,37 @@ public class PlanListActivityTest {
                 .atPosition(testedTaskPosition))
                 .check(matches(not(hasDescendant(withText(expectedName
                         + testedTaskPosition)))));
+    }
+
+    @Test
+    public void whenSearchedPlanIsRemovedExpectNoPlansInSearch(){
+        final int testedPlanPosition = 5;
+
+        onView(withId(R.id.et_search_plan_list)).perform(typeText(expectedName + testedPlanPosition));
+        onView(withId(R.id.rv_plan_list))
+                .perform(RecyclerViewActions
+                        .actionOnItemAtPosition(0,
+                                clickChildViewWithId(R.id.id_remove_plan)));
+        onView(withRecyclerView(R.id.rv_plan_list)
+                .atPosition(0))
+                    .check(doesNotExist());
+    }
+
+    @Test
+    public void whenSearchPlanIsRemovedExpectItToBeRemoved(){
+        final int testedPlanPosition = 5;
+
+        onView(withId(R.id.et_search_plan_list)).perform(typeText(expectedName + testedPlanPosition));
+        onView(withId(R.id.rv_plan_list))
+                .perform(RecyclerViewActions
+                        .actionOnItemAtPosition(0,
+                                clickChildViewWithId(R.id.id_remove_plan)));
+        onView(withId(R.id.et_search_plan_list)).perform(clearText());
+        onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(testedPlanPosition));
+        onView(withRecyclerView(R.id.rv_plan_list)
+                .atPosition(testedPlanPosition))
+                    .check(matches(hasDescendant(withText(expectedName
+                        + (testedPlanPosition + 1)))));
     }
 
     public static ViewAction clickChildViewWithId(final int id) {

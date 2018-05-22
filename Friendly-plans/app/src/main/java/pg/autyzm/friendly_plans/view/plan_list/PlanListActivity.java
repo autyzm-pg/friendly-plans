@@ -21,6 +21,8 @@ public class PlanListActivity extends AppCompatActivity {
     @Inject
     ToastUserNotifier toastUserNotifier;
 
+    EditText searchField;
+
     private PlanRecyclerViewAdapter planListAdapter;
 
     PlanRecyclerViewAdapter.PlanItemClickListener planItemClickListener =
@@ -29,7 +31,7 @@ public class PlanListActivity extends AppCompatActivity {
                 @Override
                 public void onRemovePlanClick(long itemId) {
                     planTemplateRepository.delete(itemId);
-                    planListAdapter.setPlanItems(planTemplateRepository.getAll());
+                    searchField.setText(searchField.getText());
                     toastUserNotifier.displayNotifications(
                             R.string.plan_removed_message,
                             getApplicationContext());
@@ -44,8 +46,8 @@ public class PlanListActivity extends AppCompatActivity {
         setUpViews();
         planListAdapter.setPlanItems(planTemplateRepository.getAll());
 
-        EditText etSearch = (EditText) findViewById(R.id.et_search_plan_list);
-        etSearch.addTextChangedListener(new TextWatcher() {
+        searchField = (EditText) findViewById(R.id.et_search_plan_list);
+        searchField.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 planListAdapter.setPlanItems(planTemplateRepository.getFilteredByName(s.toString()));
