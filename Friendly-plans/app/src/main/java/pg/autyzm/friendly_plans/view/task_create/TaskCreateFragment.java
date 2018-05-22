@@ -179,15 +179,15 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
     @Override
     protected void setAssetValue(AssetType assetType, String assetName, Long assetId) {
 
-        assetName = assetName.replaceAll(REGEX_TRIM_NAME, "");
+        String assetNameTrimmed = assetName.replaceAll(REGEX_TRIM_NAME, "");
 
         if (assetType.equals(AssetType.PICTURE)) {
-            pictureFileName.setText(assetName);
+            pictureFileName.setText(assetNameTrimmed);
             clearPicture.setVisibility(View.VISIBLE);
             pictureId = assetId;
             showPreview(pictureId, picturePreview);
         } else {
-            soundFileName.setText(assetName);
+            soundFileName.setText(assetNameTrimmed);
             clearSound.setVisibility(View.VISIBLE);
             soundId = assetId;
             soundComponent.setSoundId(soundId);

@@ -1,7 +1,6 @@
 package pg.autyzm.friendly_plans.view.step_create;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.media.MediaPlayer;
 import android.os.Build.VERSION_CODES;
