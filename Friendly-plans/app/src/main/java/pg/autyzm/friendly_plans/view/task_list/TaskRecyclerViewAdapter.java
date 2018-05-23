@@ -36,6 +36,7 @@ public class TaskRecyclerViewAdapter
                 .inflate(R.layout.item_task, parent, false);
         return new TaskListViewHolder(view, taskItemClickListener);
     }
+
     @Override
     public void onBindViewHolder(TaskListViewHolder holder, int position) {
         if (taskItemList != null && !taskItemList.isEmpty()) {
@@ -58,7 +59,7 @@ public class TaskRecyclerViewAdapter
     }
 
     private void setDurationTime(TaskListViewHolder holder, TaskTemplate taskItem) {
-        if (taskItem.getDurationTime() != 0) {
+        if (taskItem.getDurationTime() != null && taskItem.getDurationTime() != 0) {
             holder.taskDurationIcon.setImageResource(ICON_PLACEHOLDER_TIME_ID);
             holder.taskDurationTime.setText(String.valueOf(taskItem.getDurationTime()));
             holder.taskDurationIcon.setVisibility(View.VISIBLE);
