@@ -21,7 +21,7 @@ public class PlanCreateActivity extends FragmentActivity {
 
         getFragmentManager()
                 .beginTransaction()
-                .add(R.id.plan_container, new PlanCreateFragment())
+                .add(R.id.plan_container, planCreateFragment)
                 .commit();
 
         getFragmentManager()
