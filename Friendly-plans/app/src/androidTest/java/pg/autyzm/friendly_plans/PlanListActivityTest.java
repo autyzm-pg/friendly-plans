@@ -87,7 +87,7 @@ public class PlanListActivityTest {
 
     @Test
     public void searchForEveryPlan() {
-        onView(withId(R.id.et_search_plan_list)).perform(typeText(expectedName.charAt(0) + ""));
+        onView(withId(R.id.et_search_plan_list)).perform(typeText(String.valueOf(expectedName.charAt(0))));
         for (int planNumber = 0; planNumber < numberOfPlans; planNumber++) {
             onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(planNumber));
             onView(withRecyclerView(R.id.rv_plan_list)
@@ -97,6 +97,7 @@ public class PlanListActivityTest {
         }
     }
 
+    @Test
     public void whenPlanIsRemovedExpectPlanIsNotOnTheList() {
         final int testedTaskPosition = 3;
         onView(withId(R.id.rv_plan_list))
