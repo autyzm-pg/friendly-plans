@@ -44,6 +44,10 @@
   <string name="steps_reordered_message">Steps reordered and saved</string>
   <string name="create_plan_tasks_list_info">Step 2.1: Add new tasks and put them in order</string>
   <string name="create_plan_add_tasks">Add tasks</string>
+  <string name="children_list_description">Add new child by entering it\'s first name and last name or remove existing one</string>
+  <string name="child_first_name">First name:</string>
+  <string name="child_last_name">Last name:</string>
+  <string name="child_saved_message">Child profile saved</string>
   <string name="storage_permission_granted">Permission granted. You can now select the file</string>
   <string name="storage_permission_denied">Permission denied. You can\'t add files from storage</string>
 
@@ -61,5 +65,6 @@
   <string name="create_step_description">Create step view</string>
   <string name="save_task_error_message">An error occurred during saving the task.</string>
   <string name="save_step_error_message">An error occurred during saving the step.</string>
+  <string name="save_child_error_message">An error occurred during saving the child.</string>
   <string name="save_plan_error_message">An error occurred during saving the plan.</string>
 </resources>

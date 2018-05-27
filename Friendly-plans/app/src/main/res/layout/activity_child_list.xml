@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+  <data>
+    <variable
+      name="childListEvents"
+      type="pg.autyzm.friendly_plans.view.child_list.ChildListActivityEvents" />
+    <variable
+      name="childListData"
+      type="pg.autyzm.friendly_plans.view.child_list.ChildListData" />
+  </data>
+  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/id_layout_children_list_activity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.child_list.ChildListActivity">
+
+    <GridLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:padding="5dp"
+      android:alignmentMode="alignBounds"
+      android:columnCount="5"
+      android:orientation="vertical"
+      android:stretchMode="columnWidth">
+
+      <TextView
+        android:id="@+id/id_children_list_description"
+        android:layout_columnSpan="5"
+        android:background="#cccccc"
+        android:text="@string/children_list_description"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+      <!--Child name -->
+      <TextView
+        android:id="@+id/id_tv_child_first_name_label"
+        android:layout_column="0"
+        android:layout_row="1"
+        android:text="@string/child_first_name" />
+      <EditText
+        android:id="@+id/id_et_child_first_name"
+        android:layout_column="1"
+        android:layout_row="1"
+        android:cursorVisible="true"
+        android:inputType="text"
+        android:minWidth="200dp"
+        android:text="@={childListData.firstName}"
+        tools:text="This is child first name." />
+
+      <TextView
+        android:id="@+id/id_tv_child_last_name_label"
+        android:layout_column="2"
+        android:layout_row="1"
+        android:text="@string/child_last_name" />
+      <EditText
+        android:id="@+id/id_et_child_last_name"
+        android:layout_column="3"
+        android:layout_row="1"
+        android:cursorVisible="true"
+        android:inputType="text"
+        android:minWidth="200dp"
+        android:text="@={childListData.lastName}"
+        tools:text="This is child last name." />
+
+      <!--Add btn-->
+      <ImageButton
+        android:id="@+id/id_add_child"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="4"
+        android:layout_row="1"
+        android:adjustViewBounds="false"
+        android:onClick="@{() -> childListEvents.saveChildData(childListData)}"
+        android:src="@drawable/ic_add_black" />
+
+    </GridLayout>
+    <android.support.v7.widget.RecyclerView
+      android:id="@+id/rv_child_list"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="110dp"
+      android:layout_alignParentStart="true"
+      android:layout_alignParentTop="true"
+      android:layout_columnSpan="4"
+      android:layout_row="2"
+      android:scrollbars="vertical"
+      tools:listitem="@layout/item_child"></android.support.v7.widget.RecyclerView>
+  </RelativeLayout>
+</layout>
