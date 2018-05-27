@@ -29,6 +29,7 @@ public class TaskValidationTest {
     private static final String ERROR_MESSAGE_NAME_EXIST = "Error message - name exist";
     private static final String INVALID_DURATION = "ERROR NUMBER%6";
     private static final String VALID_DURATION = "3";
+    private static final String EMPTY_DURATION = "";
     private static final Long TASK_ID = RandomGenerator.getId();
 
     @Mock
@@ -94,7 +95,7 @@ public class TaskValidationTest {
     }
 
     @Test
-    public void whenTaskNameToUpdateExpectTaskIsValid() {
+    public void whenTaskNameToUpdateIsValidExpectTaskIsValid() {
         when(taskTemplateRepository.get(VALID_TASK_NAME)).thenReturn(Collections.EMPTY_LIST);
         ValidationResult validationResult = taskValidation
                 .isUpdateNameValid(TASK_ID, VALID_TASK_NAME);
@@ -147,6 +148,13 @@ public class TaskValidationTest {
     @Test
     public void whenDurationIsANumberExpectIsValid() {
         ValidationResult validationResult = taskValidation.isDurationValid(VALID_DURATION);
+
+        assertThat(validationResult.getValidationStatus(), is(ValidationStatus.VALID));
+    }
+
+    @Test
+    public void whenDurationIsEmptyExpectIsValid() {
+        ValidationResult validationResult = taskValidation.isDurationValid(EMPTY_DURATION);
 
         assertThat(validationResult.getValidationStatus(), is(ValidationStatus.VALID));
     }

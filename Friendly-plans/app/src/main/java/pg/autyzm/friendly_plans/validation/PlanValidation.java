@@ -1,19 +1,20 @@
 package pg.autyzm.friendly_plans.validation;
 
-import database.entities.TaskTemplate;
-import database.repository.TaskTemplateRepository;
 import java.util.List;
+
+import database.entities.PlanTemplate;
+import database.repository.PlanTemplateRepository;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.string_provider.StringsProvider;
 
-public class TaskValidation extends Validation {
+public class PlanValidation extends Validation {
 
-    final TaskTemplateRepository taskTemplateRepository;
+    private PlanTemplateRepository planTemplateRepository;
 
-    public TaskValidation(StringsProvider stringsProvider,
-            TaskTemplateRepository taskTemplateRepository) {
+    public PlanValidation(StringsProvider stringsProvider,
+                          PlanTemplateRepository planTemplateRepository) {
         super(stringsProvider);
-        this.taskTemplateRepository = taskTemplateRepository;
+        this.planTemplateRepository = planTemplateRepository;
     }
 
     public ValidationResult isNewNameValid(String name) {
@@ -22,45 +23,34 @@ public class TaskValidation extends Validation {
             return validationResult;
         }
 
-        if (taskTemplateRepository.get(name).size() > 0) {
+        if (planTemplateRepository.get(name).size() > 0 ){
             return new ValidationResult(ValidationStatus.INVALID,
                     stringProvider.getString(R.string.name_exist_msg));
         }
-
         return new ValidationResult(ValidationStatus.VALID);
     }
 
-    public ValidationResult isUpdateNameValid(Long taskId, String name) {
+    public ValidationResult isUpdateNameValid(Long planId, String name) {
         ValidationResult validationResult = isNameValid(name);
         if (validationResult.getValidationStatus() == ValidationStatus.INVALID) {
             return validationResult;
         }
 
-        if (!checkUpdateNameDoesNotExist(taskId, name)) {
+        if (!nameExistsWithSameIdOrNotAtAll(planId, name)) {
             return new ValidationResult(ValidationStatus.INVALID,
                     stringProvider.getString(R.string.name_exist_msg));
         }
-
         return new ValidationResult(ValidationStatus.VALID);
     }
 
-
-    private boolean checkUpdateNameDoesNotExist(Long taskId, String name) {
-        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(name);
-        if (taskTemplates.size() == 0) {
+    private boolean nameExistsWithSameIdOrNotAtAll(Long planId, String name) {
+        List<PlanTemplate> planTemplates = planTemplateRepository.get(name);
+        if (planTemplates.size() == 0) {
             return true;
-        } else if (taskTemplates.size() == 1) {
-            return taskTemplates.get(0).getId().equals(taskId);
+        } else if (planTemplates.size() == 1) {
+            return planTemplates.get(0).getId().equals(planId);
         }
 
         return false;
-    }
-
-    public ValidationResult isDurationValid(String duration) {
-        if (duration.isEmpty()) {
-            return new ValidationResult(ValidationStatus.VALID);
-        }
-
-        return isNumber(duration);
     }
 }
