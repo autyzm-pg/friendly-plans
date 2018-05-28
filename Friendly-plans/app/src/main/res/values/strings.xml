@@ -44,7 +44,7 @@
   <string name="steps_reordered_message">Steps reordered and saved</string>
   <string name="create_plan_tasks_list_info">Step 2.1: Add new tasks and put them in order</string>
   <string name="create_plan_add_tasks">Add tasks</string>
-  <string name="children_list_description">Add new child by entering it\'s first name and last name or remove existing one</string>
+  <string name="child_list_description">Add new child by entering it\'s first name and last name or remove existing one</string>
   <string name="child_first_name">First name:</string>
   <string name="child_last_name">Last name:</string>
   <string name="child_saved_message">Child profile saved</string>

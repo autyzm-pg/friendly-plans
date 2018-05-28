@@ -25,10 +25,10 @@
       android:stretchMode="columnWidth">
 
       <TextView
-        android:id="@+id/id_children_list_description"
+        android:id="@+id/id_child_list_description"
         android:layout_columnSpan="5"
         android:background="#cccccc"
-        android:text="@string/children_list_description"
+        android:text="@string/child_list_description"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
       <!--Child name -->
