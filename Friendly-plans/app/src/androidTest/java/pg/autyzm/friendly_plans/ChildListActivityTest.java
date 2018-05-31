@@ -34,7 +34,6 @@ import pg.autyzm.friendly_plans.view.child_list.ChildListActivity;
 @RunWith(AndroidJUnit4.class)
 public class ChildListActivityTest {
 
-    private static final String expectedName = "TEST PLAN ";
     private static final String EXPECTED_FIRST_NAME = "FIRST NAME";
     private static final String EXPECTED_LAST_NAME = "LAST NAME";
 

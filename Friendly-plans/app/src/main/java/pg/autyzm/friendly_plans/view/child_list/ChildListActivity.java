@@ -24,8 +24,6 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
 
     ChildListData childData;
 
-    private ChildRecyclerViewAdapter childListAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,15 +48,16 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_child_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        childListAdapter = new ChildRecyclerViewAdapter();
+        ChildRecyclerViewAdapter childListAdapter = new ChildRecyclerViewAdapter();
         recyclerView.setAdapter(childListAdapter);
         childListAdapter.setChildItems(childRepository.getAll());
     }
 
     @Override
-    public void saveChildData(ChildListData childListData) {
+    public Long saveChildData(ChildListData childListData) {
         Long childId = addChild(childListData.getFirstName(), childListData.getLastName());
         setUpViews();
+        return childId;
     }
 
     private Long addChild(String firstName, String lastName) {
