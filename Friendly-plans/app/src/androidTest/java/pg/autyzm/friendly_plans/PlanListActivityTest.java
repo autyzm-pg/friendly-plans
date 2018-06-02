@@ -64,7 +64,7 @@ public class PlanListActivityTest {
     }
 
     @Test
-    public void searchForASinglePlan() {
+    public void searchForASinglePlanExpectThatPlanAtFirstPosition() {
         final int testedPlanPosition = 5;
 
         onView(withId(R.id.et_search_plan_list)).perform(typeText(expectedName + testedPlanPosition));
@@ -75,7 +75,7 @@ public class PlanListActivityTest {
     }
 
     @Test
-    public void searchForASinglePlanUsingOnlyOneCharacter() {
+    public void searchForASinglePlanUsingOnlyOneCharacterxpectThatPlanAtFirstPosition() {
         final int testedPlanPosition = 5;
 
         onView(withId(R.id.et_search_plan_list)).perform(typeText(Integer.toString(testedPlanPosition)));
@@ -86,7 +86,7 @@ public class PlanListActivityTest {
     }
 
     @Test
-    public void searchForEveryPlan() {
+    public void searchForEveryPlanExpectEveryPlanToAppear() {
         onView(withId(R.id.et_search_plan_list)).perform(typeText(String.valueOf(expectedName.charAt(0))));
         for (int planNumber = 0; planNumber < numberOfPlans; planNumber++) {
             onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(planNumber));
