@@ -4,6 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
+
 import database.repository.PlanTemplateRepository;
 import javax.inject.Inject;
 import pg.autyzm.friendly_plans.App;
@@ -17,6 +21,8 @@ public class PlanListActivity extends AppCompatActivity {
     @Inject
     ToastUserNotifier toastUserNotifier;
 
+    EditText searchField;
+
     private PlanRecyclerViewAdapter planListAdapter;
 
     PlanRecyclerViewAdapter.PlanItemClickListener planItemClickListener =
@@ -25,7 +31,7 @@ public class PlanListActivity extends AppCompatActivity {
                 @Override
                 public void onRemovePlanClick(long itemId) {
                     planTemplateRepository.delete(itemId);
-                    planListAdapter.setPlanItems(planTemplateRepository.getAll());
+                    searchField.setText(searchField.getText());
                     toastUserNotifier.displayNotifications(
                             R.string.plan_removed_message,
                             getApplicationContext());
@@ -39,6 +45,22 @@ public class PlanListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_plan_list);
         setUpViews();
         planListAdapter.setPlanItems(planTemplateRepository.getAll());
+
+        searchField = (EditText) findViewById(R.id.et_search_plan_list);
+        searchField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                planListAdapter.setPlanItems(planTemplateRepository.getFilteredByName(s.toString()));
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,int after) {
+                // TextWatcher method
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TextWatcher method
+            }
+        });
     }
 
     private void setUpViews() {
