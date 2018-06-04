@@ -30,9 +30,18 @@ public class PlanTemplateRepository {
                 .where(PlanTemplateDao.Properties.Name.eq(planName))
                 .list();
     }
+
     public List<PlanTemplate> getAll() {
         return daoSession.getPlanTemplateDao().loadAll();
     }
+
+    public List<PlanTemplate> getFilteredByName(String planName) {
+        return daoSession.getPlanTemplateDao()
+                .queryBuilder()
+                .where(PlanTemplateDao.Properties.Name.like("%" + planName + "%"))
+                .list();
+    }
+
     public void delete(Long id) {
         daoSession.getPlanTemplateDao().deleteByKey(id);
     }
