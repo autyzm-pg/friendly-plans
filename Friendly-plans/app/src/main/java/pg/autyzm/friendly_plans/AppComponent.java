@@ -3,6 +3,7 @@ package pg.autyzm.friendly_plans;
 import android.media.MediaPlayer;
 import dagger.Component;
 import database.repository.AssetRepository;
+import database.repository.ChildRepository;
 import database.repository.DaoSessionModule;
 import database.repository.PlanTemplateRepository;
 import database.repository.RepositoryModule;
@@ -15,6 +16,7 @@ import pg.autyzm.friendly_plans.file_picker.FilePickerModule;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifierModule;
+import pg.autyzm.friendly_plans.view.child_list.ChildListActivity;
 import pg.autyzm.friendly_plans.view.components.SoundComponent;
 import pg.autyzm.friendly_plans.string_provider.StringProviderModule;
 import pg.autyzm.friendly_plans.view.plan_create.PlanCreateFragment;
@@ -56,6 +58,9 @@ public interface AppComponent {
     PlanTemplateRepository planTemplateRepository();
 
     @SuppressWarnings("unused")
+    ChildRepository childRepository();
+
+    @SuppressWarnings("unused")
     AssetRepository assetRepository();
 
     @SuppressWarnings("unused")
@@ -79,6 +84,8 @@ public interface AppComponent {
     void inject(PlanCreateFragment activity);
 
     void inject(PlanListActivity activity);
+
+    void inject(ChildListActivity childListActivity);
 
     void inject(PlanTaskListFragment planTaskListFragment);
 
