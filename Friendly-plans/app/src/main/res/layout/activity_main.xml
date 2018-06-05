@@ -72,6 +72,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/button_listOfTasks"
+        android:onClick="@{events::eventChildSettings}"
         android:text="@string/main_active_child_settings" />
 
       <!--add/remove child-->
