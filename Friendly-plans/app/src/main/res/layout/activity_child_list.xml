@@ -3,10 +3,10 @@
   <data>
     <variable
       name="childListEvents"
-      type="pg.autyzm.friendly_plans.view.child_list.ChildListActivityEvents" />
+      type="pg.autyzm.friendly_plans.manager_app.view.child_list.ChildListActivityEvents" />
     <variable
       name="childListData"
-      type="pg.autyzm.friendly_plans.view.child_list.ChildListData" />
+      type="pg.autyzm.friendly_plans.manager_app.view.child_list.ChildListData" />
   </data>
   <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"

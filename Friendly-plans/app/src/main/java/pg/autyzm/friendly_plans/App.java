@@ -8,7 +8,7 @@ import pg.autyzm.friendly_plans.asset.AssetsHelperModule;
 import pg.autyzm.friendly_plans.file_picker.FilePickerModule;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifierModule;
 import pg.autyzm.friendly_plans.string_provider.StringProviderModule;
-import pg.autyzm.friendly_plans.validation.ValidationModule;
+import pg.autyzm.friendly_plans.manager_app.validation.ValidationModule;
 
 public class App extends Application {
 
