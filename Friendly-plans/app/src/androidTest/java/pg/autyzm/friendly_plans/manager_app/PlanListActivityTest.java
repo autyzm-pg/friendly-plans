@@ -71,7 +71,7 @@ public class PlanListActivityTest {
     @Test
     public void whenPlanIsAddedToDBExpectProperlyDisplayedOnRecyclerView() {
         final int testedPlanPosition = 5;
-        onView(ViewMatchers.withId(R.id.rv_plan_list)).perform(scrollToPosition(testedPlanPosition));
+        onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(testedPlanPosition));
         onView(withRecyclerView(R.id.rv_plan_list)
                 .atPosition(testedPlanPosition))
                 .check(matches(hasDescendant(withText(expectedName

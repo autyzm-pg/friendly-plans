@@ -96,7 +96,7 @@ public class TaskCreateActivityTest {
 
     @Test
     public void whenTaskCreateActivityExpectHeaderAndEmptyFields() {
-        onView(ViewMatchers.withId(R.id.id_task_create_description))
+        onView(withId(R.id.id_task_create_description))
                 .check(matches(withText(R.string.task_create_description)));
         onView(withId(R.id.id_et_task_name))
                 .check(matches(withText("")));

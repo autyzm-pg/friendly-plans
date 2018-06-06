@@ -80,7 +80,7 @@ public class PlanCreateActivityTest {
 
     @Test
     public void whenPlanCreateActivityExpectHeaderAndEmptyField() {
-        onView(ViewMatchers.withId(R.id.id_plan_create_description))
+        onView(withId(R.id.id_plan_create_description))
                 .check(matches(withText(R.string.plan_create_description)));
         onView(withId(R.id.id_et_plan_name))
                 .check(matches(withText("")));

@@ -77,7 +77,7 @@ public class StepListFragmentTest {
         long taskId = taskTemplateRule.createTask(TASK_NAME_1);
         openStepsListFragment(taskId);
 
-        onView(ViewMatchers.withId(R.id.rv_step_list)).check(matches(withSize(0)));
+        onView(withId(R.id.rv_step_list)).check(matches(withSize(0)));
     }
 
     @Test
