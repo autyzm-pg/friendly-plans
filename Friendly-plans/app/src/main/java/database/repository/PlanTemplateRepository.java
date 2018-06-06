@@ -20,6 +20,14 @@ public class PlanTemplateRepository {
         return daoSession.getPlanTemplateDao().insert(planTemplate);
     }
 
+    public void update(Long planId, String name) {
+        PlanTemplate planTemplate = new PlanTemplate();
+        planTemplate.setId(planId);
+        planTemplate.setName(name);
+        daoSession.getPlanTemplateDao().update(planTemplate);
+    }
+
+
     public PlanTemplate get(Long id) {
         return daoSession.getPlanTemplateDao().load(id);
     }
