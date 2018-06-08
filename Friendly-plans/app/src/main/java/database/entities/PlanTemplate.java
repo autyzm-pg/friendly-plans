@@ -1,13 +1,13 @@
 package database.entities;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.JoinEntity;
 import org.greenrobot.greendao.annotation.ToMany;
 
 import java.util.List;
-
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 @Entity
 public class PlanTemplate {
@@ -22,6 +22,14 @@ public class PlanTemplate {
 
     @ToMany(referencedJoinProperty = "planTemplateId")
     private List<PlanTaskTemplate> planTaskTemplates;
+
+    @ToMany
+    @JoinEntity(
+            entity = PlanTaskTemplate.class,
+            sourceProperty = "planTemplateId",
+            targetProperty = "taskTemplateId"
+    )
+    private List<TaskTemplate> tasksWithThisPlan;
 
     /**
      * Used to resolve relations
@@ -60,6 +68,18 @@ public class PlanTemplate {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setTasksWithThisPlan(TaskTemplate task) {
+        PlanTaskTemplate planTaskTemplate = new PlanTaskTemplate();
+        planTaskTemplate.setTaskTemplateId(task.getId());
+        planTaskTemplate.setPlanTemplateId(id);
+
+        PlanTaskTemplateDao targetDao = daoSession.getPlanTaskTemplateDao();
+        targetDao.insert(planTaskTemplate);
+
+        if (tasksWithThisPlan == null) { getTasksWithThisPlan(); }
+        tasksWithThisPlan.add(task);
     }
 
     /**
@@ -158,6 +178,35 @@ public class PlanTemplate {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.update(this);
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 2083683117)
+    public List<TaskTemplate> getTasksWithThisPlan() {
+        if (tasksWithThisPlan == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            TaskTemplateDao targetDao = daoSession.getTaskTemplateDao();
+            List<TaskTemplate> tasksWithThisPlanNew = targetDao
+                    ._queryPlanTemplate_TasksWithThisPlan(id);
+            synchronized (this) {
+                if (tasksWithThisPlan == null) {
+                    tasksWithThisPlan = tasksWithThisPlanNew;
+                }
+            }
+        }
+        return tasksWithThisPlan;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 832786472)
+    public synchronized void resetTasksWithThisPlan() {
+        tasksWithThisPlan = null;
     }
 
     /** called by internal mechanisms, do not call yourself. */

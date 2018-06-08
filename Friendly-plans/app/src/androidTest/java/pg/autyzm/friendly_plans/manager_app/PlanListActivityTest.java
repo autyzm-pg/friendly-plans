@@ -154,13 +154,14 @@ public class PlanListActivityTest {
     public void whenSearchPlanIsRemovedExpectItToBeRemoved(){
         final int testedPlanPosition = 5;
 
-        onView(withId(R.id.menu_search)).perform(click());
         onView(withId(R.id.menu_search)).perform(typeText(expectedName + testedPlanPosition));
+
         onView(withId(R.id.rv_plan_list))
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(0,
                                 clickChildViewWithId(R.id.id_remove_plan)));
         onView(isAssignableFrom(EditText.class)).perform(clearText());
+        closeSoftKeyboard();
 
         onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(testedPlanPosition));
         onView(withRecyclerView(R.id.rv_plan_list)
