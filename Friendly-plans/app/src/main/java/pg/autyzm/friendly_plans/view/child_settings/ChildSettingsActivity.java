@@ -32,4 +32,6 @@ public class ChildSettingsActivity extends AppCompatActivity {
         planListAdapter = new ActivePlanRecyclerViewAdapter();
         recyclerView.setAdapter(planListAdapter);
     }
+
+
 }
