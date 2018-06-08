@@ -16,6 +16,7 @@ import pg.autyzm.friendly_plans.file_picker.FilePickerModule;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifierModule;
+import pg.autyzm.friendly_plans.view.child_settings.ChildSettingsActivity;
 import pg.autyzm.friendly_plans.view.child_list.ChildListActivity;
 import pg.autyzm.friendly_plans.view.components.SoundComponent;
 import pg.autyzm.friendly_plans.string_provider.StringProviderModule;
@@ -85,8 +86,10 @@ public interface AppComponent {
 
     void inject(PlanListActivity activity);
 
+    void inject(ChildSettingsActivity activity);
+  
     void inject(ChildListActivity childListActivity);
-
+  
     void inject(PlanTaskListFragment planTaskListFragment);
 
     void inject(AddTasksToPlanFragment addTasksToPlanFragment);
