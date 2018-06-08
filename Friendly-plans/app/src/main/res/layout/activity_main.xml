@@ -83,6 +83,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/button_activeChildSettings"
+        android:onClick="@{events::eventShowChildrenList}"
         android:text="@string/main_add_remove_child" />
 
       <!--change child-->

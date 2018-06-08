@@ -31,4 +31,10 @@ public class RepositoryModule {
     public PlanTemplateRepository getPlanTemplateRepository(DaoSession daoSession) {
         return new PlanTemplateRepository(daoSession);
     }
+
+    @Provides
+    @Singleton
+    public ChildRepository getChildRepository(DaoSession daoSession) {
+        return new ChildRepository(daoSession);
+    }
 }

@@ -20,6 +20,14 @@ public class PlanTemplateRepository {
         return daoSession.getPlanTemplateDao().insert(planTemplate);
     }
 
+    public void update(Long planId, String name) {
+        PlanTemplate planTemplate = new PlanTemplate();
+        planTemplate.setId(planId);
+        planTemplate.setName(name);
+        daoSession.getPlanTemplateDao().update(planTemplate);
+    }
+
+
     public PlanTemplate get(Long id) {
         return daoSession.getPlanTemplateDao().load(id);
     }
@@ -30,9 +38,18 @@ public class PlanTemplateRepository {
                 .where(PlanTemplateDao.Properties.Name.eq(planName))
                 .list();
     }
+
     public List<PlanTemplate> getAll() {
         return daoSession.getPlanTemplateDao().loadAll();
     }
+
+    public List<PlanTemplate> getFilteredByName(String planName) {
+        return daoSession.getPlanTemplateDao()
+                .queryBuilder()
+                .where(PlanTemplateDao.Properties.Name.like("%" + planName + "%"))
+                .list();
+    }
+
     public void delete(Long id) {
         daoSession.getPlanTemplateDao().deleteByKey(id);
     }

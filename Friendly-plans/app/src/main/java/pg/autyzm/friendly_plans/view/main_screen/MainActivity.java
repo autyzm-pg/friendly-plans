@@ -8,6 +8,7 @@ import android.view.View;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.ActivityMainBinding;
 import pg.autyzm.friendly_plans.view.child_settings.ChildSettingsActivity;
+import pg.autyzm.friendly_plans.view.child_list.ChildListActivity;
 import pg.autyzm.friendly_plans.view.plan_create.PlanCreateActivity;
 import pg.autyzm.friendly_plans.view.plan_list.PlanListActivity;
 import pg.autyzm.friendly_plans.view.task_create.TaskCreateActivity;
@@ -50,6 +51,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityEvent
     @Override
     public void eventChildSettings(View view) {
         Intent intent = new Intent(this, ChildSettingsActivity.class);
+        startActivity(intent);
+    }
+  
+    @Override
+    public void eventShowChildrenList(View view) {
+        Intent intent = new Intent(this, ChildListActivity.class);
         startActivity(intent);
     }
 }

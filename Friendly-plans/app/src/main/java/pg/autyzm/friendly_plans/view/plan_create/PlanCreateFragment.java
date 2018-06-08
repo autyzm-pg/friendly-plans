@@ -10,7 +10,9 @@ import android.widget.Toast;
 
 import javax.inject.Inject;
 
+import database.entities.PlanTemplate;
 import database.repository.PlanTemplateRepository;
+import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.AppComponent;
 import pg.autyzm.friendly_plans.R;
@@ -35,6 +37,7 @@ public class PlanCreateFragment extends CreateFragment implements PlanCreateActi
     PlanValidation planValidation;
 
     PlanCreateData planData;
+    private Long planId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +56,25 @@ public class PlanCreateFragment extends CreateFragment implements PlanCreateActi
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            Long planId = (Long) arguments.get(ActivityProperties.PLAN_ID);
+
+            if (planId != null) {
+                initPlanForm(planId);
+            }
+        }
+    }
+
+    private void initPlanForm(long planId) {
+        this.planId = planId;
+
+        PlanTemplate plan = planTemplateRepository.get(planId);
+        planData.setPlanName(plan.getName());
+    }
+
+    @Override
     public void savePlanData(PlanCreateData planCreateData) {
         Long planId = addPlan(planCreateData.getPlanName());
         if (planId != null) {
@@ -63,9 +85,15 @@ public class PlanCreateFragment extends CreateFragment implements PlanCreateActi
     private Long addPlan(String planName) {
         if (validateName(planName)) {
             try {
-                long planId = planTemplateRepository.create(planName);
-                showToastMessage(R.string.plan_saved_message);
-                return planId;
+                if(planId != null) {
+                    planTemplateRepository.update(planId, planName);
+                    showToastMessage(R.string.plan_saved_message);
+                    return planId;
+                } else {
+                    long planId = planTemplateRepository.create(planName);
+                    showToastMessage(R.string.plan_saved_message);
+                    return planId;
+                }
             } catch (RuntimeException exception) {
                 return handleSavingError(exception);
             }
