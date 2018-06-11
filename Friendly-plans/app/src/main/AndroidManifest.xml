@@ -37,6 +37,9 @@
     <activity
       android:name=".manager_app.view.child_list.ChildListActivity"
       android:screenOrientation="landscape"/>
+    <activity
+      android:name=".view.child_settings.ChildSettingsActivity"
+      android:screenOrientation="landscape"/>
 
     <activity
         android:name=".child_app.view.MainActivity"

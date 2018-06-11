@@ -12,6 +12,7 @@ import pg.autyzm.friendly_plans.manager_app.view.plan_create.PlanCreateActivity;
 import pg.autyzm.friendly_plans.manager_app.view.plan_list.PlanListActivity;
 import pg.autyzm.friendly_plans.manager_app.view.task_create.TaskCreateActivity;
 import pg.autyzm.friendly_plans.manager_app.view.task_list.TaskListActivity;
+import pg.autyzm.friendly_plans.view.child_settings.ChildSettingsActivity;
 
 public class MainActivity extends AppCompatActivity implements MainActivityEvents {
 
@@ -44,6 +45,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityEvent
     @Override
     public void eventShowPlanList(View view) {
         Intent intent = new Intent(this, PlanListActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void eventChildSettings(View view) {
+        Intent intent = new Intent(this, ChildSettingsActivity.class);
         startActivity(intent);
     }
 

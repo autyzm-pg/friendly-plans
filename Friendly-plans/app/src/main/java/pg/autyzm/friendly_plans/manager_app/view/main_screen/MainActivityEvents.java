@@ -12,5 +12,8 @@ public interface MainActivityEvents {
 
     void eventShowPlanList(View view);
 
+    void eventChildSettings(View view);
+
     void eventShowChildrenList(View view);
+
 }
