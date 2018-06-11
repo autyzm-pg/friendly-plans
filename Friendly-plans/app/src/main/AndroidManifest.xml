@@ -35,6 +35,9 @@
       android:name=".view.task_list.TaskListActivity"
       android:screenOrientation="landscape"/>
     <activity
+      android:name=".view.child_settings.ChildSettingsActivity"
+      android:screenOrientation="landscape"/>
+    <activity
       android:name=".view.child_list.ChildListActivity"
       android:screenOrientation="landscape"/>
   </application>

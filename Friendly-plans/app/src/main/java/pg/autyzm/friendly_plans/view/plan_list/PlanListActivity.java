@@ -1,5 +1,6 @@
 package pg.autyzm.friendly_plans.view.plan_list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,9 +11,12 @@ import android.widget.EditText;
 
 import database.repository.PlanTemplateRepository;
 import javax.inject.Inject;
+
+import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
+import pg.autyzm.friendly_plans.view.plan_create.PlanCreateActivity;
 
 public class PlanListActivity extends AppCompatActivity {
 
@@ -35,6 +39,17 @@ public class PlanListActivity extends AppCompatActivity {
                     toastUserNotifier.displayNotifications(
                             R.string.plan_removed_message,
                             getApplicationContext());
+                }
+
+                @Override
+                public void onPlanItemClick(int position) {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(ActivityProperties.PLAN_ID,
+                    planListAdapter.getPlanItem(position).getId());
+
+                    Intent intent = new Intent(PlanListActivity.this, PlanCreateActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
             };
 

@@ -22,9 +22,15 @@ public class PlanRecyclerViewAdapter extends
         this.planItemList = new ArrayList<>();
     }
 
+    PlanTemplate getPlanItem(int position) {
+        return planItemList.get(position);
+    }
+
     interface PlanItemClickListener {
 
         void onRemovePlanClick(long itemId);
+
+        void onPlanItemClick(int position);
     }
 
     @Override
@@ -70,6 +76,7 @@ public class PlanRecyclerViewAdapter extends
             this.planItemList = planItemList;
             this.planItemClickListener = planItemClickListener;
             this.removeButton.setOnClickListener(deleteButtonListener);
+            itemView.setOnClickListener(selectItemListener);
         }
 
         View.OnClickListener deleteButtonListener = new View.OnClickListener() {
@@ -77,6 +84,13 @@ public class PlanRecyclerViewAdapter extends
             public void onClick(View v) {
                 long id = planItemList.get(getAdapterPosition()).getId();
                 planItemClickListener.onRemovePlanClick(id);
+            }
+        };
+
+        View.OnClickListener selectItemListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                planItemClickListener.onPlanItemClick(getAdapterPosition());
             }
         };
     }
