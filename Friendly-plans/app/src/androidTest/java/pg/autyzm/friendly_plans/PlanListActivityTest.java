@@ -1,12 +1,15 @@
 package pg.autyzm.friendly_plans;
 
 import android.content.Intent;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 
 import org.hamcrest.Matcher;
 import org.junit.Before;
@@ -26,6 +29,9 @@ import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.pressBack;
+import static android.support.test.espresso.action.ViewActions.pressImeActionButton;
+import static android.support.test.espresso.action.ViewActions.pressMenuKey;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
@@ -33,6 +39,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
@@ -81,7 +88,7 @@ public class PlanListActivityTest {
         final int testedPlanPosition = 5;
         closeSoftKeyboard();
 
-        onView(withId(R.id.et_search_plan_list)).perform(typeText(expectedName + testedPlanPosition));
+        onView(withId(R.id.menuSearch)).perform(typeText(expectedName + testedPlanPosition));
         onView(withRecyclerView(R.id.rv_plan_list)
                 .atPosition(0))
                 .check(matches(hasDescendant(withText(expectedName
@@ -92,7 +99,7 @@ public class PlanListActivityTest {
     public void whenSearchForASinglePlanUsingOnlyOneCharacterExpectThatPlanAtFirstPosition() {
         final int testedPlanPosition = 5;
 
-        onView(withId(R.id.et_search_plan_list)).perform(typeText(Integer.toString(testedPlanPosition)));
+        onView(withId(R.id.menuSearch)).perform(typeText(Integer.toString(testedPlanPosition)));
         closeSoftKeyboard();
 
         onView(withRecyclerView(R.id.rv_plan_list)
@@ -103,7 +110,7 @@ public class PlanListActivityTest {
 
     @Test
     public void whenSearchForEveryPlanExpectEveryPlanToAppear() {
-        onView(withId(R.id.et_search_plan_list)).perform(typeText(String.valueOf(expectedName.charAt(0))));
+        onView(withId(R.id.menuSearch)).perform(typeText(String.valueOf(expectedName.charAt(0))));
         closeSoftKeyboard();
 
         for (int planNumber = 0; planNumber < numberOfPlans; planNumber++) {
@@ -133,7 +140,7 @@ public class PlanListActivityTest {
     public void whenSearchedPlanIsRemovedExpectNoPlansInSearch(){
         final int testedPlanPosition = 5;
 
-        onView(withId(R.id.et_search_plan_list)).perform(typeText(expectedName + testedPlanPosition));
+        onView(withId(R.id.menuSearch)).perform(typeText(expectedName + testedPlanPosition));
         closeSoftKeyboard();
 
         onView(withId(R.id.rv_plan_list))
@@ -151,16 +158,22 @@ public class PlanListActivityTest {
     public void whenSearchPlanIsRemovedExpectItToBeRemoved(){
         final int testedPlanPosition = 5;
 
-        onView(withId(R.id.et_search_plan_list)).perform(typeText(expectedName + testedPlanPosition));
-        closeSoftKeyboard();
+        //onView(withId(R.id.menuSearch)).perform(click());
+        onView(withId(R.id.menuSearch)).perform(click());
+        onView(isAssignableFrom(EditText.class)).perform(click());
 
+        onView(withId(R.id.menuSearch)).perform(typeText(expectedName + testedPlanPosition));
         onView(withId(R.id.rv_plan_list))
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(0,
                                 clickChildViewWithId(R.id.id_remove_plan)));
-        onView(withId(R.id.et_search_plan_list)).perform(clearText());
-        onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(testedPlanPosition));
-        onView(withRecyclerView(R.id.rv_plan_list)
+        onView(isAssignableFrom(EditText.class)).perform(clearText());
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }    onView(withRecyclerView(R.id.rv_plan_list)
                 .atPosition(testedPlanPosition))
                     .check(matches(hasDescendant(withText(expectedName
                         + (testedPlanPosition + 1)))));
