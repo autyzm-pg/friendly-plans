@@ -42,6 +42,12 @@ public class TaskListActivity extends AppCompatActivity {
         taskListAdapter.setTaskItems(taskTemplateRepository.getAll());
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        taskListAdapter.setTaskItems(taskTemplateRepository.getAll());
+    }
+
     private void setUpViews() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_task_list);
         recyclerView.setHasFixedSize(true);
