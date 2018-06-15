@@ -22,9 +22,9 @@ import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifierModule;
 import pg.autyzm.friendly_plans.string_provider.StringProviderModule;
 import pg.autyzm.friendly_plans.string_provider.StringsProvider;
-import pg.autyzm.friendly_plans.validation.StepValidation;
-import pg.autyzm.friendly_plans.validation.TaskValidation;
-import pg.autyzm.friendly_plans.validation.ValidationModule;
+import pg.autyzm.friendly_plans.manager_app.validation.StepValidation;
+import pg.autyzm.friendly_plans.manager_app.validation.TaskValidation;
+import pg.autyzm.friendly_plans.manager_app.validation.ValidationModule;
 
 public final class AppComponentBuilder {
 

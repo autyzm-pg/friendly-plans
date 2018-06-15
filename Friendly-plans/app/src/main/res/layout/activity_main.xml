@@ -2,7 +2,7 @@
   <data>
     <variable
       name="events"
-      type="pg.autyzm.friendly_plans.view.main_screen.MainActivityEvents" />
+      type="pg.autyzm.friendly_plans.manager_app.view.main_screen.MainActivityEvents" />
   </data>
 
   <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"

@@ -2,7 +2,7 @@
   <data>
     <variable
       name="stepListEvents"
-      type="pg.autyzm.friendly_plans.view.step_list.StepListEvents"/>
+      type="pg.autyzm.friendly_plans.manager_app.view.step_list.StepListEvents"/>
   </data>
 
   <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"

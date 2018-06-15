@@ -3,13 +3,13 @@
   <data>
     <variable
       name="soundComponent"
-      type="pg.autyzm.friendly_plans.view.components.SoundComponent" />
+      type="pg.autyzm.friendly_plans.manager_app.view.components.SoundComponent" />
     <variable
       name="stepData"
-      type="pg.autyzm.friendly_plans.view.step_create.StepCreateData" />
+      type="pg.autyzm.friendly_plans.manager_app.view.step_create.StepCreateData" />
     <variable
       name="stepDataClick"
-      type="pg.autyzm.friendly_plans.view.step_create.StepCreateEvents.StepData" />
+      type="pg.autyzm.friendly_plans.manager_app.view.step_create.StepCreateEvents.StepData" />
   </data>
 
   <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
