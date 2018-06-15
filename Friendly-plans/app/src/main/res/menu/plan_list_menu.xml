@@ -4,7 +4,7 @@
 
         <!-- our search option -->
         <item
-            android:id="@+id/menuSearch"
+            android:id="@+id/menu_search"
             android:orderInCategory="100"
             android:title="Search"
             app:actionViewClass="android.widget.SearchView"

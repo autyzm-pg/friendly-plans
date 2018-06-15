@@ -37,7 +37,6 @@ public class PlanListActivity extends AppCompatActivity {
                 public void onRemovePlanClick(long itemId) {
                     planTemplateRepository.delete(itemId);
                     searchView.setQuery(searchView.getQuery(), true);
-                    //searchField.setText(searchField.getText());
                     toastUserNotifier.displayNotifications(
                             R.string.plan_removed_message,
                             getApplicationContext());
@@ -69,7 +68,7 @@ public class PlanListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.plan_list_menu, menu);
-        MenuItem searchViewItem = menu.findItem(R.id.menuSearch);
+        MenuItem searchViewItem = menu.findItem(R.id.menu_search);
         searchView = (SearchView) searchViewItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
