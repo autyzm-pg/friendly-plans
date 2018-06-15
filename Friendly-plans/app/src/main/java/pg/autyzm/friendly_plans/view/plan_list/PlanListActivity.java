@@ -87,6 +87,12 @@ public class PlanListActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        planListAdapter.setPlanItems(planTemplateRepository.getAll());
+    }
+
     private void setUpViews() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_plan_list);
         recyclerView.setHasFixedSize(true);
