@@ -159,9 +159,9 @@ public class PlanListActivityTest {
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(0,
                                 clickChildViewWithId(R.id.id_remove_plan)));
-
         onView(isAssignableFrom(EditText.class)).perform(clearText());
 
+        onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(testedPlanPosition));
         onView(withRecyclerView(R.id.rv_plan_list)
                 .atPosition(testedPlanPosition))
                     .check(matches(hasDescendant(withText(expectedName
