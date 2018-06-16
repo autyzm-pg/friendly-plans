@@ -4,6 +4,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,7 +118,8 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
                 }
             }
         } catch (RuntimeException exception) {
-            return handleSavingError(exception);
+            Log.e("Task Create View", "Error saving task", exception);
+            showToastMessage(R.string.save_task_error_message);
         }
         return null;
     }

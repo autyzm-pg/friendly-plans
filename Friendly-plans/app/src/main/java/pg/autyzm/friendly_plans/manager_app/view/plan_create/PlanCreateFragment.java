@@ -3,6 +3,7 @@ package pg.autyzm.friendly_plans.manager_app.view.plan_create;
 import android.app.FragmentTransaction;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +96,8 @@ public class PlanCreateFragment extends CreateFragment implements PlanCreateActi
                     return planId;
                 }
             } catch (RuntimeException exception) {
-                return handleSavingError(exception);
+                Log.e("Plan Create View", "Error saving plan", exception);
+                showToastMessage(R.string.save_plan_error_message);
             }
         }
         return null;

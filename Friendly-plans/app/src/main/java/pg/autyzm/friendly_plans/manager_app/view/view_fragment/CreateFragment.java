@@ -4,8 +4,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -96,13 +94,6 @@ public abstract class CreateFragment extends Fragment {
         String imageFileName = assetRepository.get(pictureId).getFilename();
         String fileDir = getActivity().getApplicationContext().getFilesDir().toString();
         return fileDir + File.separator + imageFileName;
-    }
-
-    @Nullable
-    protected Long handleSavingError(RuntimeException exception) {
-        Log.e("Step Create View", "Error saving step", exception);
-        showToastMessage(R.string.save_step_error_message);
-        return null;
     }
 
     protected void showPreview(Long pictureId, ImageView picturePreview) {

@@ -129,7 +129,8 @@ public class StepCreateFragment extends CreateFragment implements StepCreateEven
                 }
             }
         } catch (RuntimeException exception) {
-            return handleSavingError(exception);
+            Log.e("Step Create View", "Error saving step", exception);
+            showToastMessage(R.string.save_step_error_message);
         }
         return null;
     }
