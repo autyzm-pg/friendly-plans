@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -100,7 +101,7 @@ public class TaskRecyclerViewAdapter
     }
 
     public interface TaskItemClickListener {
-
+        void onRemoveTaskClick(int position);
         void onTaskItemClick(int position);
     }
 
@@ -111,6 +112,8 @@ public class TaskRecyclerViewAdapter
         ImageView taskSoundIcon;
         ImageView taskDurationIcon;
         TextView taskDurationTime;
+        ImageButton removeButton;
+        TaskItemClickListener taskItemClickListener;
 
         TaskListViewHolder(View itemView, final TaskItemClickListener taskItemClickListener) {
             super(itemView);
@@ -124,12 +127,27 @@ public class TaskRecyclerViewAdapter
                     .findViewById(R.id.id_iv_task_duration_icon);
             this.taskDurationTime = (TextView) itemView
                     .findViewById(R.id.id_tv_task_duration_time);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    taskItemClickListener.onTaskItemClick(getAdapterPosition());
-                }
-            });
+            this.removeButton = (ImageButton) itemView
+                    .findViewById(R.id.id_remove_task);
+            this.removeButton.setOnClickListener(deleteButtonListener);
+            this.taskItemClickListener = taskItemClickListener;
+            itemView.setOnClickListener(selectItemListener);
+
         }
+
+
+        View.OnClickListener deleteButtonListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                taskItemClickListener.onRemoveTaskClick(getAdapterPosition());
+            }
+        };
+
+        View.OnClickListener selectItemListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                taskItemClickListener.onTaskItemClick(getAdapterPosition());
+            }
+        };
     }
 }
