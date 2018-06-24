@@ -1,16 +1,9 @@
 package database.repository;
 
-import android.database.Cursor;
-
-import org.greenrobot.greendao.query.QueryBuilder;
-import org.greenrobot.greendao.query.WhereCondition;
-
 import database.entities.Child;
 import database.entities.ChildDao.Properties;
 import database.entities.DaoSession;
-import database.entities.DaoMaster;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
 public class ChildRepository {
