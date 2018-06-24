@@ -5,6 +5,8 @@ import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
@@ -34,8 +36,8 @@ import pg.autyzm.friendly_plans.view.child_list.ChildListActivity;
 @RunWith(AndroidJUnit4.class)
 public class ChildListActivityTest {
 
-    private static final String EXPECTED_FIRST_NAME = "FIRST NAME";
-    private static final String EXPECTED_LAST_NAME = "LAST NAME";
+    private static final String EXPECTED_FIRST_NAME = "FIRST_NAME";
+    private static final String EXPECTED_LAST_NAME = "LAST_NAME";
 
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
@@ -117,6 +119,86 @@ public class ChildListActivityTest {
         onView(withId(R.id.rv_child_list)).perform(scrollToPosition(testedChildPosition));
         onView(withRecyclerView(R.id.rv_child_list)
                 .atPosition(testedChildPosition))
+                .check(matches(hasDescendant(withText(EXPECTED_FIRST_NAME + " " + EXPECTED_LAST_NAME
+                        + testedChildPosition))));
+    }
+
+    @Test
+    public void whenSearchForAChildWithOneLetterOfNameExpectThatChildOnFirstPosition() {
+        final int testedChildPosition = 0;
+        final int firstPosition = 0;
+        onView(withId(R.id.menu_search)).perform(typeText(Character.toString(EXPECTED_FIRST_NAME.charAt(0))));
+        onView(withRecyclerView(R.id.rv_child_list)
+                .atPosition(firstPosition))
+                .check(matches(hasDescendant(withText(EXPECTED_FIRST_NAME + " " + EXPECTED_LAST_NAME
+                        + testedChildPosition))));
+    }
+
+    @Test
+    public void whenSearchForAChildWithNameExpectThatChildOnFirstPosition() {
+        final int testedChildPosition = 0;
+        final int firstPosition = 0;
+        onView(withId(R.id.menu_search)).perform(typeText(EXPECTED_FIRST_NAME));
+        onView(withRecyclerView(R.id.rv_child_list)
+                .atPosition(firstPosition))
+                .check(matches(hasDescendant(withText(EXPECTED_FIRST_NAME + " " + EXPECTED_LAST_NAME
+                        + testedChildPosition))));
+    }
+
+    @Test
+    public void whenSearchForAChildWithOneLetterOfSurnameExpectThatChildOnFirstPosition() {
+        final int testedChildPosition = 0;
+        final int firstPosition = 0;
+        onView(withId(R.id.menu_search)).perform(typeText(Character.toString(EXPECTED_LAST_NAME.charAt(0))));
+        onView(withRecyclerView(R.id.rv_child_list)
+                .atPosition(firstPosition))
+                .check(matches(hasDescendant(withText(EXPECTED_FIRST_NAME + " " + EXPECTED_LAST_NAME
+                        + testedChildPosition))));
+    }
+    @Test
+    public void whenSearchForAChildWithSurnameExpectThatChildOnFirstPosition(){
+        final int testedChildPosition = 3;
+        final int firstPosition = 0;
+        onView(withId(R.id.menu_search)).perform(typeText(EXPECTED_LAST_NAME + testedChildPosition));
+        onView(withRecyclerView(R.id.rv_child_list)
+                .atPosition(firstPosition))
+                .check(matches(hasDescendant(withText(EXPECTED_FIRST_NAME + " " + EXPECTED_LAST_NAME
+                        + testedChildPosition))));
+    }
+    @Test
+    public void whenSearchForAChildWithNameAndSurnameExpectOnlyThatChildToAppear() { //TO DO
+        final int testedChildPosition = 3;
+        final int firstPosition = 0;
+        final int nextPosition = 1;
+        onView(withId(R.id.menu_search)).perform(typeText(
+                EXPECTED_FIRST_NAME + " " + EXPECTED_LAST_NAME + testedChildPosition));
+        onView(withRecyclerView(R.id.rv_child_list)
+                .atPosition(firstPosition))
+                .check(matches(hasDescendant(withText(EXPECTED_FIRST_NAME + " " + EXPECTED_LAST_NAME
+                        + testedChildPosition))));
+        onView(withRecyclerView(R.id.rv_plan_list)
+                .atPosition(nextPosition)).check(doesNotExist());
+    }
+    @Test
+    public void whenSearchForAChildWithSurnameAndNameExpectOnlyThatChildToAppear(){
+        final int testedChildPosition = 3;
+        final int firstPosition = 0;
+        onView(withId(R.id.menu_search)).perform(typeText(
+                EXPECTED_LAST_NAME + testedChildPosition + " " + EXPECTED_FIRST_NAME));
+        onView(withRecyclerView(R.id.rv_child_list)
+                .atPosition(firstPosition))
+                .check(matches(hasDescendant(withText(EXPECTED_FIRST_NAME + " " + EXPECTED_LAST_NAME
+                        + testedChildPosition))));
+    }
+    @Test
+    public void whenSearchForAChildWithFirstLettersOfNameAndSurnameExpectThatChildOnFirstPosition(){
+        final int testedChildPosition = 0;
+        final int firstPosition = 0;
+        onView(withId(R.id.menu_search)).perform(typeText(
+                Character.toString(EXPECTED_FIRST_NAME.charAt(0)) + " "
+                        + Character.toString(EXPECTED_LAST_NAME.charAt(0))));
+        onView(withRecyclerView(R.id.rv_child_list)
+                .atPosition(firstPosition))
                 .check(matches(hasDescendant(withText(EXPECTED_FIRST_NAME + " " + EXPECTED_LAST_NAME
                         + testedChildPosition))));
     }
