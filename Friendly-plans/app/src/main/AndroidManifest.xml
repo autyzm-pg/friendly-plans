@@ -12,7 +12,7 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
     <activity
-      android:name=".view.main_screen.MainActivity"
+      android:name=".manager_app.view.main_screen.MainActivity"
       android:screenOrientation="landscape">
 
       <intent-filter>
@@ -21,24 +21,37 @@
       </intent-filter>
     </activity>
     <activity
-      android:name=".view.plan_create.PlanCreateActivity"
+      android:name=".manager_app.view.plan_create.PlanCreateActivity"
       android:screenOrientation="landscape">
     </activity>
     <activity
-      android:name=".view.plan_list.PlanListActivity"
+      android:name=".manager_app.view.plan_list.PlanListActivity"
       android:screenOrientation="landscape"/>
     <activity
-      android:name=".view.task_create.TaskCreateActivity"
+      android:name=".manager_app.view.task_create.TaskCreateActivity"
       android:screenOrientation="landscape">
     </activity>
     <activity
-      android:name=".view.task_list.TaskListActivity"
+      android:name=".manager_app.view.task_list.TaskListActivity"
+      android:screenOrientation="landscape"/>
+    <activity
+      android:name=".manager_app.view.child_list.ChildListActivity"
       android:screenOrientation="landscape"/>
     <activity
       android:name=".view.child_settings.ChildSettingsActivity"
       android:screenOrientation="landscape"/>
+
     <activity
-      android:name=".view.child_list.ChildListActivity"
-      android:screenOrientation="landscape"/>
+        android:name=".child_app.view.MainActivity"
+        android:screenOrientation="landscape"
+        android:label="@string/child_app_name"
+        android:taskAffinity="pg.autyzm.friendly_plans.ChildTask">
+
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
+
   </application>
 </manifest>

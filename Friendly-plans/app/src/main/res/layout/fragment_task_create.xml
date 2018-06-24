@@ -3,10 +3,10 @@
   <data>
     <variable
         name="events"
-        type="pg.autyzm.friendly_plans.view.task_create.TaskCreateActivityEvents"/>
+        type="pg.autyzm.friendly_plans.manager_app.view.task_create.TaskCreateActivityEvents"/>
     <variable
       name="soundComponent"
-      type="pg.autyzm.friendly_plans.view.components.SoundComponent"/>
+      type="pg.autyzm.friendly_plans.manager_app.view.components.SoundComponent"/>
   </data>
   <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"

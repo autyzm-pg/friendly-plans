@@ -2,7 +2,7 @@
   <data>
     <variable
       name="planTaskListEvents"
-      type="pg.autyzm.friendly_plans.view.plan_create_task_list.PlanTaskListEvents"/>
+      type="pg.autyzm.friendly_plans.manager_app.view.plan_create_task_list.PlanTaskListEvents"/>
   </data>
   <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
