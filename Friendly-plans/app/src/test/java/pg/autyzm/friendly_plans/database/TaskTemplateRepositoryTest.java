@@ -28,6 +28,7 @@ public class TaskTemplateRepositoryTest {
     private static final Long PICTURE_ID = 32L;
     private static final Long SOUND_ID = 31L;
     private static final Long TASK_ID = new Random().nextLong();
+    private static final Long TYPE_ID = Long.valueOf(1);
 
     @InjectMocks
     TaskTemplateRepository taskTemplateRepository;
@@ -45,6 +46,7 @@ public class TaskTemplateRepositoryTest {
         taskTemplate.setId(randomId);
         taskTemplate.setName(TASK_NAME);
         taskTemplate.setDurationTime(DURATION_TIME);
+        taskTemplate.setTypeId(TYPE_ID);
 
         when(daoSession.getTaskTemplateDao()).thenReturn(taskTemplateDao);
         when(taskTemplateDao.insert(any(TaskTemplate.class))).thenReturn(randomId);
@@ -53,19 +55,20 @@ public class TaskTemplateRepositoryTest {
 
     @Test
     public void whenCreatingATaskTemplateExpectInsertMethodBeCalled() {
-        taskTemplateRepository.create(TASK_NAME, DURATION_TIME, PICTURE_ID, SOUND_ID);
+        taskTemplateRepository.create(TASK_NAME, DURATION_TIME, PICTURE_ID, SOUND_ID, TYPE_ID);
         verify(taskTemplateDao, times(1)).insert(any(TaskTemplate.class));
     }
 
     @Test
     public void whenCreatingATaskTemplateExpectNewIdBeReturned() {
-        long id = taskTemplateRepository.create(TASK_NAME, DURATION_TIME, PICTURE_ID, SOUND_ID);
+        long id = taskTemplateRepository
+                .create(TASK_NAME, DURATION_TIME, PICTURE_ID, SOUND_ID, TYPE_ID);
         assertThat(id, is(randomId));
     }
 
     @Test
     public void whenCreatingATaskWithoutSoundAndPictureExpectNewIdToBeReturned() {
-        long id = taskTemplateRepository.create(TASK_NAME, DURATION_TIME, null, null);
+        long id = taskTemplateRepository.create(TASK_NAME, DURATION_TIME, null, null, TYPE_ID);
         assertThat(id, is(randomId));
     }
 
@@ -80,6 +83,7 @@ public class TaskTemplateRepositoryTest {
         TaskTemplate taskTemplate = taskTemplateRepository.get(randomId);
         assertThat(taskTemplate.getName(), is(TASK_NAME));
         assertThat(taskTemplate.getDurationTime(), is(DURATION_TIME));
+        assertThat(taskTemplate.getTypeId(), is(TYPE_ID));
     }
 
     @Test
@@ -96,7 +100,8 @@ public class TaskTemplateRepositoryTest {
 
     @Test
     public void whenUpdatingTaskTemplateExpectUpdateMethodCalled() {
-        taskTemplateRepository.update(TASK_ID, TASK_NAME, DURATION_TIME, PICTURE_ID, SOUND_ID);
+        taskTemplateRepository
+                .update(TASK_ID, TASK_NAME, DURATION_TIME, PICTURE_ID, SOUND_ID, TYPE_ID);
 
         ArgumentCaptor<TaskTemplate> taskTemplateCaptor = ArgumentCaptor
                 .forClass(TaskTemplate.class);
@@ -108,5 +113,6 @@ public class TaskTemplateRepositoryTest {
         assertThat(value.getDurationTime(), is(DURATION_TIME));
         assertThat(value.getSoundId(), is(SOUND_ID));
         assertThat(value.getPictureId(), is(PICTURE_ID));
+        assertThat(value.getTypeId(), is(TYPE_ID));
     }
 }

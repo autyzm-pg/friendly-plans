@@ -31,6 +31,7 @@ public class TaskCreateActivityEditModeTest {
     private static final String TASK_NAME = "TEST TASK";
     private static final String TASK_DURATION_TXT = "3";
     private static final int TASK_DURATION = 3;
+    private static final Long TYPE_ID = Long.valueOf(3);
 
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
@@ -47,7 +48,7 @@ public class TaskCreateActivityEditModeTest {
     public void setUp() {
         Context context = activityRule.getActivity().getApplicationContext();
         taskTemplateRepository = new TaskTemplateRepository(daoSessionResource.getSession(context));
-        editTaskId = taskTemplateRepository.create(TASK_NAME, TASK_DURATION, null, null);
+        editTaskId = taskTemplateRepository.create(TASK_NAME, TASK_DURATION, null, null, TYPE_ID);
         idsToDelete.add(editTaskId);
 
     }
