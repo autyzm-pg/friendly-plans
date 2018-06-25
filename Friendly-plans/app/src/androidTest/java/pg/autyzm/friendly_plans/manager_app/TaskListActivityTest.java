@@ -11,10 +11,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import database.repository.TaskTemplateRepository;
 import pg.autyzm.friendly_plans.R;
-import pg.autyzm.friendly_plans.resource.DaoSessionResource;
 import pg.autyzm.friendly_plans.manager_app.view.task_list.TaskListActivity;
+import pg.autyzm.friendly_plans.resource.DaoSessionResource;
+import pg.autyzm.friendly_plans.resource.TaskTemplateRule;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -31,21 +31,20 @@ public class TaskListActivityTest {
     private static final String expectedName = "TEST TASK ";
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
+
     @Rule
     public ActivityTestRule<TaskListActivity> activityRule = new ActivityTestRule<>(
             TaskListActivity.class, true, true);
 
+    @Rule
+    public TaskTemplateRule taskTemplateRule = new TaskTemplateRule(daoSessionResource,
+            activityRule);
+
     @Before
     public void setUp() {
         final int numberOfTasks = 10;
-        TaskTemplateRepository taskTemplateRepository = new TaskTemplateRepository(
-                daoSessionResource.getSession(activityRule.getActivity().getApplicationContext()));
-        taskTemplateRepository.deleteAll();
         for (int taskNumber = 0; taskNumber < numberOfTasks; taskNumber++) {
-            taskTemplateRepository
-                    .create(expectedName + taskNumber,
-                            taskNumber, (long) taskNumber,
-                            (long) taskNumber);
+            taskTemplateRule.createTask(expectedName + taskNumber);
         }
         activityRule.launchActivity(new Intent());
     }

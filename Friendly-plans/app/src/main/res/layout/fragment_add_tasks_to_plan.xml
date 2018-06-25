@@ -1,4 +1,9 @@
 <layout>
+  <data>
+    <variable
+        name="addTasksToPlanEvents"
+        type="pg.autyzm.friendly_plans.manager_app.view.plan_create_add_tasks.AddTasksToPlanEvents"/>
+  </data>
   <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -23,7 +28,8 @@
         android:id="@+id/id_btn_add_tasks_to_plan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add"/>
+        android:onClick="@{addTasksToPlanEvents::eventDoneAddingTasksToPlan}"
+        android:text="@string/done"/>
 
     </LinearLayout>
 

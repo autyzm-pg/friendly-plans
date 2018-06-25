@@ -8,9 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import database.entities.TaskTemplate;
+
 import java.util.Collections;
 import java.util.List;
+
+import database.entities.TaskTemplate;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.asset.AssetsHelper;
 
@@ -24,7 +26,7 @@ public class TaskRecyclerViewAdapter
     private TaskItemClickListener taskItemClickListener;
     private AssetsHelper assetsHelper;
 
-    TaskRecyclerViewAdapter(TaskItemClickListener taskItemClickListener) {
+    public TaskRecyclerViewAdapter(TaskItemClickListener taskItemClickListener) {
         this.taskItemClickListener = taskItemClickListener;
         this.taskItemList = Collections.emptyList();
     }
@@ -53,7 +55,7 @@ public class TaskRecyclerViewAdapter
         return taskItemList != null && taskItemList.size() != 0 ? taskItemList.size() : 0;
     }
 
-    void setTaskItems(List<TaskTemplate> taskItemList) {
+    public void setTaskItems(List<TaskTemplate> taskItemList) {
         this.taskItemList = taskItemList;
         notifyDataSetChanged();
     }
@@ -88,11 +90,16 @@ public class TaskRecyclerViewAdapter
         }
     }
 
-    TaskTemplate getTaskItem(int position) {
+    public TaskTemplate getTaskItem(int position) {
         return taskItemList.get(position);
     }
 
-    interface TaskItemClickListener {
+    public void removeListItem(int position){
+        taskItemList.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public interface TaskItemClickListener {
 
         void onTaskItemClick(int position);
     }
