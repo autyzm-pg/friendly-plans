@@ -38,7 +38,7 @@ public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents
 
                 @Override
                 public void onRemoveTaskClick(int position){
-
+                    /*Item remove TODO*/
                 }
             };
 
