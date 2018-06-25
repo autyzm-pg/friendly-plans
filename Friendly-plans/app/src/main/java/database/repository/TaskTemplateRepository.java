@@ -13,23 +13,27 @@ public class TaskTemplateRepository {
         this.daoSession = daoSession;
     }
 
-    public long create(String name, Integer durationTime, Long pictureId, Long soundId) {
+    public long create(String name, Integer durationTime, Long pictureId, Long soundId,
+            Long typeId) {
         TaskTemplate taskTemplate = new TaskTemplate();
         taskTemplate.setName(name);
         taskTemplate.setDurationTime(durationTime);
         taskTemplate.setPictureId(pictureId);
         taskTemplate.setSoundId(soundId);
+        taskTemplate.setTypeId(typeId);
 
         return daoSession.getTaskTemplateDao().insert(taskTemplate);
     }
 
-    public void update(Long taskId, String name, Integer durationTime, Long pictureId, Long soundId) {
+    public void update(Long taskId, String name, Integer durationTime, Long pictureId, Long soundId,
+            Long typeId) {
         TaskTemplate taskTemplate = new TaskTemplate();
         taskTemplate.setId(taskId);
         taskTemplate.setName(name);
         taskTemplate.setDurationTime(durationTime);
         taskTemplate.setPictureId(pictureId);
         taskTemplate.setSoundId(soundId);
+        taskTemplate.setTypeId(typeId);
 
         daoSession.getTaskTemplateDao().update(taskTemplate);
     }

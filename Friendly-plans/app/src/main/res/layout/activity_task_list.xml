@@ -1,16 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
-
-  <android.support.v7.widget.RecyclerView
-    android:id="@+id/rv_task_list"
+<layout>
+  <data>
+    <variable
+      name="events"
+      type="pg.autyzm.friendly_plans.manager_app.view.task_list.TaskListActivityEvents" />
+  </data>
+  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="8dp"
-    android:scrollbars="vertical"
-    tools:listitem="@layout/item_task">
-  </android.support.v7.widget.RecyclerView>
-</RelativeLayout>
+    android:layout_height="match_parent">
+
+    <GridLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignWithParentIfMissing="false"
+      android:padding="5dp"
+      android:alignmentMode="alignBounds"
+      android:columnCount="3"
+      android:orientation="vertical"
+      android:stretchMode="columnWidth">
+      <Button
+        android:id="@+id/id_btn_list_of_tasks"
+        android:layout_width="600px"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_gravity="start"
+        android:layout_row="0"
+        android:gravity="center_vertical|center_horizontal"
+        android:onClick="@{events::eventShowListOfTasks}"
+        android:text="@string/tasks_list" />
+      <Button
+        android:id="@+id/id_btn_list_of_prizes"
+        android:layout_width="600px"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_gravity="center"
+        android:layout_row="0"
+        android:gravity="center_vertical|center_horizontal"
+        android:onClick="@{events::eventShowListOfPrizes}"
+        android:text="@string/prizes" />
+      <Button
+        android:id="@+id/id_btn_list_of_interactions"
+        android:layout_width="600px"
+        android:layout_height="wrap_content"
+        android:layout_column="2"
+        android:layout_row="0"
+        android:onClick="@{events::eventShowListOfInteractions}"
+        android:text="@string/interactions" />
+    </GridLayout>
+    <android.support.v7.widget.RecyclerView
+      android:id="@+id/rv_task_list"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="70dp"
+      android:layout_alignParentStart="true"
+      android:layout_alignParentTop="true"
+      android:scrollbars="vertical"
+      tools:listitem="@layout/item_task" />
+  </RelativeLayout>
+</layout>
