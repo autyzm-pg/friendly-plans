@@ -21,7 +21,7 @@
       android:stretchMode="columnWidth">
       <Button
         android:id="@+id/id_btn_list_of_tasks"
-        android:layout_width="wrap_content"
+        android:layout_width="600px"
         android:layout_height="wrap_content"
         android:layout_column="0"
         android:layout_gravity="start"
@@ -31,7 +31,7 @@
         android:text="@string/tasks_list" />
       <Button
         android:id="@+id/id_btn_list_of_prizes"
-        android:layout_width="wrap_content"
+        android:layout_width="600px"
         android:layout_height="wrap_content"
         android:layout_column="1"
         android:layout_gravity="center"
@@ -41,7 +41,7 @@
         android:text="@string/prizes" />
       <Button
         android:id="@+id/id_btn_list_of_interactions"
-        android:layout_width="wrap_content"
+        android:layout_width="600px"
         android:layout_height="wrap_content"
         android:layout_column="2"
         android:layout_row="0"
