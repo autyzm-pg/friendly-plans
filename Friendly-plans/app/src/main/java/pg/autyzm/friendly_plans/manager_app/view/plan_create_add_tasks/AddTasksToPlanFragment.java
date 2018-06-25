@@ -42,7 +42,11 @@ public class AddTasksToPlanFragment extends Fragment implements AddTasksToPlanEv
                 public void onTaskItemClick(int position) {
                     planTemplateRepository.setTasksWithThisPlan(planId, taskListAdapter.getTaskItem(position).getId());
                     taskListAdapter.removeListItem(position);
+                }
 
+                @Override
+                public void onRemoveTaskClick(int position){
+                    /*Item remove TODO*/
                 }
             };
 

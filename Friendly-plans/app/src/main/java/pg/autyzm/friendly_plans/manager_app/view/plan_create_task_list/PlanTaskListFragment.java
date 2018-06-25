@@ -35,6 +35,11 @@ public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents
                 public void onTaskItemClick(int position) {
                     /* What to do after click? Remove task? Edit? */
                 }
+
+                @Override
+                public void onRemoveTaskClick(int position){
+                    /*Item remove TODO*/
+                }
             };
 
     @Override
