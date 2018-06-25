@@ -16,6 +16,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import pg.autyzm.friendly_plans.R;
+import pg.autyzm.friendly_plans.resource.ChildViewClicker;
+import pg.autyzm.friendly_plans.resource.DaoSessionResource;
 import pg.autyzm.friendly_plans.manager_app.view.task_list.TaskListActivity;
 import pg.autyzm.friendly_plans.resource.DaoSessionResource;
 import pg.autyzm.friendly_plans.resource.TaskTemplateRule;
@@ -77,32 +79,11 @@ public class TaskListActivityTest {
         onView(withId(R.id.rv_task_list))
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(testedTaskPosition,
-                                clickChildViewWithId(R.id.id_remove_task)));
+                                new ChildViewClicker(R.id.id_remove_task)));
         onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedTaskPosition));
         onView(withRecyclerView(R.id.rv_task_list)
                 .atPosition(testedTaskPosition))
                 .check(matches(not(hasDescendant(withText(expectedName
                         + testedTaskPosition)))));
-    }
-    
-    //childViewClicker?
-    public static ViewAction clickChildViewWithId(final int id) {
-        return new ViewAction() {
-            @Override
-            public Matcher<View> getConstraints() {
-                return null;
-            }
-
-            @Override
-            public String getDescription() {
-                return null;
-            }
-
-            @Override
-            public void perform(UiController uiController, View view) {
-                View v = view.findViewById(id);
-                v.performClick();
-            }
-        };
     }
 }
