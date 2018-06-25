@@ -1,9 +1,12 @@
 package database.repository;
 
+import java.util.List;
+
 import database.entities.DaoSession;
+import database.entities.PlanTaskTemplate;
+import database.entities.PlanTaskTemplateDao;
 import database.entities.PlanTemplate;
 import database.entities.PlanTemplateDao;
-import java.util.List;
 
 
 public class PlanTemplateRepository {
@@ -27,6 +30,17 @@ public class PlanTemplateRepository {
         daoSession.getPlanTemplateDao().update(planTemplate);
     }
 
+
+    public void setTasksWithThisPlan(Long planId, Long taskId) {
+        PlanTaskTemplate planTaskTemplate = new PlanTaskTemplate();
+        planTaskTemplate.setTaskTemplateId(taskId);
+        planTaskTemplate.setPlanTemplateId(planId);
+
+        PlanTaskTemplateDao targetDao = daoSession.getPlanTaskTemplateDao();
+        targetDao.insert(planTaskTemplate);
+
+        get(planId).resetTasksWithThisPlan();
+    }
 
     public PlanTemplate get(Long id) {
         return daoSession.getPlanTemplateDao().load(id);

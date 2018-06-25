@@ -40,12 +40,7 @@ public class AddTasksToPlanFragment extends Fragment implements AddTasksToPlanEv
             new TaskRecyclerViewAdapter.TaskItemClickListener() {
                 @Override
                 public void onTaskItemClick(int position) {
-                    PlanTemplate planTemplate = planTemplateRepository.get(planId);
-                    planTemplate.setTasksWithThisPlan(
-                            taskTemplateRepository.get(
-                                    taskListAdapter.getTaskItem(position).getId()
-                            )
-                    );
+                    planTemplateRepository.setTasksWithThisPlan(planId, taskListAdapter.getTaskItem(position).getId());
                     taskListAdapter.removeListItem(position);
 
                 }

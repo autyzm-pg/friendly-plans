@@ -70,18 +70,6 @@ public class PlanTemplate {
         this.name = name;
     }
 
-    public void setTasksWithThisPlan(TaskTemplate task) {
-        PlanTaskTemplate planTaskTemplate = new PlanTaskTemplate();
-        planTaskTemplate.setTaskTemplateId(task.getId());
-        planTaskTemplate.setPlanTemplateId(id);
-
-        PlanTaskTemplateDao targetDao = daoSession.getPlanTaskTemplateDao();
-        targetDao.insert(planTaskTemplate);
-
-        if (tasksWithThisPlan == null) { getTasksWithThisPlan(); }
-        tasksWithThisPlan.add(task);
-    }
-
     /**
      * To-many relationship, resolved on first access (and after reset). Changes to to-many
      * relations are not persisted, make changes to the target entity.
