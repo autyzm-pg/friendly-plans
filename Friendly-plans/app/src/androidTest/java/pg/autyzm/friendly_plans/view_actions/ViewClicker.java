@@ -1,4 +1,4 @@
-package pg.autyzm.friendly_plans.resource;
+package pg.autyzm.friendly_plans.view_actions;
 
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
@@ -6,7 +6,7 @@ import android.view.View;
 
 import org.hamcrest.Matcher;
 
-public class ChildViewClicker implements ViewAction {
+public class ViewClicker implements ViewAction {
     private final int id;
 
     @Override
@@ -25,7 +25,7 @@ public class ChildViewClicker implements ViewAction {
         v.performClick();
     }
 
-    public ChildViewClicker(int id){
+    public ViewClicker(int id){
         this.id = id;
     }
 }

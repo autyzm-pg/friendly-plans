@@ -12,10 +12,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import pg.autyzm.friendly_plans.R;
-import pg.autyzm.friendly_plans.resource.ChildViewClicker;
+import pg.autyzm.friendly_plans.view_actions.ViewClicker;
 import pg.autyzm.friendly_plans.resource.DaoSessionResource;
 import pg.autyzm.friendly_plans.manager_app.view.task_list.TaskListActivity;
-import pg.autyzm.friendly_plans.resource.DaoSessionResource;
 import pg.autyzm.friendly_plans.resource.TaskTemplateRule;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -75,7 +74,7 @@ public class TaskListActivityTest {
         onView(withId(R.id.rv_task_list))
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(testedTaskPosition,
-                                new ChildViewClicker(R.id.id_remove_task)));
+                                new ViewClicker(R.id.id_remove_task)));
         onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedTaskPosition));
         onView(withRecyclerView(R.id.rv_task_list)
                 .atPosition(testedTaskPosition))
