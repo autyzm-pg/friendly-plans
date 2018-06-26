@@ -84,7 +84,7 @@ public class StepListFragmentTest {
         long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
         openStepsListFragment(taskId);
         onView(withId(R.id.id_btn_next))
-            .perform(click());
+                .perform(click());
 
         onView(withId(R.id.button_createPlan)).check(matches(isDisplayed()));
     }
@@ -106,7 +106,8 @@ public class StepListFragmentTest {
         long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
         openStepsListFragment(taskId);
 
-        onView(withId(R.id.rv_step_list)).perform(
+        onView(withId(R.id.rv_step_list))
+                .perform(
                 RecyclerViewActions
                         .actionOnItemAtPosition(0, swipeLeft()));
 
@@ -118,7 +119,8 @@ public class StepListFragmentTest {
         long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
         openStepsListFragment(taskId);
 
-        onView(withId(R.id.rv_step_list)).perform(
+        onView(withId(R.id.rv_step_list))
+                .perform(
                 RecyclerViewActions
                         .actionOnItemAtPosition(0, click()));
 

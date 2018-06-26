@@ -11,6 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import database.repository.TaskTemplateRepository;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.view_actions.ViewClicker;
 import pg.autyzm.friendly_plans.resource.DaoSessionResource;
@@ -30,7 +31,10 @@ import static pg.autyzm.friendly_plans.matcher.RecyclerViewMatcher.withRecyclerV
 @RunWith(AndroidJUnit4.class)
 public class TaskListActivityTest {
 
-    private static final String expectedName = "TEST TASK ";
+    private static final String expectedNameTask = "TEST TASK ";
+    private static final String expectedNamePrize = "TEST PRIZE ";
+    private static final String expectedNameInteraction = "TEST INTERACTION ";
+
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
 
@@ -45,9 +49,27 @@ public class TaskListActivityTest {
     @Before
     public void setUp() {
         final int numberOfTasks = 10;
+        TaskTemplateRepository taskTemplateRepository = new TaskTemplateRepository(
+                daoSessionResource.getSession(activityRule.getActivity().getApplicationContext()));
+        taskTemplateRepository.deleteAll();
         for (int taskNumber = 0; taskNumber < numberOfTasks; taskNumber++) {
-            taskTemplateRule.createTask(expectedName + taskNumber);
+            taskTemplateRepository
+                    .create(expectedNameTask + taskNumber,
+                            taskNumber, (long) taskNumber,
+                            (long) taskNumber,
+                            1);
+            taskTemplateRepository
+                    .create(expectedNamePrize + taskNumber,
+                            taskNumber, (long) taskNumber,
+                            (long) taskNumber,
+                           2);
+            taskTemplateRepository
+                    .create(expectedNameInteraction + taskNumber,
+                            taskNumber, (long) taskNumber,
+                            (long) taskNumber,
+                            3);
         }
+
         activityRule.launchActivity(new Intent());
     }
 
@@ -60,11 +82,34 @@ public class TaskListActivityTest {
 
     @Test
     public void whenTaskIsAddedToDBExpectProperlyDisplayedOnRecyclerView() {
-        final int testedTaskPosition = 5;
+        final int testedTaskPosition = 4;
+        onView(withId(R.id.id_btn_list_of_tasks)).perform(click());
         onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedTaskPosition));
         onView(withRecyclerView(R.id.rv_task_list)
                 .atPosition(testedTaskPosition))
-                .check(matches(hasDescendant(withText(expectedName
+                .check(matches(hasDescendant(withText(expectedNameTask
+                        + testedTaskPosition))));
+    }
+
+    @Test
+    public void whenPrizeIsAddedToDBExpectProperlyDisplayedOnRecyclerView() {
+        final int testedTaskPosition = 4;
+        onView(withId(R.id.id_btn_list_of_prizes)).perform(click());
+        onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedTaskPosition));
+        onView(withRecyclerView(R.id.rv_task_list)
+                .atPosition(testedTaskPosition))
+                .check(matches(hasDescendant(withText(expectedNamePrize
+                        + testedTaskPosition))));
+    }
+
+    @Test
+    public void whenInteractionIsAddedToDBExpectProperlyDisplayedOnRecyclerView() {
+        final int testedTaskPosition = 4;
+        onView(withId(R.id.id_btn_list_of_interactions)).perform(click());
+        onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedTaskPosition));
+        onView(withRecyclerView(R.id.rv_task_list)
+                .atPosition(testedTaskPosition))
+                .check(matches(hasDescendant(withText(expectedNameInteraction
                         + testedTaskPosition))));
     }
 
@@ -78,7 +123,7 @@ public class TaskListActivityTest {
         onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedTaskPosition));
         onView(withRecyclerView(R.id.rv_task_list)
                 .atPosition(testedTaskPosition))
-                .check(matches(not(hasDescendant(withText(expectedName
+                .check(matches(not(hasDescendant(withText(expectedNameTask
                         + testedTaskPosition)))));
     }
 }

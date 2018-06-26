@@ -41,6 +41,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertNull;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
 import static pg.autyzm.friendly_plans.matcher.ErrorTextMatcher.hasErrorText;
 
 @RunWith(AndroidJUnit4.class)
@@ -51,6 +52,7 @@ public class TaskCreateActivityTest {
     private static final int EXPECTED_DURATION = 1;
     private static final String BAD_TASK_NAME = "Bad task name!@";
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
+    private static final Long EXPECTED_TYPE_ID = Long.valueOf(1);
 
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
@@ -117,6 +119,9 @@ public class TaskCreateActivityTest {
                 .perform(replaceText(EXPECTED_DURATION_TXT));
         closeSoftKeyboard();
 
+        onView(withId(R.id.id_rb_type_task))
+                .perform(click());
+
         onView(withId(R.id.id_btn_steps))
                 .perform(click());
 
@@ -126,6 +131,69 @@ public class TaskCreateActivityTest {
         assertThat(taskTemplates.size(), is(1));
         assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
         assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
+        assertThat(taskTemplates.get(0).getTypeId(), is(EXPECTED_TYPE_ID));
+        onView(withText(R.string.task_saved_message)).inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void whenAddingNewPrizeExpectNewTaskAddedToDB() {
+        onView(withId(R.id.id_et_task_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_et_task_duration_time))
+                .perform(replaceText(EXPECTED_DURATION_TXT));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_rb_type_prize))
+                .perform(click());
+
+        onView(withId(R.id.id_btn_steps))
+                .check(matches(not(isDisplayed())));
+
+        onView(withId(R.id.id_btn_save_and_finish))
+                .perform(scrollTo())
+                .perform(click());
+
+        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
+        idsToDelete.add(taskTemplates.get(0).getId());
+
+        assertThat(taskTemplates.size(), is(1));
+        assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
+        assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
+        assertThat(taskTemplates.get(0).getTypeId(), is(Long.valueOf(2)));
+        onView(withText(R.string.task_saved_message)).inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void whenAddingNewInteractionExpectNewTaskAddedToDB() {
+        onView(withId(R.id.id_et_task_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_et_task_duration_time))
+                .perform(replaceText(EXPECTED_DURATION_TXT));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_rb_type_interaction))
+                .perform(click());
+
+        onView(withId(R.id.id_btn_steps))
+                .check(matches(not(isDisplayed())));
+
+        onView(withId(R.id.id_btn_save_and_finish))
+                .perform(scrollTo())
+                .perform(click());
+
+        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
+        idsToDelete.add(taskTemplates.get(0).getId());
+
+        assertThat(taskTemplates.size(), is(1));
+        assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
+        assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
+        assertThat(taskTemplates.get(0).getTypeId(), is(Long.valueOf(3)));
         onView(withText(R.string.task_saved_message)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
     }
@@ -140,7 +208,11 @@ public class TaskCreateActivityTest {
                 .perform(replaceText(EXPECTED_DURATION_TXT));
         closeSoftKeyboard();
 
+        onView(withId(R.id.id_rb_type_task))
+                .perform(click());
+
         onView(withId(R.id.id_btn_save_and_finish))
+                .perform(scrollTo())
                 .perform(click());
 
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
@@ -149,6 +221,7 @@ public class TaskCreateActivityTest {
         assertThat(taskTemplates.size(), is(1));
         assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
         assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
+        assertThat(taskTemplates.get(0).getTypeId(), is(EXPECTED_TYPE_ID));
         onView(withId(R.id.button_createPlan)).check(matches(isDisplayed()));
     }
 
@@ -308,7 +381,7 @@ public class TaskCreateActivityTest {
     @Test
     public void whenAddTaskWithExistingNameExpectWarning() {
         idsToDelete.add(taskTemplateRepository
-                .create(EXPECTED_NAME, Integer.valueOf(EXPECTED_DURATION_TXT), null, null));
+                .create(EXPECTED_NAME, Integer.valueOf(EXPECTED_DURATION_TXT), null, null, EXPECTED_TYPE_ID));
 
         onView(withId(R.id.id_et_task_name))
                 .perform(typeText(EXPECTED_NAME));
@@ -439,6 +512,7 @@ public class TaskCreateActivityTest {
         closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_save_and_finish))
+                .perform(scrollTo())
                 .perform(click());
 
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
@@ -449,4 +523,5 @@ public class TaskCreateActivityTest {
         assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
         onView(withId(R.id.button_createPlan)).check(matches(isDisplayed()));
     }
+
 }
