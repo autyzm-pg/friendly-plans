@@ -85,6 +85,7 @@ public class PlanListActivityTest {
         closeSoftKeyboard();
 
         onView(withId(R.id.menu_search)).perform(typeText(expectedName + testedPlanPosition));
+        closeSoftKeyboard();
         onView(withRecyclerView(R.id.rv_plan_list)
                 .atPosition(0))
                 .check(matches(hasDescendant(withText(expectedName
@@ -133,7 +134,7 @@ public class PlanListActivityTest {
     }
 
     @Test
-    public void whenSearchedPlanIsRemovedExpectNoPlansInSearch(){
+    public void whenSearchedPlanIsRemovedExpectNoPlansInSearch() {
         final int testedPlanPosition = 5;
 
         onView(withId(R.id.menu_search)).perform(typeText(expectedName + testedPlanPosition));
@@ -147,15 +148,18 @@ public class PlanListActivityTest {
 
         onView(withRecyclerView(R.id.rv_plan_list)
                 .atPosition(0))
-                    .check(doesNotExist());
+                .check(doesNotExist());
     }
 
     @Test
-    public void whenSearchPlanIsRemovedExpectItToBeRemoved(){
+    public void whenSearchPlanIsRemovedExpectItToBeRemoved() {
         final int testedPlanPosition = 5;
 
-        onView(withId(R.id.menu_search)).perform(click());
+        onView(withId(R.id.menu_search))
+                .perform(click());
         onView(withId(R.id.menu_search)).perform(typeText(expectedName + testedPlanPosition));
+        closeSoftKeyboard();
+
         onView(withId(R.id.rv_plan_list))
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(0,
@@ -165,7 +169,7 @@ public class PlanListActivityTest {
         onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(testedPlanPosition));
         onView(withRecyclerView(R.id.rv_plan_list)
                 .atPosition(testedPlanPosition))
-                    .check(matches(hasDescendant(withText(expectedName
+                .check(matches(hasDescendant(withText(expectedName
                         + (testedPlanPosition + 1)))));
     }
 
@@ -179,7 +183,7 @@ public class PlanListActivityTest {
         closeSoftKeyboard();
 
         onView(withId(R.id.id_et_plan_name))
-                .check(matches(withText(expectedName + testedPlanPosition )));
+                .check(matches(withText(expectedName + testedPlanPosition)));
 
         onView(withId(R.id.id_et_plan_name))
                 .perform(replaceText(newName));
