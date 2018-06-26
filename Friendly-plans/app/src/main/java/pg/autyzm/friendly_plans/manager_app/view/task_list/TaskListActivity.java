@@ -17,11 +17,14 @@ import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.ActivityTaskListBinding;
 import pg.autyzm.friendly_plans.manager_app.view.task_create.TaskCreateActivity;
+import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 
 public class TaskListActivity extends AppCompatActivity implements TaskListActivityEvents {
 
     @Inject
     TaskTemplateRepository taskTemplateRepository;
+    @Inject
+    ToastUserNotifier toastUserNotifier;
 
     private TaskRecyclerViewAdapter taskListAdapter;
     private List<TaskTemplate> taskItemList = new ArrayList<TaskTemplate>();
@@ -31,6 +34,16 @@ public class TaskListActivity extends AppCompatActivity implements TaskListActiv
 
     TaskRecyclerViewAdapter.TaskItemClickListener taskItemClickListener =
             new TaskRecyclerViewAdapter.TaskItemClickListener() {
+
+                @Override
+                public void onRemoveTaskClick(int position){
+                    taskTemplateRepository.delete(taskListAdapter.getTaskItem(position).getId());
+                    toastUserNotifier.displayNotifications(
+                            R.string.task_removed_message,
+                            getApplicationContext());
+                    taskListAdapter.setTaskItems(taskTemplateRepository.getAll());
+                }
+
                 @Override
                 public void onTaskItemClick(int position) {
                     Bundle bundle = new Bundle();

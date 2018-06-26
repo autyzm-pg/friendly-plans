@@ -1,15 +1,11 @@
 package pg.autyzm.friendly_plans.manager_app;
 
 import android.content.Intent;
-import android.support.test.espresso.UiController;
-import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.View;
 import android.widget.EditText;
 
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -21,6 +17,7 @@ import java.util.List;
 import database.entities.PlanTemplate;
 import database.repository.PlanTemplateRepository;
 import pg.autyzm.friendly_plans.R;
+import pg.autyzm.friendly_plans.view_actions.ViewClicker;
 import pg.autyzm.friendly_plans.resource.DaoSessionResource;
 import pg.autyzm.friendly_plans.manager_app.view.plan_list.PlanListActivity;
 
@@ -125,7 +122,7 @@ public class PlanListActivityTest {
         onView(withId(R.id.rv_plan_list))
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(testedTaskPosition,
-                                clickChildViewWithId(R.id.id_remove_plan)));
+                                new ViewClicker(R.id.id_remove_plan)));
         onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(testedTaskPosition));
         onView(withRecyclerView(R.id.rv_plan_list)
                 .atPosition(testedTaskPosition))
@@ -143,7 +140,7 @@ public class PlanListActivityTest {
         onView(withId(R.id.rv_plan_list))
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(0,
-                                clickChildViewWithId(R.id.id_remove_plan)));
+                                new ViewClicker(R.id.id_remove_plan)));
         closeSoftKeyboard();
 
         onView(withRecyclerView(R.id.rv_plan_list)
@@ -154,17 +151,19 @@ public class PlanListActivityTest {
     @Test
     public void whenSearchPlanIsRemovedExpectItToBeRemoved() {
         final int testedPlanPosition = 5;
-
+      
         onView(withId(R.id.menu_search))
                 .perform(click());
         onView(withId(R.id.menu_search)).perform(typeText(expectedName + testedPlanPosition));
         closeSoftKeyboard();
 
+
         onView(withId(R.id.rv_plan_list))
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(0,
-                                clickChildViewWithId(R.id.id_remove_plan)));
+                                new ViewClicker(R.id.id_remove_plan)));
         onView(isAssignableFrom(EditText.class)).perform(clearText());
+        closeSoftKeyboard();
 
         onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(testedPlanPosition));
         onView(withRecyclerView(R.id.rv_plan_list)
@@ -196,25 +195,5 @@ public class PlanListActivityTest {
         List<PlanTemplate> planTemplates = planTemplateRepository.get(newName);
         assertThat(planTemplates.size(), is(1));
 
-    }
-
-    public static ViewAction clickChildViewWithId(final int id) {
-        return new ViewAction() {
-            @Override
-            public Matcher<View> getConstraints() {
-                return null;
-            }
-
-            @Override
-            public String getDescription() {
-                return null;
-            }
-
-            @Override
-            public void perform(UiController uiController, View view) {
-                View v = view.findViewById(id);
-                v.performClick();
-            }
-        };
     }
 }
