@@ -68,14 +68,19 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         registerViews(view);
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            Long taskId = (Long) arguments.get(ActivityProperties.TASK_ID);
+        view.post(new Runnable() {  // Set assets only when the layout is completely built
+            @Override
+            public void run() {
+                Bundle arguments = getArguments();
+                if (arguments != null) {
+                    Long taskId = (Long) arguments.get(ActivityProperties.TASK_ID);
 
-            if (taskId != null) {
-                initTaskForm(taskId);
+                    if (taskId != null) {
+                        initTaskForm(taskId);
+                    }
+                }
             }
-        }
+        });
     }
 
     private void registerViews(View view) {
