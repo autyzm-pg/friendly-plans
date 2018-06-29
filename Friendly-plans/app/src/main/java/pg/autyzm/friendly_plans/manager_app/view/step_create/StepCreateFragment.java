@@ -86,16 +86,21 @@ public class StepCreateFragment extends CreateFragment implements StepCreateEven
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         registerViews(view);
-        if(step != null) {
-            Asset picture = step.getPicture();
-            Asset sound = step.getSound();
-            if (picture != null) {
-                setAssetValue(AssetType.PICTURE, picture.getFilename(), picture.getId());
+        view.post(new Runnable() {  // Set assets only when the layout is completely built
+            @Override
+            public void run() {
+                if(step != null) {
+                    Asset picture = step.getPicture();
+                    Asset sound = step.getSound();
+                    if (picture != null) {
+                        setAssetValue(AssetType.PICTURE, picture.getFilename(), picture.getId());
+                    }
+                    if (sound != null) {
+                        setAssetValue(AssetType.SOUND, sound.getFilename(), sound.getId());
+                    }
+                }
             }
-            if (sound != null) {
-                setAssetValue(AssetType.SOUND, sound.getFilename(), sound.getId());
-            }
-        }
+        });
     }
 
     private void registerViews(View view) {
