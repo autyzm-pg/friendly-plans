@@ -31,7 +31,7 @@ public class TaskCreateActivityEditModeTest {
     private static final String TASK_NAME = "TEST TASK";
     private static final String TASK_DURATION_TXT = "3";
     private static final int TASK_DURATION = 3;
-    private static final Long TYPE_ID = Long.valueOf(3);
+    private static final Integer TYPE_ID = 3;
 
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();

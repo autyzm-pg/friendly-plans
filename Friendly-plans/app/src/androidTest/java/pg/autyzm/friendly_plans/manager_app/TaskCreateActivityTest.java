@@ -52,7 +52,7 @@ public class TaskCreateActivityTest {
     private static final int EXPECTED_DURATION = 1;
     private static final String BAD_TASK_NAME = "Bad task name!@";
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
-    private static final Long EXPECTED_TYPE_ID = Long.valueOf(1);
+    private static final Integer EXPECTED_TYPE_ID = 1;
 
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
@@ -162,7 +162,7 @@ public class TaskCreateActivityTest {
         assertThat(taskTemplates.size(), is(1));
         assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
         assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
-        assertThat(taskTemplates.get(0).getTypeId(), is(Long.valueOf(2)));
+        assertThat(taskTemplates.get(0).getTypeId(), is(2));
         onView(withText(R.string.task_saved_message)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
     }
@@ -193,7 +193,7 @@ public class TaskCreateActivityTest {
         assertThat(taskTemplates.size(), is(1));
         assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
         assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
-        assertThat(taskTemplates.get(0).getTypeId(), is(Long.valueOf(3)));
+        assertThat(taskTemplates.get(0).getTypeId(), is(3));
         onView(withText(R.string.task_saved_message)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
     }
