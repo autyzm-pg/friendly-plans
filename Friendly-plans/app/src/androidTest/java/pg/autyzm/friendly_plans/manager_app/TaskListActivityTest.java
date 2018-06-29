@@ -49,17 +49,17 @@ public class TaskListActivityTest {
                     .create(expectedNameTask + taskNumber,
                             taskNumber, (long) taskNumber,
                             (long) taskNumber,
-                            Long.valueOf(1));
+                            1);
             taskTemplateRepository
                     .create(expectedNamePrize + taskNumber,
                             taskNumber, (long) taskNumber,
                             (long) taskNumber,
-                            Long.valueOf(2));
+                            2);
             taskTemplateRepository
                     .create(expectedNameInteraction + taskNumber,
                             taskNumber, (long) taskNumber,
                             (long) taskNumber,
-                            Long.valueOf(3));
+                            3);
         }
 
         activityRule.launchActivity(new Intent());

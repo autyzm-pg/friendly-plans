@@ -14,7 +14,7 @@ public class TaskTemplateRepository {
     }
 
     public long create(String name, Integer durationTime, Long pictureId, Long soundId,
-            Long typeId) {
+            Integer typeId) {
         TaskTemplate taskTemplate = new TaskTemplate();
         taskTemplate.setName(name);
         taskTemplate.setDurationTime(durationTime);
@@ -26,7 +26,7 @@ public class TaskTemplateRepository {
     }
 
     public void update(Long taskId, String name, Integer durationTime, Long pictureId, Long soundId,
-            Long typeId) {
+            Integer typeId) {
         TaskTemplate taskTemplate = new TaskTemplate();
         taskTemplate.setId(taskId);
         taskTemplate.setName(name);

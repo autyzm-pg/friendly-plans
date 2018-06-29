@@ -73,15 +73,17 @@ public class TaskListActivity extends AppCompatActivity implements TaskListActiv
 
     private void setElementsLists(List<TaskTemplate> taskTemplateList) {
         for (TaskTemplate item : taskTemplateList) {
-            switch (item.getTypeId().toString()) {
-                case "1":
+            switch (item.getTypeId()) {
+                case 1:
                     taskItemList.add(item);
                     break;
-                case "2":
+                case 2:
                     prizeItemList.add(item);
                     break;
-                case "3":
+                case 3:
                     interactionItemList.add(item);
+                    break;
+                default:
                     break;
             }
         }

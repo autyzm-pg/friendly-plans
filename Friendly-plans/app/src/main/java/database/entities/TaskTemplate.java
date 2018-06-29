@@ -23,7 +23,7 @@ public class TaskTemplate {
 
     private Long soundId;
 
-    private Long typeId;
+    private Integer typeId;
 
     @ToMany(referencedJoinProperty = "taskTemplateId")
     private List<StepTemplate> stepTemplates;
@@ -55,9 +55,9 @@ public class TaskTemplate {
     @Generated(hash = 286221468)
     private transient Long sound__resolvedKey;
 
-    @Generated(hash = 2073978132)
+    @Generated(hash = 1896825098)
     public TaskTemplate(Long id, String name, Integer durationTime, Long pictureId, Long soundId,
-            Long typeId) {
+            Integer typeId) {
         this.id = id;
         this.name = name;
         this.durationTime = durationTime;
@@ -110,11 +110,11 @@ public class TaskTemplate {
         this.soundId = soundId;
     }
 
-    public Long getTypeId() {
+    public Integer getTypeId() {
         return typeId;
     }
 
-    public void setTypeId(Long typeId) {
+    public void setTypeId(Integer typeId) {
         this.typeId = typeId;
     }
 

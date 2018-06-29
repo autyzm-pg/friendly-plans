@@ -48,9 +48,8 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
     private TextView labelTaskName;
     private EditText taskName;
     private EditText taskDurationTime;
-    private RadioButton typeTask;
     private Long taskId;
-    private Long typeId;
+    private Integer typeId;
     private Button steps;
     private RadioGroup types;
     private LinearLayout layoutTypes;
@@ -100,7 +99,7 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
         steps = (Button) view.findViewById(R.id.id_btn_steps);
         types = (RadioGroup) view.findViewById(R.id.id_rg_types);
         layoutTypes = (LinearLayout) view.findViewById(R.id.id_layout_types);
-        typeTask = (RadioButton) view.findViewById(R.id.id_rb_type_task);
+        RadioButton typeTask = (RadioButton) view.findViewById(R.id.id_rb_type_task);
         typeTask.setChecked(true);
     }
 
@@ -233,14 +232,14 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
         return null;
     }
 
-    private Long getTypeId() {
+    private Integer getTypeId() {
         switch (types.getCheckedRadioButtonId()) {
             case R.id.id_rb_type_task:
-                return Long.valueOf(1);
+                return 1;
             case R.id.id_rb_type_prize:
-                return Long.valueOf(2);
+                return 2;
             case R.id.id_rb_type_interaction:
-                return Long.valueOf(3);
+                return 3;
             default:
                 return null;
         }

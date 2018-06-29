@@ -89,7 +89,7 @@ public class StepCreateFragmentTest {
                 Integer.valueOf(TASK_EXPECTED_DURATION_TXT),
                 null,
                 null,
-                Long.valueOf(1));
+                1);
 
         StepCreateFragment fragment = new StepCreateFragment();
         Bundle args = new Bundle();
