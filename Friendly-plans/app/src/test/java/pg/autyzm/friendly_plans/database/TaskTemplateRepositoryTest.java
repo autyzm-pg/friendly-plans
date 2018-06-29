@@ -28,7 +28,7 @@ public class TaskTemplateRepositoryTest {
     private static final Long PICTURE_ID = 32L;
     private static final Long SOUND_ID = 31L;
     private static final Long TASK_ID = new Random().nextLong();
-    private static final Long TYPE_ID = Long.valueOf(1);
+    private static final Integer TYPE_ID = 1;
 
     @InjectMocks
     TaskTemplateRepository taskTemplateRepository;
