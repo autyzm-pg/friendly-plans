@@ -51,12 +51,14 @@ public class TaskListActivityTest {
         taskTemplateRule.deleteAll();
 
         for (int taskNumber = 0; taskNumber < numberOfTasks; taskNumber++) {
+
             taskTemplateRule
                     .createTask(expectedNameTask + taskNumber, 1);
             taskTemplateRule
                     .createTask(expectedNamePrize + taskNumber, 2);
             taskTemplateRule
                     .createTask(expectedNameInteraction + taskNumber, 3);
+
         }
 
         activityRule.launchActivity(new Intent());
