@@ -1,24 +1,10 @@
 package pg.autyzm.friendly_plans.manager_app;
 
-import static android.support.test.espresso.Espresso.closeSoftKeyboard;
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.replaceText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.core.Is.is;
-
 import android.content.Context;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.WindowManager;
-import database.entities.PlanTemplate;
-import database.repository.PlanTemplateRepository;
-import java.util.ArrayList;
-import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -26,10 +12,25 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import database.entities.PlanTemplate;
+import database.repository.PlanTemplateRepository;
 import pg.autyzm.friendly_plans.R;
-import pg.autyzm.friendly_plans.matcher.ToastMatcher;
-import pg.autyzm.friendly_plans.resource.DaoSessionResource;
 import pg.autyzm.friendly_plans.manager_app.view.plan_create.PlanCreateActivity;
+import pg.autyzm.friendly_plans.resource.DaoSessionResource;
+
+import static android.support.test.espresso.Espresso.closeSoftKeyboard;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.replaceText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.core.Is.is;
+import static pg.autyzm.friendly_plans.matcher.ErrorTextMatcher.hasErrorText;
 
 @RunWith(AndroidJUnit4.class)
 public class PlanCreateActivityTest {
@@ -110,10 +111,10 @@ public class PlanCreateActivityTest {
         onView(withId(R.id.id_btn_plan_next))
                 .perform(click());
 
-        closeSoftKeyboard();
 
-        onView(withText(R.string.name_exist_msg)).inRoot(new ToastMatcher())
-                .check(matches(isDisplayed()));
+        onView(withId(R.id.id_et_plan_name))
+                .check(matches(hasErrorText(
+                        activityRule.getActivity().getString(R.string.name_exist_msg))));
 
         List<PlanTemplate> planTemplates = planTemplateRepository.get(DUPLICATED_NAME);
         assertThat(planTemplates.size(), is(1));

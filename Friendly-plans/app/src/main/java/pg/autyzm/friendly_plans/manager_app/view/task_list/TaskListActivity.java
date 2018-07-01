@@ -17,20 +17,36 @@ import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.ActivityTaskListBinding;
 import pg.autyzm.friendly_plans.manager_app.view.task_create.TaskCreateActivity;
+import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 
 public class TaskListActivity extends AppCompatActivity implements TaskListActivityEvents {
 
     @Inject
     TaskTemplateRepository taskTemplateRepository;
+    @Inject
+    ToastUserNotifier toastUserNotifier;
 
     private TaskRecyclerViewAdapter taskListAdapter;
-    private List<TaskTemplate> taskItemList = new ArrayList<TaskTemplate>();
-    private List<TaskTemplate> prizeItemList = new ArrayList<TaskTemplate>();
-    private List<TaskTemplate> interactionItemList = new ArrayList<TaskTemplate>();
+    private List<TaskTemplate> taskItemList;
+    private List<TaskTemplate> prizeItemList;
+    private List<TaskTemplate> interactionItemList;
     private List<TaskTemplate> selectedList;
 
     TaskRecyclerViewAdapter.TaskItemClickListener taskItemClickListener =
             new TaskRecyclerViewAdapter.TaskItemClickListener() {
+
+                @Override
+                public void onRemoveTaskClick(int position){
+                    Integer typeId = taskListAdapter.getTaskItem(position).getTypeId();
+                    taskTemplateRepository.delete(taskListAdapter.getTaskItem(position).getId());
+
+                    toastUserNotifier.displayNotifications(
+                            R.string.task_removed_message,
+                            getApplicationContext());
+                    setElementsLists(taskTemplateRepository.getAll());
+                    taskListAdapter.setTaskItems(getSelectedList(typeId));
+                }
+
                 @Override
                 public void onTaskItemClick(int position) {
                     Bundle bundle = new Bundle();
@@ -52,6 +68,7 @@ public class TaskListActivity extends AppCompatActivity implements TaskListActiv
                 .setContentView(this, R.layout.activity_task_list);
         binding.setEvents(this);
         setUpViews();
+
         setElementsLists(taskTemplateRepository.getAll());
         selectedList = taskItemList;
         taskListAdapter.setTaskItems(selectedList);
@@ -72,6 +89,10 @@ public class TaskListActivity extends AppCompatActivity implements TaskListActiv
     }
 
     private void setElementsLists(List<TaskTemplate> taskTemplateList) {
+        taskItemList = new ArrayList<>();
+        prizeItemList = new ArrayList<>();
+        interactionItemList = new ArrayList<>();
+
         for (TaskTemplate item : taskTemplateList) {
             switch (item.getTypeId()) {
                 case 1:
@@ -89,6 +110,18 @@ public class TaskListActivity extends AppCompatActivity implements TaskListActiv
         }
     }
 
+    public List getSelectedList(Integer typeId) {
+        switch (typeId) {
+            case 1:
+                return taskItemList;
+            case 2:
+                return prizeItemList;
+            case 3:
+                return interactionItemList;
+            default:
+                return null;
+        }
+    }
 
     @Override
     public void eventShowListOfTasks(View view) {

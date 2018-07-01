@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.EditText;
 
 import javax.inject.Inject;
 
@@ -19,12 +19,11 @@ import pg.autyzm.friendly_plans.AppComponent;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.asset.AssetType;
 import pg.autyzm.friendly_plans.databinding.FragmentPlanCreateBinding;
-import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.manager_app.validation.PlanValidation;
 import pg.autyzm.friendly_plans.manager_app.validation.ValidationResult;
-import pg.autyzm.friendly_plans.manager_app.validation.ValidationStatus;
 import pg.autyzm.friendly_plans.manager_app.view.plan_create_task_list.PlanTaskListFragment;
 import pg.autyzm.friendly_plans.manager_app.view.view_fragment.CreateFragment;
+import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 
 public class PlanCreateFragment extends CreateFragment implements PlanCreateActivityEvents {
 
@@ -39,6 +38,7 @@ public class PlanCreateFragment extends CreateFragment implements PlanCreateActi
 
     PlanCreateData planData;
     private Long planId;
+    EditText planNameView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,6 +66,8 @@ public class PlanCreateFragment extends CreateFragment implements PlanCreateActi
                 initPlanForm(planId);
             }
         }
+        planNameView = (EditText) view.findViewById(R.id.id_et_plan_name);
+
     }
 
     private void initPlanForm(long planId) {
@@ -77,28 +79,28 @@ public class PlanCreateFragment extends CreateFragment implements PlanCreateActi
 
     @Override
     public void savePlanData(PlanCreateData planCreateData) {
-        Long planId = addPlan(planCreateData.getPlanName());
+        planId = addOrUpdatePlan(planCreateData.getPlanName());
         if (planId != null) {
             showPlanTaskList();
         }
     }
 
-    private Long addPlan(String planName) {
-        if (validateName(planName)) {
-            try {
-                if(planId != null) {
+    private Long addOrUpdatePlan(String planName) {
+        try {
+            if (planId != null){
+                if(validateName(planId, planNameView)) {
                     planTemplateRepository.update(planId, planName);
                     showToastMessage(R.string.plan_saved_message);
                     return planId;
-                } else {
+                }
+            } else if (validateName(planNameView)) {
                     long planId = planTemplateRepository.create(planName);
                     showToastMessage(R.string.plan_saved_message);
                     return planId;
                 }
-            } catch (RuntimeException exception) {
-                Log.e("Plan Create View", "Error saving plan", exception);
-                showToastMessage(R.string.save_plan_error_message);
-            }
+        } catch (RuntimeException exception) {
+            Log.e("Plan Create View", "Error saving plan", exception);
+            showToastMessage(R.string.save_plan_error_message);
         }
         return null;
     }
@@ -108,24 +110,31 @@ public class PlanCreateFragment extends CreateFragment implements PlanCreateActi
         // Intentionally empty - plan does not includes assets
     }
 
-    private boolean validateName(String taskName) {
-        ValidationResult validationResult = planValidation
-                .isNewNameValid(taskName);
-        if (validationResult.getValidationStatus().equals(ValidationStatus.INVALID)) {
-            planData.setNameFieldError(validationResult.getValidationInfo());
-            Toast toast = Toast.makeText(
-                    getActivity().getApplicationContext(),
-                    validationResult.getValidationInfo(),
-                    Toast.LENGTH_SHORT
-            );
-            toast.show();
-            return false;
+    public void onResume() {
+        if (planId != null) {
+            initPlanForm(planId);
         }
-        return true;
+        super.onResume();
+    }
+
+    private boolean validateName(Long taskId, EditText taskName) {
+        ValidationResult validationResult = planValidation
+                .isUpdateNameValid(taskId, taskName.getText().toString());
+        return handleInvalidResult(taskName, validationResult);
+    }
+
+    private boolean validateName(EditText taskName) {
+        ValidationResult validationResult = planValidation
+                .isNewNameValid(taskName.getText().toString());
+        return handleInvalidResult(taskName, validationResult);
     }
 
     private void showPlanTaskList() {
         PlanTaskListFragment fragment = new PlanTaskListFragment();
+
+        Bundle args = new Bundle();
+        args.putLong(ActivityProperties.PLAN_ID, planId);
+        fragment.setArguments(args);
 
         FragmentTransaction transaction = getFragmentManager()
                 .beginTransaction();

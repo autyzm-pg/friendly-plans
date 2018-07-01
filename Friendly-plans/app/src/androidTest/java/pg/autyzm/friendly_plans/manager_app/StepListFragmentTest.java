@@ -73,7 +73,7 @@ public class StepListFragmentTest {
 
     @Test
     public void whenTaskHasNoStepsExpectNoStepsToBeDisplayed() {
-        long taskId = taskTemplateRule.createTask(TASK_NAME_1);
+        long taskId = taskTemplateRule.createTask(TASK_NAME_1, 1);
         openStepsListFragment(taskId);
 
         onView(withId(R.id.rv_step_list)).check(matches(withSize(0)));
