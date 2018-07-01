@@ -48,6 +48,7 @@ public class TaskListActivityTest {
     @Before
     public void setUp() {
         final int numberOfTasks = 5;
+        taskTemplateRule.deleteAll();
 
         for (int taskNumber = 0; taskNumber < numberOfTasks; taskNumber++) {
             taskTemplateRule

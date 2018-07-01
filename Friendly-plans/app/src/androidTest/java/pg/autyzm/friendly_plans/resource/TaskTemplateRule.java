@@ -48,6 +48,12 @@ public class TaskTemplateRule extends ExternalResource {
         return taskId;
     }
 
+    public void deleteAll(){
+        Context context = activityRule.getActivity().getApplicationContext();
+        taskTemplateRepository = new TaskTemplateRepository(daoSessionResource.getSession(context));
+        taskTemplateRepository.deleteAll();
+    }
+
     @Override
     protected void after() {
         for (Long stepId : stepIds) {
