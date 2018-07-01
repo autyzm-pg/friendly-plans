@@ -49,7 +49,6 @@ public class TaskListActivityTest {
     @Before
     public void setUp() {
         final int numberOfTasks = 5;
-        taskTemplateRule.deleteAll();
 
         for (int taskNumber = 0; taskNumber < numberOfTasks; taskNumber++) {
             taskTemplateRule
@@ -72,8 +71,9 @@ public class TaskListActivityTest {
 
     @Test
     public void whenTaskIsAddedToDBExpectProperlyDisplayedOnRecyclerView() {
-        final int testedTaskPosition = 4;
-        onView(withId(R.id.id_btn_list_of_tasks)).perform(click());
+        final int testedTaskPosition = 3;
+        onView(withId(R.id.id_btn_list_of_tasks))
+                .perform(click());
         onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedTaskPosition));
         onView(withRecyclerView(R.id.rv_task_list)
                 .atPosition(testedTaskPosition))
@@ -83,8 +83,9 @@ public class TaskListActivityTest {
 
     @Test
     public void whenPrizeIsAddedToDBExpectProperlyDisplayedOnRecyclerView() {
-        final int testedTaskPosition = 4;
-        onView(withId(R.id.id_btn_list_of_prizes)).perform(click());
+        final int testedTaskPosition = 3;
+        onView(withId(R.id.id_btn_list_of_prizes))
+                .perform(click());
         onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedTaskPosition));
         onView(withRecyclerView(R.id.rv_task_list)
                 .atPosition(testedTaskPosition))
@@ -94,8 +95,9 @@ public class TaskListActivityTest {
 
     @Test
     public void whenInteractionIsAddedToDBExpectProperlyDisplayedOnRecyclerView() {
-        final int testedTaskPosition = 4;
-        onView(withId(R.id.id_btn_list_of_interactions)).perform(click());
+        final int testedTaskPosition = 3;
+        onView(withId(R.id.id_btn_list_of_interactions))
+                .perform(click());
         onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedTaskPosition));
         onView(withRecyclerView(R.id.rv_task_list)
                 .atPosition(testedTaskPosition))
