@@ -68,25 +68,15 @@ public class TaskListActivityTest {
     @Before
     public void setUp() {
         final int numberOfTasks = 5;
-        TaskTemplateRepository taskTemplateRepository = new TaskTemplateRepository(
-                daoSessionResource.getSession(activityRule.getActivity().getApplicationContext()));
-        taskTemplateRepository.deleteAll();
+        taskTemplateRule.deleteAll();
+
         for (int taskNumber = 0; taskNumber < numberOfTasks; taskNumber++) {
-            taskTemplateRepository
-                    .create(expectedNameTask + taskNumber,
-                            taskNumber, (long) taskNumber,
-                            (long) taskNumber,
-                            1);
-            taskTemplateRepository
-                    .create(expectedNamePrize + taskNumber,
-                            taskNumber, (long) taskNumber,
-                            (long) taskNumber,
-                            2);
-            taskTemplateRepository
-                    .create(expectedNameInteraction + taskNumber,
-                            taskNumber, (long) taskNumber,
-                            (long) taskNumber,
-                            3);
+            taskTemplateRule
+                    .createTask(expectedNameTask + taskNumber, 1);
+            taskTemplateRule
+                    .createTask(expectedNamePrize + taskNumber, 2);
+            taskTemplateRule
+                    .createTask(expectedNameInteraction + taskNumber, 3);
         }
 
         Context context = activityRule.getActivity().getApplicationContext();
@@ -108,7 +98,8 @@ public class TaskListActivityTest {
 
     @Test
     public void whenTaskIsAddedToDBExpectProperlyDisplayedOnRecyclerView() {
-        final int testedTaskPosition = 5;
+        final int testedTaskPosition = 4;
+        onView(withId(R.id.id_btn_list_of_tasks)).perform(click());
         onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedTaskPosition));
         onView(withRecyclerView(R.id.rv_task_list)
                 .atPosition(testedTaskPosition))
@@ -150,6 +141,7 @@ public class TaskListActivityTest {
                 .check(matches(hasDescendant(withText(expectedNameInteraction
                         + testedTaskPosition))));
     }
+
     @Test
     public void whenTaskWhichIsInAPlanIsRemovedExpectTaskNotRemoved() {
         final int testedTaskPosition = 10;
