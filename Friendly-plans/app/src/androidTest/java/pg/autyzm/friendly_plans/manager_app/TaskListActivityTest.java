@@ -48,26 +48,16 @@ public class TaskListActivityTest {
 
     @Before
     public void setUp() {
-        final int numberOfTasks = 10;
-        TaskTemplateRepository taskTemplateRepository = new TaskTemplateRepository(
-                daoSessionResource.getSession(activityRule.getActivity().getApplicationContext()));
-        taskTemplateRepository.deleteAll();
+        final int numberOfTasks = 5;
+        taskTemplateRule.deleteAll();
+
         for (int taskNumber = 0; taskNumber < numberOfTasks; taskNumber++) {
-            taskTemplateRepository
-                    .create(expectedNameTask + taskNumber,
-                            taskNumber, (long) taskNumber,
-                            (long) taskNumber,
-                            1);
-            taskTemplateRepository
-                    .create(expectedNamePrize + taskNumber,
-                            taskNumber, (long) taskNumber,
-                            (long) taskNumber,
-                           2);
-            taskTemplateRepository
-                    .create(expectedNameInteraction + taskNumber,
-                            taskNumber, (long) taskNumber,
-                            (long) taskNumber,
-                            3);
+            taskTemplateRule
+                    .createTask(expectedNameTask + taskNumber, 1);
+            taskTemplateRule
+                    .createTask(expectedNamePrize + taskNumber, 2);
+            taskTemplateRule
+                    .createTask(expectedNameInteraction + taskNumber, 3);
         }
 
         activityRule.launchActivity(new Intent());
