@@ -43,10 +43,6 @@ public class PlanTaskListFragmentTest {
     private static final String PLAN_NAME = "PLAN NAME";
     private static final String DELETE_TEST_TASK = "DELETE TEST TASK";
 
-    private  PlanTemplateRepository planTemplateRepository;
-    private  TaskTemplateRepository taskTemplateRepository;
-    private long planId;
-
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
 
@@ -65,11 +61,11 @@ public class PlanTaskListFragmentTest {
     @Before
     public void setUp() {
         Context context = activityRule.getActivity().getApplicationContext();
-        planTemplateRepository = new PlanTemplateRepository(daoSessionResource.getSession(context));
-        taskTemplateRepository = new TaskTemplateRepository(daoSessionResource.getSession(context));
+        PlanTemplateRepository planTemplateRepository = new PlanTemplateRepository(daoSessionResource.getSession(context));
+        TaskTemplateRepository taskTemplateRepository = new TaskTemplateRepository(daoSessionResource.getSession(context));
 
         long taskId = taskTemplateRepository.create(DELETE_TEST_TASK, 1, null, null);
-        planId = planTemplateRule.createPlan(PLAN_NAME);
+        long planId = planTemplateRule.createPlan(PLAN_NAME);
         planTemplateRepository.setTasksWithThisPlan(planId, taskId);
         taskTemplateRule.createTask(TASK_NAME);
 

@@ -1,13 +1,11 @@
 package database.repository;
 
-import android.util.Log;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
 import database.entities.DaoSession;
-import database.entities.PlanTask;
 import database.entities.PlanTaskTemplate;
 import database.entities.PlanTaskTemplateDao;
 import database.entities.PlanTemplate;
