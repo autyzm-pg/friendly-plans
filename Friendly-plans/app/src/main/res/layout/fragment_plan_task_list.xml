@@ -33,7 +33,9 @@
         android:id="@+id/id_btn_save_plan_tasks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/save"/>
+        android:onClick="@{planTaskListEvents::eventSaveAndFinish}"
+        android:text="@string/save_and_finish"/>
+
 
     </LinearLayout>
 
@@ -46,7 +48,7 @@
       android:layout_alignParentEnd="true"
       android:layout_below="@+id/id_nav_bar"
       android:scrollbars="vertical"
-      tools:listitem="@layout/item_task">
+      tools:listitem="@layout/item_plan_task">
     </android.support.v7.widget.RecyclerView>
 
   </RelativeLayout>

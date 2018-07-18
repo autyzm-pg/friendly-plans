@@ -30,16 +30,41 @@ public class PlanTemplateRepository {
         daoSession.getPlanTemplateDao().update(planTemplate);
     }
 
+    public void setTaskWithPlan(Long planId, Long taskId) {
+        List<PlanTaskTemplate> planTaskList = get(planId).getPlanTaskTemplates();
+        int order = 0;
+        if(planTaskList != null){
+            for(PlanTaskTemplate planTaskTemplate : planTaskList){
+                if(planTaskTemplate.getOrder() > order) {
+                    order = planTaskTemplate.getOrder();
+                }
+            }
+        }
+        setTaskWithPlan(planId, taskId, order);
+    }
 
-    public void setTasksWithThisPlan(Long planId, Long taskId) {
+    public void setTaskWithPlan(Long planId, Long taskId, int order) {
         PlanTaskTemplate planTaskTemplate = new PlanTaskTemplate();
         planTaskTemplate.setTaskTemplateId(taskId);
         planTaskTemplate.setPlanTemplateId(planId);
+        planTaskTemplate.setOrder(order);
 
         PlanTaskTemplateDao targetDao = daoSession.getPlanTaskTemplateDao();
         targetDao.insert(planTaskTemplate);
 
-        get(planId).resetTasksWithThisPlan();
+        get(planId).resetPlanTaskTemplates();
+    }
+
+    public void removeTaskFromPlan(Long planId, Long planTaskId) {
+        PlanTemplate planTemplate = daoSession.getPlanTemplateDao().load(planId);
+        List<PlanTaskTemplate> planTaskTemplatesList = planTemplate.getPlanTaskTemplates();
+        PlanTaskTemplateDao targetDao = daoSession.getPlanTaskTemplateDao();
+        for(PlanTaskTemplate planTaskTemplate : planTaskTemplatesList){
+            if(planTaskTemplate.getId() == planTaskId){
+                targetDao.delete(planTaskTemplate);
+            }
+        }
+        planTemplate.resetPlanTaskTemplates();
     }
 
     public PlanTemplate get(Long id) {

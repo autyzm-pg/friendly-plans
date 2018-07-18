@@ -40,17 +40,15 @@ public class AddTasksToPlanFragment extends Fragment implements AddTasksToPlanEv
             new TaskRecyclerViewAdapter.TaskItemClickListener() {
                 @Override
                 public void onTaskItemClick(int position) {
-                    planTemplateRepository.setTasksWithThisPlan(planId, taskListAdapter.getTaskItem(position).getId());
+                    planTemplateRepository.setTaskWithPlan(planId, taskListAdapter.getTaskItem(position).getId());
                     taskListAdapter.removeListItem(position);
                 }
 
                 @Override
                 public void onRemoveTaskClick(int position){
-                    /*Item remove TODO*/
+                    /* Intentionally empty. Remove button is hidden */
                 }
             };
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

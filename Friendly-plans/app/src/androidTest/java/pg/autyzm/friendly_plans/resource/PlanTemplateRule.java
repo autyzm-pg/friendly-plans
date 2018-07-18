@@ -38,7 +38,7 @@ public class PlanTemplateRule extends ExternalResource {
         return planId;
     }
 
-    public long createPlanWithTasksSteps(String planName, String taskName1, String taskName2) {
+    public long createPlanWithTasks(String planName, String taskName1, String taskName2) {
         Context context = activityRule.getActivity().getApplicationContext();
         planTemplateRepository = new PlanTemplateRepository(daoSessionResource.getSession(context));
         taskTemplateRepository = new TaskTemplateRepository(daoSessionResource.getSession(context));
@@ -50,8 +50,8 @@ public class PlanTemplateRule extends ExternalResource {
         long taksId2 = taskTemplateRepository.create(taskName2, 2, null, null);
         taskIds.add(taksId1);
         taskIds.add(taksId2);
-        planTemplateRepository.setTasksWithThisPlan(planId, taksId1);
-        planTemplateRepository.setTasksWithThisPlan(planId, taksId2);
+        planTemplateRepository.setTaskWithPlan(planId, taksId1);
+        planTemplateRepository.setTaskWithPlan(planId, taksId2);
 
         return planId;
     }
