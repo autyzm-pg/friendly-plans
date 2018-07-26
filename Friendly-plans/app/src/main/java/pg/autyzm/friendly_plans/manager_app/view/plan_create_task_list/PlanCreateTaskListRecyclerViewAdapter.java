@@ -26,13 +26,12 @@ public class PlanCreateTaskListRecyclerViewAdapter extends
     private static final int ICON_PLACEHOLDER_PICTURE_ID = R.drawable.ic_placeholder;
     private static final int ICON_PLACEHOLDER_SOUND_ID = R.drawable.ic_playing_sound;
     private static final int ICON_PLACEHOLDER_TIME_ID = R.drawable.ic_placeholder_time;
-    private static List<PlanTaskTemplate> planTaskItemList;
+    private static List<PlanTaskTemplate> planTaskItemList = new ArrayList<>();
     private TaskItemClickListener taskItemClickListener;
     private AssetsHelper assetsHelper;
 
     PlanCreateTaskListRecyclerViewAdapter(TaskItemClickListener taskItemClickListener) {
         this.taskItemClickListener = taskItemClickListener;
-        this.planTaskItemList = new ArrayList<>();
     }
 
     @Override
