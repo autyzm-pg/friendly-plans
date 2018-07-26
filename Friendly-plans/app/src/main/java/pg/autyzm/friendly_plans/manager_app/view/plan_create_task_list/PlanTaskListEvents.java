@@ -6,5 +6,5 @@ import android.view.View;
 public interface PlanTaskListEvents {
 
     void eventAddTasksToPlan(View view);
-
+    void eventSaveAndFinish(View view);
 }

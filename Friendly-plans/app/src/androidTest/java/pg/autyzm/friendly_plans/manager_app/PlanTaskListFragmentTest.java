@@ -3,11 +3,15 @@ package pg.autyzm.friendly_plans.manager_app;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.test.espresso.UiController;
+import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
+import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -24,6 +28,7 @@ import pg.autyzm.friendly_plans.resource.TaskTemplateRule;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.assertion.ViewAssertions.selectedDescendantsMatch;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -34,7 +39,8 @@ import static pg.autyzm.friendly_plans.matcher.RecyclerViewMatcher.withRecyclerV
 public class PlanTaskListFragmentTest {
 
     private static final String PLAN_ID = "PLAN_ID";
-    private static final String TASK_NAME = "TASK_NAME";
+    private static final String TASK_NAME_1 = "TASK_NAME_1";
+    private static final String TASK_NAME_2 = "TASK_NAME_2";
     private static final String PLAN_NAME = "PLAN NAME";
 
     @ClassRule
@@ -56,7 +62,7 @@ public class PlanTaskListFragmentTest {
     public void setUp() {
         PlanTaskListFragment fragment = new PlanTaskListFragment();
 
-        taskTemplateRule.createTask(TASK_NAME);
+        taskTemplateRule.createTask(TASK_NAME_1);
         long planId = planTemplateRule.createPlan(PLAN_NAME);
 
         Bundle args = new Bundle();
@@ -97,6 +103,59 @@ public class PlanTaskListFragmentTest {
 
         onView(withRecyclerView(R.id.rv_create_plan_task_list)
                 .atPosition(0))
-                .check(matches(hasDescendant(withText(TASK_NAME))));
+                .check(matches(hasDescendant(withText(TASK_NAME_1))));
     }
+
+    @Test
+    public void whenStepIsRemovedExpectStepIsNotOnTheList() {
+        long planId = planTemplateRule.createPlanWithTasks(PLAN_NAME, TASK_NAME_1, TASK_NAME_2);
+        openPlanTaskListFragment(planId);
+
+        onView(withId(R.id.rv_create_plan_task_list)).perform(
+                RecyclerViewActions
+                        .actionOnItemAtPosition(0, clickChildViewWithId(R.id.id_remove_plan_task)));
+
+        assertTaskDisplayed(0, TASK_NAME_2);
+    }
+
+    private void openPlanTaskListFragment(long planId) {
+        PlanTaskListFragment fragment = new PlanTaskListFragment();
+        Bundle args = new Bundle();
+        args.putLong(PLAN_ID, planId);
+        fragment.setArguments(args);
+
+        FragmentManager manager = activityRule.getActivity().getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.plan_container, fragment);
+        transaction.commit();
+    }
+
+    public static ViewAction clickChildViewWithId(final int id) {
+        return new ViewAction() {
+            @Override
+            public Matcher<View> getConstraints() {
+                return null;
+            }
+
+            @Override
+            public String getDescription() {
+                return null;
+            }
+
+            @Override
+            public void perform(UiController uiController, View view) {
+                View v = view.findViewById(id);
+                v.performClick();
+            }
+        };
+    }
+
+    private void assertTaskDisplayed(int position, String taskName) {
+        onView(withRecyclerView(R.id.rv_create_plan_task_list)
+                .atPosition(position))
+                .check(selectedDescendantsMatch(withId(R.id.id_tv_task_name),
+                        withText(taskName)));
+    }
+
+
 }
