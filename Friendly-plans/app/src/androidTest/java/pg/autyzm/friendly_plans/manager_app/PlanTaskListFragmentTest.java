@@ -16,7 +16,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import database.repository.PlanTemplateRepository;
-import database.repository.TaskTemplateRepository;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.manager_app.view.plan_create.PlanCreateActivity;
 import pg.autyzm.friendly_plans.manager_app.view.plan_create_task_list.PlanTaskListFragment;
@@ -62,7 +61,7 @@ public class PlanTaskListFragmentTest {
     public void setUp() {
         Context context = activityRule.getActivity().getApplicationContext();
         PlanTemplateRepository planTemplateRepository = new PlanTemplateRepository(daoSessionResource.getSession(context));
-        
+
         long taskId = taskTemplateRule.createTask(DELETE_TEST_TASK);
         long planId = planTemplateRule.createPlan(PLAN_NAME);
         planTemplateRepository.setTasksWithThisPlan(planId, taskId);
