@@ -62,9 +62,7 @@ public class PlanTaskListFragmentTest {
     public void setUp() {
         Context context = activityRule.getActivity().getApplicationContext();
         PlanTemplateRepository planTemplateRepository = new PlanTemplateRepository(daoSessionResource.getSession(context));
-        TaskTemplateRepository taskTemplateRepository = new TaskTemplateRepository(daoSessionResource.getSession(context));
-
-        //long taskId = taskTemplateRepository.create(DELETE_TEST_TASK, 1, null, null);
+        
         long taskId = taskTemplateRule.createTask(DELETE_TEST_TASK);
         long planId = planTemplateRule.createPlan(PLAN_NAME);
         planTemplateRepository.setTasksWithThisPlan(planId, taskId);
