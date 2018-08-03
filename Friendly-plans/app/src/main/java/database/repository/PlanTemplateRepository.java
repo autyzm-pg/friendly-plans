@@ -1,5 +1,8 @@
 package database.repository;
 
+
+import org.greenrobot.greendao.query.QueryBuilder;
+
 import java.util.List;
 
 import database.entities.DaoSession;
@@ -30,7 +33,6 @@ public class PlanTemplateRepository {
         daoSession.getPlanTemplateDao().update(planTemplate);
     }
 
-
     public void setTasksWithThisPlan(Long planId, Long taskId) {
         PlanTaskTemplate planTaskTemplate = new PlanTaskTemplate();
         planTaskTemplate.setTaskTemplateId(taskId);
@@ -41,6 +43,19 @@ public class PlanTemplateRepository {
 
         get(planId).resetTasksWithThisPlan();
     }
+
+    public void deleteTaskFromThisPlan(Long planId, Long taskId){
+        PlanTaskTemplateDao planTaskTemplateDao = daoSession.getPlanTaskTemplateDao();
+        QueryBuilder<PlanTaskTemplate> queryBuilder = planTaskTemplateDao.queryBuilder();
+
+        PlanTaskTemplate planTaskTemplate = queryBuilder.where(
+                PlanTaskTemplateDao.Properties.PlanTemplateId.eq(planId),
+                PlanTaskTemplateDao.Properties.TaskTemplateId.eq(taskId))
+                .uniqueOrThrow();
+
+        planTaskTemplateDao.delete(planTaskTemplate);
+    }
+
 
     public PlanTemplate get(Long id) {
         return daoSession.getPlanTemplateDao().load(id);

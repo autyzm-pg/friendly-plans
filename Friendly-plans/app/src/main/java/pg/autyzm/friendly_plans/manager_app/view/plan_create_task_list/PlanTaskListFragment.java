@@ -38,7 +38,10 @@ public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents
 
                 @Override
                 public void onRemoveTaskClick(int position){
-                    /*Item remove TODO*/
+                    planTemplateRepository.deleteTaskFromThisPlan(
+                            planId,
+                            taskListAdapter.getTaskItem(position).getId());
+                    taskListAdapter.removeListItem(position);
                 }
             };
 

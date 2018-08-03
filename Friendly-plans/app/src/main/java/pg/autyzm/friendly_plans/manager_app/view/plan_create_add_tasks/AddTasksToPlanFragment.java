@@ -50,8 +50,6 @@ public class AddTasksToPlanFragment extends Fragment implements AddTasksToPlanEv
                 }
             };
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
