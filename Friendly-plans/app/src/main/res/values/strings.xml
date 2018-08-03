@@ -4,7 +4,6 @@
   <string name="basic_info">Basic information</string>
   <string name="steps">Steps</string>
   <string name="save">Save</string>
-  <string name="cancel">Cancel</string>
   <string name="save_and_finish">Save and finish</string>
   <string name="task_create_description">Step 1: Enter task\'s name, duration time, select picture and sound</string>
   <string name="task_name">Task name:</string>
