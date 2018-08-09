@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -52,7 +51,25 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
     private Integer typeId;
     private Button steps;
     private RadioGroup types;
-    private LinearLayout layoutTypes;
+
+    public enum TaskType {
+        TASK(1),
+        PRIZE(2),
+        INTERACTION(3);
+
+        private final int typeId;
+
+        TaskType(Integer typeId) {
+            this.typeId = typeId;
+        }
+
+
+        public Integer getId() {
+            return this.typeId;
+        }
+    }
+
+    TaskType taskType = TaskType.TASK;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,9 +120,9 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
         clearPicture = (ImageButton) view.findViewById(R.id.id_ib_clear_img_btn);
         steps = (Button) view.findViewById(R.id.id_btn_steps);
         types = (RadioGroup) view.findViewById(R.id.id_rg_types);
-        layoutTypes = (LinearLayout) view.findViewById(R.id.id_layout_types);
         RadioButton typeTask = (RadioButton) view.findViewById(R.id.id_rb_type_task);
         typeTask.setChecked(true);
+        taskType = TaskType.TASK;
     }
 
     private Long saveOrUpdate() {
@@ -113,7 +130,7 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
         try {
             if (taskId != null) {
                 if (validateName(taskId, taskName) && validateDuration(taskDurationTime)) {
-
+                    typeId = taskType.getId();
                     Integer duration = getDuration();
                     taskTemplateRepository.update(taskId,
                             taskName.getText().toString(),
@@ -121,6 +138,7 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
                             pictureId,
                             soundId,
                             typeId);
+                    clearSteps(typeId, taskId);
                     showToastMessage(R.string.task_saved_message);
 
                     return taskId;
@@ -128,7 +146,7 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
             } else {
                 if (validateName(taskName) && validateDuration(taskDurationTime)) {
                     Integer duration = getDuration();
-                    typeId = getTypeId();
+                    typeId = taskType.getId();
                     long taskId = taskTemplateRepository.create(taskName.getText().toString(),
                             duration,
                             pictureId,
@@ -146,6 +164,11 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
         return null;
     }
 
+    private void clearSteps(Integer typeId, Long taskId){
+        if(typeId != 1){
+            taskTemplateRepository.resetSteps(taskId);
+        }
+    }
     private boolean validateName(Long taskId, EditText taskName) {
         ValidationResult validationResult = taskValidation
                 .isUpdateNameValid(taskId, taskName.getText().toString());
@@ -181,7 +204,7 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
             setAssetValue(AssetType.SOUND, sound.getFilename(), sound.getId());
         }
         typeId = task.getTypeId();
-        layoutTypes.setVisibility(View.INVISIBLE);
+        ((RadioButton)types.getChildAt(typeId-1)).setChecked(true);
         setVisibilityStepButton(Integer.valueOf(task.getTypeId().toString()));
     }
 
@@ -237,19 +260,6 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
         return null;
     }
 
-    private Integer getTypeId() {
-        switch (types.getCheckedRadioButtonId()) {
-            case R.id.id_rb_type_task:
-                return 1;
-            case R.id.id_rb_type_prize:
-                return 2;
-            case R.id.id_rb_type_interaction:
-                return 3;
-            default:
-                return null;
-        }
-    }
-
     @Override
     public void eventListStep(View view) {
         taskId = saveOrUpdate();
@@ -288,8 +298,14 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
     public void eventChangeButtonStepsVisibility(View view, int id) {
         if (id == R.id.id_rb_type_task) {
             steps.setVisibility(View.VISIBLE);
+            taskType = TaskType.TASK;
         } else {
             steps.setVisibility(View.INVISIBLE);
+            if (id == R.id.id_rb_type_interaction){
+                taskType = TaskType.INTERACTION;
+            }else{
+                taskType = TaskType.PRIZE;
+            }
         }
     }
 

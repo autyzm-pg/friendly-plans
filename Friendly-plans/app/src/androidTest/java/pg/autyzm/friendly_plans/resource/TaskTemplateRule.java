@@ -24,11 +24,11 @@ public class TaskTemplateRule extends ExternalResource {
         this.activityRule = activityRule;
     }
 
-    public long createTask(String taskName) {
+    public long createTask(String taskName, Integer typeId) {
         Context context = activityRule.getActivity().getApplicationContext();
         taskTemplateRepository = new TaskTemplateRepository(daoSessionResource.getSession(context));
 
-        long taskId = taskTemplateRepository.create(taskName, 2, null, null, 1);
+        long taskId = taskTemplateRepository.create(taskName, 2, null, null, typeId);
         taskIds.add(taskId);
 
         return taskId;
@@ -46,6 +46,12 @@ public class TaskTemplateRule extends ExternalResource {
         stepIds.add(stepTemplateRepository.create(stepName2, 2, null, null, taskId));
 
         return taskId;
+    }
+
+    public void deleteAll () {
+        Context context = activityRule.getActivity().getApplicationContext();
+        taskTemplateRepository = new TaskTemplateRepository(daoSessionResource.getSession(context));
+        taskTemplateRepository.deleteAll();
     }
 
     @Override

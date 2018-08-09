@@ -111,7 +111,7 @@ public class TaskTemplate {
     }
 
     public Integer getTypeId() {
-        return typeId;
+        return this.typeId;
     }
 
     public void setTypeId(Integer typeId) {

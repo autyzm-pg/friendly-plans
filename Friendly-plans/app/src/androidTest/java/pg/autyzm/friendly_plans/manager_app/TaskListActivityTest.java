@@ -14,7 +14,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import database.repository.TaskTemplateRepository;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.matcher.RecyclerViewMatcher;
 import pg.autyzm.friendly_plans.resource.PlanTemplateRule;
@@ -68,6 +67,7 @@ public class TaskListActivityTest {
     @Before
     public void setUp() {
         final int numberOfTasks = 5;
+        taskTemplateRule.deleteAll();
 
         for (int taskNumber = 0; taskNumber < numberOfTasks; taskNumber++) {
             taskTemplateRule
