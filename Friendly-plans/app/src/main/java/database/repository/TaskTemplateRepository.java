@@ -60,4 +60,13 @@ public class TaskTemplateRepository {
     public void deleteAll() {
         daoSession.getTaskTemplateDao().deleteAll();
     }
+
+    public void resetSteps(Long id) { daoSession.getTaskTemplateDao().load(id).resetStepTemplates(); }
+
+    public List<TaskTemplate> getByTypeId(Integer typeId) {
+        return daoSession.getTaskTemplateDao()
+                .queryBuilder()
+                .where(Properties.TypeId.eq(typeId))
+                .list();
+    }
 }

@@ -28,9 +28,7 @@ public class TaskListActivity extends AppCompatActivity implements TaskListActiv
 
     private TaskRecyclerViewAdapter taskListAdapter;
     private List<TaskTemplate> taskItemList = new ArrayList<TaskTemplate>();
-    private List<TaskTemplate> prizeItemList = new ArrayList<TaskTemplate>();
-    private List<TaskTemplate> interactionItemList = new ArrayList<TaskTemplate>();
-    private List<TaskTemplate> selectedList;
+    private Integer selectedTypeId = 1;
 
     TaskRecyclerViewAdapter.TaskItemClickListener taskItemClickListener =
             new TaskRecyclerViewAdapter.TaskItemClickListener() {
@@ -41,7 +39,7 @@ public class TaskListActivity extends AppCompatActivity implements TaskListActiv
                     toastUserNotifier.displayNotifications(
                             R.string.task_removed_message,
                             getApplicationContext());
-                    taskListAdapter.setTaskItems(taskTemplateRepository.getAll());
+                    taskListAdapter.setTaskItems(taskTemplateRepository.getByTypeId(selectedTypeId));
                 }
 
                 @Override
@@ -65,15 +63,14 @@ public class TaskListActivity extends AppCompatActivity implements TaskListActiv
                 .setContentView(this, R.layout.activity_task_list);
         binding.setEvents(this);
         setUpViews();
-        setElementsLists(taskTemplateRepository.getAll());
-        selectedList = taskItemList;
-        taskListAdapter.setTaskItems(selectedList);
+        taskItemList = taskTemplateRepository.getByTypeId(1);
+        taskListAdapter.setTaskItems(taskItemList);
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        taskListAdapter.setTaskItems(selectedList);
+        taskListAdapter.setTaskItems(taskItemList);
     }
 
     private void setUpViews() {
@@ -84,45 +81,27 @@ public class TaskListActivity extends AppCompatActivity implements TaskListActiv
         recyclerView.setAdapter(taskListAdapter);
     }
 
-    private void setElementsLists(List<TaskTemplate> taskTemplateList) {
-        for (TaskTemplate item : taskTemplateList) {
-            switch (item.getTypeId()) {
-                case 1:
-                    taskItemList.add(item);
-                    break;
-                case 2:
-                    prizeItemList.add(item);
-                    break;
-                case 3:
-                    interactionItemList.add(item);
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-
     @Override
     public void eventShowListOfTasks(View view) {
-        showSelectedList(view, taskItemList);
+        showSelectedList(view, 1);
     }
 
     @Override
     public void eventShowListOfPrizes(View view) {
-        showSelectedList(view, prizeItemList);
+        showSelectedList(view, 2);
     }
 
     @Override
     public void eventShowListOfInteractions(View view) {
-        showSelectedList(view, interactionItemList);
+        showSelectedList(view, 3);
     }
 
-    private void showSelectedList(View view, List<TaskTemplate> typeOfList) {
+    private void showSelectedList(View view, Integer typeId) {
         view.setFocusableInTouchMode(true);
         view.requestFocus();
         view.setFocusableInTouchMode(false);
-        selectedList = typeOfList;
-        taskListAdapter.setTaskItems(selectedList);
+        selectedTypeId = typeId;
+        taskItemList = taskTemplateRepository.getByTypeId(typeId);
+        taskListAdapter.setTaskItems(taskItemList);
     }
 }

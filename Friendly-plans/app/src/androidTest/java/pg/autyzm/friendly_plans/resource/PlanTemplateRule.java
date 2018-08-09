@@ -46,8 +46,8 @@ public class PlanTemplateRule extends ExternalResource {
         long planId = planTemplateRepository.create(planName);
         planIds.add(planId);
 
-        long taksId1 = taskTemplateRepository.create(taskName1, 2, null, null);
-        long taksId2 = taskTemplateRepository.create(taskName2, 2, null, null);
+        long taksId1 = taskTemplateRepository.create(taskName1, 2, null, null, 1);
+        long taksId2 = taskTemplateRepository.create(taskName2, 2, null, null, 1);
         taskIds.add(taksId1);
         taskIds.add(taksId2);
         planTemplateRepository.setTasksWithThisPlan(planId, taksId1);
