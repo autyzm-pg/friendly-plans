@@ -130,6 +130,31 @@ public class PlanListActivityTest {
     }
 
     @Test
+    public void whenMultiplePlansAreRemovedExpectListRefreshedAfterEachOneOfThem() {
+        final int testedFirstTaskPosition = 3;
+        final int testedSecondTaskPosition = 4;
+        onView(withId(R.id.rv_plan_list))
+                .perform(RecyclerViewActions
+                        .actionOnItemAtPosition(testedFirstTaskPosition,
+                                new ViewClicker(R.id.id_remove_plan)));
+        onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(testedFirstTaskPosition));
+        onView(withRecyclerView(R.id.rv_plan_list)
+                .atPosition(testedFirstTaskPosition))
+                .check(matches(not(hasDescendant(withText(expectedName
+                        + testedFirstTaskPosition)))));
+
+        onView(withId(R.id.rv_plan_list))
+                .perform(RecyclerViewActions
+                        .actionOnItemAtPosition(testedSecondTaskPosition - 1,
+                                new ViewClicker(R.id.id_remove_plan)));
+        onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(testedSecondTaskPosition));
+        onView(withRecyclerView(R.id.rv_plan_list)
+                .atPosition(testedSecondTaskPosition))
+                .check(matches(not(hasDescendant(withText(expectedName
+                        + testedSecondTaskPosition)))));
+    }
+
+    @Test
     public void whenSearchPlanIsRemovedExpectItToBeRemoved(){
         final int testedPlanPosition = 5;
 
