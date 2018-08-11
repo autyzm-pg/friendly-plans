@@ -40,7 +40,7 @@ public class PlanListActivity extends AppCompatActivity {
                     toastUserNotifier.displayNotifications(
                             R.string.plan_removed_message,
                             getApplicationContext());
-                    planListAdapter.setPlanItems(planTemplateRepository.getAll());
+                    planListAdapter.setPlanItems(planTemplateRepository.getFilteredByName(searchView.getQuery().toString()));
                 }
 
                 @Override
