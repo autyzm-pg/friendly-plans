@@ -27,19 +27,23 @@ public class TaskListActivity extends AppCompatActivity implements TaskListActiv
     ToastUserNotifier toastUserNotifier;
 
     private TaskRecyclerViewAdapter taskListAdapter;
+
     private List<TaskTemplate> taskItemList = new ArrayList<TaskTemplate>();
     private Integer selectedTypeId = 1;
+
 
     TaskRecyclerViewAdapter.TaskItemClickListener taskItemClickListener =
             new TaskRecyclerViewAdapter.TaskItemClickListener() {
 
                 @Override
                 public void onRemoveTaskClick(int position){
+
                     taskTemplateRepository.delete(taskListAdapter.getTaskItem(position).getId());
                     toastUserNotifier.displayNotifications(
                             R.string.task_removed_message,
                             getApplicationContext());
                     taskListAdapter.setTaskItems(taskTemplateRepository.getByTypeId(selectedTypeId));
+
                 }
 
                 @Override
@@ -80,6 +84,7 @@ public class TaskListActivity extends AppCompatActivity implements TaskListActiv
         taskListAdapter = new TaskRecyclerViewAdapter(taskItemClickListener);
         recyclerView.setAdapter(taskListAdapter);
     }
+
 
     @Override
     public void eventShowListOfTasks(View view) {
