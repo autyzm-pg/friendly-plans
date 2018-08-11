@@ -25,6 +25,8 @@ public class StepTemplate {
 
     private Long soundId;
 
+    private Integer durationTime;
+
     @ToOne(joinProperty = "taskTemplateId")
     private TaskTemplate taskTemplate;
 
@@ -51,13 +53,15 @@ public class StepTemplate {
     @Generated(hash = 1320587426)
     private transient StepTemplateDao myDao;
 
-    @Generated(hash = 439029214)
-    public StepTemplate(Long id, String name, int order, Long pictureId, Long soundId, long taskTemplateId) {
+    @Generated(hash = 672659171)
+    public StepTemplate(Long id, String name, int order, Long pictureId, Long soundId, Integer durationTime,
+            long taskTemplateId) {
         this.id = id;
         this.name = name;
         this.order = order;
         this.pictureId = pictureId;
         this.soundId = soundId;
+        this.durationTime = durationTime;
         this.taskTemplateId = taskTemplateId;
     }
 
@@ -112,6 +116,14 @@ public class StepTemplate {
 
     public void setSoundId(Long soundId) {
         this.soundId = soundId;
+    }
+
+    public Integer getDurationTime() {
+        return this.durationTime;
+    }
+
+    public void setDurationTime(Integer durationTime) {
+        this.durationTime = durationTime;
     }
 
     @Generated(hash = 309141312)

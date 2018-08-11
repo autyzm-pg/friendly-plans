@@ -154,7 +154,7 @@ public class StepCreateFragmentTest {
                 .thenReturn(new ValidationResult(ValidationStatus.VALID));
 
         when(stepTemplateRepository
-                .create(any(String.class), any(Integer.class), any(Long.class), any(Long.class), any(Long.class)))
+                .create(any(String.class), any(Integer.class), any(Long.class), any(Long.class), any(Long.class), any(Integer.class)))
                 .thenThrow(new RuntimeException());
         Button button = (Button) activity.findViewById(buttonId);
         button.performClick();

@@ -26,6 +26,7 @@ public class StepTemplateRepositoryTest {
     private final static Long SOUND_ID = 3L;
     private final static Long TASK_TEMPLATE_ID = 4L;
     private final static Long STEP_ID = 5L;
+    private final static Integer STEP_DURATION = 4;
 
     @InjectMocks
     StepTemplateRepository stepTemplateRepository;
@@ -41,7 +42,7 @@ public class StepTemplateRepositoryTest {
 
     @Test
     public void whenCreatingAStepTemplateExpectInsertMethodBeCalled() {
-        stepTemplateRepository.create(STEP_NAME, ORDER, PICTURE_ID, SOUND_ID, TASK_TEMPLATE_ID);
+        stepTemplateRepository.create(STEP_NAME, ORDER, PICTURE_ID, SOUND_ID, TASK_TEMPLATE_ID, STEP_DURATION);
 
         ArgumentCaptor<StepTemplate> stepTemplateArgumentCaptor = ArgumentCaptor
                 .forClass(StepTemplate.class);

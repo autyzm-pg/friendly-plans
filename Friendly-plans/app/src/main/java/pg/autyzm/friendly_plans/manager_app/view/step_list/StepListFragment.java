@@ -53,7 +53,7 @@ public class StepListFragment extends Fragment implements StepListEvents {
                     for(int i = 0; i < stepListRecyclerViewAdapter.getItemCount(); i++){
                         StepTemplate stepItem =  stepListRecyclerViewAdapter.getStepTemplate(i);
                         if(i != stepItem.getOrder()) {
-                            stepTemplateRepository.update(stepItem.getId(), stepItem.getName(), i, stepItem.getPictureId(), stepItem.getSoundId(), stepItem.getTaskTemplateId());
+                            stepTemplateRepository.update(stepItem.getId(), stepItem.getName(), i, stepItem.getPictureId(), stepItem.getSoundId(), stepItem.getTaskTemplateId(), stepItem.getDurationTime());
                             reordered = true;
                         }
                         if(!removedStep && reordered){

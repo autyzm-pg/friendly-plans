@@ -14,18 +14,23 @@ public class StepTemplateRepository {
         this.daoSession = daoSession;
     }
 
-    public long create(String name, int order, Long pictureId, Long soundId, Long taskTemplateId) {
+    public long create(String name, int order, Long pictureId, Long soundId, Long taskTemplateId, Integer stepDuration) {
         StepTemplate stepTemplate = new StepTemplate();
         stepTemplate.setName(name);
         stepTemplate.setOrder(order);
         stepTemplate.setSoundId(soundId);
         stepTemplate.setPictureId(pictureId);
         stepTemplate.setTaskTemplateId(taskTemplateId);
+        stepTemplate.setDurationTime(stepDuration);
 
         return daoSession.getStepTemplateDao().insert(stepTemplate);
     }
 
-    public void update(Long stepId, String name, int order, Long pictureId, Long soundId, Long taskTemplateId) {
+    public long create(StepTemplate stepTemplate) {
+        return daoSession.getStepTemplateDao().insert(stepTemplate);
+    }
+
+    public void update(Long stepId, String name, int order, Long pictureId, Long soundId, Long taskTemplateId, Integer stepDuration) {
         StepTemplate stepTemplate = new StepTemplate();
         stepTemplate.setId(stepId);
         stepTemplate.setName(name);
@@ -33,7 +38,12 @@ public class StepTemplateRepository {
         stepTemplate.setSoundId(soundId);
         stepTemplate.setPictureId(pictureId);
         stepTemplate.setTaskTemplateId(taskTemplateId);
+        stepTemplate.setDurationTime(stepDuration);
 
+        daoSession.getStepTemplateDao().update(stepTemplate);
+    }
+
+    public void update(StepTemplate stepTemplate) {
         daoSession.getStepTemplateDao().update(stepTemplate);
     }
 

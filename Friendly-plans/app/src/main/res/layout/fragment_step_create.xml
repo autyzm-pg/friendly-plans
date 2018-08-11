@@ -21,8 +21,6 @@
       android:stretchColumns="1"
       android:orientation="vertical">
 
-      <!-- Page title -->
-
       <TableRow
           android:layout_width="match_parent"
           android:layout_height="match_parent">
@@ -60,6 +58,29 @@
             android:text="@={stepData.stepName}"
             android:layout_column="1"
             android:layout_span="3"/>
+
+      </TableRow>
+
+      <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+          android:id="@+id/id_tv_step_duration_label"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_column="0"
+          android:text="@string/step_duration" />
+
+        <EditText
+          android:id="@+id/id_et_step_duration"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:inputType="number"
+          android:minWidth="100dp"
+          android:text="@={stepData.stepDuration}"
+          android:layout_column="1"
+          android:layout_span="3"/>
 
       </TableRow>
 
@@ -212,11 +233,6 @@
 
       </TableRow>
 
-      <!-- Step's picture -->
-
-      <!-- Step's sound -->
-
-      <!-- Save/Cancel -->
     </TableLayout>
   </ScrollView>
 </layout>

@@ -1,6 +1,7 @@
 package pg.autyzm.friendly_plans.manager_app.view.step_create;
 
 import android.annotation.TargetApi;
+import android.app.Fragment;
 import android.databinding.DataBindingUtil;
 import android.media.MediaPlayer;
 import android.os.Build.VERSION_CODES;
@@ -13,10 +14,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+import database.entities.StepTemplate;
+import database.repository.AssetRepository;
+import java.io.File;
 import javax.inject.Inject;
 
 import database.entities.Asset;
-import database.entities.StepTemplate;
 import database.repository.StepTemplateRepository;
 import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
@@ -24,27 +28,39 @@ import pg.autyzm.friendly_plans.AppComponent;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.asset.AssetType;
 import pg.autyzm.friendly_plans.databinding.FragmentStepCreateBinding;
+import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 import pg.autyzm.friendly_plans.manager_app.validation.StepValidation;
 import pg.autyzm.friendly_plans.manager_app.validation.ValidationResult;
+import pg.autyzm.friendly_plans.manager_app.validation.ValidationStatus;
 import pg.autyzm.friendly_plans.manager_app.view.components.SoundComponent;
-import pg.autyzm.friendly_plans.manager_app.view.view_fragment.CreateFragment;
+import pg.autyzm.friendly_plans.manager_app.view.task_create.ImagePreviewDialog;
+import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 
-public class StepCreateFragment extends CreateFragment implements StepCreateEvents.StepData {
-
+public class StepCreateFragment extends Fragment implements StepCreateEvents.StepData {
     @Inject
     MediaPlayer mediaPlayer;
     @Inject
     StepTemplateRepository stepTemplateRepository;
     @Inject
     StepValidation stepValidation;
+    @Inject
+    ToastUserNotifier toastUserNotifier;
+    @Inject
+    FilePickerProxy filePickerProxy;
+    @Inject
+    AssetRepository assetRepository;
 
-
-    private Long taskId;
-    private Long stepId;
-    private StepCreateData stepData;
-    private StepTemplate step;
-    private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
+    private EditText soundFileName;
+    private ImageButton clearSound;
+    private EditText pictureFileName;
+    private ImageView picturePreview;
+    private ImageButton clearPicture;
     private EditText stepNameView;
+    private EditText stepDurationView;
+    private ImageButton playSoundIcon;
+
+    private SoundComponent soundComponent;
+    private StepCreateData stepData;
 
     @TargetApi(VERSION_CODES.M)
     @Override
@@ -53,126 +69,71 @@ public class StepCreateFragment extends CreateFragment implements StepCreateEven
         FragmentStepCreateBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_step_create, container, false);
 
-        View view = binding.getRoot();
-        ImageButton playSoundIcon = (ImageButton) view.findViewById(R.id.id_btn_play_step_sound);
-
         AppComponent appComponent = ((App) getActivity().getApplication()).getAppComponent();
+
+        stepData = parseArguments();
+
         soundComponent = SoundComponent.getSoundComponent(
-                soundId, playSoundIcon, getActivity().getApplicationContext(), appComponent);
+                getSoundId(stepData.getStepTemplate()), playSoundIcon, getActivity().getApplicationContext(), appComponent);
         appComponent.inject(this);
 
+        View view = binding.getRoot();
         binding.setSoundComponent(soundComponent);
-
-        String initialStepName = "";
-
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            if(arguments.containsKey(ActivityProperties.TASK_ID)) {
-                taskId = (Long) arguments.get(ActivityProperties.TASK_ID);
-            }
-            if(arguments.containsKey(ActivityProperties.STEP_ID)) {
-                stepId = (Long) arguments.get(ActivityProperties.STEP_ID);
-                step = stepTemplateRepository.get(stepId);
-                initialStepName = step.getName();
-            }
-        }
-
-        stepData = new StepCreateData(initialStepName, "", "");
         binding.setStepData(stepData);
         binding.setStepDataClick(this);
+
         return view;
+    }
+
+    private static Long getSoundId(StepTemplate stepTemplate) {
+        if (stepTemplate == null) {
+            return null;
+        }
+
+        return stepTemplate.getSoundId();
+    }
+
+    private StepCreateData parseArguments() {
+        Bundle arguments = getArguments();
+
+        StepCreateData stepData = new StepCreateData(
+                (Long) arguments.get(ActivityProperties.TASK_ID));
+        if (arguments.containsKey(ActivityProperties.STEP_ID)) {
+            Long stepId = (Long) arguments.get(ActivityProperties.STEP_ID);
+            stepData.setStepTemplate(stepTemplateRepository.get(stepId));
+        }
+
+        return stepData;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         registerViews(view);
-        view.post(new Runnable() {  // Set assets only when the layout is completely built
+        view.post(new Runnable() {
             @Override
             public void run() {
-                if(step != null) {
-                    Asset picture = step.getPicture();
-                    Asset sound = step.getSound();
+                if (stepData != null && stepData.getStepTemplate() != null) {
+                    StepTemplate stepTemplate = stepData.getStepTemplate();
+
+                    Asset picture = stepTemplate.getPicture();
                     if (picture != null) {
-                        setAssetValue(AssetType.PICTURE, picture.getFilename(), picture.getId());
+                        clearPicture.setVisibility(View.VISIBLE);
+                        showPreview(picture.getId(), picturePreview);
                     }
+
+                    Asset sound = stepTemplate.getSound();
                     if (sound != null) {
-                        setAssetValue(AssetType.SOUND, sound.getFilename(), sound.getId());
+                        clearSound.setVisibility(View.VISIBLE);
                     }
+
                 }
             }
         });
     }
 
-    private void registerViews(View view) {
-        stepNameView = (EditText) view.findViewById(R.id.id_et_step_name);
-        pictureFileName = (EditText) view.findViewById(R.id.id_et_step_picture);
-        clearPicture = (ImageButton) view.findViewById(R.id.id_ib_step_clear_img_btn);
-        picturePreview = (ImageView) view.findViewById(R.id.iv_step_picture_preview);
-        soundFileName = (EditText) view.findViewById(R.id.id_et_step_sound);
-        clearSound = (ImageButton) view.findViewById(R.id.id_ib_clear_step_sound_btn);
-    }
-
-        private Long addOrUpdateStepToTask(String stepName, int order) {
-        soundComponent.stopActions();
-        try {
-            if (stepId != null) {
-                if(validateName(stepId, stepNameView)) {
-
-                    stepTemplateRepository.update(stepId, stepName, order,
-                            pictureId,
-                            soundId, taskId);
-                    showToastMessage(R.string.step_saved_message);
-                    return stepId;
-                }
-            } else {
-                if(validateName(stepNameView)) {
-                    long stepId = stepTemplateRepository.create(stepName, order,
-                            pictureId,
-                            soundId, taskId);
-                    showToastMessage(R.string.step_saved_message);
-                    return stepId;
-                }
-            }
-        } catch (RuntimeException exception) {
-            Log.e("Step Create View", "Error saving step", exception);
-            showToastMessage(R.string.save_step_error_message);
-        }
-        return null;
-    }
-
-    private boolean validateName(EditText stepName) {
-        ValidationResult validationResult = stepValidation
-                .isNewNameValid(taskId, stepName.getText().toString());
-        return handleInvalidResult(stepName, validationResult);
-    }
-
-    private boolean validateName(Long stepId, EditText stepName) {
-        ValidationResult validationResult = stepValidation
-                .isUpdateNameValid(stepId, taskId, stepName.getText().toString());
-        return handleInvalidResult(stepName, validationResult);
-    }
-
     @Override
     public void selectStepPicture() {
         filePickerProxy.openFilePicker(StepCreateFragment.this, AssetType.PICTURE);
-    }
-
-    @Override
-    protected void setAssetValue(AssetType assetType, String assetName, Long assetId) {
-
-        String assetNameTrimed = assetName.replaceAll(REGEX_TRIM_NAME, "");
-
-        if (assetType.equals(AssetType.PICTURE)) {
-            stepData.setPictureName(assetNameTrimed);
-            clearPicture.setVisibility(View.VISIBLE);
-            pictureId = assetId;
-            showPreview(pictureId, picturePreview);
-        } else {
-            stepData.setSoundName(assetNameTrimed);
-            soundId = assetId;
-            soundComponent.setSoundId(assetId);
-            clearSound.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
@@ -182,28 +143,119 @@ public class StepCreateFragment extends CreateFragment implements StepCreateEven
 
     @Override
     public void cleanStepPicture() {
-        clearPicture();
+        stepData.setPictureName(null);
+        picturePreview.setImageDrawable(null);
+        clearPicture.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void clearStepSound() {
-        clearSound();
+        stepData.setPictureName(null);
+        clearSound.setVisibility(View.INVISIBLE);
+        soundComponent.setSoundId(null);
+        soundComponent.stopActions();
     }
 
     @Override
     public void showPicture() {
-        showPicture(pictureId);
+        ImagePreviewDialog preview = new ImagePreviewDialog();
+        Bundle args = new Bundle();
+        args.putString("imgPath", retrieveImageFile(stepData.getStepTemplate().getPictureId()));
+        preview.setArguments(args);
+        preview.show(getFragmentManager(), "preview");
     }
 
     @Override
     public void saveStepData(StepCreateData stepCreateData) {
-        String name = stepCreateData.getStepName();
-        String picture = stepCreateData.getPictureName();
-        String sound = stepCreateData.getSoundName();
-        int order = stepTemplateRepository.getAll(taskId).size();
-        if(stepId != null) order = step.getOrder();
-        Long stepId = addOrUpdateStepToTask(name, order);
-        Log.i("step data", name + " " + picture + " " + sound+ " " + stepId);
-        if(stepId != null) getFragmentManager().popBackStack();
+        soundComponent.stopActions();
+
+        try {
+            StepTemplate stepTemplate = stepCreateData.getStepTemplate();
+            if (stepTemplate != null) {
+                updateStepTemplate(stepTemplate);
+            } else {
+                createStepTemplate(stepCreateData);
+            }
+        } catch (RuntimeException exception) {
+            Log.e("Step Create View", "Error saving step", exception);
+            showToastMessage(R.string.save_step_error_message);
+        }
+    }
+
+    private String retrieveImageFile(Long pictureId) {
+        String imageFileName = assetRepository.get(pictureId).getFilename();
+        String fileDir = getActivity().getApplicationContext().getFilesDir().toString();
+        return fileDir + File.separator + imageFileName;
+    }
+
+    private void registerViews(View view) {
+        stepNameView = (EditText) view.findViewById(R.id.id_et_step_name);
+        pictureFileName = (EditText) view.findViewById(R.id.id_et_step_picture);
+        clearPicture = (ImageButton) view.findViewById(R.id.id_ib_step_clear_img_btn);
+        picturePreview = (ImageView) view.findViewById(R.id.iv_step_picture_preview);
+        soundFileName = (EditText) view.findViewById(R.id.id_et_step_sound);
+        clearSound = (ImageButton) view.findViewById(R.id.id_ib_clear_step_sound_btn);
+        stepDurationView = (EditText) view.findViewById(R.id.id_et_step_duration);
+        playSoundIcon = (ImageButton) view.findViewById(R.id.id_btn_play_step_sound);
+    }
+
+    private void showPreview(Long pictureId, ImageView picturePreview) {
+        Picasso.with(getActivity().getApplicationContext())
+                .load(new File(retrieveImageFile(pictureId)))
+                .resize(0, picturePreview.getHeight())
+                .into(picturePreview);
+    }
+
+    private void createStepTemplate(StepCreateData stepCreateData) {
+        if (validateName(stepNameView, stepCreateData)) {
+            StepTemplate stepTemplate = stepCreateData.getStepTemplate();
+            stepTemplate.setOrder(countStepOrder(stepCreateData.getTaskId()));
+            long stepId = stepTemplateRepository.create(stepTemplate);
+
+            stepTemplate.setId(stepId);
+
+            showToastMessage(R.string.step_saved_message);
+            getFragmentManager().popBackStack();
+        }
+    }
+
+    private boolean validateName(EditText stepName, StepCreateData stepCreateData) {
+        ValidationResult validationResult = stepValidation
+                .isNewNameValid(stepCreateData.getTaskId(), stepCreateData.getStepName());
+        return handleInvalidResult(stepName, validationResult);
+    }
+
+    private void updateStepTemplate(StepTemplate stepTemplate) {
+        if (validateName(stepNameView, stepTemplate)) {
+            stepTemplateRepository.update(stepTemplate);
+            showToastMessage(R.string.step_saved_message);
+            getFragmentManager().popBackStack();
+        }
+    }
+
+    private boolean validateName(EditText stepName, StepTemplate stepTemplate) {
+        ValidationResult validationResult = stepValidation
+                .isUpdateNameValid(stepTemplate.getId(),
+                        stepTemplate.getTaskTemplateId(),
+                        stepTemplate.getName());
+        return handleInvalidResult(stepName, validationResult);
+    }
+
+    private boolean handleInvalidResult(EditText editText, ValidationResult validationResult) {
+        if (validationResult.getValidationStatus().equals(ValidationStatus.INVALID)) {
+            editText.setError(validationResult.getValidationInfo());
+            return false;
+        }
+        return true;
+    }
+
+    private void showToastMessage(int resourceStringId) {
+        toastUserNotifier.displayNotifications(
+                resourceStringId,
+                getActivity().getApplicationContext());
+    }
+
+    private int countStepOrder(Long taskId) {
+        return stepTemplateRepository.getAll(taskId).size();
     }
 }

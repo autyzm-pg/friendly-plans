@@ -45,7 +45,6 @@ public abstract class CreateFragment extends Fragment {
     protected ImageView picturePreview;
     protected ImageButton clearPicture;
 
-
     protected boolean handleInvalidResult(EditText editText, ValidationResult validationResult) {
         if (validationResult.getValidationStatus().equals(ValidationStatus.INVALID)) {
             editText.setError(validationResult.getValidationInfo());

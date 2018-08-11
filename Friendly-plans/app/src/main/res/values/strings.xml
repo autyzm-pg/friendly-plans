@@ -23,6 +23,7 @@
   <string name="next">Next</string>
   <string name="main_create_task">Create Task</string>
   <string name="step_name">Step name:</string>
+  <string name="step_duration">Step duration:</string>
   <string name="main_list_of_plans_edit_plan">List of Plans / Edit Plan</string>
   <string name="main_list_of_tasks_edit_task">List of Tasks / Edit Task</string>
   <string name="main_active_child_settings">Active Child Settings</string>
@@ -44,7 +45,7 @@
   <string name="step_removed_message">Step removed</string>
   <string name="step_saved_message">Step saved</string>
   <string name="steps_reordered_message">Steps reordered and saved</string>
-  <string name ="search">Search</string>
+  <string name="search">Search</string>
   <string name="create_plan_tasks_list_info">Step 2.1: Add new tasks and put them in order</string>
   <string name="create_plan_add_tasks">Add tasks</string>
   <string name="child_settings_select_plan">Select active plan</string>
