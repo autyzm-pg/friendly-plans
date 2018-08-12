@@ -108,7 +108,6 @@ public class TaskListActivityTest {
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(testedTaskPosition,
                                 new ViewClicker(R.id.id_remove_task)));
-//        onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedTaskPosition));
         onView(withText(R.string.task_cannot_be_removed_dialog_close_button_text)).perform(click());
         onView(withRecyclerView(R.id.rv_task_list)
                 .atPosition(testedTaskPosition))
