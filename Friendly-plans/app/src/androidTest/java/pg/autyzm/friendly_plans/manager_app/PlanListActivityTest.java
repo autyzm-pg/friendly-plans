@@ -130,12 +130,10 @@ public class PlanListActivityTest {
     }
 
     @Test
-    public void whenSearchedPlanIsRemovedExpectNoPlansInSearch(){
+    public void whenSearchedPlanIsRemovedExpectNoPlansInSearch() {
         final int testedPlanPosition = 5;
-
         onView(withId(R.id.menu_search)).perform(typeText(expectedName + testedPlanPosition));
         closeSoftKeyboard();
-
         onView(withId(R.id.rv_plan_list))
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(0,
@@ -144,7 +142,32 @@ public class PlanListActivityTest {
 
         onView(withRecyclerView(R.id.rv_plan_list)
                 .atPosition(0))
-                    .check(doesNotExist());
+                .check(doesNotExist());
+    }
+
+    @Test
+    public void whenMultiplePlansAreRemovedExpectListRefreshedAfterEachOneOfThem() {
+        final int testedFirstTaskPosition = 3;
+        final int testedSecondTaskPosition = 4;
+        onView(withId(R.id.rv_plan_list))
+                .perform(RecyclerViewActions
+                        .actionOnItemAtPosition(testedFirstTaskPosition,
+                                new ViewClicker(R.id.id_remove_plan)));
+        onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(testedFirstTaskPosition));
+        onView(withRecyclerView(R.id.rv_plan_list)
+                .atPosition(testedFirstTaskPosition))
+                .check(matches(not(hasDescendant(withText(expectedName
+                        + testedFirstTaskPosition)))));
+
+        onView(withId(R.id.rv_plan_list))
+                .perform(RecyclerViewActions
+                        .actionOnItemAtPosition(testedSecondTaskPosition - 1,
+                                new ViewClicker(R.id.id_remove_plan)));
+        onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(testedSecondTaskPosition));
+        onView(withRecyclerView(R.id.rv_plan_list)
+                .atPosition(testedSecondTaskPosition))
+                .check(matches(not(hasDescendant(withText(expectedName
+                        + testedSecondTaskPosition)))));
     }
 
     @Test
@@ -152,13 +175,17 @@ public class PlanListActivityTest {
         final int testedPlanPosition = 5;
 
         onView(withId(R.id.menu_search)).perform(typeText(expectedName + testedPlanPosition));
+        closeSoftKeyboard();
 
         onView(withId(R.id.rv_plan_list))
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(0,
                                 new ViewClicker(R.id.id_remove_plan)));
+
+        onView(withRecyclerView(R.id.rv_plan_list)
+                .atPosition(0))
+                .check(doesNotExist());
         onView(isAssignableFrom(EditText.class)).perform(clearText());
-        closeSoftKeyboard();
 
         onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(testedPlanPosition));
         onView(withRecyclerView(R.id.rv_plan_list)
