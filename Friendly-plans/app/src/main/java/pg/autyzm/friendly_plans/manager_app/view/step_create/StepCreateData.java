@@ -35,7 +35,7 @@ public class StepCreateData extends BaseObservable {
 
     @Bindable
     public String getPictureName() {
-        return getAssetFileName(stepTemplate.getPicture());
+        return getAssetFileName(stepTemplate.getPictureId());
     }
 
     public void setPictureName(String pictureName) {
@@ -45,7 +45,7 @@ public class StepCreateData extends BaseObservable {
 
     @Bindable
     public String getSoundName() {
-        return getAssetFileName(stepTemplate.getSound());
+        return getAssetFileName(stepTemplate.getSoundId());
     }
 
     public void setSoundName(String soundName) {
@@ -79,16 +79,17 @@ public class StepCreateData extends BaseObservable {
         if (asset == null) {
             asset = new Asset();
         }
+
         asset.setFilename(fileName);
 
         return asset;
     }
 
-    private String getAssetFileName(Asset asset) {
-        if (asset == null) {
+    private String getAssetFileName(Long assetId) {
+        if (assetId == null) {
             return EMPTY_VALUE;
         }
 
-        return asset.getFilename().replace(REGEX_TRIM_NAME, "");
+        return stepTemplate.getSound().getFilename().replace(REGEX_TRIM_NAME, "");
     }
 }
