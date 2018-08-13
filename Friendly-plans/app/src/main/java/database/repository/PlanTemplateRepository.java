@@ -3,6 +3,7 @@ package database.repository;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import database.entities.DaoSession;
@@ -70,6 +71,16 @@ public class PlanTemplateRepository {
 
     public List<PlanTemplate> getAll() {
         return daoSession.getPlanTemplateDao().loadAll();
+    }
+
+    public List<PlanTemplate> getPlansWithThisTask(Long taskId) {
+        PlanTaskTemplateDao targetDao = daoSession.getPlanTaskTemplateDao();
+        List<PlanTaskTemplate> planTasks = targetDao._queryTaskTemplate_PlanTaskTemplates(taskId);
+        List<PlanTemplate> plansList = new ArrayList<>();
+        for (PlanTaskTemplate planTaskTemplate : planTasks){
+            plansList.add(planTaskTemplate.getPlanTemplate());
+        }
+        return plansList;
     }
 
     public List<PlanTemplate> getFilteredByName(String planName) {

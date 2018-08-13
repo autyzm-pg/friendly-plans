@@ -1,28 +1,32 @@
 package pg.autyzm.friendly_plans.manager_app.view.task_list;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import database.entities.PlanTaskTemplate;
+import database.entities.PlanTemplate;
+import database.repository.PlanTemplateRepository;
 import database.repository.TaskTemplateRepository;
 import javax.inject.Inject;
 import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.manager_app.view.task_create.TaskCreateActivity;
+import pg.autyzm.friendly_plans.notifications.DialogUserNotifier;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 
 public class TaskListActivity extends AppCompatActivity {
 
     @Inject
     TaskTemplateRepository taskTemplateRepository;
+    @Inject
+    PlanTemplateRepository planTemplateRepository;
     @Inject
     ToastUserNotifier toastUserNotifier;
 
@@ -33,9 +37,9 @@ public class TaskListActivity extends AppCompatActivity {
 
                 @Override
                 public void onRemoveTaskClick(int position){
-                    List<PlanTaskTemplate> planTasks = taskTemplateRepository.getPlansWithThisTask(
+                    List<PlanTemplate> relatedPlans = planTemplateRepository.getPlansWithThisTask(
                             taskListAdapter.getTaskItem(position).getId());
-                    if(planTasks.isEmpty()) {
+                    if(relatedPlans.isEmpty()) {
                         taskTemplateRepository.delete(taskListAdapter.getTaskItem(position).getId());
                         toastUserNotifier.displayNotifications(
                                 R.string.task_removed_message,
@@ -43,7 +47,7 @@ public class TaskListActivity extends AppCompatActivity {
                         taskListAdapter.setTaskItems(taskTemplateRepository.getAll());
                     }
                     else{
-                        displayTaskCannotBeRemovedAlert(planTasks);
+                        displayTaskCannotBeRemovedAlert(relatedPlans);
                     }
                 }
 
@@ -82,27 +86,20 @@ public class TaskListActivity extends AppCompatActivity {
         recyclerView.setAdapter(taskListAdapter);
     }
 
-    private void displayTaskCannotBeRemovedAlert(List<PlanTaskTemplate> planTasks) {
-        String planNames = "";
-        for (PlanTaskTemplate planTask : planTasks){
-            String asd = planTask.getPlanTemplate().getName();
-            planNames = planNames + asd + ", ";
+    private void displayTaskCannotBeRemovedAlert(List<PlanTemplate> relatedPlans) {
+        List<String> relatedPlansNames = new ArrayList<>();
+        for (PlanTemplate plan : relatedPlans){
+            relatedPlansNames.add(plan.getName());
         }
-        planNames = planNames.substring(0, planNames.length() - 2);
-        planNames += ".";
-        AlertDialog alertDialog = new AlertDialog.Builder(
-                TaskListActivity.this).create();
-        alertDialog.setTitle(R.string.break_time_tasks);
-        alertDialog.setMessage(
+        String relatedPlansNamesJoined = TextUtils.join(", " , relatedPlansNames);
+
+        DialogUserNotifier dialog = new DialogUserNotifier(
+                TaskListActivity.this,
+                getResources().getString(R.string.task_cannot_be_removed),
                 getResources().getString(R.string.task_cannot_be_removed_message)
-                        + " " + planNames);
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE,
-                getResources().getString(R.string.task_cannot_be_removed_dialog_close_button_text),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
+                        + " " + relatedPlansNamesJoined + ".",
+                getResources().getString(R.string.task_cannot_be_removed_dialog_close_button_text)
+                );
+        dialog.showDialog();
     }
 }

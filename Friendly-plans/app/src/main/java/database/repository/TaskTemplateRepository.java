@@ -1,8 +1,6 @@
 package database.repository;
 
 import database.entities.DaoSession;
-import database.entities.PlanTaskTemplate;
-import database.entities.PlanTaskTemplateDao;
 import database.entities.TaskTemplate;
 import database.entities.TaskTemplateDao.Properties;
 import java.util.List;
@@ -45,11 +43,6 @@ public class TaskTemplateRepository {
                 .queryBuilder()
                 .where(Properties.Name.eq(taskTemplateName))
                 .list();
-    }
-
-    public List<PlanTaskTemplate> getPlansWithThisTask(Long taskId) {
-        PlanTaskTemplateDao targetDao = daoSession.getPlanTaskTemplateDao();
-        return targetDao._queryTaskTemplate_PlanTaskTemplates(taskId);
     }
 
     public List<TaskTemplate> getAll() {
