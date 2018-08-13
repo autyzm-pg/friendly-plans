@@ -202,12 +202,6 @@
               android:onClick="@{() -> stepDataClick.saveStepData(stepData)}"
               android:paddingEnd="5dp"
               android:text="@string/save" />
-
-            <Button
-                android:id="@+id/id_btn_cancel_step"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cancel" />
         </LinearLayout>
 
       </TableRow>
