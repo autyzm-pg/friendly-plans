@@ -74,13 +74,18 @@ public class PlanTemplateRepository {
     }
 
     public List<PlanTemplate> getPlansWithThisTask(Long taskId) {
-        PlanTaskTemplateDao targetDao = daoSession.getPlanTaskTemplateDao();
-        List<PlanTaskTemplate> planTasks = targetDao._queryTaskTemplate_PlanTaskTemplates(taskId);
-        List<PlanTemplate> plansList = new ArrayList<>();
-        for (PlanTaskTemplate planTaskTemplate : planTasks){
-            plansList.add(planTaskTemplate.getPlanTemplate());
+        PlanTaskTemplateDao planTaskTemplateDao = daoSession.getPlanTaskTemplateDao();
+        List<PlanTaskTemplate> planTasks =  planTaskTemplateDao.queryBuilder()
+                .where(PlanTaskTemplateDao.Properties.TaskTemplateId.eq(taskId))
+                .list();
+        List<Long> planIds = new ArrayList<>();
+        for (PlanTaskTemplate planTask : planTasks) {
+            planIds.add(planTask.getPlanTemplateId());
         }
-        return plansList;
+        return daoSession.getPlanTemplateDao()
+                .queryBuilder()
+                .where(PlanTemplateDao.Properties.Id.in(planIds))
+                .list();
     }
 
     public List<PlanTemplate> getFilteredByName(String planName) {
