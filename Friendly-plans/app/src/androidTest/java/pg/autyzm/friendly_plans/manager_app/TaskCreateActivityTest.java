@@ -153,7 +153,6 @@ public class TaskCreateActivityTest {
                 .check(matches(not(isDisplayed())));
 
         onView(withId(R.id.id_btn_save_and_finish))
-                .perform(scrollTo())
                 .perform(click());
 
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
@@ -184,7 +183,6 @@ public class TaskCreateActivityTest {
                 .check(matches(not(isDisplayed())));
 
         onView(withId(R.id.id_btn_save_and_finish))
-                .perform(scrollTo())
                 .perform(click());
 
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
