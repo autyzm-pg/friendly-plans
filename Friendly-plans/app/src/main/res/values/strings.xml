@@ -39,6 +39,9 @@
   <string name="break_time_tasks">Break time tasks</string>
   <string name="task_saved_message">Task saved</string>
   <string name="task_removed_message">Task removed</string>
+  <string name="task_cannot_be_removed">Task cannot be removed</string>
+  <string name="task_cannot_be_removed_message">Task cannot be removed because it is assigned to the following plans: </string>
+  <string name="task_cannot_be_removed_dialog_close_button_text">Close</string>
   <string name="task_with_steps_saved_message">Task with steps saved</string>
   <string name="step_removed_message">Step removed</string>
   <string name="step_saved_message">Step saved</string>
