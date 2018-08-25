@@ -22,7 +22,6 @@ import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.FragmentStepListBinding;
 import pg.autyzm.friendly_plans.item_touch_helper.SimpleItemTouchHelperCallback;
-import pg.autyzm.friendly_plans.manager_app.view.task_create.TaskCreateActivity;
 import pg.autyzm.friendly_plans.notifications.DialogUserNotifier;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.manager_app.view.main_screen.MainActivity;
