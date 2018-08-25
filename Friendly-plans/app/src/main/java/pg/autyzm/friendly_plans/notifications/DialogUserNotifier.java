@@ -7,18 +7,19 @@ import android.content.DialogInterface;
 public class DialogUserNotifier {
     AlertDialog alertDialog;
 
-    public DialogUserNotifier(Context context, String title, String message, String buttonText){
+    public DialogUserNotifier(Context context, String title, String message){
         alertDialog = new AlertDialog.Builder(
                 context).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE,
-                buttonText,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+    }
+
+    public void setPositiveButton(String buttonText, DialogInterface.OnClickListener listener){
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, buttonText, listener);
+    }
+
+    public void setNegativeButton(String buttonText, DialogInterface.OnClickListener listener){
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, buttonText, listener);
     }
 
     public void showDialog() {

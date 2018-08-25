@@ -93,6 +93,7 @@ public class TaskListActivityTest {
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(testedTaskPosition,
                                 new ViewClicker(R.id.id_remove_task)));
+        onView(withText(R.string.task_removal_confirmation_positive_button)).perform(click());
         onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedTaskPosition));
         onView(withRecyclerView(R.id.rv_task_list)
                 .atPosition(testedTaskPosition))
@@ -108,7 +109,7 @@ public class TaskListActivityTest {
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(testedTaskPosition,
                                 new ViewClicker(R.id.id_remove_task)));
-        onView(withText(R.string.task_cannot_be_removed_dialog_close_button_text)).perform(click());
+        onView(withText(R.string.task_cannot_be_removed_dialog_close_button)).perform(click());
         onView(withRecyclerView(R.id.rv_task_list)
                 .atPosition(testedTaskPosition))
                 .check(matches(hasDescendant(withText(TASK_THAT_IS_ADDED_TO_PLAN_NAME))));

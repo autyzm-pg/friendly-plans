@@ -2,6 +2,7 @@ package pg.autyzm.friendly_plans.manager_app.view.step_list;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.FragmentStepListBinding;
 import pg.autyzm.friendly_plans.item_touch_helper.SimpleItemTouchHelperCallback;
+import pg.autyzm.friendly_plans.manager_app.view.task_create.TaskCreateActivity;
+import pg.autyzm.friendly_plans.notifications.DialogUserNotifier;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.manager_app.view.main_screen.MainActivity;
 import pg.autyzm.friendly_plans.manager_app.view.step_create.StepCreateFragment;
@@ -35,16 +38,31 @@ public class StepListFragment extends Fragment implements StepListEvents {
     StepListRecyclerViewAdapter.StepItemClickListener stepItemClickListener =
             new StepListRecyclerViewAdapter.StepItemClickListener() {
 
-                private boolean removedStep = false;
+                public boolean removedStep = false;
                 @Override
-                public void onRemoveStepClick(long itemId) {
-                    stepTemplateRepository.delete(itemId);
-                    stepListRecyclerViewAdapter
-                            .setStepItemListItems(stepTemplateRepository.getAll(task_id));
-                    toastUserNotifier.displayNotifications(
-                            R.string.step_removed_message,
-                            getActivity().getApplicationContext());
-                    removedStep = true;
+                public void onRemoveStepClick(final long itemId) {
+                    DialogUserNotifier dialog = new DialogUserNotifier(
+                            getActivity(),
+                            getResources().getString(R.string.step_removal_confirmation_title),
+                            getResources().getString(R.string.step_removal_confirmation_message)
+                    );
+                    dialog.setPositiveButton(
+                            getResources().getString(R.string.step_removal_confirmation_positive_button),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    removeStep(itemId);
+                                    removedStep = true;
+                                    dialog.dismiss();
+                                }
+                            });
+                    dialog.setNegativeButton(
+                            getResources().getString(R.string.step_removal_confirmation_negative_button),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    dialog.showDialog();
                 }
 
                 @Override
@@ -147,5 +165,14 @@ public class StepListFragment extends Fragment implements StepListEvents {
     private void showMainMenu() {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
+    }
+
+    private void removeStep(long stepId){
+        stepTemplateRepository.delete(stepId);
+        stepListRecyclerViewAdapter
+                .setStepItemListItems(stepTemplateRepository.getAll(task_id));
+        toastUserNotifier.displayNotifications(
+                R.string.step_removed_message,
+                getActivity().getApplicationContext());
     }
 }
