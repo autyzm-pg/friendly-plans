@@ -1,5 +1,6 @@
 package pg.autyzm.friendly_plans.manager_app.view.plan_list;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import javax.inject.Inject;
 import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
+import pg.autyzm.friendly_plans.notifications.DialogUserNotifier;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.manager_app.view.plan_create.PlanCreateActivity;
 
@@ -34,12 +36,28 @@ public class PlanListActivity extends AppCompatActivity {
             new PlanRecyclerViewAdapter.PlanItemClickListener() {
 
                 @Override
-                public void onRemovePlanClick(long itemId) {
-                    planTemplateRepository.delete(itemId);
-                    searchView.setQuery(searchView.getQuery(), true);
-                    toastUserNotifier.displayNotifications(
-                            R.string.plan_removed_message,
-                            getApplicationContext());
+                public void onRemovePlanClick(final long planId) {
+                    DialogUserNotifier dialog = new DialogUserNotifier(
+                            PlanListActivity.this,
+                            getResources().getString(R.string.plan_removal_confirmation_title),
+                            getResources().getString(R.string.plan_removal_confirmation_message)
+                    );
+                    dialog.setPositiveButton(
+                            getResources().getString(R.string.plan_removal_confirmation_positive_button),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    removePlan(planId);
+                                    dialog.dismiss();
+                                }
+                            });
+                    dialog.setNegativeButton(
+                            getResources().getString(R.string.plan_removal_confirmation_negative_button),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    dialog.showDialog();
                 }
 
                 @Override
@@ -99,5 +117,13 @@ public class PlanListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         planListAdapter = new PlanRecyclerViewAdapter(planItemClickListener);
         recyclerView.setAdapter(planListAdapter);
+    }
+
+    private void removePlan(long itemId){
+        planTemplateRepository.delete(itemId);
+        searchView.setQuery(searchView.getQuery(), true);
+        toastUserNotifier.displayNotifications(
+                R.string.plan_removed_message,
+                getApplicationContext());
     }
 }

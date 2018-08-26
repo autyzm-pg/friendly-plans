@@ -122,11 +122,27 @@ public class PlanListActivityTest {
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(testedTaskPosition,
                                 new ViewClicker(R.id.id_remove_plan)));
+        onView(withText(R.string.plan_removal_confirmation_positive_button)).perform(click());
         onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(testedTaskPosition));
         onView(withRecyclerView(R.id.rv_plan_list)
                 .atPosition(testedTaskPosition))
                 .check(matches(not(hasDescendant(withText(expectedName
                         + testedTaskPosition)))));
+    }
+
+    @Test
+    public void whenPlanRemoveIconIsClickedButNoConfirmationGivenExpectPlanIsOnTheList() {
+        final int testedTaskPosition = 3;
+        onView(withId(R.id.rv_plan_list))
+                .perform(RecyclerViewActions
+                        .actionOnItemAtPosition(testedTaskPosition,
+                                new ViewClicker(R.id.id_remove_plan)));
+        onView(withText(R.string.plan_removal_confirmation_negative_button)).perform(click());
+        onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(testedTaskPosition));
+        onView(withRecyclerView(R.id.rv_plan_list)
+                .atPosition(testedTaskPosition))
+                .check(matches(hasDescendant(withText(expectedName
+                        + testedTaskPosition))));
     }
 
     @Test
@@ -137,6 +153,7 @@ public class PlanListActivityTest {
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(testedFirstTaskPosition,
                                 new ViewClicker(R.id.id_remove_plan)));
+        onView(withText(R.string.plan_removal_confirmation_positive_button)).perform(click());
         onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(testedFirstTaskPosition));
         onView(withRecyclerView(R.id.rv_plan_list)
                 .atPosition(testedFirstTaskPosition))
@@ -147,6 +164,7 @@ public class PlanListActivityTest {
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(testedSecondTaskPosition - 1,
                                 new ViewClicker(R.id.id_remove_plan)));
+        onView(withText(R.string.plan_removal_confirmation_positive_button)).perform(click());
         onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(testedSecondTaskPosition));
         onView(withRecyclerView(R.id.rv_plan_list)
                 .atPosition(testedSecondTaskPosition))
@@ -165,6 +183,7 @@ public class PlanListActivityTest {
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(0,
                                 new ViewClicker(R.id.id_remove_plan)));
+        onView(withText(R.string.plan_removal_confirmation_positive_button)).perform(click());
 
         onView(withRecyclerView(R.id.rv_plan_list)
                 .atPosition(0))

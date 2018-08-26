@@ -1,5 +1,6 @@
 package pg.autyzm.friendly_plans.manager_app.view.task_list;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -36,15 +37,31 @@ public class TaskListActivity extends AppCompatActivity {
             new TaskRecyclerViewAdapter.TaskItemClickListener() {
 
                 @Override
-                public void onRemoveTaskClick(int position){
+                public void onRemoveTaskClick(final int position){
                     List<PlanTemplate> relatedPlans = planTemplateRepository.getPlansWithThisTask(
                             taskListAdapter.getTaskItem(position).getId());
                     if(relatedPlans.isEmpty()) {
-                        taskTemplateRepository.delete(taskListAdapter.getTaskItem(position).getId());
-                        toastUserNotifier.displayNotifications(
-                                R.string.task_removed_message,
-                                getApplicationContext());
-                        taskListAdapter.setTaskItems(taskTemplateRepository.getAll());
+                        DialogUserNotifier dialog = new DialogUserNotifier(
+                                TaskListActivity.this,
+                                getResources().getString(R.string.task_removal_confirmation_title),
+                                getResources().getString(R.string.task_removal_confirmation_message)
+                        );
+                        dialog.setPositiveButton(
+                                getResources().getString(R.string.task_removal_confirmation_positive_button),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        removeTask(position);
+                                        dialog.dismiss();
+                                    }
+                                });
+                        dialog.setNegativeButton(
+                                getResources().getString(R.string.task_removal_confirmation_negative_button),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        dialog.showDialog();
                     }
                     else{
                         displayTaskCannotBeRemovedAlert(relatedPlans);
@@ -86,6 +103,14 @@ public class TaskListActivity extends AppCompatActivity {
         recyclerView.setAdapter(taskListAdapter);
     }
 
+    private void removeTask(int position){
+        taskTemplateRepository.delete(taskListAdapter.getTaskItem(position).getId());
+        toastUserNotifier.displayNotifications(
+                R.string.task_removed_message,
+                getApplicationContext());
+        taskListAdapter.setTaskItems(taskTemplateRepository.getAll());
+    }
+
     private void displayTaskCannotBeRemovedAlert(List<PlanTemplate> relatedPlans) {
         List<String> relatedPlansNames = new ArrayList<>();
         for (PlanTemplate plan : relatedPlans){
@@ -97,9 +122,13 @@ public class TaskListActivity extends AppCompatActivity {
                 TaskListActivity.this,
                 getResources().getString(R.string.task_cannot_be_removed),
                 getResources().getString(R.string.task_cannot_be_removed_message)
-                        + " " + relatedPlansNamesJoined + ".",
-                getResources().getString(R.string.task_cannot_be_removed_dialog_close_button_text)
-                );
+                        + " " + relatedPlansNamesJoined + ".");
+        dialog.setPositiveButton(getResources().getString(R.string.task_cannot_be_removed_dialog_close_button),
+                                 new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
         dialog.showDialog();
     }
 }
