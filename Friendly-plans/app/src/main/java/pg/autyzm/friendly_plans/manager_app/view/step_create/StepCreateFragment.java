@@ -2,6 +2,8 @@ package pg.autyzm.friendly_plans.manager_app.view.step_create;
 
 import android.annotation.TargetApi;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.media.MediaPlayer;
 import android.os.Build.VERSION_CODES;
@@ -18,6 +20,7 @@ import com.squareup.picasso.Picasso;
 import database.entities.StepTemplate;
 import database.repository.AssetRepository;
 import java.io.File;
+import java.io.IOException;
 import javax.inject.Inject;
 
 import database.entities.Asset;
@@ -27,6 +30,7 @@ import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.AppComponent;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.asset.AssetType;
+import pg.autyzm.friendly_plans.asset.AssetsHelper;
 import pg.autyzm.friendly_plans.databinding.FragmentStepCreateBinding;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 import pg.autyzm.friendly_plans.manager_app.validation.StepValidation;
@@ -70,14 +74,16 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
                 inflater, R.layout.fragment_step_create, container, false);
 
         AppComponent appComponent = ((App) getActivity().getApplication()).getAppComponent();
+        View view = binding.getRoot();
+
+        ImageButton playSoundIcon = (ImageButton) view.findViewById(R.id.id_btn_play_step_sound);
+        appComponent.inject(this);
 
         stepData = parseArguments();
 
         soundComponent = SoundComponent.getSoundComponent(
                 getSoundId(stepData.getStepTemplate()), playSoundIcon, getActivity().getApplicationContext(), appComponent);
-        appComponent.inject(this);
 
-        View view = binding.getRoot();
         binding.setSoundComponent(soundComponent);
         binding.setStepData(stepData);
         binding.setStepDataClick(this);
@@ -115,17 +121,16 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
                 if (stepData != null && stepData.getStepTemplate() != null) {
                     StepTemplate stepTemplate = stepData.getStepTemplate();
 
-                    Asset picture = stepTemplate.getPicture();
-                    if (picture != null) {
+                    Long pictureId = stepTemplate.getPictureId();
+                    if (pictureId != null) {
                         clearPicture.setVisibility(View.VISIBLE);
-                        showPreview(picture.getId(), picturePreview);
+                        showPreview(pictureId, picturePreview);
                     }
 
-                    Asset sound = stepTemplate.getSound();
-                    if (sound != null) {
+                    Long soundId = stepTemplate.getSoundId();
+                    if (soundId != null) {
                         clearSound.setVisibility(View.VISIBLE);
                     }
-
                 }
             }
         });
@@ -143,14 +148,14 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
 
     @Override
     public void cleanStepPicture() {
-        stepData.setPictureName(null);
+        stepData.setPicture(null);
         picturePreview.setImageDrawable(null);
         clearPicture.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void clearStepSound() {
-        stepData.setPictureName(null);
+        stepData.setSound(null);
         clearSound.setVisibility(View.INVISIBLE);
         soundComponent.setSoundId(null);
         soundComponent.stopActions();
@@ -171,7 +176,7 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
 
         try {
             StepTemplate stepTemplate = stepCreateData.getStepTemplate();
-            if (stepTemplate != null) {
+            if (stepTemplate.getId() != null) {
                 updateStepTemplate(stepTemplate);
             } else {
                 createStepTemplate(stepCreateData);
@@ -179,6 +184,45 @@ public class StepCreateFragment extends Fragment implements StepCreateEvents.Ste
         } catch (RuntimeException exception) {
             Log.e("Step Create View", "Error saving step", exception);
             showToastMessage(R.string.save_step_error_message);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (filePickerProxy.isFilePicked(resultCode)) {
+            if (filePickerProxy.isPickFileRequested(requestCode, AssetType.PICTURE)) {
+                handleAssetSelecting(data, AssetType.PICTURE);
+            } else if (filePickerProxy.isPickFileRequested(requestCode, AssetType.SOUND)) {
+                handleAssetSelecting(data, AssetType.SOUND);
+            }
+        }
+    }
+
+    protected void handleAssetSelecting(Intent data, AssetType assetType) {
+        Context context = getActivity().getApplicationContext();
+        String filePath = filePickerProxy.getFilePath(data);
+        AssetsHelper assetsHelper = new AssetsHelper(context);
+        try {
+            String assetName = assetsHelper.makeSafeCopy(filePath);
+            Long assetId = assetRepository
+                    .create(AssetType.getTypeByExtension(assetName), assetName);
+            setAssetValue(assetType, assetRepository.get(assetId));
+        } catch (IOException e) {
+            showToastMessage(R.string.picking_file_error);
+        }
+    }
+
+    private void setAssetValue(AssetType assetType, Asset asset) {
+        if (assetType.equals(AssetType.PICTURE)) {
+            stepData.setPicture(asset);
+            clearPicture.setVisibility(View.VISIBLE);
+            showPreview(asset.getId(), picturePreview);
+        } else {
+            stepData.setSound(asset);
+            soundComponent.setSoundId(asset.getId());
+            clearSound.setVisibility(View.VISIBLE);
         }
     }
 

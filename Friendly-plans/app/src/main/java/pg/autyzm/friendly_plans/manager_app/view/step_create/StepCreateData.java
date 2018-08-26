@@ -13,14 +13,13 @@ public class StepCreateData extends BaseObservable {
     private static final String EMPTY_VALUE = "";
 
     private StepTemplate stepTemplate = new StepTemplate();
-    private Long taskId;
 
     public StepCreateData(Long taskId) {
-        this.taskId = taskId;
+        stepTemplate.setTaskTemplateId(taskId);
     }
 
     public Long getTaskId() {
-        return taskId;
+        return stepTemplate.getTaskTemplateId();
     }
 
     @Bindable
@@ -43,6 +42,11 @@ public class StepCreateData extends BaseObservable {
         notifyPropertyChanged(BR.pictureName);
     }
 
+    public void setPicture(Asset picture) {
+        this.stepTemplate.setPicture(picture);
+        notifyPropertyChanged(BR.pictureName);
+    }
+
     @Bindable
     public String getSoundName() {
         return getAssetFileName(stepTemplate.getSoundId());
@@ -53,9 +57,18 @@ public class StepCreateData extends BaseObservable {
         notifyPropertyChanged(BR.soundName);
     }
 
+    public void setSound(Asset sound) {
+        this.stepTemplate.setSound(sound);
+        notifyPropertyChanged(BR.soundName);
+    }
+
     @Bindable
     public String getStepDuration() {
-        return stepTemplate.getDurationTime().toString();
+        if(stepTemplate.getDurationTime() != null) {
+            return stepTemplate.getDurationTime().toString();
+        }
+
+        return EMPTY_VALUE;
     }
 
     public void setStepDuration(String stepDuration) {
@@ -72,12 +85,8 @@ public class StepCreateData extends BaseObservable {
     }
 
     private Asset getAsset(String fileName, Asset asset) {
-        if (fileName == null) {
+        if (fileName == null && asset == null) {
             return null;
-        }
-
-        if (asset == null) {
-            asset = new Asset();
         }
 
         asset.setFilename(fileName);

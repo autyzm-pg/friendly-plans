@@ -76,7 +76,6 @@ public final class SoundComponent {
         }
     }
 
-
     private void handleSoundPlaying() {
         if (!mediaPlayer.isPlaying()) {
             Asset sound = assetRepository.get(soundId);
@@ -108,7 +107,7 @@ public final class SoundComponent {
 
     private void stopAnimation() {
         playSoundIcon.clearAnimation();
-        playSoundIcon.setImageResource( R.drawable.ic_play_sound);
+        playSoundIcon.setImageResource(R.drawable.ic_play_sound);
     }
 
     private void stopSound() {
