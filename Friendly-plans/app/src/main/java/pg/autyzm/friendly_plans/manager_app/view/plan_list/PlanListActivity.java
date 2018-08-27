@@ -121,7 +121,10 @@ public class PlanListActivity extends AppCompatActivity {
 
     private void removePlan(long itemId){
         planTemplateRepository.delete(itemId);
-        searchView.setQuery(searchView.getQuery(), true);
+        if(searchView.getQuery().toString().isEmpty())
+            planListAdapter.setPlanItems(planTemplateRepository.getAll());
+        else
+            searchView.setQuery(searchView.getQuery(), true);
         toastUserNotifier.displayNotifications(
                 R.string.plan_removed_message,
                 getApplicationContext());
