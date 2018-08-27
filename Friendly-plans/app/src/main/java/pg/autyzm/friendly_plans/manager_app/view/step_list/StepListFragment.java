@@ -158,12 +158,7 @@ public class StepListFragment extends Fragment implements StepListEvents {
         toastUserNotifier.displayNotifications(
                 R.string.task_with_steps_saved_message,
                 getActivity().getApplicationContext());
-        showMainMenu();
-    }
-
-    private void showMainMenu() {
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent);
+        getActivity().getFragmentManager().popBackStackImmediate();
     }
 
     private void removeStep(long stepId){
