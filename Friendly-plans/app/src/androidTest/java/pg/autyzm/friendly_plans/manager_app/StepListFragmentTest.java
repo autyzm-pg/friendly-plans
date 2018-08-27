@@ -80,13 +80,13 @@ public class StepListFragmentTest {
     }
 
     @Test
-    public void whenSaveAndFinishClickedMainMenuShouldBeDisplayed() {
+    public void whenSaveClickedTaskCreateActivityShouldBeDisplayed() {
         long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
         openStepsListFragment(taskId);
         onView(withId(R.id.id_btn_next))
             .perform(click());
 
-        onView(withId(R.id.button_createPlan)).check(matches(isDisplayed()));
+        onView(withId(R.id.id_btn_steps)).check(matches(isDisplayed()));
     }
 
     @Test
