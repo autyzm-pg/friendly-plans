@@ -5,10 +5,13 @@
 
 # Friendly Plans
 <img src="/doc/graphic/friendly-plan-logo.png" width="200" height="200" />
+something
 
 ## About
 Friendly Plans is an application supporting autism treatment.
 It provides a digital version of activity schedules. More about treatment (ENG): [PCDI website](http://www.pcdi.org/videos/)
+
+Codacy configuration test
 
 The app is being used by a group of users and therapists. Everyone can download it (version 1.x) from [Google Play](https://play.google.com/store/apps/details?id=com.przyjaznydamianek&hl=pl).
 
