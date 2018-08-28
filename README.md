@@ -5,6 +5,7 @@
 
 # Friendly Plans
 <img src="/doc/graphic/friendly-plan-logo.png" width="200" height="200" />
+something
 
 ## About
 Friendly Plans is an application supporting autism treatment.
