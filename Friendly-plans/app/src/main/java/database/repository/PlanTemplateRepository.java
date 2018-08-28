@@ -1,9 +1,9 @@
 package database.repository;
 
 
+import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import database.entities.DaoSession;
@@ -74,18 +74,11 @@ public class PlanTemplateRepository {
     }
 
     public List<PlanTemplate> getPlansWithThisTask(Long taskId) {
-        PlanTaskTemplateDao planTaskTemplateDao = daoSession.getPlanTaskTemplateDao();
-        List<PlanTaskTemplate> planTasks =  planTaskTemplateDao.queryBuilder()
-                .where(PlanTaskTemplateDao.Properties.TaskTemplateId.eq(taskId))
-                .list();
-        List<Long> planIds = new ArrayList<>();
-        for (PlanTaskTemplate planTask : planTasks) {
-            planIds.add(planTask.getPlanTemplateId());
-        }
-        return daoSession.getPlanTemplateDao()
-                .queryBuilder()
-                .where(PlanTemplateDao.Properties.Id.in(planIds))
-                .list();
+        QueryBuilder<PlanTemplate> queryBuilder = daoSession.getPlanTemplateDao().queryBuilder();
+        queryBuilder.join(PlanTaskTemplate.class, PlanTaskTemplateDao.Properties.PlanTemplateId)
+                .where(PlanTaskTemplateDao.Properties.TaskTemplateId.eq(taskId));
+        Query<PlanTemplate> getPlansWithThisTaskQuery = queryBuilder.build();
+        return getPlansWithThisTaskQuery.list();
     }
 
     public List<PlanTemplate> getFilteredByName(String planName) {
