@@ -17,6 +17,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        // Comment for Codacy
 
         appComponent = DaggerAppComponent.builder()
                 .daoSessionModule(new DaoSessionModule(this.getApplicationContext()))
