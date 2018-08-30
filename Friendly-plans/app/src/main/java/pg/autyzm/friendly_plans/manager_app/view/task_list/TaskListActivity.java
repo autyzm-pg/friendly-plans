@@ -1,5 +1,6 @@
 package pg.autyzm.friendly_plans.manager_app.view.task_list;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -8,21 +9,29 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import database.entities.TaskTemplate;
-import database.repository.TaskTemplateRepository;
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import database.entities.PlanTemplate;
+import database.repository.PlanTemplateRepository;
+import database.repository.TaskTemplateRepository;
 import javax.inject.Inject;
 import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.ActivityTaskListBinding;
 import pg.autyzm.friendly_plans.manager_app.view.task_create.TaskCreateActivity;
+import pg.autyzm.friendly_plans.notifications.DialogUserNotifier;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 
 public class TaskListActivity extends AppCompatActivity implements TaskListActivityEvents {
 
     @Inject
     TaskTemplateRepository taskTemplateRepository;
+    @Inject
+    PlanTemplateRepository planTemplateRepository;
     @Inject
     ToastUserNotifier toastUserNotifier;
 
@@ -36,14 +45,35 @@ public class TaskListActivity extends AppCompatActivity implements TaskListActiv
             new TaskRecyclerViewAdapter.TaskItemClickListener() {
 
                 @Override
-                public void onRemoveTaskClick(int position){
-
-                    taskTemplateRepository.delete(taskListAdapter.getTaskItem(position).getId());
-                    toastUserNotifier.displayNotifications(
-                            R.string.task_removed_message,
-                            getApplicationContext());
-                    taskListAdapter.setTaskItems(taskTemplateRepository.getByTypeId(selectedTypeId));
-
+                public void onRemoveTaskClick(final int position){
+                    List<PlanTemplate> relatedPlans = planTemplateRepository.getPlansWithThisTask(
+                            taskListAdapter.getTaskItem(position).getId());
+                    if(relatedPlans.isEmpty()) {
+                        DialogUserNotifier dialog = new DialogUserNotifier(
+                                TaskListActivity.this,
+                                getResources().getString(R.string.task_removal_confirmation_title),
+                                getResources().getString(R.string.task_removal_confirmation_message)
+                        );
+                        dialog.setPositiveButton(
+                                getResources().getString(R.string.task_removal_confirmation_positive_button),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        removeTask(position);
+                                        dialog.dismiss();
+                                    }
+                                });
+                        dialog.setNegativeButton(
+                                getResources().getString(R.string.task_removal_confirmation_negative_button),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        dialog.showDialog();
+                    }
+                    else{
+                        displayTaskCannotBeRemovedAlert(relatedPlans);
+                    }
                 }
 
                 @Override
@@ -85,7 +115,6 @@ public class TaskListActivity extends AppCompatActivity implements TaskListActiv
         recyclerView.setAdapter(taskListAdapter);
     }
 
-
     @Override
     public void eventShowListOfTasks(View view) {
         showSelectedList(view, 1);
@@ -108,5 +137,34 @@ public class TaskListActivity extends AppCompatActivity implements TaskListActiv
         selectedTypeId = typeId;
         taskItemList = taskTemplateRepository.getByTypeId(typeId);
         taskListAdapter.setTaskItems(taskItemList);
+    }
+
+    private void removeTask(int position){
+        taskTemplateRepository.delete(taskListAdapter.getTaskItem(position).getId());
+        toastUserNotifier.displayNotifications(
+                R.string.task_removed_message,
+                getApplicationContext());
+            taskListAdapter.setTaskItems(taskTemplateRepository.getByTypeId(selectedTypeId));
+    }
+
+    private void displayTaskCannotBeRemovedAlert(List<PlanTemplate> relatedPlans) {
+        List<String> relatedPlansNames = new ArrayList<>();
+        for (PlanTemplate plan : relatedPlans){
+            relatedPlansNames.add(plan.getName());
+        }
+        String relatedPlansNamesJoined = TextUtils.join(", " , relatedPlansNames);
+
+        DialogUserNotifier dialog = new DialogUserNotifier(
+                TaskListActivity.this,
+                getResources().getString(R.string.task_cannot_be_removed),
+                getResources().getString(R.string.task_cannot_be_removed_message)
+                        + " " + relatedPlansNamesJoined + ".");
+        dialog.setPositiveButton(getResources().getString(R.string.task_cannot_be_removed_dialog_close_button),
+                                 new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialog.showDialog();
     }
 }

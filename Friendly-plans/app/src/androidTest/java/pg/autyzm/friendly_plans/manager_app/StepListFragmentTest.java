@@ -97,8 +97,22 @@ public class StepListFragmentTest {
         onView(withId(R.id.rv_step_list)).perform(
                 RecyclerViewActions
                         .actionOnItemAtPosition(0, clickChildViewWithId(R.id.id_remove_step)));
+        onView(withText(R.string.step_removal_confirmation_positive_button)).perform(click());
 
         assertStepDisplayed(0, STEP_NAME_2);
+    }
+
+    @Test
+    public void whenStepRemoveIconIsClickedButNoConfirmationGivenExpectStepIsOnTheList() {
+        long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
+        openStepsListFragment(taskId);
+
+        onView(withId(R.id.rv_step_list)).perform(
+                RecyclerViewActions
+                        .actionOnItemAtPosition(0, clickChildViewWithId(R.id.id_remove_step)));
+        onView(withText(R.string.step_removal_confirmation_negative_button)).perform(click());
+
+        assertStepDisplayed(0, STEP_NAME_1);
     }
 
     @Test
@@ -110,6 +124,7 @@ public class StepListFragmentTest {
                 .perform(
                 RecyclerViewActions
                         .actionOnItemAtPosition(0, swipeLeft()));
+        onView(withText(R.string.step_removal_confirmation_positive_button)).perform(click());
 
         assertStepDisplayed(0, STEP_NAME_2);
     }
