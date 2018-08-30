@@ -69,7 +69,7 @@ public class StepTemplateRepository {
         List<StepTemplate> steps = getAll(taskTemplateId);
         for(StepTemplate step : steps) {
             delete(step.getId());
-        };
+        }
     }
     public void delete(Long stepId) {
         daoSession.getStepTemplateDao()
