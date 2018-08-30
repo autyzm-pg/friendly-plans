@@ -69,7 +69,7 @@ public class TaskTemplateRepository {
         daoSession.getTaskTemplateDao().deleteAll();
     }
 
-    public void resetSteps(Long id) { daoSession.getTaskTemplateDao().load(id).resetStepTemplates(); }
+    public void resetSteps(Long id) { daoSession.getTaskTemplateDao().load(id).resetStepTemplates();}
 
     public List<TaskTemplate> getByTypeId(Integer typeId) {
         return daoSession.getTaskTemplateDao()

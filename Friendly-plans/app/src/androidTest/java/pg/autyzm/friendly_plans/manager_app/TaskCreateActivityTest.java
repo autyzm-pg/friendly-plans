@@ -153,6 +153,7 @@ public class TaskCreateActivityTest {
                 .check(matches(not(isDisplayed())));
 
         onView(withId(R.id.id_btn_save_and_finish))
+                .perform(scrollTo())
                 .perform(click());
 
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
@@ -162,8 +163,6 @@ public class TaskCreateActivityTest {
         assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
         assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
         assertThat(taskTemplates.get(0).getTypeId(), is(2));
-        onView(withText(R.string.task_saved_message)).inRoot(new ToastMatcher())
-                .check(matches(isDisplayed()));
     }
 
     @Test
@@ -183,6 +182,7 @@ public class TaskCreateActivityTest {
                 .check(matches(not(isDisplayed())));
 
         onView(withId(R.id.id_btn_save_and_finish))
+                .perform(scrollTo())
                 .perform(click());
 
         List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
@@ -192,8 +192,6 @@ public class TaskCreateActivityTest {
         assertThat(taskTemplates.get(0).getName(), is(EXPECTED_NAME));
         assertThat(taskTemplates.get(0).getDurationTime(), is(EXPECTED_DURATION));
         assertThat(taskTemplates.get(0).getTypeId(), is(3));
-        onView(withText(R.string.task_saved_message)).inRoot(new ToastMatcher())
-                .check(matches(isDisplayed()));
     }
 
     @Test
