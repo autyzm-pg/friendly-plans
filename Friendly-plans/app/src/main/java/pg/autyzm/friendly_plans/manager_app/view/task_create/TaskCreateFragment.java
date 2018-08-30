@@ -16,6 +16,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import database.repository.StepTemplateRepository;
 import javax.inject.Inject;
 
 import database.entities.Asset;
@@ -43,6 +44,8 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
     TaskValidation taskValidation;
     @Inject
     TaskTemplateRepository taskTemplateRepository;
+    @Inject
+    StepTemplateRepository stepTemplateRepository;
 
     private TextView labelTaskName;
     private EditText taskName;
@@ -62,8 +65,6 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
         TaskType(Integer typeId) {
             this.typeId = typeId;
         }
-
-
         public Integer getId() {
             return this.typeId;
         }
@@ -132,13 +133,13 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
                 if (validateName(taskId, taskName) && validateDuration(taskDurationTime)) {
                     typeId = taskType.getId();
                     Integer duration = getDuration();
+                    clearSteps(typeId, taskId);
                     taskTemplateRepository.update(taskId,
                             taskName.getText().toString(),
                             duration,
                             pictureId,
                             soundId,
                             typeId);
-                    clearSteps(typeId, taskId);
                     showToastMessage(R.string.task_saved_message);
 
                     return taskId;
@@ -166,7 +167,7 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
 
     private void clearSteps(Integer typeId, Long taskId){
         if(typeId != 1){
-            taskTemplateRepository.resetSteps(taskId);
+            stepTemplateRepository.deleteAllStepsForTask(taskId);
         }
     }
     private boolean validateName(Long taskId, EditText taskName) {
