@@ -58,15 +58,11 @@ public class StepListFragmentTest {
     @Before
     public void setUp() {
         long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
-
         openStepsListFragment(taskId);
     }
 
     @Test
     public void whenTaskHasStepsExpectStepsToBeDisplayed() {
-        long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
-        openStepsListFragment(taskId);
-
         assertStepDisplayed(0, STEP_NAME_1);
         assertStepDisplayed(1, STEP_NAME_2);
     }
@@ -81,8 +77,6 @@ public class StepListFragmentTest {
 
     @Test
     public void whenSaveClickedTaskCreateActivityShouldBeDisplayed() {
-        long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
-        openStepsListFragment(taskId);
         onView(withId(R.id.id_btn_next))
             .perform(click());
 
@@ -91,9 +85,6 @@ public class StepListFragmentTest {
 
     @Test
     public void whenStepIsRemovedExpectStepIsNotOnTheList() {
-        long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
-        openStepsListFragment(taskId);
-
         onView(withId(R.id.rv_step_list)).perform(
                 RecyclerViewActions
                         .actionOnItemAtPosition(0, clickChildViewWithId(R.id.id_remove_step)));
@@ -104,9 +95,6 @@ public class StepListFragmentTest {
 
     @Test
     public void whenStepRemoveIconIsClickedButNoConfirmationGivenExpectStepIsOnTheList() {
-        long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
-        openStepsListFragment(taskId);
-
         onView(withId(R.id.rv_step_list)).perform(
                 RecyclerViewActions
                         .actionOnItemAtPosition(0, clickChildViewWithId(R.id.id_remove_step)));
@@ -117,9 +105,6 @@ public class StepListFragmentTest {
 
     @Test
     public void whenStepIsRemovedBySwipeExpectStepIsNotOnTheList() {
-        long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
-        openStepsListFragment(taskId);
-
         onView(withId(R.id.rv_step_list)).perform(
                 RecyclerViewActions
                         .actionOnItemAtPosition(0, swipeLeft()));
@@ -130,9 +115,6 @@ public class StepListFragmentTest {
 
     @Test
     public void whenStepIsClickedEditStepIsOpened() {
-        long taskId = taskTemplateRule.createTaskWithSteps(TASK_NAME_1, STEP_NAME_1, STEP_NAME_2);
-        openStepsListFragment(taskId);
-
         onView(withId(R.id.rv_step_list)).perform(
                 RecyclerViewActions
                         .actionOnItemAtPosition(0, click()));
@@ -149,6 +131,7 @@ public class StepListFragmentTest {
         FragmentManager manager = activityRule.getActivity().getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.task_container, fragment);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 
