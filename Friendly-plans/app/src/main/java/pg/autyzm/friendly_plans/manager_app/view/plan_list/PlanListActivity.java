@@ -91,13 +91,13 @@ public class PlanListActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                planListAdapter.setPlanItems(planTemplateRepository.getFilteredByName(query));
+                refreshList(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                planListAdapter.setPlanItems(planTemplateRepository.getFilteredByName(newText));
+                refreshList(newText);
                 return false;
             }
         });
@@ -121,12 +121,13 @@ public class PlanListActivity extends AppCompatActivity {
 
     private void removePlan(long itemId){
         planTemplateRepository.delete(itemId);
-        if(searchView.getQuery().toString().isEmpty())
-            planListAdapter.setPlanItems(planTemplateRepository.getAll());
-        else
-            searchView.setQuery(searchView.getQuery(), true);
+        refreshList(searchView.getQuery().toString());
         toastUserNotifier.displayNotifications(
                 R.string.plan_removed_message,
                 getApplicationContext());
+    }
+
+    private void refreshList(String searchedValue) {
+        planListAdapter.setPlanItems(planTemplateRepository.getFilteredByName(searchedValue));
     }
 }
