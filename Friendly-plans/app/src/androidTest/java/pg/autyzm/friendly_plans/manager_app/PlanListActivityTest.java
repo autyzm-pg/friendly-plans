@@ -1,7 +1,6 @@
 package pg.autyzm.friendly_plans.manager_app;
 
 import android.content.Intent;
-import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
