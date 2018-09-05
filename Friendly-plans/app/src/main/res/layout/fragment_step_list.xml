@@ -29,12 +29,13 @@
         android:layout_height="wrap_content"
         android:onClick="@{stepListEvents::eventCreateStep}"
         android:text="@string/create_step"/>
+
       <Button
-        android:id="@+id/id_btn_next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="@{stepListEvents::eventSaveAndFinish}"
-        android:text="@string/save_and_finish"/>
+          android:id="@+id/id_btn_next"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:onClick="@{stepListEvents::eventSaveAndFinish}"
+          android:text="@string/save" />
 
     </LinearLayout>
 
