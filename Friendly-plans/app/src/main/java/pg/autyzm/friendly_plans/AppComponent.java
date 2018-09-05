@@ -14,6 +14,8 @@ import pg.autyzm.friendly_plans.asset.AssetsHelper;
 import pg.autyzm.friendly_plans.asset.AssetsHelperModule;
 import pg.autyzm.friendly_plans.file_picker.FilePickerModule;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
+import pg.autyzm.friendly_plans.manager_app.view.step_create.PictureManager;
+import pg.autyzm.friendly_plans.manager_app.view.step_create.SoundManager;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifierModule;
 import pg.autyzm.friendly_plans.manager_app.view.child_list.ChildListActivity;
@@ -97,4 +99,8 @@ public interface AppComponent {
     void inject(StepCreateFragment stepCreateFragment);
 
     void inject(SoundComponent soundComponent);
+
+    void inject(SoundManager soundManager);
+
+    void inject(PictureManager pictureManager);
 }

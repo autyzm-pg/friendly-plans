@@ -1,4 +1,4 @@
-package pg.autyzm.friendly_plans.manager_app.view;
+package pg.autyzm.friendly_plans.manager_app.view.step_create;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;

@@ -3,8 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
   <data>
     <variable
-      name="soundComponent"
-      type="pg.autyzm.friendly_plans.manager_app.view.components.SoundComponent" />
+      name="soundManager"
+      type="pg.autyzm.friendly_plans.manager_app.view.step_create.SoundManager" />
+    <variable
+      name="pictureManager"
+      type="pg.autyzm.friendly_plans.manager_app.view.step_create.PictureManager" />
     <variable
       name="stepData"
       type="pg.autyzm.friendly_plans.manager_app.view.step_create.StepCreateData" />
@@ -94,15 +97,13 @@
             android:layout_column="0"
             android:text="@string/picture" />
 
-        <EditText
+        <TextView
             android:id="@+id/id_et_step_picture"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:cursorVisible="false"
             android:focusable="false"
-            android:inputType="text|textNoSuggestions"
             android:layout_column="1"
-            android:text="@={stepData.pictureName}" />
+            android:text="@{stepData.pictureName}" />
 
         <Button
             android:id="@+id/id_btn_select_step_picture"
@@ -155,15 +156,13 @@
             android:layout_column="0"
             android:text="@string/sound" />
 
-        <EditText
+        <TextView
             android:id="@+id/id_et_step_sound"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:cursorVisible="false"
             android:focusable="false"
-            android:inputType="text|textNoSuggestions"
             android:layout_column="1"
-            android:text="@={stepData.soundName}"/>
+            android:text="@{stepData.soundName}"/>
 
         <Button
             android:id="@+id/id_btn_select_step_sound"
@@ -198,7 +197,7 @@
               android:adjustViewBounds="true"
               android:background="@color/transparent"
               android:elevation="1dp"
-              android:onClick="@{soundComponent::onPlayStopSoundClick}"
+              android:onClick="@{soundManager::onPlayStopSoundClick}"
               android:scaleType="fitCenter"
               android:src="@drawable/ic_play_sound"
               android:visibility="invisible" />

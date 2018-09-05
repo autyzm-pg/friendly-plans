@@ -5,12 +5,12 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import database.entities.Asset;
 import database.entities.StepTemplate;
+import org.apache.commons.lang3.StringUtils;
 import pg.autyzm.friendly_plans.BR;
 
 public class StepCreateData extends BaseObservable {
 
     private static final String REGEX_TRIM_NAME = "_([\\d]*)(?=\\.)";
-    private static final String EMPTY_VALUE = "";
 
     private StepTemplate stepTemplate = new StepTemplate();
 
@@ -34,12 +34,11 @@ public class StepCreateData extends BaseObservable {
 
     @Bindable
     public String getPictureName() {
-        return getAssetFileName(stepTemplate.getPictureId());
-    }
+        if (stepTemplate.getPictureId() == null) {
+            return StringUtils.EMPTY;
+        }
 
-    public void setPictureName(String pictureName) {
-        this.stepTemplate.setPicture(getAsset(pictureName, this.stepTemplate.getPicture()));
-        notifyPropertyChanged(BR.pictureName);
+        return getAssetFileName(stepTemplate.getPicture());
     }
 
     public void setPicture(Asset picture) {
@@ -49,12 +48,11 @@ public class StepCreateData extends BaseObservable {
 
     @Bindable
     public String getSoundName() {
-        return getAssetFileName(stepTemplate.getSoundId());
-    }
+        if (stepTemplate.getSoundId() == null) {
+            return StringUtils.EMPTY;
+        }
 
-    public void setSoundName(String soundName) {
-        this.stepTemplate.setSound(getAsset(soundName, this.stepTemplate.getSound()));
-        notifyPropertyChanged(BR.soundName);
+        return getAssetFileName(stepTemplate.getSound());
     }
 
     public void setSound(Asset sound) {
@@ -64,11 +62,11 @@ public class StepCreateData extends BaseObservable {
 
     @Bindable
     public String getStepDuration() {
-        if(stepTemplate.getDurationTime() != null) {
+        if (stepTemplate.getDurationTime() != null) {
             return stepTemplate.getDurationTime().toString();
         }
 
-        return EMPTY_VALUE;
+        return StringUtils.EMPTY;
     }
 
     public void setStepDuration(String stepDuration) {
@@ -84,21 +82,11 @@ public class StepCreateData extends BaseObservable {
         this.stepTemplate = stepTemplate;
     }
 
-    private Asset getAsset(String fileName, Asset asset) {
-        if (fileName == null && asset == null) {
-            return null;
+    private String getAssetFileName(Asset asset) {
+        if (asset == null) {
+            return StringUtils.EMPTY;
         }
 
-        asset.setFilename(fileName);
-
-        return asset;
-    }
-
-    private String getAssetFileName(Long assetId) {
-        if (assetId == null) {
-            return EMPTY_VALUE;
-        }
-
-        return stepTemplate.getSound().getFilename().replace(REGEX_TRIM_NAME, "");
+        return asset.getFilename().replace(REGEX_TRIM_NAME, "");
     }
 }

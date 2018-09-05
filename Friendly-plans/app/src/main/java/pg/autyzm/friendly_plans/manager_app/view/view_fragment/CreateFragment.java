@@ -17,6 +17,7 @@ import java.io.IOException;
 import javax.inject.Inject;
 
 import database.repository.AssetRepository;
+import org.apache.commons.lang3.StringUtils;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.asset.AssetType;
 import pg.autyzm.friendly_plans.asset.AssetsHelper;
@@ -111,7 +112,7 @@ public abstract class CreateFragment extends Fragment {
     }
 
     protected void clearSound() {
-        soundFileName.setText("");
+        soundFileName.setText(StringUtils.EMPTY);
         soundId = null;
         clearSound.setVisibility(View.INVISIBLE);
         soundComponent.setSoundId(null);
@@ -119,7 +120,7 @@ public abstract class CreateFragment extends Fragment {
     }
 
     protected void clearPicture() {
-        pictureFileName.setText("");
+        pictureFileName.setText(StringUtils.EMPTY);
         pictureId = null;
         picturePreview.setImageDrawable(null);
         clearPicture.setVisibility(View.INVISIBLE);
