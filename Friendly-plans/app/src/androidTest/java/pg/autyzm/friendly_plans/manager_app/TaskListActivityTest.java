@@ -2,7 +2,6 @@ package pg.autyzm.friendly_plans.manager_app;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.test.espresso.ViewAssertion;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -158,7 +157,7 @@ public class TaskListActivityTest {
         onView(withId(R.id.menu_search)).perform(typeText(String.valueOf(expectedName.charAt(0))));
         closeSoftKeyboard();
 
-        onView(withId(R.id.rv_task_list)).check(ViewAssertions.matches(
+        onView(withId(R.id.rv_task_list)).check(matches(
                 RecyclerViewMatcher.withItemCount(numberOfTasks)));
     }
 

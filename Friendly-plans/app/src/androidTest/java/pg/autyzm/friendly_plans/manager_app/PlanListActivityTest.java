@@ -108,7 +108,7 @@ public class PlanListActivityTest {
         onView(withId(R.id.menu_search)).perform(typeText(String.valueOf(expectedName.charAt(0))));
         closeSoftKeyboard();
 
-        onView(withId(R.id.rv_plan_list)).check(ViewAssertions.matches(
+        onView(withId(R.id.rv_plan_list)).check(matches(
                 RecyclerViewMatcher.withItemCount(numberOfPlans)));
     }
 
