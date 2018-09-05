@@ -7,6 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +34,8 @@ public class TaskListActivity extends AppCompatActivity {
     PlanTemplateRepository planTemplateRepository;
     @Inject
     ToastUserNotifier toastUserNotifier;
+
+    SearchView searchView;
 
     private TaskRecyclerViewAdapter taskListAdapter;
 
@@ -90,6 +96,29 @@ public class TaskListActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.plan_list_menu, menu);
+        MenuItem searchViewItem = menu.findItem(R.id.menu_search);
+        searchView = (SearchView) searchViewItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                refreshList(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                refreshList(newText);
+                return false;
+            }
+        });
+
+        return true;
+    }
+
+    @Override
     protected void onRestart() {
         super.onRestart();
         taskListAdapter.setTaskItems(taskTemplateRepository.getAll());
@@ -105,10 +134,10 @@ public class TaskListActivity extends AppCompatActivity {
 
     private void removeTask(int position){
         taskTemplateRepository.delete(taskListAdapter.getTaskItem(position).getId());
+        refreshList(searchView.getQuery().toString());
         toastUserNotifier.displayNotifications(
                 R.string.task_removed_message,
                 getApplicationContext());
-        taskListAdapter.setTaskItems(taskTemplateRepository.getAll());
     }
 
     private void displayTaskCannotBeRemovedAlert(List<PlanTemplate> relatedPlans) {
@@ -130,5 +159,9 @@ public class TaskListActivity extends AppCompatActivity {
             }
         });
         dialog.showDialog();
+    }
+
+    private void refreshList(String searchedValue) {
+        taskListAdapter.setTaskItems(taskTemplateRepository.getFilteredByName(searchedValue));
     }
 }

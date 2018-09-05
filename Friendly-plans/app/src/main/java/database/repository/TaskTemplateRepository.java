@@ -2,6 +2,7 @@ package database.repository;
 
 import database.entities.DaoSession;
 import database.entities.TaskTemplate;
+import database.entities.TaskTemplateDao;
 import database.entities.TaskTemplateDao.Properties;
 import java.util.List;
 
@@ -42,6 +43,13 @@ public class TaskTemplateRepository {
         return daoSession.getTaskTemplateDao()
                 .queryBuilder()
                 .where(Properties.Name.eq(taskTemplateName))
+                .list();
+    }
+
+    public List<TaskTemplate> getFilteredByName(String taskName) {
+        return daoSession.getTaskTemplateDao()
+                .queryBuilder()
+                .where(TaskTemplateDao.Properties.Name.like("%" + taskName + "%"))
                 .list();
     }
 
