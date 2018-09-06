@@ -17,6 +17,7 @@ import java.util.List;
 import database.entities.PlanTemplate;
 import database.repository.PlanTemplateRepository;
 import pg.autyzm.friendly_plans.R;
+import pg.autyzm.friendly_plans.matcher.RecyclerViewMatcher;
 import pg.autyzm.friendly_plans.view_actions.ViewClicker;
 import pg.autyzm.friendly_plans.resource.DaoSessionResource;
 import pg.autyzm.friendly_plans.manager_app.view.plan_list.PlanListActivity;
@@ -106,13 +107,8 @@ public class PlanListActivityTest {
         onView(withId(R.id.menu_search)).perform(typeText(String.valueOf(expectedName.charAt(0))));
         closeSoftKeyboard();
 
-        for (int planNumber = 0; planNumber < numberOfPlans; planNumber++) {
-            onView(withId(R.id.rv_plan_list)).perform(scrollToPosition(planNumber));
-            onView(withRecyclerView(R.id.rv_plan_list)
-                    .atPosition(planNumber))
-                    .check(matches(hasDescendant(withText(expectedName
-                            + planNumber))));
-        }
+        onView(withId(R.id.rv_plan_list)).check(matches(
+                RecyclerViewMatcher.withItemCount(numberOfPlans)));
     }
 
     @Test
