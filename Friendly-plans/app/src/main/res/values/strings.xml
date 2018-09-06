@@ -82,6 +82,8 @@
   <string name="child_saved_message">Child profile saved</string>
   <string name="storage_permission_granted">Permission granted. You can now select the file</string>
   <string name="storage_permission_denied">Permission denied. You can\'t add files from storage</string>
+  <string name="activate_plan">Activate plan</string>
+  <string name="activate_plan_description">Choose the plan that you want to activate:</string>
 
   <!--Validation messages-->
   <string name="only_letters_msg">Only letters and numbers are allowed</string>

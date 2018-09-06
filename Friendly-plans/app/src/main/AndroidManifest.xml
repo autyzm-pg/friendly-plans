@@ -21,6 +21,10 @@
       </intent-filter>
     </activity>
     <activity
+        android:name=".manager_app.view.activate_plan.ActivatePlanActivity"
+        android:screenOrientation="landscape">
+    </activity>
+    <activity
       android:name=".manager_app.view.plan_create.PlanCreateActivity"
       android:screenOrientation="landscape">
     </activity>

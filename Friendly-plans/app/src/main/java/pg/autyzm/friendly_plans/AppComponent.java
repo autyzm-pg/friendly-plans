@@ -14,6 +14,7 @@ import pg.autyzm.friendly_plans.asset.AssetsHelper;
 import pg.autyzm.friendly_plans.asset.AssetsHelperModule;
 import pg.autyzm.friendly_plans.file_picker.FilePickerModule;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
+import pg.autyzm.friendly_plans.manager_app.view.activate_plan.ActivatePlanActivity;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifierModule;
 import pg.autyzm.friendly_plans.manager_app.view.child_list.ChildListActivity;
@@ -73,6 +74,8 @@ public interface AppComponent {
     @SuppressWarnings("unused")
     AssetsHelper assetsHelper();
 
+
+    void inject(ActivatePlanActivity activity);
 
     void inject(TaskCreateActivity taskCreateActivity);
 
