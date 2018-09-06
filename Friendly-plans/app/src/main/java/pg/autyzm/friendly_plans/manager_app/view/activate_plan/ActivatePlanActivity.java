@@ -18,8 +18,6 @@ public class ActivatePlanActivity extends AppCompatActivity {
     @Inject
     PlanTemplateRepository planTemplateRepository;
 
-    private ActivatePlanRecyclerViewAdapter planListAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +30,7 @@ public class ActivatePlanActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_activate_plan_plan_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        planListAdapter = new ActivatePlanRecyclerViewAdapter();
+        ActivatePlanRecyclerViewAdapter planListAdapter = new ActivatePlanRecyclerViewAdapter();
         recyclerView.setAdapter(planListAdapter);
         planListAdapter.setPlanItems(planTemplateRepository.getAll());
 
