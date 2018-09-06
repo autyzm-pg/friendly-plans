@@ -20,6 +20,17 @@
       android:paddingRight="@dimen/activity_horizontal_margin"
       tools:context=".view.main_screen.MainActivity">
 
+      <!-- activate plan-->
+      <Button
+          android:id="@+id/button_activatePlan"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentEnd="true"
+          android:layout_alignParentStart="true"
+          android:layout_alignParentTop="true"
+          android:onClick="@{events::eventActivatePlan}"
+          android:text="@string/main_activate_plan" />
+
       <!-- plan-->
       <Button
         android:id="@+id/button_createPlan"
@@ -27,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+          android:layout_below="@+id/button_activatePlan"
         android:onClick="@{events::eventCreatePlan}"
         android:text="@string/main_create_plan" />
 

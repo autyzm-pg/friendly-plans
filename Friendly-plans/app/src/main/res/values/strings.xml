@@ -28,6 +28,7 @@
   <string name="main_add_remove_child">Add / Remove Child</string>
   <string name="main_change_active_child">Change Active Child</string>
   <string name="main_create_plan">Create Plan</string>
+  <string name="main_activate_plan">Activate Plan</string>
   <string name="plan_create_description">Step 1: Enter plan\'s name</string>
   <string name="plan_name">Plan\'s name:</string>
   <string name="name">Name</string>

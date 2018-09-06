@@ -25,6 +25,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityEvent
     }
 
     @Override
+    public void eventActivatePlan(View view) {
+    }
+
+    @Override
     public void eventCreateTask(View view) {
         Intent intent = new Intent(this, TaskCreateActivity.class);
         startActivity(intent);
