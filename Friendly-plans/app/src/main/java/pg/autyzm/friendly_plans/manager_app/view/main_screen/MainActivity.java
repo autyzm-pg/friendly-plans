@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.ActivityMainBinding;
+import pg.autyzm.friendly_plans.manager_app.view.activate_plan.ActivatePlanActivity;
 import pg.autyzm.friendly_plans.manager_app.view.child_list.ChildListActivity;
 import pg.autyzm.friendly_plans.manager_app.view.plan_create.PlanCreateActivity;
 import pg.autyzm.friendly_plans.manager_app.view.plan_list.PlanListActivity;
@@ -22,6 +23,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityEvent
         setContentView(R.layout.activity_main);
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setEvents(this);
+    }
+
+    @Override
+    public void eventActivatePlan(View view) {
+        Intent intent = new Intent(this, ActivatePlanActivity.class);
+        startActivity(intent);
     }
 
     @Override

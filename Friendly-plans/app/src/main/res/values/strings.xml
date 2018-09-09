@@ -28,6 +28,7 @@
   <string name="main_add_remove_child">Add / Remove Child</string>
   <string name="main_change_active_child">Change Active Child</string>
   <string name="main_create_plan">Create Plan</string>
+  <string name="main_activate_plan">Activate Plan</string>
   <string name="plan_create_description">Step 1: Enter plan\'s name</string>
   <string name="plan_name">Plan\'s name:</string>
   <string name="name">Name</string>
@@ -81,6 +82,8 @@
   <string name="child_saved_message">Child profile saved</string>
   <string name="storage_permission_granted">Permission granted. You can now select the file</string>
   <string name="storage_permission_denied">Permission denied. You can\'t add files from storage</string>
+  <string name="activate_plan">Activate plan</string>
+  <string name="activate_plan_description">Choose the plan that you want to activate:</string>
 
   <!--Validation messages-->
   <string name="only_letters_msg">Only letters and numbers are allowed</string>

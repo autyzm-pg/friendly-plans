@@ -4,6 +4,8 @@ import android.view.View;
 
 public interface MainActivityEvents {
 
+    void eventActivatePlan(View view);
+
     void eventShowTaskList(View view);
 
     void eventCreateTask(View view);
