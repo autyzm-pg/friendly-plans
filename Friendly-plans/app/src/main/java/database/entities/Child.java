@@ -19,6 +19,8 @@ public class Child {
 
     private String surname;
 
+    private boolean isActive;
+
     private String fontSize;
 
     private String pictureSize;
@@ -40,12 +42,13 @@ public class Child {
     @Generated(hash = 1911343815)
     private transient ChildDao myDao;
 
-    @Generated(hash = 1302308560)
-    public Child(Long id, String name, String surname, String fontSize, String pictureSize,
-            String displayMode) {
+    @Generated(hash = 212691019)
+    public Child(Long id, String name, String surname, boolean isActive, String fontSize,
+            String pictureSize, String displayMode) {
         this.id = id;
         this.name = name;
         this.surname = surname;
+        this.isActive = isActive;
         this.fontSize = fontSize;
         this.pictureSize = pictureSize;
         this.displayMode = displayMode;
@@ -167,6 +170,14 @@ public class Child {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.update(this);
+    }
+
+    public boolean getIsActive() {
+        return this.isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
     /** called by internal mechanisms, do not call yourself. */

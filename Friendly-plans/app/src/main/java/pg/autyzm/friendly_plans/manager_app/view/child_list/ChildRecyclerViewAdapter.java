@@ -1,9 +1,11 @@
 package pg.autyzm.friendly_plans.manager_app.view.child_list;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import database.entities.Child;
 import java.util.Collections;
@@ -14,9 +16,19 @@ public class ChildRecyclerViewAdapter extends
         RecyclerView.Adapter<ChildRecyclerViewAdapter.ChildListViewHolder> {
 
     private List<Child> childItemList;
+    private ChildItemClickListener childItemClickListener;
+    private Integer selectedChildPosition;
 
-    ChildRecyclerViewAdapter() {
+    ChildRecyclerViewAdapter(ChildItemClickListener childItemClickListener) {
+        this.childItemClickListener = childItemClickListener;
         this.childItemList = Collections.emptyList();
+    }
+
+    interface ChildItemClickListener {
+
+        void onChildItemClick(int position);
+
+        void onRemoveChildClick(long itemId);
     }
 
     @Override
@@ -24,7 +36,8 @@ public class ChildRecyclerViewAdapter extends
             int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_child, parent, false);
-        return new ChildRecyclerViewAdapter.ChildListViewHolder(view);
+        return new ChildRecyclerViewAdapter.ChildListViewHolder(view, childItemClickListener,
+                childItemList);
     }
 
     @Override
@@ -33,6 +46,10 @@ public class ChildRecyclerViewAdapter extends
         if (childItemList != null && !childItemList.isEmpty()) {
             Child childItem = childItemList.get(position);
             holder.childName.setText(childItem.getName() + " " + childItem.getSurname());
+            if(selectedChildPosition != null && selectedChildPosition == position)
+                holder.itemView.setBackgroundColor(Color.parseColor("#cccccc"));
+            else
+                holder.itemView.setBackgroundColor(Color.TRANSPARENT);
         }
     }
 
@@ -41,19 +58,53 @@ public class ChildRecyclerViewAdapter extends
         return childItemList != null && childItemList.size() != 0 ? childItemList.size() : 0;
     }
 
+    Child getChild(int position) {
+        return childItemList.get(position);
+    }
+
     void setChildItems(List<Child> childItemList) {
         this.childItemList = childItemList;
+        notifyDataSetChanged();
+    }
+
+    void setSelectedChildPosition(int selectedChildPosition) {
+        this.selectedChildPosition = selectedChildPosition;
         notifyDataSetChanged();
     }
 
     static class ChildListViewHolder extends RecyclerView.ViewHolder {
 
         TextView childName;
+        ImageButton removeButton;
+        ChildItemClickListener childItemClickListener;
+        List<Child> childItemList;
 
-        ChildListViewHolder(View itemView) {
+        View.OnClickListener deleteButtonListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long id = childItemList.get(getAdapterPosition()).getId();
+                childItemClickListener.onRemoveChildClick(id);
+            }
+        };
+
+        View.OnClickListener selectItemListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                childItemClickListener.onChildItemClick(getAdapterPosition());
+            }
+        };
+
+        ChildListViewHolder(View itemView, ChildItemClickListener childItemClickListener,
+                            List<Child> childItemList) {
             super(itemView);
             this.childName = (TextView) itemView
                     .findViewById(R.id.id_tv_child_name);
+            this.removeButton = (ImageButton) itemView
+                    .findViewById(R.id.id_remove_child);
+            this.childItemList = childItemList;
+            this.childItemClickListener = childItemClickListener;
+            this.removeButton.setOnClickListener(deleteButtonListener);
+            itemView.setOnClickListener(selectItemListener);
         }
     }
 }
