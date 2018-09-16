@@ -7,6 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.SearchView;
+
 import database.repository.ChildRepository;
 import javax.inject.Inject;
 import pg.autyzm.friendly_plans.App;
@@ -21,6 +26,8 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
 
     @Inject
     ToastUserNotifier toastUserNotifier;
+
+    ChildRecyclerViewAdapter childListAdapter;
 
     ChildListData childData;
 
@@ -44,11 +51,34 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.plan_list_menu, menu);
+        MenuItem searchViewItem = menu.findItem(R.id.menu_search);
+        SearchView searchView = (SearchView) searchViewItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                childListAdapter.setChildItems(childRepository.getFilteredByFullName(query));
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                childListAdapter.setChildItems(childRepository.getFilteredByFullName(newText));
+                return false;
+            }
+        });
+
+        return true;
+    }
+
     private void setUpViews() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_child_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ChildRecyclerViewAdapter childListAdapter = new ChildRecyclerViewAdapter();
+        childListAdapter = new ChildRecyclerViewAdapter();
         recyclerView.setAdapter(childListAdapter);
         childListAdapter.setChildItems(childRepository.getAll());
     }
