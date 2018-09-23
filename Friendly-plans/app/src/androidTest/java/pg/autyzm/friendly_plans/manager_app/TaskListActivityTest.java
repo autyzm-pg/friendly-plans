@@ -40,12 +40,11 @@ import static pg.autyzm.friendly_plans.matcher.RecyclerViewMatcher.withRecyclerV
 @RunWith(AndroidJUnit4.class)
 public class TaskListActivityTest {
 
-    private final int numberOfTasks = 11;
+    private final int numberOfTasks = 6;
+
     private static final String expectedNameTask = "TEST TASK ";
     private static final String expectedNamePrize = "TEST PRIZE ";
     private static final String expectedNameInteraction = "TEST INTERACTION ";
-
-    private static final String expectedName = "TEST TASK ";
     private static final String PLAN_WITH_TASK_NAME = "PLAN WITH TASK";
     private static final String TASK_THAT_IS_ADDED_TO_PLAN_NAME = "TASK IN PLAN";
 
@@ -66,7 +65,6 @@ public class TaskListActivityTest {
 
     @Before
     public void setUp() {
-        final int numberOfTasks = 5;
         taskTemplateRule.deleteAll();
 
         for (int taskNumber = 0; taskNumber < numberOfTasks; taskNumber++) {
@@ -81,7 +79,7 @@ public class TaskListActivityTest {
         Context context = activityRule.getActivity().getApplicationContext();
         PlanTemplateRepository planTemplateRepository = new PlanTemplateRepository(
                 daoSessionResource.getSession(context));
-        long taskId = taskTemplateRule.createTask(TASK_THAT_IS_ADDED_TO_PLAN_NAME);
+        long taskId = taskTemplateRule.createTask(TASK_THAT_IS_ADDED_TO_PLAN_NAME, 1);
         long planId = planTemplateRule.createPlan(PLAN_WITH_TASK_NAME);
         planTemplateRepository.setTasksWithThisPlan(planId, taskId);
 
@@ -106,20 +104,7 @@ public class TaskListActivityTest {
                 .check(matches(hasDescendant(withText(expectedNameTask
                         + testedTaskPosition))));
     }
-    @Test
-    public void whenTaskIsRemovedExpectTaskIsNotOnTheList() {
-        final int testedTaskPosition = 3;
-        onView(withId(R.id.rv_task_list))
-                .perform(RecyclerViewActions
-                        .actionOnItemAtPosition(testedTaskPosition,
-                                new ViewClicker(R.id.id_remove_task)));
-        onView(withText(R.string.task_removal_confirmation_positive_button)).perform(click());
-        onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedTaskPosition));
-        onView(withRecyclerView(R.id.rv_task_list)
-                .atPosition(testedTaskPosition))
-                .check(matches(not(hasDescendant(withText(expectedName
-                        + testedTaskPosition)))));
-    }
+
     @Test
     public void whenPrizeIsAddedToDBExpectProperlyDisplayedOnRecyclerView() {
         final int testedTaskPosition = 3;
@@ -143,10 +128,24 @@ public class TaskListActivityTest {
                 .check(matches(hasDescendant(withText(expectedNameInteraction
                         + testedTaskPosition))));
     }
+    @Test
+    public void whenTaskIsRemovedExpectTaskIsNotOnTheList() {
+        final int testedTaskPosition = 3;
+        onView(withId(R.id.rv_task_list))
+                .perform(RecyclerViewActions
+                        .actionOnItemAtPosition(testedTaskPosition,
+                                new ViewClicker(R.id.id_remove_task)));
+        onView(withText(R.string.task_removal_confirmation_positive_button)).perform(click());
+        onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedTaskPosition));
+        onView(withRecyclerView(R.id.rv_task_list)
+                .atPosition(testedTaskPosition))
+                .check(matches(not(hasDescendant(withText(expectedNameTask
+                        + testedTaskPosition)))));
+    }
 
     @Test
     public void whenTaskWhichIsInAPlanIsRemovedExpectTaskNotRemoved() {
-        final int testedTaskPosition = 10;
+        final int testedTaskPosition = 6;
         onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedTaskPosition));
         onView(withId(R.id.rv_task_list))
                 .perform(RecyclerViewActions
@@ -160,31 +159,31 @@ public class TaskListActivityTest {
 
     @Test
     public void whenSearchForASingleTaskUsingOnlyOneCharacterExpectThatTaskAtFirstPosition() {
-        final int testedTaskPosition = 5;
+        final int testedTaskPosition = 3;
 
         onView(withId(R.id.menu_search)).perform(typeText(Integer.toString(testedTaskPosition)));
         closeSoftKeyboard();
 
         onView(withRecyclerView(R.id.rv_task_list)
                 .atPosition(0))
-                .check(matches(hasDescendant(withText(expectedName
+                .check(matches(hasDescendant(withText(expectedNameTask
                         + testedTaskPosition))));
     }
 
     @Test
     public void whenSearchForEveryTaskExpectEveryTaskToAppear() {
-        onView(withId(R.id.menu_search)).perform(typeText(String.valueOf(expectedName.charAt(0))));
+        onView(withId(R.id.menu_search)).perform(typeText(String.valueOf(expectedNameTask.charAt(0))));
         closeSoftKeyboard();
 
         onView(withId(R.id.rv_task_list)).check(matches(
-                RecyclerViewMatcher.withItemCount(numberOfTasks)));
+                RecyclerViewMatcher.withItemCount(numberOfTasks+1)));
     }
 
     @Test
     public void whenSearchTaskIsRemovedExpectItToBeRemoved(){
-        final int testedTaskPosition = 5;
+        final int testedTaskPosition = 3;
 
-        onView(withId(R.id.menu_search)).perform(typeText(expectedName + testedTaskPosition));
+        onView(withId(R.id.menu_search)).perform(typeText(expectedNameTask + testedTaskPosition));
         closeSoftKeyboard();
 
         onView(withId(R.id.rv_task_list))
@@ -197,11 +196,12 @@ public class TaskListActivityTest {
                 .atPosition(0))
                 .check(doesNotExist());
         onView(isAssignableFrom(EditText.class)).perform(clearText());
+        closeSoftKeyboard();
 
         onView(withId(R.id.rv_task_list)).perform(scrollToPosition(testedTaskPosition));
         onView(withRecyclerView(R.id.rv_task_list)
                 .atPosition(testedTaskPosition))
-                .check(matches(hasDescendant(withText(expectedName
+                .check(matches(hasDescendant(withText(expectedNameTask
                         + (testedTaskPosition + 1)))));
     }
 }

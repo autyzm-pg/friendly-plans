@@ -57,6 +57,13 @@ public class TaskTemplateRepository {
                 .list();
     }
 
+    public List<TaskTemplate> getFilteredByNameAndType(String taskName, Integer typeId) {
+        return daoSession.getTaskTemplateDao()
+                .queryBuilder()
+                .where(TaskTemplateDao.Properties.Name.like("%" + taskName + "%"), TaskTemplateDao.Properties.TypeId.eq(typeId))
+                .list();
+    }
+
     public List<TaskTemplate> getAll() {
         return daoSession.getTaskTemplateDao().loadAll();
     }
