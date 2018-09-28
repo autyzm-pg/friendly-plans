@@ -11,10 +11,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 import static pg.autyzm.friendly_plans.matcher.RecyclerViewMatcher.withRecyclerView;
 
 import android.content.Context;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.WindowManager;
@@ -32,6 +34,7 @@ import org.junit.runner.RunWith;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.resource.DaoSessionResource;
 import pg.autyzm.friendly_plans.manager_app.view.child_list.ChildListActivity;
+import pg.autyzm.friendly_plans.view_actions.ViewClicker;
 
 @RunWith(AndroidJUnit4.class)
 public class ChildListActivityTest {
@@ -94,7 +97,7 @@ public class ChildListActivityTest {
 
     @Test
     public void whenAddingNewChildExpectNewChildAddedToDB() {
-        childRepository.deleteAll();
+
         onView(withId(R.id.id_et_child_first_name))
                 .perform(replaceText(EXPECTED_FIRST_NAME));
         closeSoftKeyboard();
@@ -116,6 +119,38 @@ public class ChildListActivityTest {
     public void whenChildIsAddedToDBExpectProperlyDisplayedOnRecyclerView() {
 
         final int testedChildPosition = 5;
+        onView(withId(R.id.rv_child_list)).perform(scrollToPosition(testedChildPosition));
+        onView(withRecyclerView(R.id.rv_child_list)
+                .atPosition(testedChildPosition))
+                .check(matches(hasDescendant(withText(EXPECTED_FIRST_NAME + " " + EXPECTED_LAST_NAME
+                        + testedChildPosition))));
+    }
+
+    @Test
+    public void whenChildIsRemovedExpectChildIsNotOnTheList() {
+
+        final int testedChildPosition = 5;
+        onView(withId(R.id.rv_child_list))
+                .perform(RecyclerViewActions
+                        .actionOnItemAtPosition(testedChildPosition,
+                                new ViewClicker(R.id.id_remove_child)));
+        onView(withText(R.string.child_removal_confirmation_positive_button)).perform(click());
+        onView(withId(R.id.rv_child_list)).perform(scrollToPosition(testedChildPosition));
+        onView(withRecyclerView(R.id.rv_child_list)
+                .atPosition(testedChildPosition))
+                .check(matches(not(hasDescendant(withText(EXPECTED_FIRST_NAME + " " + EXPECTED_LAST_NAME
+                        + testedChildPosition)))));
+    }
+
+    @Test
+    public void whenChildRemoveIconIsClickedButNoConfirmationGivenExpectChildIsOnTheList() {
+
+        final int testedChildPosition = 5;
+        onView(withId(R.id.rv_child_list))
+                .perform(RecyclerViewActions
+                        .actionOnItemAtPosition(testedChildPosition,
+                                new ViewClicker(R.id.id_remove_child)));
+        onView(withText(R.string.child_removal_confirmation_negative_button)).perform(click());
         onView(withId(R.id.rv_child_list)).perform(scrollToPosition(testedChildPosition));
         onView(withRecyclerView(R.id.rv_child_list)
                 .atPosition(testedChildPosition))
