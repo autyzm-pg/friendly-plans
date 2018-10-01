@@ -6,6 +6,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.assertion.ViewAssertions.selectedDescendantsMatch;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -40,7 +41,7 @@ import pg.autyzm.friendly_plans.view_actions.ViewClicker;
 public class ChildListActivityTest {
 
     private static final String EXPECTED_FIRST_NAME = "FIRST NAME";
-    private static final String EXPECTED_LAST_NAME = "LAST NAME";
+    private static final String EXPECTED_LAST_NAME = "LAST NAME ";
 
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();

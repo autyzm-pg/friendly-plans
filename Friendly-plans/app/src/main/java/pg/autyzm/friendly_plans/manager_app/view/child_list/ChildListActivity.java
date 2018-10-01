@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;;
+import android.util.Log;
 import database.repository.ChildRepository;
 import javax.inject.Inject;
 import pg.autyzm.friendly_plans.App;
@@ -111,10 +111,10 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
 
     private void removeChild(long itemId){
         childRepository.delete(itemId);
+        childListAdapter.setChildItems(childRepository.getAll());
         toastUserNotifier.displayNotifications(
                 R.string.child_removed_message,
                 getApplicationContext());
-        setUpViews();
     }
 
     @Nullable
