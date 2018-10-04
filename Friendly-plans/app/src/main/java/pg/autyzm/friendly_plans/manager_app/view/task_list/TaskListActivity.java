@@ -2,10 +2,13 @@ package pg.autyzm.friendly_plans.manager_app.view.task_list;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import database.entities.TaskTemplate;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,11 +25,12 @@ import javax.inject.Inject;
 import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
+import pg.autyzm.friendly_plans.databinding.ActivityTaskListBinding;
 import pg.autyzm.friendly_plans.manager_app.view.task_create.TaskCreateActivity;
 import pg.autyzm.friendly_plans.notifications.DialogUserNotifier;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 
-public class TaskListActivity extends AppCompatActivity {
+public class TaskListActivity extends AppCompatActivity implements TaskListActivityEvents {
 
     @Inject
     TaskTemplateRepository taskTemplateRepository;
@@ -38,6 +42,10 @@ public class TaskListActivity extends AppCompatActivity {
     SearchView searchView;
 
     private TaskRecyclerViewAdapter taskListAdapter;
+
+    private List<TaskTemplate> taskItemList = new ArrayList<TaskTemplate>();
+    private Integer selectedTypeId = 1;
+
 
     TaskRecyclerViewAdapter.TaskItemClickListener taskItemClickListener =
             new TaskRecyclerViewAdapter.TaskItemClickListener() {
@@ -91,8 +99,12 @@ public class TaskListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ((App) getApplication()).getAppComponent().inject(this);
         setContentView(R.layout.activity_task_list);
+        ActivityTaskListBinding binding = DataBindingUtil
+                .setContentView(this, R.layout.activity_task_list);
+        binding.setEvents(this);
         setUpViews();
-        taskListAdapter.setTaskItems(taskTemplateRepository.getAll());
+        taskItemList = taskTemplateRepository.getByTypeId(1);
+        taskListAdapter.setTaskItems(taskItemList);
     }
 
     @Override
@@ -104,13 +116,13 @@ public class TaskListActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                refreshList(query);
+                refreshList(query, selectedTypeId);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                refreshList(newText);
+                refreshList(newText, selectedTypeId);
                 return false;
             }
         });
@@ -121,7 +133,7 @@ public class TaskListActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        taskListAdapter.setTaskItems(taskTemplateRepository.getAll());
+        taskListAdapter.setTaskItems(taskItemList);
     }
 
     private void setUpViews() {
@@ -132,9 +144,33 @@ public class TaskListActivity extends AppCompatActivity {
         recyclerView.setAdapter(taskListAdapter);
     }
 
+    @Override
+    public void eventShowListOfTasks(View view) {
+        showSelectedList(view, 1);
+    }
+
+    @Override
+    public void eventShowListOfPrizes(View view) {
+        showSelectedList(view, 2);
+    }
+
+    @Override
+    public void eventShowListOfInteractions(View view) {
+        showSelectedList(view, 3);
+    }
+
+    private void showSelectedList(View view, Integer typeId) {
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setFocusableInTouchMode(false);
+        selectedTypeId = typeId;
+        taskItemList = taskTemplateRepository.getByTypeId(typeId);
+        taskListAdapter.setTaskItems(taskItemList);
+    }
+
     private void removeTask(int position){
         taskTemplateRepository.delete(taskListAdapter.getTaskItem(position).getId());
-        refreshList(searchView.getQuery().toString());
+        refreshList(searchView.getQuery().toString(), selectedTypeId);
         toastUserNotifier.displayNotifications(
                 R.string.task_removed_message,
                 getApplicationContext());
@@ -153,15 +189,15 @@ public class TaskListActivity extends AppCompatActivity {
                 getResources().getString(R.string.task_cannot_be_removed_message)
                         + " " + relatedPlansNamesJoined + ".");
         dialog.setPositiveButton(getResources().getString(R.string.task_cannot_be_removed_dialog_close_button),
-                                 new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
         dialog.showDialog();
     }
 
-    private void refreshList(String searchedValue) {
-        taskListAdapter.setTaskItems(taskTemplateRepository.getFilteredByName(searchedValue));
+    private void refreshList(String searchedValue, Integer typeId) {
+        taskListAdapter.setTaskItems(taskTemplateRepository.getFilteredByNameAndType(searchedValue, typeId));
     }
 }

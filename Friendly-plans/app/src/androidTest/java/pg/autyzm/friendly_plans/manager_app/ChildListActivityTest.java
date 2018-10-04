@@ -115,7 +115,7 @@ public class ChildListActivityTest {
     @Test
     public void whenChildIsAddedToDBExpectProperlyDisplayedOnRecyclerView() {
 
-        final int testedChildPosition = 5;
+        final int testedChildPosition = 6;
         onView(withId(R.id.rv_child_list)).perform(scrollToPosition(testedChildPosition));
         onView(withRecyclerView(R.id.rv_child_list)
                 .atPosition(testedChildPosition))

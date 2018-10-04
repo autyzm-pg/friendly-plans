@@ -14,23 +14,27 @@ public class TaskTemplateRepository {
         this.daoSession = daoSession;
     }
 
-    public long create(String name, Integer durationTime, Long pictureId, Long soundId) {
+    public long create(String name, Integer durationTime, Long pictureId, Long soundId,
+            Integer typeId) {
         TaskTemplate taskTemplate = new TaskTemplate();
         taskTemplate.setName(name);
         taskTemplate.setDurationTime(durationTime);
         taskTemplate.setPictureId(pictureId);
         taskTemplate.setSoundId(soundId);
+        taskTemplate.setTypeId(typeId);
 
         return daoSession.getTaskTemplateDao().insert(taskTemplate);
     }
 
-    public void update(Long taskId, String name, Integer durationTime, Long pictureId, Long soundId) {
+    public void update(Long taskId, String name, Integer durationTime, Long pictureId, Long soundId,
+            Integer typeId) {
         TaskTemplate taskTemplate = new TaskTemplate();
         taskTemplate.setId(taskId);
         taskTemplate.setName(name);
         taskTemplate.setDurationTime(durationTime);
         taskTemplate.setPictureId(pictureId);
         taskTemplate.setSoundId(soundId);
+        taskTemplate.setTypeId(typeId);
 
         daoSession.getTaskTemplateDao().update(taskTemplate);
     }
@@ -53,6 +57,13 @@ public class TaskTemplateRepository {
                 .list();
     }
 
+    public List<TaskTemplate> getFilteredByNameAndType(String taskName, Integer typeId) {
+        return daoSession.getTaskTemplateDao()
+                .queryBuilder()
+                .where(TaskTemplateDao.Properties.Name.like("%" + taskName + "%"), TaskTemplateDao.Properties.TypeId.eq(typeId))
+                .list();
+    }
+
     public List<TaskTemplate> getAll() {
         return daoSession.getTaskTemplateDao().loadAll();
     }
@@ -63,5 +74,14 @@ public class TaskTemplateRepository {
 
     public void deleteAll() {
         daoSession.getTaskTemplateDao().deleteAll();
+    }
+
+    public void resetSteps(Long id) { daoSession.getTaskTemplateDao().load(id).resetStepTemplates();}
+
+    public List<TaskTemplate> getByTypeId(Integer typeId) {
+        return daoSession.getTaskTemplateDao()
+                .queryBuilder()
+                .where(Properties.TypeId.eq(typeId))
+                .list();
     }
 }
