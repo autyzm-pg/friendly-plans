@@ -6,7 +6,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.assertion.ViewAssertions.selectedDescendantsMatch;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -130,7 +129,7 @@ public class ChildListActivityTest {
     @Test
     public void whenChildIsRemovedExpectChildIsNotOnTheList() {
 
-        final int testedChildPosition = 5;
+        final int testedChildPosition = 0;
         onView(withId(R.id.rv_child_list))
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(testedChildPosition,

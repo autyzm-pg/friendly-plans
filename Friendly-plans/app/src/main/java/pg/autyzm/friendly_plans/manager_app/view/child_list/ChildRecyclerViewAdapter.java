@@ -68,8 +68,8 @@ public class ChildRecyclerViewAdapter extends
                     .findViewById(R.id.id_tv_child_name);
             this.removeButton = (ImageButton) itemView
                     .findViewById(R.id.id_remove_child);
-            this.childItemClickListener = childItemClickListener;
             this.childItemList = childItemList;
+            this.childItemClickListener = childItemClickListener;
             this.removeButton.setOnClickListener(deleteButtonListener);
             itemView.setOnClickListener(selectItemListener);
         }
