@@ -15,7 +15,6 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 import static pg.autyzm.friendly_plans.matcher.RecyclerViewMatcher.withRecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -23,10 +22,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.WindowManager;
 import database.entities.Child;
 import database.repository.ChildRepository;
-import database.repository.PlanTemplateRepository;
-import java.util.ArrayList;
 import java.util.List;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
