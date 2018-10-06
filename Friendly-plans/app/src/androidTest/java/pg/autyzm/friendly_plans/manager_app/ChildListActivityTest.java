@@ -116,6 +116,24 @@ public class ChildListActivityTest {
     }
 
     @Test
+    public void whenAddingNewChildExpectClearInputBox() {
+
+        onView(withId(R.id.id_et_child_first_name))
+                .perform(replaceText(EXPECTED_FIRST_NAME));
+        closeSoftKeyboard();
+        onView(withId(R.id.id_et_child_last_name))
+                .perform(replaceText(EXPECTED_LAST_NAME));
+        closeSoftKeyboard();
+        onView(withId(R.id.id_add_child))
+                .perform(click());
+        onView(withId(R.id.id_et_child_first_name))
+                .check(matches(withText("")));
+        onView(withId(R.id.id_et_child_last_name))
+                .check(matches(withText("")));
+
+    }
+
+    @Test
     public void whenChildIsAddedToDBExpectProperlyDisplayedOnRecyclerView() {
 
         final int testedChildPosition = 5;
@@ -129,12 +147,15 @@ public class ChildListActivityTest {
     @Test
     public void whenChildIsRemovedExpectChildIsNotOnTheList() {
 
-        final int testedChildPosition = 0;
+        final int testedChildPosition = 5;
         onView(withId(R.id.rv_child_list))
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(testedChildPosition,
                                 new ViewClicker(R.id.id_remove_child)));
         onView(withText(R.string.child_removal_confirmation_positive_button)).perform(click());
+        List<Child> childTemplates = childRepository.getBySurname(EXPECTED_LAST_NAME + testedChildPosition);
+
+        assertThat(childTemplates.size(), is(0));
         onView(withId(R.id.rv_child_list)).perform(scrollToPosition(testedChildPosition));
         onView(withRecyclerView(R.id.rv_child_list)
                 .atPosition(testedChildPosition))

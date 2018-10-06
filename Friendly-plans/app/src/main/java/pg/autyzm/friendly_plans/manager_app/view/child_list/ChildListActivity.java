@@ -69,21 +69,11 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
         ((App) getApplication()).getAppComponent().inject(this);
         setContentView(R.layout.activity_child_list);
 
-        setChildData();
         setUpViews();
 
-        childListAdapter.setChildItems(childRepository.getAll());
     }
 
     private void setUpViews() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_child_list);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        childListAdapter = new ChildRecyclerViewAdapter(childItemClickListener);
-        recyclerView.setAdapter(childListAdapter);
-    }
-
-    private void setChildData () {
         ActivityChildListBinding binding = DataBindingUtil
                 .setContentView(this, R.layout.activity_child_list);
         binding.setChildListEvents(this);
@@ -93,13 +83,19 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
 
         childData = new ChildListData(initialFirstName, initialLastName);
         binding.setChildListData(childData);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_child_list);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        childListAdapter = new ChildRecyclerViewAdapter(childItemClickListener);
+        recyclerView.setAdapter(childListAdapter);
+        childListAdapter.setChildItems(childRepository.getAll());
     }
 
     @Override
     public Long saveChildData(ChildListData childListData) {
         Long childId = addChild(childListData.getFirstName(), childListData.getLastName());
-        childListAdapter.setChildItems(childRepository.getAll());
-        setChildData();
+        setUpViews();
         return childId;
     }
 
@@ -114,11 +110,11 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
     }
 
     private void removeChild(long itemId){
-        childRepository.delete(itemId);
-        childListAdapter.setChildItems(childRepository.getAll());
-        toastUserNotifier.displayNotifications(
-                R.string.child_removed_message,
-                getApplicationContext());
+            childRepository.delete(itemId);
+            setUpViews();
+            toastUserNotifier.displayNotifications(
+                    R.string.child_removed_message,
+                    getApplicationContext());
     }
 
     @Nullable
