@@ -26,8 +26,6 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
 
     ChildListData childData;
 
-    private ChildRecyclerViewAdapter childListAdapter;
-
     ChildRecyclerViewAdapter.ChildItemClickListener childItemClickListener =
             new ChildRecyclerViewAdapter.ChildItemClickListener() {
 
@@ -83,7 +81,7 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
 
         childData = new ChildListData(initialFirstName, initialLastName);
         binding.setChildListData(childData);
-
+        ChildRecyclerViewAdapter childListAdapter;
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_child_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

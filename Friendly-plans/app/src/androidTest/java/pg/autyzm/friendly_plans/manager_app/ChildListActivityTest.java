@@ -16,12 +16,14 @@ import static org.hamcrest.core.Is.is;
 import static pg.autyzm.friendly_plans.matcher.RecyclerViewMatcher.withRecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.WindowManager;
 import database.entities.Child;
 import database.repository.ChildRepository;
+import database.repository.PlanTemplateRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
@@ -50,18 +52,19 @@ public class ChildListActivityTest {
             ChildListActivity.class, true, true);
 
     private ChildRepository childRepository;
-    private List<Long> idsToDelete = new ArrayList<>();
 
     @Before
     public void setUp() {
-        Context context = activityRule.getActivity().getApplicationContext();
-        childRepository = new ChildRepository(daoSessionResource.getSession(context));
-        final int numberOfChildren = 10;
+        childRepository = new ChildRepository(
+                daoSessionResource.getSession(activityRule.getActivity().getApplicationContext()));
         childRepository.deleteAll();
+
+        final int numberOfChildren = 10;
         for (int childNumber = 0; childNumber < numberOfChildren; childNumber++) {
             childRepository
                     .create(EXPECTED_FIRST_NAME, EXPECTED_LAST_NAME + childNumber);
         }
+        activityRule.launchActivity(new Intent());
     }
 
     @Before
@@ -76,13 +79,6 @@ public class ChildListActivityTest {
             }
         };
         activity.runOnUiThread(wakeUpDevice);
-    }
-
-    @After
-    public void tearDown() {
-        for (Long id : idsToDelete) {
-            childRepository.delete(id);
-        }
     }
 
     @Test
@@ -108,7 +104,6 @@ public class ChildListActivityTest {
                 .perform(click());
 
         List<Child> childTemplates = childRepository.getBySurname(EXPECTED_LAST_NAME);
-        idsToDelete.add(childTemplates.get(0).getId());
 
         assertThat(childTemplates.size(), is(1));
         assertThat(childTemplates.get(0).getName(), is(EXPECTED_FIRST_NAME));
@@ -153,9 +148,6 @@ public class ChildListActivityTest {
                         .actionOnItemAtPosition(testedChildPosition,
                                 new ViewClicker(R.id.id_remove_child)));
         onView(withText(R.string.child_removal_confirmation_positive_button)).perform(click());
-        List<Child> childTemplates = childRepository.getBySurname(EXPECTED_LAST_NAME + testedChildPosition);
-
-        assertThat(childTemplates.size(), is(0));
         onView(withId(R.id.rv_child_list)).perform(scrollToPosition(testedChildPosition));
         onView(withRecyclerView(R.id.rv_child_list)
                 .atPosition(testedChildPosition))
