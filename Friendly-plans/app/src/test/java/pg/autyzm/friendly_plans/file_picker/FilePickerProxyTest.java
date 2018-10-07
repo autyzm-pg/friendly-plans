@@ -79,7 +79,7 @@ public class FilePickerProxyTest {
 
     @Test
     public void whenGettingFilePathExpectCorrectResult() {
-        assertThat(filePickerProxy.getFilePath(intentMock), is("fail..."));
+        assertThat(filePickerProxy.getFilePath(intentMock), is(FILE_PATH));
     }
 
     private Pattern getPattern(AssetType assetType) throws Exception {
