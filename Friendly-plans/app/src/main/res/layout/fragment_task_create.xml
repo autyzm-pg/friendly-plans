@@ -275,7 +275,7 @@
             android:text="@string/save_and_finish"
             android:layout_height="match_parent"
             android:onClick="@{events::eventSaveAndFinish}"
-            android:layout_column="0"/>
+            android:layout_column="0" />
       </TableRow>
     </TableLayout>
 
