@@ -40,7 +40,6 @@
   <string name="plan_name">Plan\'s name:</string>
   <string name="name">Name</string>
   <string name="done">Done</string>
-  <string name="create_plan_add_tasks_info">Step 2.2: Select tasks which you\'d like to add</string>
   <string name="plan_saved_message">Plan saved</string>
   <string name="plan_removed_message">Plan removed</string>
   <string name="tasks">Tasks</string>
@@ -71,8 +70,15 @@
   <string name="step_saved_message">Step saved</string>
   <string name="steps_reordered_message">Steps reordered and saved</string>
   <string name ="search">Search</string>
-  <string name="create_plan_tasks_list_info">Step 2.1: Add new tasks and put them in order</string>
-  <string name="create_plan_add_tasks">Add tasks</string>
+  <string name="create_plan_tasks_list_info_type_1">Step 2.1: Add new tasks and put them in order</string>
+  <string name="create_plan_tasks_list_info_type_2">Step 2.1: Add new prizes and put them in order</string>
+  <string name="create_plan_tasks_list_info_type_3">Step 2.1: Add new interactions and put them in order</string>
+  <string name="create_plan_add_tasks_type_1">Add tasks</string>
+  <string name="create_plan_add_tasks_type_2">Add prizes</string>
+  <string name="create_plan_add_tasks_type_3">Add interactions</string>
+  <string name="create_plan_add_tasks_info">Step 2.2: Select tasks which you\'d like to add</string>
+  <string name="create_plan_add_prizes_info">Step 2.2: Select prizes which you\'d like to add</string>
+  <string name="create_plan_add_interactions_info">Step 2.2: Select interactions which you\'d like to add</string>
   <string name="child_settings_select_plan">Select active plan</string>
   <string name="child_settings_change">Change child\'s settings</string>
   <string name="child_name">Name:</string>

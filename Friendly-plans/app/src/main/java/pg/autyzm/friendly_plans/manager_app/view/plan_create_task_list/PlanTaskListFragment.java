@@ -10,9 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
+import android.widget.TextView;
 import javax.inject.Inject;
 
-import database.entities.PlanTemplate;
 import database.repository.PlanTemplateRepository;
 import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
@@ -25,6 +26,7 @@ public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents
 
     private TaskRecyclerViewAdapter taskListAdapter;
     private Long planId;
+    private Integer typeId;
 
     @Inject
     PlanTemplateRepository planTemplateRepository;
@@ -64,6 +66,7 @@ public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents
 
         Bundle args = new Bundle();
         args.putLong(ActivityProperties.PLAN_ID, planId);
+        args.putInt(ActivityProperties.TYPE_ID, typeId);
         fragment.setArguments(args);
 
         FragmentTransaction transaction = getFragmentManager()
@@ -76,9 +79,14 @@ public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         Bundle arguments = getArguments();
-        if (arguments != null && arguments.containsKey(ActivityProperties.PLAN_ID)) {
+        if (arguments != null && arguments.containsKey(ActivityProperties.PLAN_ID) && arguments.containsKey(ActivityProperties.TYPE_ID)) {
             planId = (Long) arguments.get(ActivityProperties.PLAN_ID);
+            typeId = (Integer) arguments.get(ActivityProperties.TYPE_ID);
         }
+
+        Button addButton = (Button) view.findViewById(R.id.id_btn_create_plan_add_tasks);
+        TextView labelInfo = (TextView) view.findViewById(R.id.id_tv_plan_tasks_list_info);
+        setLabels(typeId, addButton, labelInfo);
 
         RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.rv_create_plan_task_list);
         recyclerView.setHasFixedSize(true);
@@ -87,13 +95,28 @@ public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents
         taskListAdapter = new TaskRecyclerViewAdapter(taskItemClickListener);
         recyclerView.setAdapter(taskListAdapter);
 
-        PlanTemplate planTemplate = planTemplateRepository.get(planId);
-        taskListAdapter.setTaskItems(planTemplate.getTasksWithThisPlan());
+        taskListAdapter.setTaskItems(planTemplateRepository.getTaskWithThisPlanByTypeId(planId, typeId));
+    }
+
+    public void setLabels(Integer typeId, Button add, TextView label){
+        switch(typeId){
+            case 1:
+                add.setText(R.string.create_plan_add_tasks_type_1);
+                label.setText(R.string.create_plan_tasks_list_info_type_1);
+                break;
+            case 2:
+                add.setText(R.string.create_plan_add_tasks_type_2);
+                label.setText(R.string.create_plan_tasks_list_info_type_2);
+                break;
+            default:
+                add.setText(R.string.create_plan_add_tasks_type_3);
+                label.setText(R.string.create_plan_tasks_list_info_type_3);
+                break;
+        }
     }
 
     public void onResume() {
-        PlanTemplate planTemplate = planTemplateRepository.get(planId);
-        taskListAdapter.setTaskItems(planTemplate.getTasksWithThisPlan());
+        taskListAdapter.setTaskItems(planTemplateRepository.getTaskWithThisPlanByTypeId(planId, typeId));
         taskListAdapter.notifyDataSetChanged();
         super.onResume();
     }
