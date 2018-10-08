@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import database.entities.Child;
 import database.repository.ChildRepository;
 import java.util.List;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -53,7 +54,6 @@ public class ChildListActivityTest {
     public void setUp() {
         childRepository = new ChildRepository(
                 daoSessionResource.getSession(activityRule.getActivity().getApplicationContext()));
-        childRepository.deleteAll();
 
         final int numberOfChildren = 10;
         for (int childNumber = 0; childNumber < numberOfChildren; childNumber++) {
@@ -75,6 +75,11 @@ public class ChildListActivityTest {
             }
         };
         activity.runOnUiThread(wakeUpDevice);
+    }
+
+    @After
+    public void tearDown() {
+        childRepository.deleteAll();
     }
 
     @Test
