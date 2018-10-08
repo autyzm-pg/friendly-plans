@@ -78,10 +78,10 @@ public class PlanCreateFragment extends CreateFragment implements PlanCreateActi
     }
 
     @Override
-    public void savePlanData(PlanCreateData planCreateData) {
+    public void savePlanData(PlanCreateData planCreateData, Integer typeId) {
         planId = addOrUpdatePlan(planCreateData.getPlanName());
         if (planId != null) {
-            showPlanTaskList();
+            showPlanTaskList(typeId);
         }
     }
 
@@ -129,11 +129,12 @@ public class PlanCreateFragment extends CreateFragment implements PlanCreateActi
         return handleInvalidResult(taskName, validationResult);
     }
 
-    private void showPlanTaskList() {
+    private void showPlanTaskList(Integer typeId) {
         PlanTaskListFragment fragment = new PlanTaskListFragment();
 
         Bundle args = new Bundle();
         args.putLong(ActivityProperties.PLAN_ID, planId);
+        args.putInt(ActivityProperties.TYPE_ID, typeId);
         fragment.setArguments(args);
 
         FragmentTransaction transaction = getFragmentManager()

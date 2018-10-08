@@ -14,7 +14,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import database.entities.PlanTemplate;
 import database.entities.TaskTemplate;
 import database.repository.PlanTemplateRepository;
 import database.repository.TaskTemplateRepository;
@@ -35,6 +34,7 @@ public class AddTasksToPlanFragment extends Fragment implements AddTasksToPlanEv
     PlanTemplateRepository planTemplateRepository;
 
     Long planId;
+    Integer typeId;
 
     TaskRecyclerViewAdapter.TaskItemClickListener taskItemClickListener =
             new TaskRecyclerViewAdapter.TaskItemClickListener() {
@@ -67,8 +67,9 @@ public class AddTasksToPlanFragment extends Fragment implements AddTasksToPlanEv
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         Bundle arguments = getArguments();
-        if (arguments != null && arguments.containsKey(ActivityProperties.PLAN_ID)) {
+        if (arguments != null && arguments.containsKey(ActivityProperties.PLAN_ID) && arguments.containsKey(ActivityProperties.TYPE_ID)) {
             planId = (Long) arguments.get(ActivityProperties.PLAN_ID);
+            typeId = (Integer) arguments.get(ActivityProperties.TYPE_ID);
         }
 
         RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.rv_create_plan_add_tasks);
@@ -78,11 +79,11 @@ public class AddTasksToPlanFragment extends Fragment implements AddTasksToPlanEv
         recyclerView.setAdapter(taskListAdapter);
 
         /* Show only tasks that are not already added to current plan */
-        PlanTemplate planTemplate = planTemplateRepository.get(planId);
-        List<TaskTemplate> tasks =  taskTemplateRepository.getAll();
+        List<TaskTemplate> tasksWithThisPlan = planTemplateRepository.getTaskWithThisPlanByTypeId(planId, typeId);
+        List<TaskTemplate> tasks =  taskTemplateRepository.getByTypeId(typeId);
 
-        if(planTemplate != null) {
-            tasks.removeAll(planTemplate.getTasksWithThisPlan());
+        if(!tasksWithThisPlan.isEmpty()) {
+            tasks.removeAll(tasksWithThisPlan);
         }
 
         taskListAdapter.setTaskItems(tasks);

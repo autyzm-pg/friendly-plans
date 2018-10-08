@@ -1,6 +1,7 @@
 package database.repository;
 
-
+import database.entities.TaskTemplate;
+import database.entities.TaskTemplateDao;
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -62,6 +63,7 @@ public class PlanTemplateRepository {
         return daoSession.getPlanTemplateDao().load(id);
     }
 
+
     public List<PlanTemplate> get(String planName) {
         return daoSession.getPlanTemplateDao()
                 .queryBuilder()
@@ -71,6 +73,15 @@ public class PlanTemplateRepository {
 
     public List<PlanTemplate> getAll() {
         return daoSession.getPlanTemplateDao().loadAll();
+    }
+
+    public List<TaskTemplate> getTaskWithThisPlanByTypeId(Long planId, Integer typeId) {
+        QueryBuilder<TaskTemplate> queryBuilder = daoSession.getTaskTemplateDao().queryBuilder();
+        queryBuilder.where(TaskTemplateDao.Properties.TypeId.eq(typeId))
+                .join(PlanTaskTemplate.class, PlanTaskTemplateDao.Properties.TaskTemplateId)
+                .where(PlanTaskTemplateDao.Properties.PlanTemplateId.eq(planId));
+        Query<TaskTemplate> getTaskWithThisPlanByTypeIdQuery = queryBuilder.build();
+        return getTaskWithThisPlanByTypeIdQuery.list();
     }
 
     public List<PlanTemplate> getPlansWithThisTask(Long taskId) {
