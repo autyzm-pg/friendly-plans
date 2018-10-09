@@ -19,6 +19,13 @@
   <string name="select_sound">Select sound</string>
   <string name="listen_sound">Listen</string>
   <string name="duration_time">Duration time:</string>
+  <string name="task">Task</string>
+  <string name="tasks_list">Tasks</string>
+  <string name="prize">Prize</string>
+  <string name="interaction">Interaction</string>
+  <string name="prizes">Prizes</string>
+  <string name="interactions">Interactions</string>
+  <string name="type">Type:</string>
   <string name="next">Next</string>
   <string name="main_create_task">Create Task</string>
   <string name="step_name">Step name:</string>

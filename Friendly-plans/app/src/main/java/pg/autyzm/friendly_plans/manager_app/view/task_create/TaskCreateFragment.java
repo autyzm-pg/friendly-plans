@@ -8,11 +8,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import database.repository.StepTemplateRepository;
 import javax.inject.Inject;
 
 import database.entities.Asset;
@@ -40,11 +44,33 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
     TaskValidation taskValidation;
     @Inject
     TaskTemplateRepository taskTemplateRepository;
+    @Inject
+    StepTemplateRepository stepTemplateRepository;
 
     private TextView labelTaskName;
     private EditText taskName;
     private EditText taskDurationTime;
     private Long taskId;
+    private Integer typeId;
+    private Button steps;
+    private RadioGroup types;
+
+    public enum TaskType {
+        TASK(1),
+        PRIZE(2),
+        INTERACTION(3);
+
+        private final int typeId;
+
+        TaskType(Integer typeId) {
+            this.typeId = typeId;
+        }
+        public Integer getId() {
+            return this.typeId;
+        }
+    }
+
+    TaskType taskType = TaskType.TASK;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,6 +119,11 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
         picturePreview = (ImageView) view.findViewById(R.id.iv_picture_preview);
         clearSound = (ImageButton) view.findViewById(R.id.id_ib_clear_sound_btn);
         clearPicture = (ImageButton) view.findViewById(R.id.id_ib_clear_img_btn);
+        steps = (Button) view.findViewById(R.id.id_btn_steps);
+        types = (RadioGroup) view.findViewById(R.id.id_rg_types);
+        RadioButton typeTask = (RadioButton) view.findViewById(R.id.id_rb_type_task);
+        typeTask.setChecked(true);
+        taskType = TaskType.TASK;
     }
 
     private Long saveOrUpdate() {
@@ -100,12 +131,15 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
         try {
             if (taskId != null) {
                 if (validateName(taskId, taskName) && validateDuration(taskDurationTime)) {
+                    typeId = taskType.getId();
                     Integer duration = getDuration();
+                    clearSteps(typeId, taskId);
                     taskTemplateRepository.update(taskId,
                             taskName.getText().toString(),
                             duration,
                             pictureId,
-                            soundId);
+                            soundId,
+                            typeId);
                     showToastMessage(R.string.task_saved_message);
 
                     return taskId;
@@ -113,10 +147,12 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
             } else {
                 if (validateName(taskName) && validateDuration(taskDurationTime)) {
                     Integer duration = getDuration();
+                    typeId = taskType.getId();
                     long taskId = taskTemplateRepository.create(taskName.getText().toString(),
                             duration,
                             pictureId,
-                            soundId);
+                            soundId,
+                            typeId);
                     showToastMessage(R.string.task_saved_message);
 
                     return taskId;
@@ -129,6 +165,11 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
         return null;
     }
 
+    private void clearSteps(Integer typeId, Long taskId){
+        if(typeId != 1){
+            stepTemplateRepository.deleteAllStepsForTask(taskId);
+        }
+    }
     private boolean validateName(Long taskId, EditText taskName) {
         ValidationResult validationResult = taskValidation
                 .isUpdateNameValid(taskId, taskName.getText().toString());
@@ -152,7 +193,7 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
 
         TaskTemplate task = taskTemplateRepository.get(taskId);
         taskName.setText(task.getName());
-        if (task.getDurationTime() != null){
+        if (task.getDurationTime() != null) {
             taskDurationTime.setText(String.valueOf(task.getDurationTime()));
         }
         Asset picture = task.getPicture();
@@ -162,6 +203,17 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
         }
         if (sound != null) {
             setAssetValue(AssetType.SOUND, sound.getFilename(), sound.getId());
+        }
+        typeId = task.getTypeId();
+        ((RadioButton)types.getChildAt(typeId-1)).setChecked(true);
+        setVisibilityStepButton(Integer.valueOf(task.getTypeId().toString()));
+    }
+
+    private void setVisibilityStepButton(int typeIdValue) {
+        if (typeIdValue == 1) {
+            steps.setVisibility(View.VISIBLE);
+        } else {
+            steps.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -244,11 +296,27 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
     }
 
     @Override
+    public void eventChangeButtonStepsVisibility(View view, int id) {
+        if (id == R.id.id_rb_type_task) {
+            steps.setVisibility(View.VISIBLE);
+            taskType = TaskType.TASK;
+        } else {
+            steps.setVisibility(View.INVISIBLE);
+            if (id == R.id.id_rb_type_interaction){
+                taskType = TaskType.INTERACTION;
+            }else{
+                taskType = TaskType.PRIZE;
+            }
+        }
+    }
+
+    @Override
     public void eventSaveAndFinish(View view) {
         Long taskId = saveOrUpdate();
         if (taskId != null) {
             showMainMenu();
         }
     }
+
 }
 

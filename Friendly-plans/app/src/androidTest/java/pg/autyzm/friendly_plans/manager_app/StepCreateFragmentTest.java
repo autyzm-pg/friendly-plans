@@ -88,7 +88,8 @@ public class StepCreateFragmentTest {
         taskId = taskTemplateRepository.create(TASK_EXPECTED_NAME,
                 Integer.valueOf(TASK_EXPECTED_DURATION_TXT),
                 null,
-                null);
+                null,
+                1);
 
         StepCreateFragment fragment = new StepCreateFragment();
         Bundle args = new Bundle();
@@ -142,6 +143,7 @@ public class StepCreateFragmentTest {
 
 
         onView(withId(R.id.id_btn_save_step))
+                .perform(scrollTo())
                 .perform(click());
 
         List<StepTemplate> stepTemplates = stepTemplateRepository.get(EXPECTED_NAME);
@@ -162,6 +164,7 @@ public class StepCreateFragmentTest {
         assetTestRule.setTestSound();
 
         onView(withId(R.id.id_btn_save_step))
+                .perform(scrollTo())
                 .perform(click());
 
         List<Asset> assets = assetRepository.getAll();
@@ -181,6 +184,7 @@ public class StepCreateFragmentTest {
         assetTestRule.setTestPicture();
 
         onView(withId(R.id.id_btn_save_step))
+                .perform(scrollTo())
                 .perform(click());
 
         List<Asset> assets = assetRepository.getAll();
@@ -223,6 +227,7 @@ public class StepCreateFragmentTest {
         closeSoftKeyboard();
 
         onView(withId(R.id.id_ib_clear_step_sound_btn))
+                .perform(scrollTo())
                 .perform(click());
 
         onView(withId(R.id.id_btn_play_step_sound))
@@ -237,6 +242,7 @@ public class StepCreateFragmentTest {
         closeSoftKeyboard();
 
         onView(withId(R.id.id_btn_save_step))
+                .perform(scrollTo())
                 .perform(click());
 
         onView(withId(R.id.id_et_step_name))
@@ -246,6 +252,7 @@ public class StepCreateFragmentTest {
     @Test
     public void whenAddingNewStepAndForbiddenNameExpectWarning() {
         onView(withId(R.id.id_et_step_name))
+                .perform(scrollTo())
                 .perform(typeText(BAD_STEP_NAME));
         closeSoftKeyboard();
 
@@ -266,6 +273,7 @@ public class StepCreateFragmentTest {
                 .create(EXPECTED_NAME, 0,  null, null, taskId));
 
         onView(withId(R.id.id_et_step_name))
+                .perform(scrollTo())
                 .perform(typeText(EXPECTED_NAME));
 
         closeSoftKeyboard();

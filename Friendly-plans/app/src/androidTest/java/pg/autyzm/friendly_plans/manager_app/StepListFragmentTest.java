@@ -69,7 +69,7 @@ public class StepListFragmentTest {
 
     @Test
     public void whenTaskHasNoStepsExpectNoStepsToBeDisplayed() {
-        long taskId = taskTemplateRule.createTask(TASK_NAME_1);
+        long taskId = taskTemplateRule.createTask(TASK_NAME_1, 1);
         openStepsListFragment(taskId);
 
         onView(withId(R.id.rv_step_list)).check(matches(withSize(0)));
@@ -78,7 +78,7 @@ public class StepListFragmentTest {
     @Test
     public void whenSaveClickedTaskCreateActivityShouldBeDisplayed() {
         onView(withId(R.id.id_btn_next))
-            .perform(click());
+                .perform(click());
 
         onView(withId(R.id.id_btn_steps)).check(matches(isDisplayed()));
     }
@@ -105,6 +105,7 @@ public class StepListFragmentTest {
 
     @Test
     public void whenStepIsRemovedBySwipeExpectStepIsNotOnTheList() {
+
         onView(withId(R.id.rv_step_list)).perform(
                 RecyclerViewActions
                         .actionOnItemAtPosition(0, swipeLeft()));

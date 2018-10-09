@@ -23,6 +23,8 @@ public class TaskTemplate {
 
     private Long soundId;
 
+    private Integer typeId;
+
     @ToMany(referencedJoinProperty = "taskTemplateId")
     private List<StepTemplate> stepTemplates;
 
@@ -53,13 +55,15 @@ public class TaskTemplate {
     @Generated(hash = 286221468)
     private transient Long sound__resolvedKey;
 
-    @Generated(hash = 1355262617)
-    public TaskTemplate(Long id, String name, Integer durationTime, Long pictureId, Long soundId) {
+    @Generated(hash = 1896825098)
+    public TaskTemplate(Long id, String name, Integer durationTime, Long pictureId, Long soundId,
+            Integer typeId) {
         this.id = id;
         this.name = name;
         this.durationTime = durationTime;
         this.pictureId = pictureId;
         this.soundId = soundId;
+        this.typeId = typeId;
     }
 
     @Generated(hash = 2000532247)
@@ -104,6 +108,14 @@ public class TaskTemplate {
 
     public void setSoundId(Long soundId) {
         this.soundId = soundId;
+    }
+
+    public Integer getTypeId() {
+        return this.typeId;
+    }
+
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
     }
 
     /**
@@ -204,7 +216,9 @@ public class TaskTemplate {
         myDao.update(this);
     }
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 1909866049)
     public Asset getPicture() {
         Long __key = this.pictureId;
@@ -223,7 +237,9 @@ public class TaskTemplate {
         return picture;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 2132969786)
     public void setPicture(Asset picture) {
         synchronized (this) {
@@ -233,7 +249,9 @@ public class TaskTemplate {
         }
     }
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 2011576312)
     public Asset getSound() {
         Long __key = this.soundId;
@@ -252,7 +270,9 @@ public class TaskTemplate {
         return sound;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 433043017)
     public void setSound(Asset sound) {
         synchronized (this) {
