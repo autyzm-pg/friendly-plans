@@ -37,10 +37,15 @@ import static pg.autyzm.friendly_plans.matcher.RecyclerViewMatcher.withRecyclerV
 @RunWith(AndroidJUnit4.class)
 public class PlanTaskListFragmentTest {
 
+    private static final String expectedNameTask = "TEST TASK ";
+    private static final String expectedNamePrize = "TEST PRIZE ";
+    private static final String expectedNameInteraction = "TEST INTERACTION ";
     private static final String PLAN_ID = "PLAN_ID";
-    private static final String TASK_NAME = "TASK_NAME";
+    private static final String TYPE_ID = "TYPE_ID";
     private static final String PLAN_NAME = "PLAN NAME";
     private static final String DELETE_TEST_TASK = "DELETE TEST TASK";
+    private static final String DELETE_TEST_PRIZE = "DELETE TEST PRIZE";
+    private static final String DELETE_TEST_INTERACTION = "DELETE TEST INTERACTION";
 
     @ClassRule
     public static DaoSessionResource daoSessionResource = new DaoSessionResource();
@@ -57,20 +62,31 @@ public class PlanTaskListFragmentTest {
     public TaskTemplateRule taskTemplateRule = new TaskTemplateRule(daoSessionResource,
             activityRule);
 
+    private Long planId;
     @Before
     public void setUp() {
         Context context = activityRule.getActivity().getApplicationContext();
         PlanTemplateRepository planTemplateRepository = new PlanTemplateRepository(daoSessionResource.getSession(context));
 
+        planId = planTemplateRule.createPlan(PLAN_NAME);
         long taskId = taskTemplateRule.createTask(DELETE_TEST_TASK, 1);
-        long planId = planTemplateRule.createPlan(PLAN_NAME);
+        long prizeId = taskTemplateRule.createTask(DELETE_TEST_PRIZE, 2);
+        long interactionId = taskTemplateRule.createTask(DELETE_TEST_INTERACTION, 3);
+
         planTemplateRepository.setTasksWithThisPlan(planId, taskId);
-        taskTemplateRule.createTask(TASK_NAME, 1);
+        planTemplateRepository.setTasksWithThisPlan(planId, prizeId);
+        planTemplateRepository.setTasksWithThisPlan(planId, interactionId);
 
+        taskTemplateRule.createTask(expectedNameTask, 1);
+        taskTemplateRule.createTask(expectedNamePrize, 2);
+        taskTemplateRule.createTask(expectedNameInteraction, 3);
+    }
+
+    public void setView (Integer typeId) {
         PlanTaskListFragment fragment = new PlanTaskListFragment();
-
         Bundle args = new Bundle();
         args.putLong(PLAN_ID, planId);
+        args.putInt(TYPE_ID, typeId);
         fragment.setArguments(args);
 
         FragmentManager manager = activityRule.getActivity().getFragmentManager();
@@ -81,16 +97,84 @@ public class PlanTaskListFragmentTest {
 
     @Test
     public void whenPlanTaskListFragmentExpectHeaderAndButtons() {
+        setView(1);
         onView(withId(R.id.id_tv_plan_tasks_list_info))
-                .check(matches(withText(R.string.create_plan_tasks_list_info)));
-        onView(withId(R.id.id_btn_create_plan_add_tasks)).check(matches(isDisplayed()));
+                .check(matches(withText(R.string.create_plan_tasks_list_info_type_1)));
+        onView(withId(R.id.id_btn_create_plan_add_tasks))
+                .check(matches(withText(R.string.create_plan_add_tasks_type_1)));
         onView(withId(R.id.id_btn_save_plan_tasks)).check(matches(isDisplayed()));
     }
 
     @Test
     public void whenAddingNewTaskToPlanExpectShowTaskOnList() {
+        checkShowTaskOnList(1, expectedNameTask);
+    }
+
+    @Test
+    public void whenRemoveIconClickedExpectTaskToNoLongerBeInThisPlan(){
+        checkIsItemRemoved(1);
+    }
+
+    @Test
+    public void whenPlanPrizeListFragmentExpectHeaderAndButtons() {
+        setView(2);
+        onView(withId(R.id.id_tv_plan_tasks_list_info))
+                .check(matches(withText(R.string.create_plan_tasks_list_info_type_2)));
         onView(withId(R.id.id_btn_create_plan_add_tasks))
-            .perform(click());
+                .check(matches(withText(R.string.create_plan_add_tasks_type_2)));
+        onView(withId(R.id.id_btn_save_plan_tasks)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void whenAddingNewPrizeToPlanExpectShowPrizeOnList() {
+        checkShowTaskOnList(2, expectedNamePrize);
+    }
+
+    @Test
+    public void whenRemoveIconClickedExpectPrizeToNoLongerBeInThisPlan(){
+        checkIsItemRemoved(2);
+    }
+
+    @Test
+    public void whenPlanInteractionListFragmentExpectHeaderAndButtons() {
+        setView(3);
+        onView(withId(R.id.id_tv_plan_tasks_list_info))
+                .check(matches(withText(R.string.create_plan_tasks_list_info_type_3)));
+        onView(withId(R.id.id_btn_create_plan_add_tasks))
+                .check(matches(withText(R.string.create_plan_add_tasks_type_3)));
+        onView(withId(R.id.id_btn_save_plan_tasks)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void whenAddingNewInteractionToPlanExpectShowInteractionOnList() {
+        checkShowTaskOnList(3, expectedNameInteraction);
+    }
+
+    @Test
+    public void whenRemoveIconClickedExpectInteractionToNoLongerBeInThisPlan(){
+        checkIsItemRemoved(3);
+    }
+
+    public void checkIsItemRemoved (Integer typeId) {
+        setView(typeId);
+        final int testedInteractionPosition = 0;
+
+        onView(withId(R.id.rv_create_plan_task_list))
+                .perform(RecyclerViewActions
+                        .actionOnItemAtPosition(testedInteractionPosition,
+                                new ViewClicker(R.id.id_remove_task)));
+
+        onView(withId(R.id.rv_create_plan_task_list)).perform(
+                RecyclerViewActions.scrollToPosition(testedInteractionPosition));
+
+        onView(withRecyclerView(R.id.rv_create_plan_task_list)
+                .atPosition(testedInteractionPosition)).check(doesNotExist());
+    }
+
+    public void checkShowTaskOnList (Integer typeId, String EXPECTED_NAME) {
+        setView(typeId);
+        onView(withId(R.id.id_btn_create_plan_add_tasks))
+                .perform(click());
 
         RecyclerView recyclerView = (RecyclerView) activityRule.getActivity().findViewById(R.id.rv_create_plan_add_tasks);
         int lastPosition = recyclerView.getAdapter().getItemCount() - 1;
@@ -110,22 +194,6 @@ public class PlanTaskListFragmentTest {
 
         onView(withRecyclerView(R.id.rv_create_plan_task_list)
                 .atPosition(lastPosition))
-                .check(matches(hasDescendant(withText(TASK_NAME))));
-    }
-
-    @Test
-    public void whenRemoveIconClickedExpectTaskToNoLongerBeInThisPlan(){
-        final int testedTaskPosition = 0;
-
-        onView(withId(R.id.rv_create_plan_task_list))
-                .perform(RecyclerViewActions
-                        .actionOnItemAtPosition(testedTaskPosition,
-                                new ViewClicker(R.id.id_remove_task)));
-
-        onView(withId(R.id.rv_create_plan_task_list)).perform(
-                RecyclerViewActions.scrollToPosition(testedTaskPosition));
-
-        onView(withRecyclerView(R.id.rv_create_plan_task_list)
-                .atPosition(testedTaskPosition)).check(doesNotExist());
+                .check(matches(hasDescendant(withText(EXPECTED_NAME))));
     }
 }

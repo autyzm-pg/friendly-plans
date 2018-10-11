@@ -28,6 +28,30 @@ public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents
     private Long planId;
     private Integer typeId;
 
+    public enum TaskType {
+        TASK(R.string.create_plan_tasks_list_info_type_1, R.string.create_plan_add_tasks_type_1),
+        PRIZE(R.string.create_plan_tasks_list_info_type_2, R.string.create_plan_add_tasks_type_2),
+        INTERACTION(R.string.create_plan_tasks_list_info_type_3, R.string.create_plan_add_tasks_type_3);
+
+        private final int infoLabel;
+        private final int addLabel;
+
+        TaskType(Integer infoLabel, Integer addLabel) {
+            this.infoLabel = infoLabel;
+            this.addLabel = addLabel;
+        }
+
+        public Integer getInfoLabel() {
+            return this.infoLabel;
+        }
+
+        public Integer getAddLabel() {
+            return this.addLabel;
+        }
+    }
+
+    private TaskType taskType;
+
     @Inject
     PlanTemplateRepository planTemplateRepository;
 
@@ -84,9 +108,11 @@ public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents
             typeId = (Integer) arguments.get(ActivityProperties.TYPE_ID);
         }
 
+        getTaskType(typeId);
         Button addButton = (Button) view.findViewById(R.id.id_btn_create_plan_add_tasks);
         TextView labelInfo = (TextView) view.findViewById(R.id.id_tv_plan_tasks_list_info);
-        setLabels(typeId, addButton, labelInfo);
+        addButton.setText(taskType.getAddLabel());
+        labelInfo.setText(taskType.getInfoLabel());
 
         RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.rv_create_plan_task_list);
         recyclerView.setHasFixedSize(true);
@@ -98,19 +124,16 @@ public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents
         taskListAdapter.setTaskItems(planTemplateRepository.getTaskWithThisPlanByTypeId(planId, typeId));
     }
 
-    public void setLabels(Integer typeId, Button add, TextView label){
+    public void getTaskType(Integer typeId){
         switch(typeId){
             case 1:
-                add.setText(R.string.create_plan_add_tasks_type_1);
-                label.setText(R.string.create_plan_tasks_list_info_type_1);
+                taskType = TaskType.TASK;
                 break;
             case 2:
-                add.setText(R.string.create_plan_add_tasks_type_2);
-                label.setText(R.string.create_plan_tasks_list_info_type_2);
+                taskType = TaskType.PRIZE;
                 break;
             default:
-                add.setText(R.string.create_plan_add_tasks_type_3);
-                label.setText(R.string.create_plan_tasks_list_info_type_3);
+                taskType = TaskType.INTERACTION;
                 break;
         }
     }

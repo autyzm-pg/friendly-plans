@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.TextView;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -25,6 +26,22 @@ import pg.autyzm.friendly_plans.manager_app.view.task_list.TaskRecyclerViewAdapt
 
 public class AddTasksToPlanFragment extends Fragment implements AddTasksToPlanEvents{
 
+    public enum TaskType {
+        TASK(R.string.create_plan_add_tasks_info_type_1),
+        PRIZE(R.string.create_plan_add_tasks_info_type_2),
+        INTERACTION(R.string.create_plan_add_tasks_info_type_3);
+
+        private final int infoLabel;
+
+        TaskType(Integer infoLabel) {
+            this.infoLabel = infoLabel;
+        }
+        public Integer getInfoLabel() {
+            return this.infoLabel;
+        }
+    }
+
+    private TaskType taskType;
     private TaskRecyclerViewAdapter taskListAdapter;
 
     @Inject
@@ -72,6 +89,10 @@ public class AddTasksToPlanFragment extends Fragment implements AddTasksToPlanEv
             typeId = (Integer) arguments.get(ActivityProperties.TYPE_ID);
         }
 
+        getTaskType(typeId);
+        TextView labelInfo = (TextView) view.findViewById(R.id.id_tv_add_tasks_to_plan_info);
+        labelInfo.setText(taskType.getInfoLabel());
+
         RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.rv_create_plan_add_tasks);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -89,6 +110,19 @@ public class AddTasksToPlanFragment extends Fragment implements AddTasksToPlanEv
         taskListAdapter.setTaskItems(tasks);
     }
 
+    public void getTaskType(Integer typeId){
+        switch(typeId){
+            case 1:
+                taskType = TaskType.TASK;
+                break;
+            case 2:
+                taskType = TaskType.PRIZE;
+                break;
+            default:
+                taskType = TaskType.INTERACTION;
+                break;
+        }
+    }
     @Override
     public void eventDoneAddingTasksToPlan(View view) {
         getFragmentManager().popBackStack();
