@@ -25,10 +25,9 @@ public class ChildRecyclerViewAdapter extends
     }
 
     interface ChildItemClickListener {
+        void onRemoveChildClick(long itemId);
 
         void onChildItemClick(int position);
-
-        void onRemoveChildClick(long itemId);
     }
 
     @Override
@@ -36,8 +35,7 @@ public class ChildRecyclerViewAdapter extends
             int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_child, parent, false);
-        return new ChildRecyclerViewAdapter.ChildListViewHolder(view, childItemClickListener,
-                childItemList);
+        return new ChildRecyclerViewAdapter.ChildListViewHolder(view, childItemClickListener, childItemList);
     }
 
     @Override
@@ -106,5 +104,20 @@ public class ChildRecyclerViewAdapter extends
             this.removeButton.setOnClickListener(deleteButtonListener);
             itemView.setOnClickListener(selectItemListener);
         }
+
+        View.OnClickListener deleteButtonListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long id = childItemList.get(getAdapterPosition()).getId();
+                childItemClickListener.onRemoveChildClick(id);
+            }
+        };
+
+        View.OnClickListener selectItemListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                childItemClickListener.onChildItemClick(getAdapterPosition());
+            }
+        };
     }
 }

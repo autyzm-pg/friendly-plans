@@ -55,6 +55,10 @@
   <string name="plan_removal_confirmation_positive_button">Yes, remove plan</string>
   <string name="plan_removal_confirmation_title">Plan removal confirmation</string>
   <string name="plan_removal_confirmation_message">Are you sure you want to remove that plan?</string>
+  <string name="child_removal_confirmation_negative_button">No</string>
+  <string name="child_removal_confirmation_positive_button">Yes, remove child profile</string>
+  <string name="child_removal_confirmation_title">Child profile removal confirmation</string>
+  <string name="child_removal_confirmation_message">Are you sure you want to remove that child profile?</string>
   <string name="step_removal_confirmation_negative_button">No</string>
   <string name="step_removal_confirmation_positive_button">Yes, remove step</string>
   <string name="step_removal_confirmation_title">Step removal confirmation</string>
@@ -88,6 +92,7 @@
   <string name="child_first_name">First name:</string>
   <string name="child_last_name">Last name:</string>
   <string name="child_saved_message">Child profile saved</string>
+  <string name="child_removed_message">Child profile removed</string>
   <string name="storage_permission_granted">Permission granted. You can now select the file</string>
   <string name="storage_permission_denied">Permission denied. You can\'t add files from storage</string>
   <string name="activate_plan">Activate plan</string>

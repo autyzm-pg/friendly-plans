@@ -1,6 +1,8 @@
 package pg.autyzm.friendly_plans.manager_app.view.child_list;
 
 import android.content.Intent;
+import android.content.DialogInterface;
+
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,6 +22,7 @@ import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.ActivityChildListBinding;
 import pg.autyzm.friendly_plans.manager_app.view.main_screen.MainActivity;
+import pg.autyzm.friendly_plans.notifications.DialogUserNotifier;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 
 public class ChildListActivity extends AppCompatActivity implements ChildListActivityEvents {
@@ -44,10 +47,32 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
                 }
 
                 @Override
-                public void onRemoveChildClick(long itemId){
-                    //TODO
+                public void onRemoveChildClick(final long childId) {
+                    DialogUserNotifier dialog = new DialogUserNotifier(
+                            ChildListActivity.this,
+                            getResources().getString(R.string.child_removal_confirmation_title),
+                            getResources().getString(R.string.child_removal_confirmation_message)
+                    );
+                    dialog.setPositiveButton(
+                            getResources().getString(R.string.child_removal_confirmation_positive_button),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    removeChild(childId);
+                                    dialog.dismiss();
+                                }
+                            });
+                    dialog.setNegativeButton(
+                            getResources().getString(R.string.child_removal_confirmation_negative_button),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    dialog.showDialog();
                 }
+
             };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +80,11 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
         ((App) getApplication()).getAppComponent().inject(this);
         setContentView(R.layout.activity_child_list);
 
+        setUpViews();
+
+    }
+
+    private void setUpViews() {
         ActivityChildListBinding binding = DataBindingUtil
                 .setContentView(this, R.layout.activity_child_list);
         binding.setChildListEvents(this);
@@ -64,11 +94,8 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
 
         childData = new ChildListData(initialFirstName, initialLastName);
         binding.setChildListData(childData);
-
-        setUpViews();
-    }
-
-    private void setUpViews() {
+      
+        ChildRecyclerViewAdapter childListAdapter;
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_child_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -109,6 +136,14 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
             if(child.getIsActive())
                 child.setIsActive(false);
         childListAdapter.getChild(selectedChildPosition).setIsActive(true);
+    }
+
+    private void removeChild(long itemId){
+            childRepository.delete(itemId);
+            setUpViews();
+            toastUserNotifier.displayNotifications(
+                    R.string.child_removed_message,
+                    getApplicationContext());
     }
 
     @Nullable
