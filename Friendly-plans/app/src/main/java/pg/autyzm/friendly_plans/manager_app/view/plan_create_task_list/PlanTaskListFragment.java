@@ -21,36 +21,13 @@ import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.FragmentPlanTaskListBinding;
 import pg.autyzm.friendly_plans.manager_app.view.plan_create_add_tasks.AddTasksToPlanFragment;
 import pg.autyzm.friendly_plans.manager_app.view.task_list.TaskRecyclerViewAdapter;
+import pg.autyzm.friendly_plans.manager_app.view.task_type_enum.TaskType;
 
 public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents {
 
     private TaskRecyclerViewAdapter taskListAdapter;
     private Long planId;
     private Integer typeId;
-
-    public enum TaskType {
-        TASK(R.string.create_plan_tasks_list_info_type_1, R.string.create_plan_add_tasks_type_1),
-        PRIZE(R.string.create_plan_tasks_list_info_type_2, R.string.create_plan_add_tasks_type_2),
-        INTERACTION(R.string.create_plan_tasks_list_info_type_3, R.string.create_plan_add_tasks_type_3);
-
-        private final int infoLabel;
-        private final int addLabel;
-
-        TaskType(Integer infoLabel, Integer addLabel) {
-            this.infoLabel = infoLabel;
-            this.addLabel = addLabel;
-        }
-
-        public Integer getInfoLabel() {
-            return this.infoLabel;
-        }
-
-        public Integer getAddLabel() {
-            return this.addLabel;
-        }
-    }
-
-    private TaskType taskType;
 
     @Inject
     PlanTemplateRepository planTemplateRepository;
@@ -63,7 +40,7 @@ public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents
                 }
 
                 @Override
-                public void onRemoveTaskClick(int position){
+                public void onRemoveTaskClick(int position) {
                     planTemplateRepository.deleteTaskFromThisPlan(
                             planId,
                             taskListAdapter.getTaskItem(position).getId());
@@ -102,44 +79,39 @@ public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
         Bundle arguments = getArguments();
-        if (arguments != null && arguments.containsKey(ActivityProperties.PLAN_ID) && arguments.containsKey(ActivityProperties.TYPE_ID)) {
+        if (arePlanArgumentProvided(arguments)) {
             planId = (Long) arguments.get(ActivityProperties.PLAN_ID);
             typeId = (Integer) arguments.get(ActivityProperties.TYPE_ID);
         }
 
-        getTaskType(typeId);
+        TaskType taskType = TaskType.getTaskType(typeId);
         Button addButton = (Button) view.findViewById(R.id.id_btn_create_plan_add_tasks);
         TextView labelInfo = (TextView) view.findViewById(R.id.id_tv_plan_tasks_list_info);
         addButton.setText(taskType.getAddLabel());
-        labelInfo.setText(taskType.getInfoLabel());
+        labelInfo.setText(taskType.getTaskListInfoLabel());
 
-        RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.rv_create_plan_task_list);
+        RecyclerView recyclerView = (RecyclerView) getActivity()
+                .findViewById(R.id.rv_create_plan_task_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         taskListAdapter = new TaskRecyclerViewAdapter(taskItemClickListener);
         recyclerView.setAdapter(taskListAdapter);
 
-        taskListAdapter.setTaskItems(planTemplateRepository.getTaskWithThisPlanByTypeId(planId, typeId));
+        taskListAdapter
+                .setTaskItems(planTemplateRepository.getTaskWithThisPlanByTypeId(planId, typeId));
     }
 
-    public void getTaskType(Integer typeId){
-        switch(typeId){
-            case 1:
-                taskType = TaskType.TASK;
-                break;
-            case 2:
-                taskType = TaskType.PRIZE;
-                break;
-            default:
-                taskType = TaskType.INTERACTION;
-                break;
-        }
+    public boolean arePlanArgumentProvided(Bundle arguments) {
+        return arguments != null && arguments.containsKey(ActivityProperties.PLAN_ID) && arguments
+                .containsKey(ActivityProperties.TYPE_ID);
     }
 
     public void onResume() {
-        taskListAdapter.setTaskItems(planTemplateRepository.getTaskWithThisPlanByTypeId(planId, typeId));
+        taskListAdapter
+                .setTaskItems(planTemplateRepository.getTaskWithThisPlanByTypeId(planId, typeId));
         taskListAdapter.notifyDataSetChanged();
         super.onResume();
     }

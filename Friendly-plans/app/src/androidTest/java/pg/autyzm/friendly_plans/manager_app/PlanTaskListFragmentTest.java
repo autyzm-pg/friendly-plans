@@ -102,7 +102,6 @@ public class PlanTaskListFragmentTest {
                 .check(matches(withText(R.string.create_plan_tasks_list_info_type_1)));
         onView(withId(R.id.id_btn_create_plan_add_tasks))
                 .check(matches(withText(R.string.create_plan_add_tasks_type_1)));
-        onView(withId(R.id.id_btn_save_plan_tasks)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -122,8 +121,7 @@ public class PlanTaskListFragmentTest {
                 .check(matches(withText(R.string.create_plan_tasks_list_info_type_2)));
         onView(withId(R.id.id_btn_create_plan_add_tasks))
                 .check(matches(withText(R.string.create_plan_add_tasks_type_2)));
-        onView(withId(R.id.id_btn_save_plan_tasks)).check(matches(isDisplayed()));
-    }
+}
 
     @Test
     public void whenAddingNewPrizeToPlanExpectShowPrizeOnList() {
@@ -142,7 +140,6 @@ public class PlanTaskListFragmentTest {
                 .check(matches(withText(R.string.create_plan_tasks_list_info_type_3)));
         onView(withId(R.id.id_btn_create_plan_add_tasks))
                 .check(matches(withText(R.string.create_plan_add_tasks_type_3)));
-        onView(withId(R.id.id_btn_save_plan_tasks)).check(matches(isDisplayed()));
     }
 
     @Test
