@@ -137,7 +137,7 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
 
     private void setActiveChild() {
         Child selectedChild = childListAdapter.getChild(selectedChildPosition);
-        childRepository.setIsActive(selectedChild,true);
+        childRepository.setIsActive(selectedChild, true);
 
         List<Child> childList = childRepository.getAll();
         for (Child child : childList) {
