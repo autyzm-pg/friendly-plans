@@ -1,5 +1,6 @@
 package pg.autyzm.friendly_plans.manager_app.view.child_list;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ public class ChildRecyclerViewAdapter extends
 
     private List<Child> childItemList;
     private ChildItemClickListener childItemClickListener;
+    private Integer selectedChildPosition;
 
     ChildRecyclerViewAdapter(ChildItemClickListener childItemClickListener) {
         this.childItemClickListener = childItemClickListener;
@@ -34,7 +36,8 @@ public class ChildRecyclerViewAdapter extends
             int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_child, parent, false);
-        return new ChildRecyclerViewAdapter.ChildListViewHolder(view, childItemClickListener, childItemList);
+        return new ChildRecyclerViewAdapter.ChildListViewHolder(view, childItemClickListener,
+                childItemList);
     }
 
     @Override
@@ -43,7 +46,17 @@ public class ChildRecyclerViewAdapter extends
         if (childItemList != null && !childItemList.isEmpty()) {
             Child childItem = childItemList.get(position);
             holder.childName.setText(childItem.getName() + " " + childItem.getSurname());
+            if (isPositonActive(position)) {
+                holder.itemView.setBackgroundColor(Color.parseColor("#cccccc"));
+            } else {
+                holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+            }
         }
+    }
+
+    public boolean isPositonActive(int position) {
+        return (selectedChildPosition != null && selectedChildPosition == position) || (
+                selectedChildPosition == null && childItemList.get(position).getIsActive());
     }
 
     @Override
@@ -51,8 +64,18 @@ public class ChildRecyclerViewAdapter extends
         return childItemList != null && childItemList.size() != 0 ? childItemList.size() : 0;
     }
 
+    Child getChild(int position) {
+        return childItemList.get(position);
+    }
+
+
     void setChildItems(List<Child> childItemList) {
         this.childItemList = childItemList;
+        notifyDataSetChanged();
+    }
+
+    void setSelectedChildPosition(int selectedChildPosition) {
+        this.selectedChildPosition = selectedChildPosition;
         notifyDataSetChanged();
     }
 
@@ -62,7 +85,9 @@ public class ChildRecyclerViewAdapter extends
         ImageButton removeButton;
         ChildItemClickListener childItemClickListener;
         List<Child> childItemList;
-        ChildListViewHolder(View itemView, ChildItemClickListener childItemClickListener, List<Child> childItemList) {
+
+        ChildListViewHolder(View itemView, ChildItemClickListener childItemClickListener,
+                List<Child> childItemList) {
             super(itemView);
             this.childName = (TextView) itemView
                     .findViewById(R.id.id_tv_child_name);

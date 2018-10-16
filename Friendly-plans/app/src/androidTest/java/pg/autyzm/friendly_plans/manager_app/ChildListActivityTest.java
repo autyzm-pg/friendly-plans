@@ -5,6 +5,7 @@ import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
@@ -152,8 +153,9 @@ public class ChildListActivityTest {
         onView(withId(R.id.rv_child_list)).perform(scrollToPosition(testedChildPosition));
         onView(withRecyclerView(R.id.rv_child_list)
                 .atPosition(testedChildPosition))
-                .check(matches(not(hasDescendant(withText(EXPECTED_FIRST_NAME + " " + EXPECTED_LAST_NAME
-                        + testedChildPosition)))));
+                .check(matches(
+                        not(hasDescendant(withText(EXPECTED_FIRST_NAME + " " + EXPECTED_LAST_NAME
+                                + testedChildPosition)))));
     }
 
     @Test
@@ -171,4 +173,42 @@ public class ChildListActivityTest {
                 .check(matches(hasDescendant(withText(EXPECTED_FIRST_NAME + " " + EXPECTED_LAST_NAME
                         + testedChildPosition))));
     }
+
+    @Test
+    public void whenChildIsClickedAndSelectedExpectDBChildStatusChangeToActive() {
+        final int testedChildPosition = 5;
+        closeSoftKeyboard();
+        onView(withId(R.id.rv_child_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(testedChildPosition, click()));
+        onView(withId(R.id.id_set_active_child)).perform(click());
+
+        assertThat(childRepository.getByIsActive().size(), is(1));
+        assertThat(childRepository.getByIsActive().get(0).getSurname(),
+                is(EXPECTED_LAST_NAME + testedChildPosition));
+    }
+
+    @Test
+    public void whenOtherChildIsSelectedActiveExpectPreviousActiveChildNoLongerActiveInDB() {
+        final int firstTestedChildPosition = 5;
+        final int secondTestedChildPosition = 6;
+        closeSoftKeyboard();
+        onView(withId(R.id.rv_child_list))
+                .perform(RecyclerViewActions
+                        .actionOnItemAtPosition(firstTestedChildPosition, click()));
+        onView(withId(R.id.id_set_active_child)).perform(click());
+        assertThat(childRepository.getByIsActive().size(), is(1));
+        assertThat(childRepository.getByIsActive().get(0).getSurname(),
+                is(EXPECTED_LAST_NAME + firstTestedChildPosition));
+
+        onView(withId(R.id.button_addRemoveChild)).perform(scrollTo()).perform(click());
+        closeSoftKeyboard();
+        onView(withId(R.id.rv_child_list))
+                .perform(RecyclerViewActions
+                        .actionOnItemAtPosition(secondTestedChildPosition, click()));
+        onView(withId(R.id.id_set_active_child)).perform(click());
+        assertThat(childRepository.getByIsActive().size(), is(1));
+        assertThat(childRepository.getByIsActive().get(0).getSurname(),
+                is(EXPECTED_LAST_NAME + secondTestedChildPosition));
+    }
+
 }

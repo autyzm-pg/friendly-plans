@@ -1,6 +1,7 @@
 package pg.autyzm.friendly_plans.manager_app.view.child_list;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,11 +9,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import database.entities.Child;
 import database.repository.ChildRepository;
+import java.util.List;
 import javax.inject.Inject;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.ActivityChildListBinding;
+import pg.autyzm.friendly_plans.manager_app.view.main_screen.MainActivity;
 import pg.autyzm.friendly_plans.notifications.DialogUserNotifier;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 
@@ -26,6 +32,9 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
 
     ChildListData childData;
 
+    private ChildRecyclerViewAdapter childListAdapter;
+    private Integer selectedChildPosition;
+
     ChildRecyclerViewAdapter.ChildItemClickListener childItemClickListener =
             new ChildRecyclerViewAdapter.ChildItemClickListener() {
 
@@ -37,7 +46,8 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
                             getResources().getString(R.string.child_removal_confirmation_message)
                     );
                     dialog.setPositiveButton(
-                            getResources().getString(R.string.child_removal_confirmation_positive_button),
+                            getResources()
+                                    .getString(R.string.child_removal_confirmation_positive_button),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     removeChild(childId);
@@ -45,7 +55,8 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
                                 }
                             });
                     dialog.setNegativeButton(
-                            getResources().getString(R.string.child_removal_confirmation_negative_button),
+                            getResources()
+                                    .getString(R.string.child_removal_confirmation_negative_button),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
@@ -56,7 +67,8 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
 
                 @Override
                 public void onChildItemClick(int position) {
-                    //todo
+                    childListAdapter.setSelectedChildPosition(position);
+                    selectedChildPosition = position;
                 }
             };
 
@@ -81,13 +93,21 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
 
         childData = new ChildListData(initialFirstName, initialLastName);
         binding.setChildListData(childData);
-        ChildRecyclerViewAdapter childListAdapter;
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_child_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         childListAdapter = new ChildRecyclerViewAdapter(childItemClickListener);
         recyclerView.setAdapter(childListAdapter);
         childListAdapter.setChildItems(childRepository.getAll());
+
+        Button setActiveChildButton = (Button) findViewById(R.id.id_set_active_child);
+        setActiveChildButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setActiveChild();
+                Intent intent = new Intent(ChildListActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -107,12 +127,24 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
         }
     }
 
-    private void removeChild(long itemId){
-            childRepository.delete(itemId);
-            setUpViews();
-            toastUserNotifier.displayNotifications(
-                    R.string.child_removed_message,
-                    getApplicationContext());
+    private void removeChild(long itemId) {
+        childRepository.delete(itemId);
+        setUpViews();
+        toastUserNotifier.displayNotifications(
+                R.string.child_removed_message,
+                getApplicationContext());
+    }
+
+    private void setActiveChild() {
+        Child selectedChild = childListAdapter.getChild(selectedChildPosition);
+        childRepository.setIsActive(selectedChild,true);
+
+        List<Child> childList = childRepository.getAll();
+        for (Child child : childList) {
+            if (child.getId() != selectedChild.getId()) {
+                childRepository.setIsActive(child, false);
+            }
+        }
     }
 
     @Nullable
