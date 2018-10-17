@@ -34,6 +34,7 @@ import pg.autyzm.friendly_plans.manager_app.validation.ValidationResult;
 import pg.autyzm.friendly_plans.manager_app.view.components.SoundComponent;
 import pg.autyzm.friendly_plans.manager_app.view.main_screen.MainActivity;
 import pg.autyzm.friendly_plans.manager_app.view.step_list.StepListFragment;
+import pg.autyzm.friendly_plans.manager_app.view.task_type_enum.TaskType;
 import pg.autyzm.friendly_plans.manager_app.view.view_fragment.CreateFragment;
 
 public class TaskCreateFragment extends CreateFragment implements TaskCreateActivityEvents {
@@ -54,23 +55,7 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
     private Integer typeId;
     private Button steps;
     private RadioGroup types;
-
-    public enum TaskType {
-        TASK(1),
-        PRIZE(2),
-        INTERACTION(3);
-
-        private final int typeId;
-
-        TaskType(Integer typeId) {
-            this.typeId = typeId;
-        }
-        public Integer getId() {
-            return this.typeId;
-        }
-    }
-
-    TaskType taskType = TaskType.TASK;
+    private TaskType taskType = TaskType.TASK;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -165,11 +150,12 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
         return null;
     }
 
-    private void clearSteps(Integer typeId, Long taskId){
-        if(typeId != 1){
+    private void clearSteps(Integer typeId, Long taskId) {
+        if (typeId != 1) {
             stepTemplateRepository.deleteAllStepsForTask(taskId);
         }
     }
+
     private boolean validateName(Long taskId, EditText taskName) {
         ValidationResult validationResult = taskValidation
                 .isUpdateNameValid(taskId, taskName.getText().toString());
@@ -205,7 +191,7 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
             setAssetValue(AssetType.SOUND, sound.getFilename(), sound.getId());
         }
         typeId = task.getTypeId();
-        ((RadioButton)types.getChildAt(typeId-1)).setChecked(true);
+        ((RadioButton) types.getChildAt(typeId - 1)).setChecked(true);
         setVisibilityStepButton(Integer.valueOf(task.getTypeId().toString()));
     }
 
@@ -302,9 +288,9 @@ public class TaskCreateFragment extends CreateFragment implements TaskCreateActi
             taskType = TaskType.TASK;
         } else {
             steps.setVisibility(View.INVISIBLE);
-            if (id == R.id.id_rb_type_interaction){
+            if (id == R.id.id_rb_type_interaction) {
                 taskType = TaskType.INTERACTION;
-            }else{
+            } else {
                 taskType = TaskType.PRIZE;
             }
         }

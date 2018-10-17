@@ -10,9 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
+import android.widget.TextView;
 import javax.inject.Inject;
 
-import database.entities.PlanTemplate;
 import database.repository.PlanTemplateRepository;
 import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
@@ -20,11 +21,13 @@ import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.FragmentPlanTaskListBinding;
 import pg.autyzm.friendly_plans.manager_app.view.plan_create_add_tasks.AddTasksToPlanFragment;
 import pg.autyzm.friendly_plans.manager_app.view.task_list.TaskRecyclerViewAdapter;
+import pg.autyzm.friendly_plans.manager_app.view.task_type_enum.TaskType;
 
 public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents {
 
     private TaskRecyclerViewAdapter taskListAdapter;
     private Long planId;
+    private Integer typeId;
 
     @Inject
     PlanTemplateRepository planTemplateRepository;
@@ -37,7 +40,7 @@ public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents
                 }
 
                 @Override
-                public void onRemoveTaskClick(int position){
+                public void onRemoveTaskClick(int position) {
                     planTemplateRepository.deleteTaskFromThisPlan(
                             planId,
                             taskListAdapter.getTaskItem(position).getId());
@@ -64,6 +67,7 @@ public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents
 
         Bundle args = new Bundle();
         args.putLong(ActivityProperties.PLAN_ID, planId);
+        args.putInt(ActivityProperties.TYPE_ID, typeId);
         fragment.setArguments(args);
 
         FragmentTransaction transaction = getFragmentManager()
@@ -75,25 +79,39 @@ public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
         Bundle arguments = getArguments();
-        if (arguments != null && arguments.containsKey(ActivityProperties.PLAN_ID)) {
+        if (arePlanArgumentProvided(arguments)) {
             planId = (Long) arguments.get(ActivityProperties.PLAN_ID);
+            typeId = (Integer) arguments.get(ActivityProperties.TYPE_ID);
         }
 
-        RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.rv_create_plan_task_list);
+        TaskType taskType = TaskType.getTaskType(typeId);
+        Button addButton = (Button) view.findViewById(R.id.id_btn_create_plan_add_tasks);
+        TextView labelInfo = (TextView) view.findViewById(R.id.id_tv_plan_tasks_list_info);
+        addButton.setText(taskType.getAddLabel());
+        labelInfo.setText(taskType.getTaskListInfoLabel());
+
+        RecyclerView recyclerView = (RecyclerView) getActivity()
+                .findViewById(R.id.rv_create_plan_task_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         taskListAdapter = new TaskRecyclerViewAdapter(taskItemClickListener);
         recyclerView.setAdapter(taskListAdapter);
 
-        PlanTemplate planTemplate = planTemplateRepository.get(planId);
-        taskListAdapter.setTaskItems(planTemplate.getTasksWithThisPlan());
+        taskListAdapter
+                .setTaskItems(planTemplateRepository.getTaskWithThisPlanByTypeId(planId, typeId));
+    }
+
+    public boolean arePlanArgumentProvided(Bundle arguments) {
+        return arguments != null && arguments.containsKey(ActivityProperties.PLAN_ID) && arguments
+                .containsKey(ActivityProperties.TYPE_ID);
     }
 
     public void onResume() {
-        PlanTemplate planTemplate = planTemplateRepository.get(planId);
-        taskListAdapter.setTaskItems(planTemplate.getTasksWithThisPlan());
+        taskListAdapter
+                .setTaskItems(planTemplateRepository.getTaskWithThisPlanByTypeId(planId, typeId));
         taskListAdapter.notifyDataSetChanged();
         super.onResume();
     }

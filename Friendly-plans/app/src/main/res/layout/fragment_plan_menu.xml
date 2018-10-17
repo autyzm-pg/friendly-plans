@@ -18,11 +18,11 @@
   <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/break_time_tasks"/>
+    android:text="@string/prizes"/>
 
   <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/save"/>
+    android:text="@string/interactions"/>
 
 </LinearLayout>

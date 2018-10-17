@@ -27,6 +27,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.Is.is;
@@ -84,7 +85,14 @@ public class PlanCreateActivityTest {
                 .check(matches(withText(R.string.plan_create_description)));
         onView(withId(R.id.id_et_plan_name))
                 .check(matches(withText("")));
+        onView(withId(R.id.id_btn_plan_create_tasks))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.id_btn_plan_create_prizes))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.id_btn_plan_create_interactions))
+                .check(matches(isDisplayed()));
     }
+
 
     @Test
     public void whenAddingNewPlanExpectNewPlanAddedToDB() {
@@ -92,7 +100,7 @@ public class PlanCreateActivityTest {
                 .perform(replaceText(EXPECTED_NAME));
         closeSoftKeyboard();
 
-        onView(withId(R.id.id_btn_plan_next))
+        onView(withId(R.id.id_btn_plan_create_tasks))
                 .perform(click());
 
         List<PlanTemplate> planTemplates = planTemplateRepository.get(EXPECTED_NAME);
@@ -108,7 +116,7 @@ public class PlanCreateActivityTest {
                 .perform(replaceText(DUPLICATED_NAME));
         closeSoftKeyboard();
 
-        onView(withId(R.id.id_btn_plan_next))
+        onView(withId(R.id.id_btn_plan_create_tasks))
                 .perform(click());
 
 
