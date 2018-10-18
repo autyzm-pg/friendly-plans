@@ -8,21 +8,28 @@
   <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/name"/>
+    android:clickable="false"
+    android:text="@string/name" />
 
   <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/tasks"/>
+    android:enabled="false"
+    android:clickable="false"
+    android:text="@string/tasks" />
 
   <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/prizes"/>
+    android:enabled="false"
+    android:clickable="false"
+    android:text="@string/prizes" />
 
   <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/interactions"/>
+    android:enabled="false"
+    android:clickable="false"
+    android:text="@string/interactions" />
 
 </LinearLayout>

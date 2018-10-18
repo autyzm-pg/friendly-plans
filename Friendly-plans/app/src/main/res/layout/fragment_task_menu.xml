@@ -8,16 +8,15 @@
   <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/basic_info"/>
+    android:enabled="false"
+    android:clickable="false"
+    android:text="@string/basic_info" />
 
   <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/steps"/>
-
-  <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/save"/>
+    android:enabled="false"
+    android:clickable="false"
+    android:text="@string/steps" />
 
 </LinearLayout>

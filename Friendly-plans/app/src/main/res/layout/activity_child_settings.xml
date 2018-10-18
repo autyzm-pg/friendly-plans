@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto">
-  <RelativeLayout
-    xmlns:tools="http://schemas.android.com/tools"
+  <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/id_layout_child_settings_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+    android:padding="5dp"
     tools:context=".view.child_settings.ChildSettingsActivity">
 
     <GridLayout
@@ -242,7 +243,6 @@
       android:id="@+id/id_child_settings_select_plan_description"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="10dp"
       android:layout_alignParentStart="true"
       android:layout_alignParentTop="true"
       android:layout_columnSpan="5"
