@@ -36,6 +36,7 @@ public class ChildRecyclerViewAdapter extends
             int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_child, parent, false);
+
         return new ChildRecyclerViewAdapter.ChildListViewHolder(view, childItemClickListener,
                 childItemList);
     }
@@ -46,7 +47,7 @@ public class ChildRecyclerViewAdapter extends
         if (childItemList != null && !childItemList.isEmpty()) {
             Child childItem = childItemList.get(position);
             holder.childName.setText(childItem.getName() + " " + childItem.getSurname());
-            if (isPositonActive(position)) {
+            if (isPositionActive(position)) {
                 holder.itemView.setBackgroundColor(Color.parseColor("#cccccc"));
             } else {
                 holder.itemView.setBackgroundColor(Color.TRANSPARENT);
@@ -54,7 +55,7 @@ public class ChildRecyclerViewAdapter extends
         }
     }
 
-    public boolean isPositonActive(int position) {
+    public boolean isPositionActive(int position) {
         return (selectedChildPosition != null && selectedChildPosition == position) || (
                 selectedChildPosition == null && childItemList.get(position).getIsActive());
     }

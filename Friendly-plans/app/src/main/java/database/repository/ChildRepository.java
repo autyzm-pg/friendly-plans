@@ -26,6 +26,14 @@ public class ChildRepository {
         daoSession.getChildDao().update(child);
     }
 
+    public void setAllInactive (){
+        List<Child> children = daoSession.getChildDao().loadAll();
+        for (Child child : children){
+            child.setIsActive(false);
+        }
+        daoSession.getChildDao().updateInTx(children);
+    };
+
     public List<Child> getBySurname(String surname) {
         return daoSession.getChildDao()
                 .queryBuilder()

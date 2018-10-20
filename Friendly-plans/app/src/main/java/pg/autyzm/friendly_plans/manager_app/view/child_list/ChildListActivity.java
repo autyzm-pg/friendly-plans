@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import database.entities.Child;
 import database.repository.ChildRepository;
-import java.util.List;
 import javax.inject.Inject;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
@@ -34,6 +33,7 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
 
     private ChildRecyclerViewAdapter childListAdapter;
     private Integer selectedChildPosition;
+    private Button setActiveChildButton;
 
     ChildRecyclerViewAdapter.ChildItemClickListener childItemClickListener =
             new ChildRecyclerViewAdapter.ChildItemClickListener() {
@@ -68,6 +68,7 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
                 @Override
                 public void onChildItemClick(int position) {
                     childListAdapter.setSelectedChildPosition(position);
+                    setActiveChildButton.setEnabled(true);
                     selectedChildPosition = position;
                 }
             };
@@ -100,10 +101,13 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
         recyclerView.setAdapter(childListAdapter);
         childListAdapter.setChildItems(childRepository.getAll());
 
-        Button setActiveChildButton = (Button) findViewById(R.id.id_set_active_child);
+        setActiveChildButton = (Button) findViewById(R.id.id_set_active_child);
+        setActiveChildButton.setEnabled(childRepository.getByIsActive().size() > 0);
         setActiveChildButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                setActiveChild();
+                if (selectedChildPosition != null) {
+                    setActiveChild();
+                }
                 Intent intent = new Intent(ChildListActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -136,15 +140,9 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
     }
 
     private void setActiveChild() {
+        childRepository.setAllInactive();
         Child selectedChild = childListAdapter.getChild(selectedChildPosition);
         childRepository.setIsActive(selectedChild, true);
-
-        List<Child> childList = childRepository.getAll();
-        for (Child child : childList) {
-            if (child.getId() != selectedChild.getId()) {
-                childRepository.setIsActive(child, false);
-            }
-        }
     }
 
     @Nullable

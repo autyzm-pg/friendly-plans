@@ -10,6 +10,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
@@ -175,19 +176,6 @@ public class ChildListActivityTest {
     }
 
     @Test
-    public void whenChildIsClickedAndSelectedExpectDBChildStatusChangeToActive() {
-        final int testedChildPosition = 5;
-        closeSoftKeyboard();
-        onView(withId(R.id.rv_child_list))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(testedChildPosition, click()));
-        onView(withId(R.id.id_set_active_child)).perform(click());
-
-        assertThat(childRepository.getByIsActive().size(), is(1));
-        assertThat(childRepository.getByIsActive().get(0).getSurname(),
-                is(EXPECTED_LAST_NAME + testedChildPosition));
-    }
-
-    @Test
     public void whenOtherChildIsSelectedActiveExpectPreviousActiveChildNoLongerActiveInDB() {
         final int firstTestedChildPosition = 5;
         final int secondTestedChildPosition = 6;
@@ -211,4 +199,14 @@ public class ChildListActivityTest {
                 is(EXPECTED_LAST_NAME + secondTestedChildPosition));
     }
 
+    @Test
+    public void whenChildIsSelectedExpectButtonIsEnabled() {
+        final int testedChildPosition = 5;
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_set_active_child)).check(matches(not(isEnabled())));
+        onView(withId(R.id.rv_child_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(testedChildPosition, click()));
+        onView(withId(R.id.id_set_active_child)).check(matches(isEnabled()));
+    }
 }
