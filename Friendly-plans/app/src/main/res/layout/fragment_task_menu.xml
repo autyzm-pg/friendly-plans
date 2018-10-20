@@ -6,13 +6,15 @@
   android:orientation="vertical">
 
   <Button
+    android:id="@+id/id_navigation_basic_info"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:enabled="false"
+    android:enabled="true"
     android:clickable="false"
     android:text="@string/basic_info" />
 
   <Button
+    android:id="@+id/id_navigation_steps"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:enabled="false"

@@ -1,6 +1,7 @@
 package pg.autyzm.friendly_plans.manager_app;
 
 import android.content.Context;
+import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.WindowManager;
@@ -28,9 +29,11 @@ import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
 import static pg.autyzm.friendly_plans.matcher.ErrorTextMatcher.hasErrorText;
 
 @RunWith(AndroidJUnit4.class)
@@ -126,5 +129,70 @@ public class PlanCreateActivityTest {
 
         List<PlanTemplate> planTemplates = planTemplateRepository.get(DUPLICATED_NAME);
         assertThat(planTemplates.size(), is(1));
+    }
+
+    @Test
+    public void whenChangedViewChangeNavigationMenuHighlight() {
+
+        onView(withId(R.id.id_navigation_plan_name))
+                .check(matches(isEnabled()));
+        onView(withId(R.id.id_navigation_plan_tasks))
+                .check(matches(not(isEnabled())));
+        onView(withId(R.id.id_navigation_plan_prizes))
+                .check(matches(not(isEnabled())));
+        onView(withId(R.id.id_navigation_plan_interactions))
+                .check(matches(not(isEnabled())));
+
+        onView(withId(R.id.id_et_plan_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_btn_plan_create_tasks))
+                .perform(click());
+
+        onView(withId(R.id.id_navigation_plan_tasks))
+                .check(matches(isEnabled()));
+        onView(withId(R.id.id_navigation_plan_name))
+                .check(matches(not(isEnabled())));
+        onView(withId(R.id.id_navigation_plan_prizes))
+                .check(matches(not(isEnabled())));
+        onView(withId(R.id.id_navigation_plan_interactions))
+                .check(matches(not(isEnabled())));
+
+        Espresso.pressBack();
+
+        onView(withId(R.id.id_btn_plan_create_prizes))
+                .perform(click());
+
+        onView(withId(R.id.id_navigation_plan_prizes))
+                .check(matches(isEnabled()));
+        onView(withId(R.id.id_navigation_plan_name))
+                .check(matches(not(isEnabled())));
+        onView(withId(R.id.id_navigation_plan_tasks))
+                .check(matches(not(isEnabled())));
+        onView(withId(R.id.id_navigation_plan_interactions))
+                .check(matches(not(isEnabled())));
+
+        Espresso.pressBack();
+
+        onView(withId(R.id.id_btn_plan_create_interactions))
+                .perform(click());
+
+        onView(withId(R.id.id_navigation_plan_interactions))
+                .check(matches(isEnabled()));
+        onView(withId(R.id.id_navigation_plan_name))
+                .check(matches(not(isEnabled())));
+        onView(withId(R.id.id_navigation_plan_prizes))
+                .check(matches(not(isEnabled())));
+        onView(withId(R.id.id_navigation_plan_tasks))
+                .check(matches(not(isEnabled())));
+
+        Espresso.pressBack();
+
+
+        closeSoftKeyboard();
+
+        List<PlanTemplate> planTemplates = planTemplateRepository.get(EXPECTED_NAME);
+        idsToDelete.add(planTemplates.get(0).getId());
     }
 }

@@ -42,6 +42,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertNull;
@@ -133,6 +134,10 @@ public class StepCreateFragmentTest {
             .check(matches(withText("")));
         onView(withId(R.id.id_et_step_sound))
             .check(matches(withText("")));
+        onView(withId(R.id.id_navigation_steps))
+                .check(matches(isEnabled()));
+        onView(withId(R.id.id_navigation_basic_info))
+                .check(matches(not(isEnabled())));
     }
 
     @Test
