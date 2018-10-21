@@ -17,6 +17,7 @@ public class ChildRepository {
         Child childTemplate = new Child();
         childTemplate.setName(firstName);
         childTemplate.setSurname(lastName);
+        childTemplate.setIsActive(false);
         return daoSession.getChildDao().insert(childTemplate);
     }
 

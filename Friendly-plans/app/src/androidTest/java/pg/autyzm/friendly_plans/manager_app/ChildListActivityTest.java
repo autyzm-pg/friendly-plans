@@ -15,6 +15,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 import static pg.autyzm.friendly_plans.matcher.RecyclerViewMatcher.withRecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -131,8 +132,8 @@ public class ChildListActivityTest {
 
     @Test
     public void whenChildIsAddedToDBExpectProperlyDisplayedOnRecyclerView() {
-
-        final int testedChildPosition = 6;
+        final int testedChildPosition = 5;
+        closeSoftKeyboard();
         onView(withId(R.id.rv_child_list)).perform(scrollToPosition(testedChildPosition));
         onView(withRecyclerView(R.id.rv_child_list)
                 .atPosition(testedChildPosition))
@@ -140,6 +141,38 @@ public class ChildListActivityTest {
                         + testedChildPosition))));
     }
 
+    @Test
+    public void whenChildIsClickedAndSelectedExpectDBChildStatusChangeToActive() {
+        final int testedChildPosition = 5;
+        closeSoftKeyboard();
+        onView(withId(R.id.rv_child_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(testedChildPosition, click()));
+        onView(withId(R.id.id_set_active_child)).perform(click());
+
+        List<Child> child = childRepository.getBySurname(EXPECTED_LAST_NAME + testedChildPosition);
+        assertThat(child.get(0).getIsActive(), is(true));
+    }
+
+    @Test
+    public void whenOtherChildIsSelectedActiveExpectPreviousActiveChildNoLongerActiveInDB(){
+        final int firstTestedChildPosition = 5;
+        final int secondTestedChildPosition = 6;
+        closeSoftKeyboard();
+        onView(withId(R.id.rv_child_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(firstTestedChildPosition, click()));
+        onView(withId(R.id.id_set_active_child)).perform(click());
+
+        onView(withId(R.id.button_addRemoveChild)).perform(click());
+
+        closeSoftKeyboard();
+        onView(withId(R.id.rv_child_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(secondTestedChildPosition, click()));
+        onView(withId(R.id.id_set_active_child)).perform(click());
+
+        List<Child> child2 = childRepository.getBySurname(EXPECTED_LAST_NAME + firstTestedChildPosition);
+        assertThat(child2.get(0).getIsActive(), is(false));
+    }
+  
     @Test
     public void whenChildIsRemovedExpectChildIsNotOnTheList() {
 
