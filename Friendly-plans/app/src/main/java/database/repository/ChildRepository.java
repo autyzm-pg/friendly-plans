@@ -17,8 +17,22 @@ public class ChildRepository {
         Child childTemplate = new Child();
         childTemplate.setName(firstName);
         childTemplate.setSurname(lastName);
+        childTemplate.setIsActive(false);
         return daoSession.getChildDao().insert(childTemplate);
     }
+
+    public void setIsActive(Child child, boolean isActive) {
+        child.setIsActive(isActive);
+        daoSession.getChildDao().update(child);
+    }
+
+    public void setAllInactive (){
+        List<Child> children = daoSession.getChildDao().loadAll();
+        for (Child child : children){
+            child.setIsActive(false);
+        }
+        daoSession.getChildDao().updateInTx(children);
+    };
 
     public List<Child> getBySurname(String surname) {
         return daoSession.getChildDao()
@@ -37,6 +51,13 @@ public class ChildRepository {
 
     public void delete(Long id) {
         daoSession.getChildDao().deleteByKey(id);
+    }
+
+    public List<Child> getByIsActive() {
+        return daoSession.getChildDao()
+                .queryBuilder()
+                .where(Properties.IsActive.eq(true))
+                .list();
     }
 
     public void deleteAll() {

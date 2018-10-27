@@ -25,30 +25,29 @@ public class Child {
 
     private String displayMode;
 
+    private boolean isActive;
+
     @ToMany(referencedJoinProperty = "childId")
     private List<ChildPlan> childPlans;
 
-    /**
-     * Used to resolve relations
-     */
+    /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    /**
-     * Used for active entity operations.
-     */
+    /** Used for active entity operations. */
     @Generated(hash = 1911343815)
     private transient ChildDao myDao;
 
-    @Generated(hash = 1302308560)
+    @Generated(hash = 87265832)
     public Child(Long id, String name, String surname, String fontSize, String pictureSize,
-            String displayMode) {
+            String displayMode, boolean isActive) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.fontSize = fontSize;
         this.pictureSize = pictureSize;
         this.displayMode = displayMode;
+        this.isActive = isActive;
     }
 
     @Generated(hash = 891984724)
@@ -77,6 +76,14 @@ public class Child {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public boolean getIsActive() {
+        return this.isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
     public String getFontSize() {
@@ -125,17 +132,15 @@ public class Child {
         return childPlans;
     }
 
-    /**
-     * Resets a to-many relationship, making the next get call to query for a fresh result.
-     */
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated(hash = 398907355)
     public synchronized void resetChildPlans() {
         childPlans = null;
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}. Entity must
-     * attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
      */
     @Generated(hash = 128553479)
     public void delete() {
@@ -146,8 +151,8 @@ public class Child {
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}. Entity must
-     * attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
+     * Entity must attached to an entity context.
      */
     @Generated(hash = 1942392019)
     public void refresh() {
@@ -158,8 +163,8 @@ public class Child {
     }
 
     /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}. Entity must
-     * attached to an entity context.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
+     * Entity must attached to an entity context.
      */
     @Generated(hash = 713229351)
     public void update() {
