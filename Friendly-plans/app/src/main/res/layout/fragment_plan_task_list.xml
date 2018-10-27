@@ -21,19 +21,12 @@
         android:layout_height="wrap_content"
         android:layout_weight="1.00"
         android:background="#cccccc"
-        android:text="@string/create_plan_tasks_list_info"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
       <Button
         android:id="@+id/id_btn_create_plan_add_tasks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="@{planTaskListEvents::eventAddTasksToPlan}"
-        android:text="@string/create_plan_add_tasks"/>
-      <Button
-        android:id="@+id/id_btn_save_plan_tasks"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/save"/>
+        android:onClick="@{planTaskListEvents::eventAddTasksToPlan}"/>
 
     </LinearLayout>
 

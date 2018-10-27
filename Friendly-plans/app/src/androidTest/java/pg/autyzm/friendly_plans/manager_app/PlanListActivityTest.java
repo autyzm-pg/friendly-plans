@@ -213,7 +213,7 @@ public class PlanListActivityTest {
 
         closeSoftKeyboard();
 
-        onView(withId(R.id.id_btn_plan_next))
+        onView(withId(R.id.id_btn_plan_create_tasks))
                 .perform(click());
 
         List<PlanTemplate> planTemplates = planTemplateRepository.get(newName);

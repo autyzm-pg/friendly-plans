@@ -21,7 +21,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1.00"
         android:background="#cccccc"
-        android:text="@string/create_plan_add_tasks_info"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
 
       <Button
