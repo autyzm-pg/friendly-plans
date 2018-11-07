@@ -19,9 +19,9 @@ public class ChildRecyclerViewAdapter extends
     private ChildItemClickListener childItemClickListener;
     private Integer selectedChildPosition;
 
-    ChildRecyclerViewAdapter(ChildItemClickListener childItemClickListener) {
+    ChildRecyclerViewAdapter(List<Child> childItemList, ChildItemClickListener childItemClickListener) {
+        this.childItemList = childItemList;
         this.childItemClickListener = childItemClickListener;
-        this.childItemList = Collections.emptyList();
     }
 
     interface ChildItemClickListener {
@@ -44,14 +44,12 @@ public class ChildRecyclerViewAdapter extends
     @Override
     public void onBindViewHolder(ChildRecyclerViewAdapter.ChildListViewHolder holder,
             int position) {
-        if (childItemList != null && !childItemList.isEmpty()) {
-            Child childItem = childItemList.get(position);
-            holder.childName.setText(childItem.getName() + " " + childItem.getSurname());
-            if (isPositionActive(position)) {
-                holder.itemView.setBackgroundColor(Color.parseColor("#cccccc"));
-            } else {
-                holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-            }
+        Child childItem = childItemList.get(position);
+        holder.childName.setText(childItem.getName() + " " + childItem.getSurname());
+        if (isPositionActive(position)) {
+            holder.itemView.setBackgroundColor(Color.parseColor("#cccccc"));
+        } else {
+            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
         }
     }
 
@@ -62,7 +60,7 @@ public class ChildRecyclerViewAdapter extends
 
     @Override
     public int getItemCount() {
-        return childItemList != null && childItemList.size() != 0 ? childItemList.size() : 0;
+        return childItemList.size();
     }
 
     Child getChild(int position) {

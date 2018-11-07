@@ -27,9 +27,9 @@ public class TaskRecyclerViewAdapter
     private TaskItemClickListener taskItemClickListener;
     private AssetsHelper assetsHelper;
 
-    public TaskRecyclerViewAdapter(TaskItemClickListener taskItemClickListener) {
+    public TaskRecyclerViewAdapter(List<TaskTemplate> taskItemList, TaskItemClickListener taskItemClickListener) {
+        this.taskItemList = taskItemList;
         this.taskItemClickListener = taskItemClickListener;
-        this.taskItemList = Collections.emptyList();
     }
 
     @Override
@@ -42,18 +42,16 @@ public class TaskRecyclerViewAdapter
 
     @Override
     public void onBindViewHolder(TaskListViewHolder holder, int position) {
-        if (taskItemList != null && !taskItemList.isEmpty()) {
-            TaskTemplate taskItem = taskItemList.get(position);
-            holder.taskName.setText(taskItem.getName());
-            setPicture(holder, taskItem);
-            setSound(holder, taskItem);
-            setDurationTime(holder, taskItem);
-        }
+        TaskTemplate taskItem = taskItemList.get(position);
+        holder.taskName.setText(taskItem.getName());
+        setPicture(holder, taskItem);
+        setSound(holder, taskItem);
+        setDurationTime(holder, taskItem);
     }
 
     @Override
     public int getItemCount() {
-        return taskItemList != null && taskItemList.size() != 0 ? taskItemList.size() : 0;
+        return taskItemList.size();
     }
 
     public void setTaskItems(List<TaskTemplate> taskItemList) {

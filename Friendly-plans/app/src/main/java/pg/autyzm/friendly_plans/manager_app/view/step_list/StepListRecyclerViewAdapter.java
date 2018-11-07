@@ -27,9 +27,9 @@ public class StepListRecyclerViewAdapter extends
     private StepItemClickListener stepItemClickListener;
     private AssetsHelper assetsHelper;
 
-    StepListRecyclerViewAdapter(StepItemClickListener stepItemClickListener) {
+    StepListRecyclerViewAdapter(List<StepTemplate> stepItemList, StepItemClickListener stepItemClickListener) {
+        this.stepItemList = stepItemList;
         this.stepItemClickListener = stepItemClickListener;
-        this.stepItemList = new ArrayList<>();
     }
 
     @Override
@@ -78,16 +78,14 @@ public class StepListRecyclerViewAdapter extends
 
     @Override
     public void onBindViewHolder(StepListViewHolder parent, int position) {
-        if (stepItemList != null && stepItemList.size() != 0) {
-            StepTemplate stepTemplate = stepItemList.get(position);
-            parent.stepName.setText(stepTemplate.getName());
-            setPicture(parent, stepTemplate);
-        }
+        StepTemplate stepTemplate = stepItemList.get(position);
+        parent.stepName.setText(stepTemplate.getName());
+        setPicture(parent, stepTemplate);
     }
 
     @Override
     public int getItemCount() {
-        return stepItemList != null && stepItemList.size() != 0 ? stepItemList.size() : 0;
+        return stepItemList.size();
     }
 
     public StepTemplate getStepTemplate(int id){

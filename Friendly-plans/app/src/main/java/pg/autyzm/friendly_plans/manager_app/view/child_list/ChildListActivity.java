@@ -97,9 +97,8 @@ public class ChildListActivity extends AppCompatActivity implements ChildListAct
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_child_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        childListAdapter = new ChildRecyclerViewAdapter(childItemClickListener);
+        childListAdapter = new ChildRecyclerViewAdapter(childRepository.getAll(), childItemClickListener);
         recyclerView.setAdapter(childListAdapter);
-        childListAdapter.setChildItems(childRepository.getAll());
 
         setActiveChildButton = (Button) findViewById(R.id.id_set_active_child);
         setActiveChildButton.setEnabled(childRepository.getByIsActive().size() > 0);

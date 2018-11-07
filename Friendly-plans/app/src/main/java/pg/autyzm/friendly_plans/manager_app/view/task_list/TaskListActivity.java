@@ -102,9 +102,8 @@ public class TaskListActivity extends AppCompatActivity implements TaskListActiv
         ActivityTaskListBinding binding = DataBindingUtil
                 .setContentView(this, R.layout.activity_task_list);
         binding.setEvents(this);
-        setUpViews();
         taskItemList = taskTemplateRepository.getByTypeId(1);
-        taskListAdapter.setTaskItems(taskItemList);
+        setUpViews();
     }
 
     @Override
@@ -140,7 +139,7 @@ public class TaskListActivity extends AppCompatActivity implements TaskListActiv
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_task_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        taskListAdapter = new TaskRecyclerViewAdapter(taskItemClickListener);
+        taskListAdapter = new TaskRecyclerViewAdapter(taskItemList, taskItemClickListener);
         recyclerView.setAdapter(taskListAdapter);
     }
 

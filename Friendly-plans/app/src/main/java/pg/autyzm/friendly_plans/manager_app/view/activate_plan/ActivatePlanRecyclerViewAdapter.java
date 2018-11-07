@@ -16,6 +16,10 @@ public class ActivatePlanRecyclerViewAdapter extends
 
     private List<PlanTemplate> planItemList;
 
+    ActivatePlanRecyclerViewAdapter(List<PlanTemplate> planItemList){
+        this.planItemList = planItemList;
+    }
+
     @Override
     public ActivatePlanRecyclerViewAdapter.ActivatePlanListViewHolder onCreateViewHolder(
             ViewGroup parent,
@@ -28,15 +32,13 @@ public class ActivatePlanRecyclerViewAdapter extends
     @Override
     public void onBindViewHolder(ActivatePlanRecyclerViewAdapter.ActivatePlanListViewHolder holder,
                                  int position) {
-        if (planItemList != null && !planItemList.isEmpty()) {
-            PlanTemplate planItem = planItemList.get(position);
-            holder.planName.setText(planItem.getName());
-        }
+        PlanTemplate planItem = planItemList.get(position);
+        holder.planName.setText(planItem.getName());
     }
 
     @Override
     public int getItemCount() {
-        return planItemList != null && planItemList.size() != 0 ? planItemList.size() : 0;
+        return planItemList.size();
     }
 
 

@@ -84,8 +84,6 @@ public class AddTasksToPlanFragment extends Fragment implements AddTasksToPlanEv
                 .findViewById(R.id.rv_create_plan_add_tasks);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        taskListAdapter = new TaskRecyclerViewAdapter(taskItemClickListener);
-        recyclerView.setAdapter(taskListAdapter);
 
         /* Show only tasks that are not already added to current plan */
         List<TaskTemplate> tasksWithThisPlan = planTemplateRepository
@@ -96,7 +94,8 @@ public class AddTasksToPlanFragment extends Fragment implements AddTasksToPlanEv
             tasks.removeAll(tasksWithThisPlan);
         }
 
-        taskListAdapter.setTaskItems(tasks);
+        taskListAdapter = new TaskRecyclerViewAdapter(tasks, taskItemClickListener);
+        recyclerView.setAdapter(taskListAdapter);
     }
 
     @Override

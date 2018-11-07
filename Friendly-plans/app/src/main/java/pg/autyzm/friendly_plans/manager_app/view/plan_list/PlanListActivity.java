@@ -79,7 +79,6 @@ public class PlanListActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_plan_list);
         setUpViews();
-        planListAdapter.setPlanItems(planTemplateRepository.getAll());
     }
 
     @Override
@@ -115,7 +114,7 @@ public class PlanListActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_plan_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        planListAdapter = new PlanRecyclerViewAdapter(planItemClickListener);
+        planListAdapter = new PlanRecyclerViewAdapter(planTemplateRepository.getAll(), planItemClickListener);
         recyclerView.setAdapter(planListAdapter);
     }
 

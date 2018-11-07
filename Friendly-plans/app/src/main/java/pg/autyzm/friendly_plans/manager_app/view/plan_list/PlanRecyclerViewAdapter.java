@@ -17,9 +17,9 @@ public class PlanRecyclerViewAdapter extends
     private List<PlanTemplate> planItemList;
     private PlanItemClickListener planItemClickListener;
 
-    PlanRecyclerViewAdapter(PlanItemClickListener planItemClickListener) {
+    PlanRecyclerViewAdapter(List<PlanTemplate> planItemList, PlanItemClickListener planItemClickListener) {
+        this.planItemList = planItemList;
         this.planItemClickListener = planItemClickListener;
-        this.planItemList = new ArrayList<>();
     }
 
     PlanTemplate getPlanItem(int position) {
@@ -43,16 +43,14 @@ public class PlanRecyclerViewAdapter extends
 
     @Override
     public void onBindViewHolder(PlanRecyclerViewAdapter.PlanListViewHolder holder, int position) {
-        if (planItemList != null && !planItemList.isEmpty()) {
-            PlanTemplate planItem = planItemList.get(position);
-            holder.planName.setText(planItem.getName());
-            holder.planItemList = planItemList;
-        }
+        PlanTemplate planItem = planItemList.get(position);
+        holder.planName.setText(planItem.getName());
+        holder.planItemList = planItemList;
     }
 
     @Override
     public int getItemCount() {
-        return planItemList != null && planItemList.size() != 0 ? planItemList.size() : 0;
+        return planItemList.size();
     }
 
     void setPlanItems(List<PlanTemplate> planItemList) {

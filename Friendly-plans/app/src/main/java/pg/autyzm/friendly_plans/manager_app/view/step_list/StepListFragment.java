@@ -131,10 +131,9 @@ public class StepListFragment extends Fragment implements StepListEvents {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        stepListRecyclerViewAdapter = new StepListRecyclerViewAdapter(stepItemClickListener);
+        stepListRecyclerViewAdapter = new StepListRecyclerViewAdapter(
+                stepTemplateRepository.getAll(taskId), stepItemClickListener);
         recyclerView.setAdapter(stepListRecyclerViewAdapter);
-
-        stepListRecyclerViewAdapter.setStepItemListItems(stepTemplateRepository.getAll(taskId));
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(stepListRecyclerViewAdapter);
         ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);

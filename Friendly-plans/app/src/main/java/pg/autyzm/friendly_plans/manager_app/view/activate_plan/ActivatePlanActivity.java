@@ -30,9 +30,9 @@ public class ActivatePlanActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_activate_plan_plan_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ActivatePlanRecyclerViewAdapter planListAdapter = new ActivatePlanRecyclerViewAdapter();
+        ActivatePlanRecyclerViewAdapter planListAdapter =
+                new ActivatePlanRecyclerViewAdapter(planTemplateRepository.getAll());
         recyclerView.setAdapter(planListAdapter);
-        planListAdapter.setPlanItems(planTemplateRepository.getAll());
 
         Button activateButton = (Button) findViewById(R.id.id_btn_activate_plan);
         activateButton.setOnClickListener(new View.OnClickListener() {

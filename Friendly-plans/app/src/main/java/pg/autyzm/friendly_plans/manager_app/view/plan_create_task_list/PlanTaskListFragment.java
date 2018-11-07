@@ -97,11 +97,9 @@ public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        taskListAdapter = new TaskRecyclerViewAdapter(taskItemClickListener);
+        taskListAdapter = new TaskRecyclerViewAdapter(
+                planTemplateRepository.getTaskWithThisPlanByTypeId(planId, typeId), taskItemClickListener);
         recyclerView.setAdapter(taskListAdapter);
-
-        taskListAdapter
-                .setTaskItems(planTemplateRepository.getTaskWithThisPlanByTypeId(planId, typeId));
     }
 
     public boolean arePlanArgumentProvided(Bundle arguments) {
