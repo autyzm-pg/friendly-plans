@@ -96,16 +96,6 @@
         android:layout_below="@+id/button_activeChildSettings"
         android:onClick="@{events::eventShowChildrenList}"
         android:text="@string/main_add_remove_child" />
-
-      <!--change child-->
-      <Button
-        android:id="@+id/button_changeActiveChild"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/button_addRemoveChild"
-        android:text="@string/main_change_active_child" />
     </RelativeLayout>
   </ScrollView>
 </layout>

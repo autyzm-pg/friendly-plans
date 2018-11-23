@@ -37,6 +37,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.doesNotExis
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertNull;
@@ -520,4 +521,28 @@ public class TaskCreateActivityTest {
         onView(withId(R.id.button_createPlan)).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void whenChangedViewChangeNavigationMenuHighlight() {
+        onView(withId(R.id.id_et_task_name))
+                .perform(replaceText(EXPECTED_NAME));
+        closeSoftKeyboard();
+
+        onView(withId(R.id.id_btn_steps))
+                .perform(click());
+        onView(withId(R.id.id_navigation_steps))
+                .check(matches(isEnabled()));
+        onView(withId(R.id.id_navigation_basic_info))
+                .check(matches(not(isEnabled())));
+
+        Espresso.pressBack();
+        onView(withId(R.id.id_navigation_basic_info))
+                .check(matches(isEnabled()));
+        onView(withId(R.id.id_navigation_steps))
+                .check(matches(not(isEnabled())));
+
+        closeSoftKeyboard();
+
+        List<TaskTemplate> taskTemplates = taskTemplateRepository.get(EXPECTED_NAME);
+        idsToDelete.add(taskTemplates.get(0).getId());
+    }
 }

@@ -6,18 +6,19 @@
   android:orientation="vertical">
 
   <Button
+    android:id="@+id/id_navigation_basic_info"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/basic_info"/>
+    android:enabled="true"
+    android:clickable="false"
+    android:text="@string/basic_info" />
 
   <Button
+    android:id="@+id/id_navigation_steps"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/steps"/>
-
-  <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/save"/>
+    android:enabled="false"
+    android:clickable="false"
+    android:text="@string/steps" />
 
 </LinearLayout>

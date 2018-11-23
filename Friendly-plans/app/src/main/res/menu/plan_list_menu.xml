@@ -4,10 +4,11 @@
 
         <!-- our search option -->
         <item
-            android:id="@+id/menu_search"
-            android:orderInCategory="100"
-            android:title="Search"
-            app:actionViewClass="android.widget.SearchView"
-            app:showAsAction="always" />
+          android:id="@+id/menu_search"
+          android:icon="@android:drawable/ic_menu_search"
+          android:orderInCategory="100"
+          android:title="Search"
+          app:actionViewClass="android.widget.SearchView"
+          app:showAsAction="always" />
 
     </menu>

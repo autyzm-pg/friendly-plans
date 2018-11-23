@@ -6,13 +6,12 @@
   android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_plan_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="52dp"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/item_plan" />
+      android:id="@+id/rv_plan_list"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_alignParentStart="true"
+      android:layout_alignParentTop="true"
+      android:scrollbars="vertical"
+      tools:listitem="@layout/item_plan" />
 
 </RelativeLayout>
