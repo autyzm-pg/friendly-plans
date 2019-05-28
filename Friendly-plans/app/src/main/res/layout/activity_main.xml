@@ -29,6 +29,7 @@
           android:layout_alignParentStart="true"
           android:layout_alignParentTop="true"
           android:onClick="@{events::eventActivatePlan}"
+          android:textSize="@dimen/main_fontSize"
           android:text="@string/main_activate_plan" />
 
       <!-- plan-->
@@ -40,6 +41,7 @@
         android:layout_alignParentStart="true"
           android:layout_below="@+id/button_activatePlan"
         android:onClick="@{events::eventCreatePlan}"
+          android:textSize="@dimen/main_fontSize"      
         android:text="@string/main_create_plan" />
 
       <!-- task-->
@@ -51,6 +53,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/button_createPlan"
         android:onClick="@{events::eventCreateTask}"
+          android:textSize="@dimen/main_fontSize"
         android:text="@string/main_create_task" />
 
       <!--list of plans-->
@@ -62,6 +65,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/button_createTask"
         android:onClick="@{events::eventShowPlanList}"
+          android:textSize="@dimen/main_fontSize"
         android:text="@string/main_list_of_plans_edit_plan" />
 
       <!--list of tasks-->
@@ -73,6 +77,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/button_listOfPlans"
         android:onClick="@{events::eventShowTaskList}"
+          android:textSize="@dimen/main_fontSize"
         android:text="@string/main_list_of_tasks_edit_task" />
 
       <!--settings-->
@@ -84,6 +89,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/button_listOfTasks"
         android:onClick="@{events::eventChildSettings}"
+          android:textSize="@dimen/main_fontSize"
         android:text="@string/main_active_child_settings" />
 
       <!--add/remove child-->
@@ -95,6 +101,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/button_activeChildSettings"
         android:onClick="@{events::eventShowChildrenList}"
+          android:textSize="@dimen/main_fontSize"
         android:text="@string/main_add_remove_child" />
     </RelativeLayout>
   </ScrollView>
