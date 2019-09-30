@@ -44,7 +44,7 @@
         android:layout_row="1"
         android:cursorVisible="true"
         android:inputType="text"
-        android:minWidth="200dp"
+        android:minWidth="350dp"
         android:text="@={childListData.firstName}"
         tools:text="This is child first name." />
 
@@ -59,7 +59,7 @@
         android:layout_row="1"
         android:cursorVisible="true"
         android:inputType="text"
-        android:minWidth="200dp"
+        android:minWidth="350dp"
         android:text="@={childListData.lastName}"
         tools:text="This is child last name." />
 

@@ -26,6 +26,7 @@ public class TaskRecyclerViewAdapter
     private List<TaskTemplate> taskItemList;
     private TaskItemClickListener taskItemClickListener;
     private AssetsHelper assetsHelper;
+    private boolean withoutDelete = false;
 
     public TaskRecyclerViewAdapter(TaskItemClickListener taskItemClickListener) {
         this.taskItemClickListener = taskItemClickListener;
@@ -48,7 +49,14 @@ public class TaskRecyclerViewAdapter
             setPicture(holder, taskItem);
             setSound(holder, taskItem);
             setDurationTime(holder, taskItem);
+            if(withoutDelete){
+                holder.removeButton.setVisibility(View.INVISIBLE);
+            }
         }
+    }
+
+    public void setDeleteInvisible(){
+        withoutDelete = true;
     }
 
     @Override

@@ -1,7 +1,12 @@
 package database.repository;
 
+import database.entities.PlanTask;
+import database.entities.PlanTaskDao;
+import database.entities.PlanTaskTemplateDao.Properties;
+import database.entities.StepTemplateDao;
 import database.entities.TaskTemplate;
 import database.entities.TaskTemplateDao;
+import java.util.ArrayList;
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -46,16 +51,9 @@ public class PlanTemplateRepository {
         get(planId).resetTasksWithThisPlan();
     }
 
-    public void deleteTaskFromThisPlan(Long planId, Long taskId){
-        PlanTaskTemplateDao planTaskTemplateDao = daoSession.getPlanTaskTemplateDao();
-        QueryBuilder<PlanTaskTemplate> queryBuilder = planTaskTemplateDao.queryBuilder();
+    public void deleteTaskFromThisPlan(PlanTaskTemplate planTaskTemplate) {
 
-        PlanTaskTemplate planTaskTemplate = queryBuilder.where(
-                PlanTaskTemplateDao.Properties.PlanTemplateId.eq(planId),
-                PlanTaskTemplateDao.Properties.TaskTemplateId.eq(taskId))
-                .uniqueOrThrow();
-
-        planTaskTemplateDao.delete(planTaskTemplate);
+        daoSession.getPlanTaskTemplateDao().delete(planTaskTemplate);
     }
 
 
@@ -105,5 +103,24 @@ public class PlanTemplateRepository {
 
     public void deleteAll() {
         daoSession.getPlanTemplateDao().deleteAll();
+    }
+
+    public List<PlanTaskTemplate> getPlanTasksByTypeId(Long planId, Integer typeId) {
+        List<PlanTaskTemplate> planTask = daoSession.getPlanTaskTemplateDao()
+                .queryBuilder()
+                .where(PlanTaskTemplateDao.Properties.PlanTemplateId.eq(planId))
+                .orderAsc(PlanTaskTemplateDao.Properties.Order)
+                .list();
+        List<PlanTaskTemplate>  result = new ArrayList<>();
+        for(PlanTaskTemplate task : planTask){
+            if(task.getTaskTemplate().getTypeId() == typeId){
+                result.add(task);
+            }
+        }
+        return result;
+    }
+
+    public void updatePlanTask(PlanTaskTemplate planTask){
+        daoSession.getPlanTaskTemplateDao().update(planTask);
     }
 }

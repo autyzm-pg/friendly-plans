@@ -2,6 +2,7 @@ package database.repository;
 
 import database.entities.Child;
 import database.entities.ChildDao.Properties;
+import database.entities.ChildPlan;
 import database.entities.DaoSession;
 import java.util.List;
 
@@ -17,8 +18,23 @@ public class ChildRepository {
         Child childTemplate = new Child();
         childTemplate.setName(firstName);
         childTemplate.setSurname(lastName);
+        childTemplate.setFontSize("Big");
+        childTemplate.setTasksDisplayMode("List");
+        childTemplate.setStepsDisplayMode("List");
         childTemplate.setIsActive(false);
         return daoSession.getChildDao().insert(childTemplate);
+    }
+
+    public void update(Child child){
+        daoSession.getChildDao().update(child);
+    }
+
+    public void refresh(Child child){
+        daoSession.getChildDao().load(child.getId()).refresh();
+    }
+
+    public void reset(Child child){
+        daoSession.getChildDao().load(child.getId()).resetChildPlans();
     }
 
     public void setIsActive(Child child, boolean isActive) {
@@ -32,7 +48,7 @@ public class ChildRepository {
             child.setIsActive(false);
         }
         daoSession.getChildDao().updateInTx(children);
-    };
+    }
 
     public List<Child> getBySurname(String surname) {
         return daoSession.getChildDao()
@@ -58,6 +74,10 @@ public class ChildRepository {
                 .queryBuilder()
                 .where(Properties.IsActive.eq(true))
                 .list();
+    }
+
+    public List<ChildPlan> getChildPlans(Long id){
+        return daoSession.getChildDao().load(id).getChildPlans();
     }
 
     public void deleteAll() {

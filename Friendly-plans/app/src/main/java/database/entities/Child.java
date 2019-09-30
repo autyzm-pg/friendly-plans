@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
+import org.greenrobot.greendao.annotation.ToOne;
 
 @Entity
 public class Child {
@@ -23,7 +24,11 @@ public class Child {
 
     private String pictureSize;
 
-    private String displayMode;
+    private String tasksDisplayMode;
+
+    private String stepsDisplayMode;
+
+    private Long timerSoundId;
 
     private boolean isActive;
 
@@ -38,15 +43,20 @@ public class Child {
     @Generated(hash = 1911343815)
     private transient ChildDao myDao;
 
-    @Generated(hash = 87265832)
+    @ToOne(joinProperty = "timerSoundId")
+    private Asset sound;
+
+    @Generated(hash = 1058647110)
     public Child(Long id, String name, String surname, String fontSize, String pictureSize,
-            String displayMode, boolean isActive) {
+            String tasksDisplayMode, String stepsDisplayMode, Long timerSoundId, boolean isActive) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.fontSize = fontSize;
         this.pictureSize = pictureSize;
-        this.displayMode = displayMode;
+        this.tasksDisplayMode = tasksDisplayMode;
+        this.stepsDisplayMode = stepsDisplayMode;
+        this.timerSoundId = timerSoundId;
         this.isActive = isActive;
     }
 
@@ -102,14 +112,29 @@ public class Child {
         this.pictureSize = pictureSize;
     }
 
-    public String getDisplayMode() {
-        return this.displayMode;
+    public String getTasksDisplayMode() {
+        return tasksDisplayMode;
     }
 
-    public void setDisplayMode(String displayMode) {
-        this.displayMode = displayMode;
+    public void setTasksDisplayMode(String tasksDisplayMode) {
+        this.tasksDisplayMode = tasksDisplayMode;
     }
 
+    public String getStepsDisplayMode() {
+        return stepsDisplayMode;
+    }
+
+    public void setStepsDisplayMode(String stepsDisplayMode) {
+        this.stepsDisplayMode = stepsDisplayMode;
+    }
+
+    public Long getTimerSoundId() {
+        return timerSoundId;
+    }
+
+    public void setTimerSoundId(Long timerSoundId) {
+        this.timerSoundId = timerSoundId;
+    }
     /**
      * To-many relationship, resolved on first access (and after reset). Changes to to-many
      * relations are not persisted, make changes to the target entity.
@@ -131,6 +156,9 @@ public class Child {
         }
         return childPlans;
     }
+
+    @Generated(hash = 286221468)
+    private transient Long sound__resolvedKey;
 
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated(hash = 398907355)
@@ -174,11 +202,39 @@ public class Child {
         myDao.update(this);
     }
 
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 375251730)
+    public Asset getSound() {
+        Long __key = this.timerSoundId;
+        if (sound__resolvedKey == null || !sound__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            AssetDao targetDao = daoSession.getAssetDao();
+            Asset soundNew = targetDao.load(__key);
+            synchronized (this) {
+                sound = soundNew;
+                sound__resolvedKey = __key;
+            }
+        }
+        return sound;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 924831495)
+    public void setSound(Asset sound) {
+        synchronized (this) {
+            this.sound = sound;
+            timerSoundId = sound == null ? null : sound.getId();
+            sound__resolvedKey = timerSoundId;
+        }
+    }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 2128569439)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getChildDao() : null;
     }
-
 }

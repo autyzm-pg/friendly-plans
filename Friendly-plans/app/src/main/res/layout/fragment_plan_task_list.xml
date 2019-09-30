@@ -39,7 +39,7 @@
       android:layout_alignParentEnd="true"
       android:layout_below="@+id/id_nav_bar"
       android:scrollbars="vertical"
-      tools:listitem="@layout/item_task">
+      tools:listitem="@layout/item_plan_task">
     </android.support.v7.widget.RecyclerView>
 
   </RelativeLayout>

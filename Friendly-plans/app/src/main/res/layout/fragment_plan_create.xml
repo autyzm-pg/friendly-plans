@@ -32,22 +32,34 @@
         android:text="@string/plan_create_description"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-      <TextView
-        android:id="@+id/id_tv_plan_name_label"
-        android:layout_column="0"
-        android:layout_row="1"
-        android:text="@string/plan_name" />
+      <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:stretchColumns="1">
 
-      <!--Plan name -->
-      <EditText
-        android:id="@+id/id_et_plan_name"
-        android:layout_column="1"
-        android:layout_row="1"
-        android:cursorVisible="true"
-        android:inputType="text"
-        android:minWidth="200dp"
-        android:text="@={planData.planName}"
-        tools:text="This is plan name." />
+      <!-- Page title -->
+
+        <TableRow
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+
+          <TextView
+            android:id="@+id/id_tv_plan_name_label"
+            android:layout_column="0"
+            android:text="@string/plan_name" />
+
+          <!--Plan name -->
+          <EditText
+            android:id="@+id/id_et_plan_name"
+            android:layout_column="1"
+            android:cursorVisible="true"
+            android:inputType="text"
+            android:minWidth="200dp"
+            android:text="@={planData.planName}"
+            tools:text="This is plan name." />
+        </TableRow>
+      </TableLayout>
 
       <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/id_layout_plan_add_elements"
@@ -62,19 +74,19 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:onClick="@{() -> planDataClick.savePlanData(planData, 1)}"
-          android:text="@string/create_plan_add_tasks_type_1" />
+          android:text="@string/create_plan_add_tasks" />
         <Button
           android:id="@+id/id_btn_plan_create_prizes"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:onClick="@{() -> planDataClick.savePlanData(planData, 2)}"
-          android:text="@string/create_plan_add_tasks_type_2" />
+          android:text="@string/create_plan_add_prizes" />
         <Button
           android:id="@+id/id_btn_plan_create_interactions"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:onClick="@{() -> planDataClick.savePlanData(planData, 3)}"
-          android:text="@string/create_plan_add_tasks_type_3" />
+          android:text="@string/create_plan_add_interactions" />
       </LinearLayout>
 
     </GridLayout>

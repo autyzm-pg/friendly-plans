@@ -64,6 +64,7 @@ public class AddTasksToPlanFragment extends Fragment implements AddTasksToPlanEv
         binding.setAddTasksToPlanEvents(this);
 
         View view = binding.getRoot();
+
         return view;
     }
 
@@ -97,6 +98,7 @@ public class AddTasksToPlanFragment extends Fragment implements AddTasksToPlanEv
         }
 
         taskListAdapter.setTaskItems(tasks);
+        taskListAdapter.setDeleteInvisible();
     }
 
     @Override

@@ -6,12 +6,17 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.Button;
 import android.widget.TextView;
+import database.entities.PlanTask;
+import database.entities.PlanTaskTemplate;
+import database.entities.StepTemplate;
+import database.entities.TaskTemplate;
 import javax.inject.Inject;
 
 import database.repository.PlanTemplateRepository;
@@ -19,31 +24,53 @@ import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.FragmentPlanTaskListBinding;
+import pg.autyzm.friendly_plans.item_touch_helper.SimpleItemTouchHelperCallback;
 import pg.autyzm.friendly_plans.manager_app.view.plan_create_add_tasks.AddTasksToPlanFragment;
 import pg.autyzm.friendly_plans.manager_app.view.task_list.TaskRecyclerViewAdapter;
 import pg.autyzm.friendly_plans.manager_app.view.task_type_enum.TaskType;
+import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
 
 public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents {
 
-    private TaskRecyclerViewAdapter taskListAdapter;
+    private PlanTaskRecyclerViewAdapter taskListAdapter;
     private Long planId;
     private Integer typeId;
 
     @Inject
     PlanTemplateRepository planTemplateRepository;
+    @Inject
+    ToastUserNotifier toastUserNotifier;
 
-    TaskRecyclerViewAdapter.TaskItemClickListener taskItemClickListener =
-            new TaskRecyclerViewAdapter.TaskItemClickListener() {
+    PlanTaskRecyclerViewAdapter.TaskItemClickListener taskItemClickListener =
+            new PlanTaskRecyclerViewAdapter.TaskItemClickListener() {
+                public boolean removedTask= false;
                 @Override
                 public void onTaskItemClick(int position) {
                     /* What to do after click? Remove task? Edit? */
                 }
 
                 @Override
+                public void onMoveItem() {
+                    Boolean reordered = false;
+                    for(int i = 0; i < taskListAdapter.getItemCount(); i++){
+                        PlanTaskTemplate planTaskItem =  taskListAdapter.getTaskItem(i);
+                        if(i != planTaskItem.getOrder()) {
+                            planTaskItem.setOrder(i);
+                            planTemplateRepository.updatePlanTask(planTaskItem);
+                            reordered = true;
+                        }
+                        if(!removedTask && reordered){
+                            toastUserNotifier.displayNotifications(
+                                    R.string.task_reordered_message,
+                                    getActivity().getApplicationContext());
+                        }
+                    }
+                }
+
+                @Override
                 public void onRemoveTaskClick(int position) {
-                    planTemplateRepository.deleteTaskFromThisPlan(
-                            planId,
-                            taskListAdapter.getTaskItem(position).getId());
+                    planTemplateRepository.deleteTaskFromThisPlan(taskListAdapter.getTaskItem(position));
+                    removedTask = true;
                     taskListAdapter.removeListItem(position);
                 }
             };
@@ -97,11 +124,16 @@ public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        taskListAdapter = new TaskRecyclerViewAdapter(taskItemClickListener);
+        taskListAdapter = new PlanTaskRecyclerViewAdapter(taskItemClickListener);
         recyclerView.setAdapter(taskListAdapter);
 
         taskListAdapter
-                .setTaskItems(planTemplateRepository.getTaskWithThisPlanByTypeId(planId, typeId));
+                .setTaskItems(planTemplateRepository.getPlanTasksByTypeId(planId, typeId));
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(taskListAdapter);
+        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(recyclerView);
+
     }
 
     public boolean arePlanArgumentProvided(Bundle arguments) {
@@ -111,7 +143,7 @@ public class PlanTaskListFragment extends Fragment implements PlanTaskListEvents
 
     public void onResume() {
         taskListAdapter
-                .setTaskItems(planTemplateRepository.getTaskWithThisPlanByTypeId(planId, typeId));
+                .setTaskItems(planTemplateRepository.getPlanTasksByTypeId(planId, typeId));
         taskListAdapter.notifyDataSetChanged();
         super.onResume();
     }

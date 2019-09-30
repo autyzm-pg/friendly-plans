@@ -13,7 +13,7 @@ import pg.autyzm.friendly_plans.manager_app.view.plan_create.PlanCreateActivity;
 import pg.autyzm.friendly_plans.manager_app.view.plan_list.PlanListActivity;
 import pg.autyzm.friendly_plans.manager_app.view.task_create.TaskCreateActivity;
 import pg.autyzm.friendly_plans.manager_app.view.task_list.TaskListActivity;
-import pg.autyzm.friendly_plans.view.child_settings.ChildSettingsActivity;
+import pg.autyzm.friendly_plans.manager_app.view.child_settings.ChildSettingsActivity;
 
 public class MainActivity extends AppCompatActivity implements MainActivityEvents {
 
