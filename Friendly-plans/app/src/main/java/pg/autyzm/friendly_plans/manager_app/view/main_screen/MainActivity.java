@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityEvent
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Integer test = 1;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
