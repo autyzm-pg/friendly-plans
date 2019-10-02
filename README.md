@@ -7,6 +7,7 @@
 <img src="/doc/graphic/friendly-plan-logo.png" width="200" height="200" />
 
 ## About
+TEST
 Friendly Plans is an application supporting autism treatment.
 It provides a digital version of activity schedules. More about treatment (ENG): [PCDI website](http://www.pcdi.org/videos/)
 
