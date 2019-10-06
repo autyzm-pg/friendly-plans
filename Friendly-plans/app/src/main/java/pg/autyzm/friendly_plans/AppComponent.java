@@ -13,6 +13,7 @@ import database.repository.TaskTemplateRepository;
 import javax.inject.Singleton;
 import pg.autyzm.friendly_plans.asset.AssetsHelper;
 import pg.autyzm.friendly_plans.asset.AssetsHelperModule;
+import pg.autyzm.friendly_plans.child_app.view.MainActivity;
 import pg.autyzm.friendly_plans.file_picker.FilePickerModule;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
 import pg.autyzm.friendly_plans.manager_app.view.activate_plan.ActivatePlanActivity;
@@ -107,4 +108,6 @@ public interface AppComponent {
     void inject(ChildSettingsFragment childSettingsFragment);
 
     void inject(SoundComponent soundComponent);
+
+    void inject(MainActivity activity);
 }
