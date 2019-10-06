@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:padding="8dp"
+  android:orientation="horizontal">
+
+  <!--sound icon-->
+  <ImageView
+    android:id="@+id/id_iv_task_sound_icon"
+    android:layout_width="96dp"
+    android:layout_height="96dp"
+    app:srcCompat="@drawable/ic_playing_sound"/>
+
+  <!--task image-->
+  <ImageView
+    android:id="@+id/id_iv_task_picture"
+    android:layout_width="96dp"
+    android:layout_height="96dp"
+    app:srcCompat="@drawable/ic_placeholder"/>
+
+  <ImageView
+    android:id="@+id/id_task_reorder"
+    android:layout_width="?listPreferredItemHeight"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical|right"
+    android:scaleType="center"
+    android:src="@drawable/ic_reorder_black_24dp" />
+
+  <!--task name-->
+  <TextView
+    android:id="@+id/id_tv_task_name"
+    android:layout_width="271dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:text="Task name"
+    android:textSize="24sp" />
+
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:orientation="vertical">
+
+    <!--task duration icon-->
+    <ImageView
+      android:id="@+id/id_iv_task_duration_icon"
+      android:layout_width="48dp"
+      android:layout_height="48dp"
+      app:srcCompat="@drawable/ic_placeholder_time" />
+
+    <!--duration time-->
+    <TextView
+      android:id="@+id/id_tv_task_duration_time"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_gravity="center_horizontal"
+      android:text="5s"
+      android:textSize="16sp" />
+  </LinearLayout>
+
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:layout_marginStart="15dp"
+    android:orientation="vertical">
+
+    <ImageButton
+      android:id="@+id/id_remove_task"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:src="@drawable/ic_delete_black_24dp" />
+  </LinearLayout>
+
+</LinearLayout>

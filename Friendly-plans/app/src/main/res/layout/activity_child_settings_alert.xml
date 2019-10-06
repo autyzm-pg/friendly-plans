@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+  <data>
+    <variable
+      name="childSettingsEvents"
+      type="pg.autyzm.friendly_plans.manager_app.view.child_settings.ChildSettingsActivityEvents" />
+  </data>
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/id_layout_child_settings_activity_alert"
+    android:gravity="center_vertical|center_horizontal"
+    android:orientation="vertical"
+    tools:context=".manager_app.view.child_settings.ChildSettingsFragment">
+
+    <TextView
+      android:id="@+id/id_tv_child_settings_alert"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_vertical|center_horizontal"
+      android:text="@string/child_settings_alert"
+      android:textAlignment="center"
+      android:textSize="24sp" />
+    <Button
+      android:id="@+id/id_btn_child_settings_alert_choose_profile"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="20dp"
+      android:gravity="center_horizontal|center"
+      android:onClick="@{childSettingsEvents::eventSelectActiveChild}"
+      android:text="@string/child_settings_alert_choose_profile" />
+  </LinearLayout>
+</layout>
