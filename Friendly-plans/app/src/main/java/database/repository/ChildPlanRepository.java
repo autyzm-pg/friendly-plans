@@ -2,6 +2,7 @@ package database.repository;
 
 import database.entities.Child;
 import database.entities.ChildPlan;
+import database.entities.ChildPlanDao;
 import database.entities.DaoSession;
 import java.util.List;
 
@@ -30,6 +31,14 @@ public class ChildPlanRepository {
             childPlan.setIsActive(false);
         }
         daoSession.getChildPlanDao().updateInTx(childPlans);
+    }
+
+    public ChildPlan getActivePlan(){
+        List<ChildPlan> planList = daoSession.getChildPlanDao()
+                .queryBuilder()
+                .where(ChildPlanDao.Properties.IsActive.eq(true))
+                .list();
+        return planList.size() > 0 ? planList.get(0) : null;
     }
 
     public void deleteAll() {daoSession.getChildPlanDao().deleteAll();}
