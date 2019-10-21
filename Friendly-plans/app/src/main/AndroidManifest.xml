@@ -44,7 +44,6 @@
     <activity
       android:name=".manager_app.view.child_settings.ChildSettingsActivity"
       android:screenOrientation="landscape"/>
-
     <activity
         android:name=".child_app.view.MainActivity"
         android:screenOrientation="landscape"
@@ -56,6 +55,8 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
-
+    <activity
+        android:name=".child_app.view.task_list.TaskListActivity"
+        android:screenOrientation="landscape"/>
   </application>
 </manifest>
