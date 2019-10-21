@@ -8,24 +8,18 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import database.entities.PlanTask;
-import database.entities.PlanTemplate;
 import database.entities.TaskTemplate;
 import pg.autyzm.friendly_plans.R;
 
 public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerViewAdapter.TaskRecyclerViewHolder> {
     private List<TaskTemplate> tasks;
-    private TextView planName;
 
     static class TaskRecyclerViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
         TextView taskName;
-        private List<TaskTemplate> tasks;
 
-        TaskRecyclerViewHolder(View itemView, List<TaskTemplate> tasks) {
+        TaskRecyclerViewHolder(View itemView) {
             super(itemView);
             this.taskName = (TextView) itemView.findViewById(R.id.id_tv_task_name);
-            this.tasks = tasks;
         }
     }
 
@@ -33,27 +27,22 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         this.tasks = tasks;
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
     public TaskRecyclerViewAdapter.TaskRecyclerViewHolder onCreateViewHolder(ViewGroup parent,
                                                                              int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
+        View taskView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.child_app_item_task, parent, false);
-        TaskRecyclerViewHolder viewHolder = new TaskRecyclerViewHolder(v, tasks);
-        return viewHolder;
+        return new TaskRecyclerViewHolder(taskView);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(TaskRecyclerViewHolder holder, int position) {
         if (tasks != null && !tasks.isEmpty()) {
             TaskTemplate task = tasks.get(position);
             holder.taskName.setText(task.getName());
-            holder.tasks = tasks;
         }
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return tasks.size();
