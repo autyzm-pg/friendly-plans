@@ -35,7 +35,7 @@ public class TaskListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         ChildPlan activePlan = childPlanRepository.getActivePlan();
         List<TaskTemplate> tasks = activePlan.getPlanTemplate().getTasksWithThisPlan();
-        TaskRecyclerViewAdapter mAdapter = new TaskRecyclerViewAdapter(tasks);
-        recyclerView.setAdapter(mAdapter);
+        TaskRecyclerViewAdapter taskRecyclerViewAdapter = new TaskRecyclerViewAdapter(tasks);
+        recyclerView.setAdapter(taskRecyclerViewAdapter);
     }
 }
