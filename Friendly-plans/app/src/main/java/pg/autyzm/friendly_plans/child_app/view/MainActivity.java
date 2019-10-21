@@ -1,5 +1,6 @@
 package pg.autyzm.friendly_plans.child_app.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import database.entities.ChildPlan;
 import database.repository.ChildPlanRepository;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
+import pg.autyzm.friendly_plans.child_app.view.task_list.TaskListActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         ((App) getApplication()).getAppComponent().inject(this);
         activePlan = childPlanRepository.getActivePlan();
         if (activePlan != null) {
+            Intent planList = new Intent(MainActivity.this, TaskListActivity.class);
+            startActivity(planList);
             setUpView();
         }
         //Todo - else: redirect to finish activity

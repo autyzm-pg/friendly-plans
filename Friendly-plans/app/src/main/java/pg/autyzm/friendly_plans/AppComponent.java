@@ -110,4 +110,6 @@ public interface AppComponent {
     void inject(SoundComponent soundComponent);
 
     void inject(MainActivity activity);
+
+    void inject(pg.autyzm.friendly_plans.child_app.view.task_list.TaskListActivity taskListActivity);
 }
