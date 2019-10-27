@@ -26,13 +26,15 @@ public class MainActivity extends AppCompatActivity {
         ((App) getApplication()).getAppComponent().inject(this);
         activePlan = childPlanRepository.getActivePlan();
         if (activePlan != null) {
-            Intent taskList = new Intent(MainActivity.this, TaskListActivity.class);
-            startActivity(taskList);
-            setUpView();
+            Intent planList = new Intent(MainActivity.this, TaskListActivity.class);
+            startActivity(planList);
         }
-        //Todo - else: redirect to finish activity
+        else
+            setUpView();
     }
 
-    private void setUpView() { }
+    private void setUpView() {
+        setContentView(R.layout.child_app_activity_main);
+    }
 
 }
