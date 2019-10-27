@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
         ((App) getApplication()).getAppComponent().inject(this);
         activePlan = childPlanRepository.getActivePlan();
         if (activePlan != null) {
-            Intent planList = new Intent(MainActivity.this, TaskListActivity.class);
-            startActivity(planList);
+            Intent taskList = new Intent(MainActivity.this, TaskListActivity.class);
+            startActivity(taskList);
         }
         else
             setUpView();
