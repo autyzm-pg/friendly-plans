@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
             Intent taskList = new Intent(MainActivity.this, TaskListActivity.class);
             startActivity(taskList);
         }
-        else
-            setUpView();
+        
+        setUpView();
     }
 
     private void setUpView() {
