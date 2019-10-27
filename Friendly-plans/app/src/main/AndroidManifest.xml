@@ -48,6 +48,7 @@
         android:name=".child_app.view.MainActivity"
         android:screenOrientation="landscape"
         android:label="@string/child_app_name"
+        android:noHistory="true"
         android:taskAffinity="pg.autyzm.friendly_plans.ChildTask">
 
       <intent-filter>
