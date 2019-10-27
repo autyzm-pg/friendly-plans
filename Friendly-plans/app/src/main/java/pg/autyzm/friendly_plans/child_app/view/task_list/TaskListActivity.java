@@ -28,6 +28,11 @@ public class TaskListActivity extends AppCompatActivity {
             new TaskRecyclerViewAdapter.TaskItemClickListener() {
 
                 @Override
+                public void timerIconListener(int position) {
+                    // todo
+                }
+
+                @Override
                 public void stepsIconListener(int position) {
                     Bundle bundle = new Bundle();
                     bundle.putLong(ActivityProperties.TASK_ID,

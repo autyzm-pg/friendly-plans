@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import database.entities.TaskTemplate;
@@ -17,29 +19,53 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     private TaskItemClickListener taskItemClickListener;
 
     protected interface TaskItemClickListener {
+        void timerIconListener(int position);
         void stepsIconListener(int position);
     }
 
     static class TaskRecyclerViewHolder extends RecyclerView.ViewHolder {
         TextView taskName;
-        ImageView stepsPicture;
+        TextView taskDuration;
+        ImageView actionPicture;
         TaskItemClickListener taskItemClickListener;
+        boolean hasTimer = false;
 
         TaskRecyclerViewHolder(View itemView, final TaskItemClickListener taskItemClickListener) {
             super(itemView);
             this.taskName = (TextView) itemView.findViewById(R.id.id_tv_task_name);
-            this.stepsPicture = (ImageView) itemView.findViewById(R.id.id_step_list_icon);
-            this.stepsPicture.setOnClickListener(stepsIconListener);
+            this.actionPicture = (ImageView) itemView.findViewById(R.id.id_task_activity_icon);
+            this.taskDuration = (TextView) itemView.findViewById(R.id.id_tv_task_duration_time);
+            this.actionPicture.setOnClickListener(actionIconListener);
             this.taskItemClickListener = taskItemClickListener;
         }
 
-
-        View.OnClickListener stepsIconListener = new View.OnClickListener() {
+        View.OnClickListener actionIconListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                taskItemClickListener.stepsIconListener(getAdapterPosition());
+                if(hasTimer)
+                    taskItemClickListener.timerIconListener(getAdapterPosition());
+                else
+                    taskItemClickListener.stepsIconListener(getAdapterPosition());
             }
         };
+
+        protected void setUpHolder(TaskTemplate task){
+            taskName.setText(task.getName());
+
+            if (!task.getStepTemplates().isEmpty()) {
+                actionPicture.setImageResource(R.drawable.ksiazki);
+                taskDuration.setVisibility(View.INVISIBLE);
+            }
+            else if (task.getDurationTime() != null) {
+                actionPicture.setImageResource(R.drawable.timer);
+                taskDuration.setText(String.format("%ss", task.getDurationTime().toString()));
+                hasTimer = true;
+            }
+            else {
+                actionPicture.setVisibility(View.INVISIBLE);
+                taskDuration.setVisibility(View.INVISIBLE);
+            }
+        }
     }
 
     TaskRecyclerViewAdapter(List<TaskTemplate> tasks, TaskItemClickListener taskItemClickListener) {
@@ -59,9 +85,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     public void onBindViewHolder(TaskRecyclerViewHolder holder, int position) {
         if (tasks != null && !tasks.isEmpty()) {
             TaskTemplate task = tasks.get(position);
-            holder.taskName.setText(task.getName());
-            if (task.getStepTemplates().isEmpty())
-                holder.stepsPicture.setVisibility(View.INVISIBLE);
+            holder.setUpHolder(task);
         }
     }
 
