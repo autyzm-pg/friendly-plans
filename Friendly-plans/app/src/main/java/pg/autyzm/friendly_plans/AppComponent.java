@@ -112,4 +112,6 @@ public interface AppComponent {
     void inject(MainActivity activity);
 
     void inject(pg.autyzm.friendly_plans.child_app.view.task_list.TaskListActivity taskListActivity);
+
+    void inject(pg.autyzm.friendly_plans.child_app.view.step_list.StepListActivity stepListActivity);
 }
