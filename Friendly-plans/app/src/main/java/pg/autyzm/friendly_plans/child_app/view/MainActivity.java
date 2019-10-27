@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getIntent().addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         super.onCreate(savedInstanceState);
         ((App) getApplication()).getAppComponent().inject(this);
         activePlan = childPlanRepository.getActivePlan();
