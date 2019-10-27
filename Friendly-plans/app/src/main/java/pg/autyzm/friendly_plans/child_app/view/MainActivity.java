@@ -20,23 +20,20 @@ public class MainActivity extends AppCompatActivity {
 
     ChildPlan activePlan;
 
-    TextView planNameWidget;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getIntent().addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         super.onCreate(savedInstanceState);
         ((App) getApplication()).getAppComponent().inject(this);
         activePlan = childPlanRepository.getActivePlan();
         if (activePlan != null) {
-            Intent planList = new Intent(MainActivity.this, TaskListActivity.class);
-            startActivity(planList);
+            Intent taskList = new Intent(MainActivity.this, TaskListActivity.class);
+            startActivity(taskList);
             setUpView();
         }
         //Todo - else: redirect to finish activity
     }
 
-    private void setUpView() {
-        setContentView(R.layout.child_app_activity_main);
-    }
+    private void setUpView() { }
 
 }
