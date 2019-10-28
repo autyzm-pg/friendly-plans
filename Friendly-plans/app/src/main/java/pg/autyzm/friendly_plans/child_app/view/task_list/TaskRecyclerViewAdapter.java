@@ -17,7 +17,6 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     private TaskItemClickListener taskItemClickListener;
 
     protected interface TaskItemClickListener {
-        void timerIconListener(int position);
         void stepsIconListener(int position);
     }
 
@@ -40,8 +39,9 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         View.OnClickListener actionIconListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(hasTimer)
-                    taskItemClickListener.timerIconListener(getAdapterPosition());
+                if(hasTimer){
+                    // todo
+                }
                 else
                     taskItemClickListener.stepsIconListener(getAdapterPosition());
             }
