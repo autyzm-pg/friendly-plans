@@ -20,8 +20,18 @@
       android:text="Task name"
       android:textSize="24sp" />
 
+  <!--duration time-->
+  <TextView
+      android:id="@+id/id_tv_task_duration_time"
+      android:layout_width="wrap_content"
+      android:layout_height="30dp"
+      android:layout_gravity="center_horizontal|center_vertical"
+      android:paddingRight="10dp"
+      android:text="5s"
+      android:textSize="26sp" />
+
   <ImageView
-      android:id="@+id/id_step_list_icon"
+      android:id="@+id/id_task_activity_icon"
       android:layout_width="90dp"
       android:layout_height="90dp"
       android:layout_gravity="right"
@@ -29,6 +39,6 @@
       android:layout_weight="0"
       android:adjustViewBounds="false"
       android:paddingRight="0dp"
-      app:srcCompat="@drawable/ksiazki" />
+      app:srcCompat="@drawable/timer" />
 
 </LinearLayout>
