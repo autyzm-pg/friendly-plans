@@ -33,7 +33,8 @@ public class StepListActivity extends AppCompatActivity {
         List<StepTemplate> steps = stepTemplateRepository.getAll(
                 getIntent().getExtras().getLong(ActivityProperties.TASK_ID)
         );
-        StepRecyclerViewAdapter stepRecyclerViewAdapter = new StepRecyclerViewAdapter(steps);
+        String filesDirectory = getApplicationContext().getFilesDir().toString();
+        StepRecyclerViewAdapter stepRecyclerViewAdapter = new StepRecyclerViewAdapter(steps, filesDirectory);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_child_app_step_list);
         recyclerView.setHasFixedSize(true);

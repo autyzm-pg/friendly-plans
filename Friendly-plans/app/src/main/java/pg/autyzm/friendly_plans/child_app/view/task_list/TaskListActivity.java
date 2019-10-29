@@ -19,7 +19,6 @@ import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.child_app.view.step_list.StepListActivity;
 
 public class TaskListActivity extends AppCompatActivity {
-
     @Inject
     ChildPlanRepository childPlanRepository;
     private TaskRecyclerViewAdapter taskRecyclerViewAdapter;
@@ -54,8 +53,8 @@ public class TaskListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         ChildPlan activePlan = childPlanRepository.getActivePlan();
         List<TaskTemplate> tasks = activePlan.getPlanTemplate().getTasksWithThisPlan();
-
-        taskRecyclerViewAdapter = new TaskRecyclerViewAdapter(tasks, taskItemClickListener);
+        String filesDirectory = getApplicationContext().getFilesDir().toString();
+        taskRecyclerViewAdapter = new TaskRecyclerViewAdapter(tasks, taskItemClickListener, filesDirectory);
 
         recyclerView.setAdapter(taskRecyclerViewAdapter);
     }

@@ -33,7 +33,7 @@ public class ImagePreviewDialog extends DialogFragment {
         builder.setView(v);
 
         String pathToImage = getArguments().getString(IMG_PATH);
-        Picasso.with(getActivity().getApplicationContext())
+        Picasso.get()
                 .load(new File(pathToImage))
                 .into(imagePreview);
 
