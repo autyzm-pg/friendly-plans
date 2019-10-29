@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 import java.util.List;
 
 import database.entities.TaskTemplate;
@@ -15,6 +18,7 @@ import pg.autyzm.friendly_plans.R;
 public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerViewAdapter.TaskRecyclerViewHolder> {
     private List<TaskTemplate> tasks;
     private TaskItemClickListener taskItemClickListener;
+    private String imageDirectory;
 
     protected interface TaskItemClickListener {
         void stepsIconListener(int position);
@@ -23,17 +27,25 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     static class TaskRecyclerViewHolder extends RecyclerView.ViewHolder {
         TextView taskName;
         TextView taskDuration;
+        ImageView taskImage;
         ImageView actionPicture;
         TaskItemClickListener taskItemClickListener;
+        String imageDirectory;
         boolean hasTimer = false;
 
-        TaskRecyclerViewHolder(View itemView, final TaskItemClickListener taskItemClickListener) {
+        TaskRecyclerViewHolder(
+            View itemView,
+            final TaskItemClickListener taskItemClickListener,
+            final String imageDirectory
+        ) {
             super(itemView);
             this.taskName = (TextView) itemView.findViewById(R.id.id_tv_task_name);
             this.actionPicture = (ImageView) itemView.findViewById(R.id.id_task_activity_icon);
             this.taskDuration = (TextView) itemView.findViewById(R.id.id_tv_task_duration_time);
+            this.taskImage = (ImageView) itemView.findViewById(R.id.id_iv_task_image);
             this.actionPicture.setOnClickListener(actionIconListener);
             this.taskItemClickListener = taskItemClickListener;
+            this.imageDirectory = imageDirectory;
         }
 
         View.OnClickListener actionIconListener = new View.OnClickListener() {
@@ -47,8 +59,18 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
             }
         };
 
-        protected void setUpHolder(TaskTemplate task){
+        void setUpHolder(TaskTemplate task){
             taskName.setText(task.getName());
+
+            if (task.getPicture() != null) {
+                String imageName = task.getPicture().getFilename();
+                Picasso.get()
+                        .load(new File(imageDirectory + File.separator + imageName))
+                        .into(taskImage);
+            }
+            else {
+                taskImage.setVisibility(View.INVISIBLE);
+            }
 
             if (!task.getStepTemplates().isEmpty()) {
                 actionPicture.setImageResource(R.drawable.ksiazki);
@@ -66,9 +88,14 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         }
     }
 
-    TaskRecyclerViewAdapter(List<TaskTemplate> tasks, TaskItemClickListener taskItemClickListener) {
+    TaskRecyclerViewAdapter(
+        List<TaskTemplate> tasks,
+        TaskItemClickListener taskItemClickListener,
+        final String imageDirectory
+    ) {
         this.tasks = tasks;
         this.taskItemClickListener = taskItemClickListener;
+        this.imageDirectory = imageDirectory;
     }
 
     @Override
@@ -76,7 +103,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
                                                                              int viewType) {
         View taskView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.child_app_item_task, parent, false);
-        return new TaskRecyclerViewHolder(taskView, taskItemClickListener);
+        return new TaskRecyclerViewHolder(taskView, taskItemClickListener, imageDirectory);
     }
 
     @Override
@@ -92,7 +119,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         return tasks.size();
     }
 
-    public TaskTemplate getTaskItem(int position) {
+    TaskTemplate getTaskItem(int position) {
         return tasks.get(position);
     }
 }

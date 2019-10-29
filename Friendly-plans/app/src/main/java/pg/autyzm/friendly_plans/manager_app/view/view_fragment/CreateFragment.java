@@ -97,7 +97,7 @@ public abstract class CreateFragment extends Fragment {
     }
 
     protected void showPreview(Long pictureId, ImageView picturePreview) {
-        Picasso.with(getActivity().getApplicationContext())
+        Picasso.get()
                 .load(new File(retrieveImageFile(pictureId)))
                 .resize(0, picturePreview.getHeight())
                 .into(picturePreview);
