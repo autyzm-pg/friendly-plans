@@ -18,16 +18,24 @@ import pg.autyzm.friendly_plans.R;
 public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerViewAdapter.StepRecyclerViewHolder> {
     private List<StepTemplate> steps;
     private String imageDirectory;
+    private StepItemClickListener stepItemClickListener;
+
+    protected interface StepItemClickListener {
+        void selectStepListener(int position);
+    }
 
     static class StepRecyclerViewHolder extends RecyclerView.ViewHolder {
         TextView stepName;
         ImageView stepImage;
         String imageDirectory;
+        StepItemClickListener stepItemClickListener;
+
         StepRecyclerViewHolder(View itemView, String imageDirectory) {
             super(itemView);
             this.stepName = (TextView) itemView.findViewById(R.id.id_tv_step_name);
             this.stepImage = (ImageView) itemView.findViewById(R.id.id_iv_step_image);
             this.imageDirectory = imageDirectory;
+            itemView.setOnClickListener(stepItemListener);
         }
 
         void setUpHolder(StepTemplate step) {
@@ -41,11 +49,23 @@ public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerVi
                 stepImage.setVisibility(View.INVISIBLE);
             }
         }
+
+        View.OnClickListener stepItemListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stepItemClickListener.selectStepListener(getAdapterPosition());
+            }
+        };
     }
 
-    StepRecyclerViewAdapter(List<StepTemplate> steps, String imageDirectory) {
+    StepRecyclerViewAdapter(List<StepTemplate> steps, String imageDirectory)
+    {
         this.steps = steps;
         this.imageDirectory = imageDirectory;
+    }
+
+    public void asd(){
+
     }
 
     @Override
