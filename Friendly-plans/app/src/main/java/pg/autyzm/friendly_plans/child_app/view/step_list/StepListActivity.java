@@ -16,10 +16,12 @@ import database.repository.StepTemplateRepository;
 import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
+import pg.autyzm.friendly_plans.child_app.utility.ChildActivityExecutor;
 
 public class StepListActivity extends AppCompatActivity {
 
     private StepRecyclerViewAdapter stepRecyclerViewAdapter;
+    private Runnable updater;
 
     @Inject
     StepTemplateRepository stepTemplateRepository;
@@ -47,37 +49,32 @@ public class StepListActivity extends AppCompatActivity {
         recyclerView.setAdapter(stepRecyclerViewAdapter);
     }
 
-    Runnable updater;
-    Integer asd = 0;
 
     StepRecyclerViewAdapter.StepItemClickListener stepListener = new StepRecyclerViewAdapter.StepItemClickListener() {
         @Override
-        public void selectStepListener(int position, final TextView stepName) {
-//            while (stepRecyclerViewAdapter.currentStepPosition != 3) {
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                stepRecyclerViewAdapter.currentStepPosition++;
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        stepRecyclerViewAdapter.notifyDataSetChanged();
-//                    }
-//                });
-//            }
-//        }
-            final Handler timerHandler = new Handler();
+        public void selectStepListener(int clickPosition, final TextView durationLabel) {
+            if (clickPosition != stepRecyclerViewAdapter.getCurrentStepPosition()
+                    || stepRecyclerViewAdapter.getCurrentStepState() == StepRecyclerViewAdapter.CurrentStepState.IN_PROGRESS)
+                return;
 
-            updater = new Runnable() {
-                @Override
-                public void run() {
-                    stepName.setText(asd.toString());
-                    asd++;
-                    timerHandler.postDelayed(updater, 1000);
+            if (stepRecyclerViewAdapter.getCurrentStepState() == StepRecyclerViewAdapter.CurrentStepState.FINISHED){
+                if (clickPosition < stepRecyclerViewAdapter.getItemCount() - 1) {
+                    stepRecyclerViewAdapter.setCurrentStep(clickPosition + 1);
+                    return;
                 }
-            };
+                finish();
+            }
+
+            startChildActivityExecution(clickPosition, durationLabel);
+        }
+
+        private void startChildActivityExecution(int clickPosition, final TextView durationLabel){
+            stepRecyclerViewAdapter.setCurrentStepState(StepRecyclerViewAdapter.CurrentStepState.IN_PROGRESS);
+            final Handler timerHandler = new Handler();
+            String durationStr = durationLabel.getText().toString();
+            Integer duration = Integer.parseInt(durationStr.replaceAll("[^0-9]", ""));
+
+            updater = new ChildActivityExecutor(clickPosition, duration, durationLabel, timerHandler, stepRecyclerViewAdapter);
             timerHandler.post(updater);
         }
     };

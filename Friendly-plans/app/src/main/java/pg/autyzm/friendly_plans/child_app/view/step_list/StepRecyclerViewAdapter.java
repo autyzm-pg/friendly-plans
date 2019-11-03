@@ -1,10 +1,7 @@
 package pg.autyzm.friendly_plans.child_app.view.step_list;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,74 +13,46 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.Executors;
 
 import database.entities.StepTemplate;
 import pg.autyzm.friendly_plans.R;
+import pg.autyzm.friendly_plans.child_app.view.common.ChildActivityList;
 
-public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerViewAdapter.StepRecyclerViewHolder> {
+public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerViewAdapter.StepRecyclerViewHolder> implements ChildActivityList {
+    private StepItemClickListener stepItemClickListener;
     private List<StepTemplate> steps;
     private String imageDirectory;
-    public Integer currentStepPosition = -1;
-    private StepItemClickListener stepItemClickListener;
+
+    private Integer currentStepPosition = 0;
+    Integer getCurrentStepPosition() { return currentStepPosition; }
+    private CurrentStepState currentStepState = CurrentStepState.PENDING_START;
+    CurrentStepState getCurrentStepState() { return currentStepState; }
+    CurrentStepState setCurrentStepState(CurrentStepState state) { return this.currentStepState = state; }
+
+    enum CurrentStepState {
+        PENDING_START,
+        IN_PROGRESS,
+        FINISHED
+    }
 
     protected interface StepItemClickListener {
         void selectStepListener(int position, TextView stepName);
     }
 
-    public void test(int position){
-        if (position == currentStepPosition + 1)
-            currentStepPosition = position;
-        notifyDataSetChanged();
-    }
-//
-//    private StepItemClickListener stepItemClickListener = new StepItemClickListener(){
-//
-//        @Override
-//        public void selectStepListener(int position) {
-//            new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                public void run() {
-//                    while(currentStepPosition != 3){
-//                        try {
-//                            Thread.sleep(1500);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//                        currentStepPosition++;
-//                        notifyDataSetChanged();
-//                    }
-//                }
-//            });
-//            if (position == currentStepPosition + 1)
-//                currentStepPosition = position;
-//            notifyDataSetChanged();
-//            Executors.newSingleThreadExecutor().execute(new Runnable() {
-//                @Override
-//                public void run() {
-//                    while(currentStepPosition != 3){
-//                        try {
-//                            Thread.sleep(1500);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//                        currentStepPosition++;
-//                        notifyDataSetChanged();
-//                    }
-//                }
-//            });
-//        }
-//    };
-
     static class StepRecyclerViewHolder extends RecyclerView.ViewHolder {
+        StepItemClickListener stepItemClickListener;
         TextView stepName;
+
         ImageView stepImage;
         String imageDirectory;
-        StepItemClickListener stepItemClickListener;
+
+        TextView durationLabel;
 
         StepRecyclerViewHolder(View itemView, String imageDirectory, StepItemClickListener stepItemClickListener) {
             super(itemView);
             this.stepName = (TextView) itemView.findViewById(R.id.id_tv_step_name);
             this.stepImage = (ImageView) itemView.findViewById(R.id.id_iv_step_image);
+            this.durationLabel = (TextView) itemView.findViewById(R.id.id_tv_task_duration_time);
             this.imageDirectory = imageDirectory;
             this.stepItemClickListener = stepItemClickListener;
             itemView.setOnClickListener(stepItemListener);
@@ -104,7 +73,7 @@ public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerVi
         View.OnClickListener stepItemListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stepItemClickListener.selectStepListener(getAdapterPosition(), stepName);
+                stepItemClickListener.selectStepListener(getAdapterPosition(), durationLabel);
             }
         };
     }
@@ -130,18 +99,32 @@ public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerVi
             StepTemplate step = steps.get(position);
             holder.setUpHolder(step);
         }
-        if (currentStepPosition != null && position == currentStepPosition)
-            holder.itemView.setBackgroundColor(Color.parseColor("#8BF600"));
-        else {
-            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+        holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+
+        if (currentStepPosition != null) {
+            if (position == currentStepPosition)
+                holder.itemView.setBackgroundColor(Color.parseColor("#8BF600"));
+            else if (position < currentStepPosition) {
+                holder.stepName.setPaintFlags(holder.stepName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                holder.itemView.setBackgroundColor(Color.parseColor("#BDBDBD"));
+            }
         }
 
-        if (position < currentStepPosition)
-            holder.stepName.setPaintFlags(holder.stepName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
     }
 
     @Override
     public int getItemCount() {
         return steps.size();
+    }
+
+    @Override
+    public void activityCompleted(int position) {
+        currentStepState = CurrentStepState.FINISHED;
+    }
+
+    public void setCurrentStep(int position){
+        currentStepPosition = position;
+        currentStepState = CurrentStepState.PENDING_START;
+        notifyDataSetChanged();
     }
 }
