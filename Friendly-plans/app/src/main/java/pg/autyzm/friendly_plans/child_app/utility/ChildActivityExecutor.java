@@ -10,22 +10,20 @@ public class ChildActivityExecutor implements Runnable {
     private TextView durationLabel;
     private final Handler timerHandler;
     private ChildActivityList recycyclerView;
-    private Integer position;
 
 
-    public ChildActivityExecutor(Integer position, Integer duration, TextView durationLabel,
+    public ChildActivityExecutor(Integer duration, TextView durationLabel,
                         Handler timerHandler, ChildActivityList recyclerView){
         this.duration = duration;
         this.durationLabel = durationLabel;
         this.timerHandler = timerHandler;
         this.recycyclerView = recyclerView;
-        this.position = position;
     }
 
     @Override
     public void run() {
         if (duration == 0){
-            recycyclerView.activityCompleted(position);
+            recycyclerView.activityCompleted();
             return;
         }
 
