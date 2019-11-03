@@ -16,6 +16,7 @@ import java.util.List;
 
 import database.entities.StepTemplate;
 import pg.autyzm.friendly_plans.R;
+import pg.autyzm.friendly_plans.child_app.utility.Consts;
 import pg.autyzm.friendly_plans.child_app.view.common.ChildActivityList;
 
 public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerViewAdapter.StepRecyclerViewHolder> implements ChildActivityList {
@@ -103,10 +104,10 @@ public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerVi
 
         if (currentStepPosition != null) {
             if (position == currentStepPosition)
-                holder.itemView.setBackgroundColor(Color.parseColor("#8BF600"));
+                holder.itemView.setBackgroundColor(Color.parseColor(Consts.GREEN));
             else if (position < currentStepPosition) {
                 holder.stepName.setPaintFlags(holder.stepName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.itemView.setBackgroundColor(Color.parseColor("#BDBDBD"));
+                holder.itemView.setBackgroundColor(Color.parseColor(Consts.GREY));
             }
         }
 
