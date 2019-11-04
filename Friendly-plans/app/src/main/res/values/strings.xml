@@ -126,4 +126,7 @@
   <string name="save_step_error_message">An error occurred during saving the step.</string>
   <string name="save_child_error_message">An error occurred during saving the child.</string>
   <string name="save_plan_error_message">An error occurred during saving the plan.</string>
+
+  <!--Child app-->
+  <string name="tasks_finished_message">Gratulacje, wszystkie zadania zostały ukończone!</string>
 </resources>

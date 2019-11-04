@@ -3,7 +3,6 @@ package pg.autyzm.friendly_plans.child_app.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
 
 import javax.inject.Inject;
 
@@ -11,6 +10,7 @@ import database.entities.ChildPlan;
 import database.repository.ChildPlanRepository;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
+import pg.autyzm.friendly_plans.child_app.utility.Consts;
 import pg.autyzm.friendly_plans.child_app.view.task_list.TaskListActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         activePlan = childPlanRepository.getActivePlan();
         if (activePlan != null) {
             Intent taskList = new Intent(MainActivity.this, TaskListActivity.class);
-            startActivity(taskList);
+            startActivityForResult(taskList, Consts.RETURN_MESSAGE_CODE);
         }
         setUpView();
     }
@@ -36,4 +36,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.child_app_activity_main);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data != null){
+            String returnMessage = data.getStringExtra(Consts.RETURN_MESSAGE_KEY);
+            if (returnMessage != null){
+                if (returnMessage.equals(Consts.MESSAGE_TASKS_COMPLETED))
+                    setContentView(R.layout.activity_child_app_finish_screen);
+                else
+                    finish();
+            }
+        }
+    }
 }
