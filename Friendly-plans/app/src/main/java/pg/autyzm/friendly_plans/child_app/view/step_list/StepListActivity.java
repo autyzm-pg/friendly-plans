@@ -1,5 +1,6 @@
 package pg.autyzm.friendly_plans.child_app.view.step_list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -17,11 +18,12 @@ import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.child_app.utility.ChildActivityExecutor;
+import pg.autyzm.friendly_plans.child_app.utility.Consts;
+import pg.autyzm.friendly_plans.child_app.view.common.ChildActivityState;
 
 public class StepListActivity extends AppCompatActivity {
 
     private StepRecyclerViewAdapter stepRecyclerViewAdapter;
-    private Runnable updater;
 
     @Inject
     StepTemplateRepository stepTemplateRepository;
@@ -54,27 +56,30 @@ public class StepListActivity extends AppCompatActivity {
         @Override
         public void selectStepListener(int clickPosition, final TextView durationLabel) {
             if (clickPosition != stepRecyclerViewAdapter.getCurrentStepPosition()
-                    || stepRecyclerViewAdapter.getCurrentStepState() == StepRecyclerViewAdapter.CurrentStepState.IN_PROGRESS)
+                    || stepRecyclerViewAdapter.getCurrentStepState() == ChildActivityState.IN_PROGRESS)
                 return;
 
-            if (stepRecyclerViewAdapter.getCurrentStepState() == StepRecyclerViewAdapter.CurrentStepState.FINISHED){
+            if (stepRecyclerViewAdapter.getCurrentStepState() == ChildActivityState.FINISHED){
                 if (clickPosition < stepRecyclerViewAdapter.getItemCount() - 1) {
                     stepRecyclerViewAdapter.setCurrentStep(clickPosition + 1);
                     return;
                 }
+                Intent intentWithResult = new Intent();
+                intentWithResult.putExtra(Consts.RETURN_MESSAGE_KEY, Consts.MESSAGE_STEPS_COMPLETED);
+                setResult(Consts.RETURN_MESSAGE_CODE, intentWithResult);
                 finish();
             }
 
-            startChildActivityExecution(clickPosition, durationLabel);
+            startChildActivityExecution(durationLabel);
         }
 
-        private void startChildActivityExecution(int clickPosition, final TextView durationLabel){
-            stepRecyclerViewAdapter.setCurrentStepState(StepRecyclerViewAdapter.CurrentStepState.IN_PROGRESS);
+        private void startChildActivityExecution(final TextView durationLabel){
+            stepRecyclerViewAdapter.setCurrentStepState(ChildActivityState.IN_PROGRESS);
             final Handler timerHandler = new Handler();
             String durationStr = durationLabel.getText().toString();
             Integer duration = Integer.parseInt(durationStr.replaceAll("[^0-9]", ""));
 
-            updater = new ChildActivityExecutor(clickPosition, duration, durationLabel, timerHandler, stepRecyclerViewAdapter);
+            Runnable updater = new ChildActivityExecutor(duration, durationLabel, timerHandler, stepRecyclerViewAdapter);
             timerHandler.post(updater);
         }
     };

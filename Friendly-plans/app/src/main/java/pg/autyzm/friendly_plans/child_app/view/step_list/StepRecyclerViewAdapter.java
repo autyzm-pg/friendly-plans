@@ -18,6 +18,7 @@ import database.entities.StepTemplate;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.child_app.utility.Consts;
 import pg.autyzm.friendly_plans.child_app.view.common.ChildActivityList;
+import pg.autyzm.friendly_plans.child_app.view.common.ChildActivityState;
 
 public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerViewAdapter.StepRecyclerViewHolder> implements ChildActivityList {
     private StepItemClickListener stepItemClickListener;
@@ -26,15 +27,9 @@ public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerVi
 
     private Integer currentStepPosition = 0;
     Integer getCurrentStepPosition() { return currentStepPosition; }
-    private CurrentStepState currentStepState = CurrentStepState.PENDING_START;
-    CurrentStepState getCurrentStepState() { return currentStepState; }
-    CurrentStepState setCurrentStepState(CurrentStepState state) { return this.currentStepState = state; }
-
-    enum CurrentStepState {
-        PENDING_START,
-        IN_PROGRESS,
-        FINISHED
-    }
+    private ChildActivityState currentStepState = ChildActivityState.PENDING_START;
+    ChildActivityState getCurrentStepState() { return currentStepState; }
+    void setCurrentStepState(ChildActivityState state) { this.currentStepState = state; }
 
     protected interface StepItemClickListener {
         void selectStepListener(int position, TextView stepName);
@@ -110,7 +105,6 @@ public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerVi
                 holder.itemView.setBackgroundColor(Color.parseColor(Consts.GREY));
             }
         }
-
     }
 
     @Override
@@ -119,13 +113,13 @@ public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerVi
     }
 
     @Override
-    public void activityCompleted(int position) {
-        currentStepState = CurrentStepState.FINISHED;
+    public void activityCompleted() {
+        currentStepState = ChildActivityState.FINISHED;
     }
 
-    public void setCurrentStep(int position){
+    void setCurrentStep(int position){
         currentStepPosition = position;
-        currentStepState = CurrentStepState.PENDING_START;
+        currentStepState = ChildActivityState.PENDING_START;
         notifyDataSetChanged();
     }
 }
