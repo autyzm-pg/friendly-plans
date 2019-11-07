@@ -27,7 +27,6 @@ public class TaskListActivity extends AppCompatActivity {
     @Inject
     ChildPlanRepository childPlanRepository;
     private TaskRecyclerViewAdapter taskRecyclerViewAdapter;
-    static final int RESULT_CODE = 1;
 
     TaskRecyclerViewAdapter.TaskItemClickListener taskItemClickListener =
             new TaskRecyclerViewAdapter.TaskItemClickListener() {
@@ -43,7 +42,7 @@ public class TaskListActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(TaskListActivity.this, StepListActivity.class);
                         intent.putExtras(bundle);
-                        startActivityForResult(intent, RESULT_CODE);
+                        startActivityForResult(intent, Consts.RETURN_MESSAGE_CODE);
                     }
                 }
 
@@ -58,7 +57,7 @@ public class TaskListActivity extends AppCompatActivity {
                             taskRecyclerViewAdapter.setCurrentTask(clickPosition + 1);
                             return;
                         }
-                        finish();
+                        goToPlanFinishedScreen();
                     }
                     startChildActivityExecution(durationLabel);
                 }
@@ -71,7 +70,7 @@ public class TaskListActivity extends AppCompatActivity {
                         taskRecyclerViewAdapter.moveToNextTask();
                         return;
                     }
-                    finish();
+                    goToPlanFinishedScreen();
                 }
 
                 private void startChildActivityExecution(final TextView durationLabel) {
@@ -109,6 +108,24 @@ public class TaskListActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null && data.getStringExtra(Consts.RETURN_MESSAGE_KEY) != null)
-            taskRecyclerViewAdapter.moveToNextTask();
+            if (taskRecyclerViewAdapter.getCurrentTaskPosition() + 1 < taskRecyclerViewAdapter.getItemCount())
+                taskRecyclerViewAdapter.moveToNextTask();
+            else
+                goToPlanFinishedScreen();
+    }
+
+    private void goToPlanFinishedScreen(){
+        Intent intentWithResult = new Intent();
+        intentWithResult.putExtra(Consts.RETURN_MESSAGE_KEY, Consts.MESSAGE_TASKS_COMPLETED);
+        setResult(Consts.RETURN_MESSAGE_CODE, intentWithResult);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent intentWithResult = new Intent();
+        intentWithResult.putExtra(Consts.RETURN_MESSAGE_KEY, Consts.MESSAGE_TASKS_NOT_COMPLETED);
+        setResult(Consts.RETURN_MESSAGE_CODE, intentWithResult);
+        super.onBackPressed();
     }
 }
