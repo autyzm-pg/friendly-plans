@@ -22,6 +22,7 @@ import pg.autyzm.friendly_plans.child_app.utility.ChildActivityExecutor;
 import pg.autyzm.friendly_plans.child_app.utility.Consts;
 import pg.autyzm.friendly_plans.child_app.view.common.ChildActivityState;
 import pg.autyzm.friendly_plans.child_app.view.step_list.StepListActivity;
+import pg.autyzm.friendly_plans.child_app.view.step_slides.StepSlidesActivity;
 
 public class TaskListActivity extends AppCompatActivity {
     @Inject
@@ -36,11 +37,16 @@ public class TaskListActivity extends AppCompatActivity {
                     if (position == taskRecyclerViewAdapter.getCurrentTaskPosition()
                             && taskRecyclerViewAdapter.getCurrentTaskState() != ChildActivityState.IN_PROGRESS)
                     {
+                        Intent intent;
                         Bundle bundle = new Bundle();
                         bundle.putLong(ActivityProperties.TASK_ID,
                                 taskRecyclerViewAdapter.getTaskItem(position).getId());
 
-                        Intent intent = new Intent(TaskListActivity.this, StepListActivity.class);
+                        if (childPlanRepository.getActivePlan().getChild().isDisplayModeSlide())
+                             intent = new Intent(TaskListActivity.this, StepSlidesActivity.class);
+                        else
+                            intent = new Intent(TaskListActivity.this, StepListActivity.class);
+
                         intent.putExtras(bundle);
                         startActivityForResult(intent, Consts.RETURN_MESSAGE_CODE);
                     }
@@ -79,7 +85,13 @@ public class TaskListActivity extends AppCompatActivity {
                     String durationStr = durationLabel.getText().toString();
                     Integer duration = Integer.parseInt(durationStr.replaceAll("[^0-9]", ""));
 
-                    Runnable updater = new ChildActivityExecutor(duration, durationLabel, timerHandler, taskRecyclerViewAdapter);
+                    Runnable updater = new ChildActivityExecutor(duration, durationLabel, timerHandler,
+                            new ChildActivityExecutor.ActivityCompletedListener(){
+                                @Override
+                                public void onActivityCompleted() {
+                                    taskRecyclerViewAdapter.activityCompleted();
+                                }
+                            });
                     timerHandler.post(updater);
                 }
             };

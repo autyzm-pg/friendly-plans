@@ -62,5 +62,8 @@
     <activity
         android:name=".child_app.view.step_list.StepListActivity"
         android:screenOrientation="landscape"/>
+    <activity
+        android:name=".child_app.view.step_slides.StepSlidesActivity"
+        android:screenOrientation="landscape"/>
   </application>
 </manifest>

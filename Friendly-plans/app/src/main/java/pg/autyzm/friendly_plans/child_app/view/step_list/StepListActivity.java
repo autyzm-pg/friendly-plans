@@ -79,7 +79,14 @@ public class StepListActivity extends AppCompatActivity {
             String durationStr = durationLabel.getText().toString();
             Integer duration = Integer.parseInt(durationStr.replaceAll("[^0-9]", ""));
 
-            Runnable updater = new ChildActivityExecutor(duration, durationLabel, timerHandler, stepRecyclerViewAdapter);
+            Runnable updater = new ChildActivityExecutor(duration, durationLabel, timerHandler,
+                    new ChildActivityExecutor.ActivityCompletedListener(){
+                        @Override
+                        public void onActivityCompleted() {
+                            stepRecyclerViewAdapter.activityCompleted();
+                        }
+                    });
+
             timerHandler.post(updater);
         }
     };

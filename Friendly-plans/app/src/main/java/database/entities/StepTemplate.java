@@ -114,6 +114,10 @@ public class StepTemplate {
         this.soundId = soundId;
     }
 
+    public Integer getDuration() {
+        return 3;
+    } // Placeholder. todo: evaluate if time is required on steps
+
     @Generated(hash = 309141312)
     private transient Long taskTemplate__resolvedKey;
 

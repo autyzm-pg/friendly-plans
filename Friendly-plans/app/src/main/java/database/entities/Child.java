@@ -124,6 +124,10 @@ public class Child {
         return stepsDisplayMode;
     }
 
+    public boolean isDisplayModeSlide(){
+        return stepsDisplayMode.equals("Slide");
+    }
+
     public void setStepsDisplayMode(String stepsDisplayMode) {
         this.stepsDisplayMode = stepsDisplayMode;
     }
