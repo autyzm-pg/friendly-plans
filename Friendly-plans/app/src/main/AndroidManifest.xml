@@ -47,10 +47,10 @@
     <activity
         android:name=".child_app.view.MainActivity"
         android:screenOrientation="landscape"
+        android:theme="@style/ChildAppTheme"
         android:label="@string/child_app_name"
         android:noHistory="false"
         android:taskAffinity="pg.autyzm.friendly_plans.ChildTask">
-
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
@@ -58,12 +58,15 @@
     </activity>
     <activity
         android:name=".child_app.view.task_list.TaskListActivity"
-        android:screenOrientation="landscape"/>
+        android:screenOrientation="landscape"
+        android:theme="@style/ChildAppTheme"/>
     <activity
         android:name=".child_app.view.step_list.StepListActivity"
-        android:screenOrientation="landscape"/>
+        android:screenOrientation="landscape"
+        android:theme="@style/ChildAppTheme"/>
     <activity
         android:name=".child_app.view.step_slides.StepSlidesActivity"
-        android:screenOrientation="landscape"/>
+        android:screenOrientation="landscape"
+        android:theme="@style/ChildAppTheme"/>
   </application>
 </manifest>

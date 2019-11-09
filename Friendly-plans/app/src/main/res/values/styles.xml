@@ -8,4 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Child application theme. -->
+    <style name="ChildAppTheme" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
 </resources>
