@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/id_iv_step_sound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/soundtube" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/id_iv_step_image"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|center_horizontal|center_vertical"
+            android:layout_marginLeft="28dp"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="true"
+            android:baselineAligned="false"
+            android:src="@drawable/ic_launcher" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|end"
+            android:orientation="vertical">
+
+            <!--task duration icon-->
+            <ImageView
+                android:id="@+id/id_iv_step_duration_icon"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
+                app:srcCompat="@drawable/timer" />
+
+            <!--duration time-->
+            <TextView
+                android:id="@+id/id_tv_step_duration_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="3 s"
+                android:textSize="30sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_weight="0"
+        android:gravity="center|bottom"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/id_bv_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_weight="0"
+            android:background="@color/transparent"
+            app:srcCompat="@drawable/rarrow" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/id_tv_step_name"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:gravity="center|center_horizontal"
+            android:text="Step name"
+            android:textSize="34sp" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/id_bv_next_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:background="@color/transparent"
+            app:srcCompat="@drawable/garrow" />
+    </LinearLayout>
+
+
+</LinearLayout>

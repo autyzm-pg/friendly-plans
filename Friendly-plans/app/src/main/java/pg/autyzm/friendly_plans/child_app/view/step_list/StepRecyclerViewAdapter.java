@@ -48,7 +48,7 @@ public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerVi
             super(itemView);
             this.stepName = (TextView) itemView.findViewById(R.id.id_tv_step_name);
             this.stepImage = (ImageView) itemView.findViewById(R.id.id_iv_step_image);
-            this.durationLabel = (TextView) itemView.findViewById(R.id.id_tv_task_duration_time);
+            this.durationLabel = (TextView) itemView.findViewById(R.id.id_tv_step_duration_time);
             this.imageDirectory = imageDirectory;
             this.stepItemClickListener = stepItemClickListener;
             itemView.setOnClickListener(stepItemListener);

@@ -32,18 +32,18 @@
 
         <!--task duration icon-->
         <ImageView
-            android:id="@+id/id_iv_task_duration_icon"
+            android:id="@+id/id_iv_step_duration_icon"
             android:layout_width="68dp"
             android:layout_height="68dp"
             app:srcCompat="@drawable/timer" />
 
         <!--duration time-->
         <TextView
-            android:id="@+id/id_tv_task_duration_time"
+            android:id="@+id/id_tv_step_duration_time"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
-            android:text="3s"
+            android:text="3 s"
             android:textSize="26sp" />
     </LinearLayout>
 

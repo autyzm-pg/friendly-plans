@@ -6,6 +6,7 @@ import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import java.util.List;
+import java.util.Random;
 
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
@@ -113,6 +114,10 @@ public class StepTemplate {
     public void setSoundId(Long soundId) {
         this.soundId = soundId;
     }
+
+    public Integer getDuration() {
+        return 3;
+    } // Placeholder. todo: evaluate if time is required on steps
 
     @Generated(hash = 309141312)
     private transient Long taskTemplate__resolvedKey;

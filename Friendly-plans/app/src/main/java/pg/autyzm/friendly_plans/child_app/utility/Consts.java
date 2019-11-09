@@ -10,4 +10,5 @@ public class Consts {
     public static final String MESSAGE_STEPS_COMPLETED = "steps completed";
     public static final String MESSAGE_TASKS_COMPLETED = "tasks completed";
     public static final String MESSAGE_TASKS_NOT_COMPLETED = "tasks not completed";
+    public static final String DURATION_UNIT_SECONDS = "s";
 }

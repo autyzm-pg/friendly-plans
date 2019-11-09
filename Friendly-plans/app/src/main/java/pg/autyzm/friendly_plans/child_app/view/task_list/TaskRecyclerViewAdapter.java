@@ -98,7 +98,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
                     return; // task is already completed
 
                 actionPicture.setImageResource(R.drawable.timer);
-                taskDuration.setText(String.format("%ss", task.getDurationTime().toString()));
+                taskDuration.setText(String.format("%d %s", task.getDurationTime(), Consts.DURATION_UNIT_SECONDS));
                 hasTimer = true;
             }
             else {
