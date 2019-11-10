@@ -46,14 +46,14 @@
 
     <!--task duration icon-->
     <ImageView
-      android:id="@+id/id_iv_step_duration_icon"
+      android:id="@+id/id_iv_task_duration_icon"
       android:layout_width="48dp"
       android:layout_height="48dp"
       app:srcCompat="@drawable/ic_placeholder_time" />
 
     <!--duration time-->
     <TextView
-      android:id="@+id/id_tv_step_duration_time"
+      android:id="@+id/id_tv_task_duration_time"
       android:layout_width="wrap_content"
       android:layout_height="match_parent"
       android:layout_gravity="center_horizontal"
