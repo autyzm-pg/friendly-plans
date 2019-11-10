@@ -68,5 +68,9 @@
         android:name=".child_app.view.step_slides.StepSlidesActivity"
         android:screenOrientation="landscape"
         android:theme="@style/ChildAppTheme"/>
+    <activity
+        android:name=".child_app.view.task_slides.TaskSlidesActivity"
+        android:screenOrientation="landscape"
+        android:theme="@style/ChildAppTheme"/>
   </application>
 </manifest>
