@@ -155,7 +155,7 @@ public class PlanTaskRecyclerViewAdapter extends
             this.taskSoundIcon = (ImageView) itemView
                     .findViewById(R.id.id_iv_task_sound_icon);
             this.taskDurationIcon = (ImageView) itemView
-                    .findViewById(R.id.id_task_activity_icon);
+                    .findViewById(R.id.id_iv_task_duration_icon);
             this.taskDurationTime = (TextView) itemView
                     .findViewById(R.id.id_tv_task_duration_time);
             this.removeButton = (ImageButton) itemView
