@@ -15,14 +15,12 @@ import javax.inject.Inject;
 import database.entities.ChildPlan;
 import database.entities.TaskTemplate;
 import database.repository.ChildPlanRepository;
-import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.child_app.utility.ChildActivityExecutor;
 import pg.autyzm.friendly_plans.child_app.utility.Consts;
-import pg.autyzm.friendly_plans.child_app.view.common.ChildActivityState;
-import pg.autyzm.friendly_plans.child_app.view.step_list.StepListActivity;
-import pg.autyzm.friendly_plans.child_app.view.step_slides.StepSlidesActivity;
+import pg.autyzm.friendly_plans.child_app.utility.ChildActivityState;
+import pg.autyzm.friendly_plans.child_app.utility.StepsDisplayUtils;
 
 public class TaskListActivity extends AppCompatActivity {
     @Inject
@@ -37,17 +35,11 @@ public class TaskListActivity extends AppCompatActivity {
                     if (position == taskRecyclerViewAdapter.getCurrentTaskPosition()
                             && taskRecyclerViewAdapter.getCurrentTaskState() != ChildActivityState.IN_PROGRESS)
                     {
-                        Intent intent;
-                        Bundle bundle = new Bundle();
-                        bundle.putLong(ActivityProperties.TASK_ID,
-                                taskRecyclerViewAdapter.getTaskItem(position).getId());
-
-                        if (childPlanRepository.getActivePlan().getChild().isDisplayModeSlide())
-                             intent = new Intent(TaskListActivity.this, StepSlidesActivity.class);
-                        else
-                            intent = new Intent(TaskListActivity.this, StepListActivity.class);
-
-                        intent.putExtras(bundle);
+                        Intent intent = StepsDisplayUtils.getStepsDisplayIntent(
+                                TaskListActivity.this,
+                                taskRecyclerViewAdapter.getTaskItem(position).getId(),
+                                childPlanRepository.getActivePlan().getChild().isDisplayModeSlide()
+                        );
                         startActivityForResult(intent, Consts.RETURN_MESSAGE_CODE);
                     }
                 }

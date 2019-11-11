@@ -19,7 +19,7 @@ import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.child_app.utility.ChildActivityExecutor;
 import pg.autyzm.friendly_plans.child_app.utility.Consts;
-import pg.autyzm.friendly_plans.child_app.view.common.ChildActivityState;
+import pg.autyzm.friendly_plans.child_app.utility.ChildActivityState;
 
 public class StepListActivity extends AppCompatActivity {
 

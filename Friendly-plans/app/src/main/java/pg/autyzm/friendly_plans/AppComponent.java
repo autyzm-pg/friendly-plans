@@ -116,4 +116,6 @@ public interface AppComponent {
     void inject(pg.autyzm.friendly_plans.child_app.view.step_list.StepListActivity stepListActivity);
 
     void inject(pg.autyzm.friendly_plans.child_app.view.step_slides.StepSlidesActivity stepSlidesActivity);
+
+    void inject(pg.autyzm.friendly_plans.child_app.view.task_slides.TaskSlidesActivity taskSlidesActivity);
 }

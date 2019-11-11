@@ -1,4 +1,4 @@
-package pg.autyzm.friendly_plans.child_app.view.common;
+package pg.autyzm.friendly_plans.child_app.utility;
 
 public enum ChildActivityState {
     PENDING_START,

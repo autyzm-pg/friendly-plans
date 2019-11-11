@@ -23,7 +23,7 @@ import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.child_app.utility.ChildActivityExecutor;
 import pg.autyzm.friendly_plans.child_app.utility.Consts;
-import pg.autyzm.friendly_plans.child_app.view.common.ChildActivityState;
+import pg.autyzm.friendly_plans.child_app.utility.ChildActivityState;
 
 import static android.view.View.VISIBLE;
 
@@ -114,13 +114,13 @@ public class StepSlidesActivity extends AppCompatActivity {
     }
 
     private void setUpView() {
-        setContentView(R.layout.activity_step_slides);
+        setContentView(R.layout.activity_child_activity_slides);
         imageDirectory = getApplicationContext().getFilesDir().toString();
 
-        stepName = (TextView)findViewById(R.id.id_tv_step_name);
-        stepImage = (ImageView)findViewById(R.id.id_iv_step_image);
-        stepDuration = (TextView)findViewById(R.id.id_tv_step_duration_time);
-        stepTimerIcon = (ImageView)findViewById(R.id.id_iv_step_duration_icon);
+        stepName = (TextView)findViewById(R.id.id_tv_child_activity_name);
+        stepImage = (ImageView)findViewById(R.id.id_iv_child_activity_image);
+        stepDuration = (TextView)findViewById(R.id.id_tv_child_activity_duration_time);
+        stepTimerIcon = (ImageView)findViewById(R.id.id_iv_child_activity_duration_icon);
         backButton = (ImageButton)findViewById(R.id.id_bv_back_button);
         nextButton = (ImageButton)findViewById(R.id.id_bv_next_button);
 
