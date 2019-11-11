@@ -12,6 +12,7 @@ import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.child_app.utility.Consts;
 import pg.autyzm.friendly_plans.child_app.view.task_list.TaskListActivity;
+import pg.autyzm.friendly_plans.child_app.view.task_slides.TaskSlidesActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,8 +27,12 @@ public class MainActivity extends AppCompatActivity {
         ((App) getApplication()).getAppComponent().inject(this);
         activePlan = childPlanRepository.getActivePlan();
         if (activePlan != null) {
-            Intent taskList = new Intent(MainActivity.this, TaskListActivity.class);
-            startActivityForResult(taskList, Consts.RETURN_MESSAGE_CODE);
+            Intent tasksDisplay;
+            if (childPlanRepository.getActivePlan().getChild().getTasksDisplayMode().equals("Slide"))
+                tasksDisplay = new Intent(MainActivity.this, TaskSlidesActivity.class);
+            else
+                tasksDisplay = new Intent(MainActivity.this, TaskListActivity.class);
+            startActivityForResult(tasksDisplay, Consts.RETURN_MESSAGE_CODE);
         }
         setUpView();
     }

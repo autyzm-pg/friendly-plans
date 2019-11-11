@@ -18,7 +18,7 @@ import database.entities.TaskTemplate;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.child_app.utility.Consts;
 import pg.autyzm.friendly_plans.child_app.view.common.ChildActivityList;
-import pg.autyzm.friendly_plans.child_app.view.common.ChildActivityState;
+import pg.autyzm.friendly_plans.child_app.utility.ChildActivityState;
 
 public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerViewAdapter.TaskRecyclerViewHolder> implements ChildActivityList {
     private List<TaskTemplate> tasks;

@@ -16,7 +16,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/id_iv_step_sound"
+            android:id="@+id/id_iv_child_activity_sound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/soundtube" />
@@ -27,7 +27,7 @@
             android:layout_weight="1" />
 
         <ImageView
-            android:id="@+id/id_iv_step_image"
+            android:id="@+id/id_iv_child_activity_image"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center|center_horizontal|center_vertical"
@@ -50,14 +50,14 @@
 
             <!--task duration icon-->
             <ImageView
-                android:id="@+id/id_iv_step_duration_icon"
+                android:id="@+id/id_iv_child_activity_duration_icon"
                 android:layout_width="88dp"
                 android:layout_height="88dp"
                 app:srcCompat="@drawable/timer" />
 
             <!--duration time-->
             <TextView
-                android:id="@+id/id_tv_step_duration_time"
+                android:id="@+id/id_tv_child_activity_duration_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -91,7 +91,7 @@
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/id_tv_step_name"
+            android:id="@+id/id_tv_child_activity_name"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:gravity="center|center_horizontal"

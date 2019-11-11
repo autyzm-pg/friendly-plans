@@ -18,7 +18,7 @@ import database.entities.StepTemplate;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.child_app.utility.Consts;
 import pg.autyzm.friendly_plans.child_app.view.common.ChildActivityList;
-import pg.autyzm.friendly_plans.child_app.view.common.ChildActivityState;
+import pg.autyzm.friendly_plans.child_app.utility.ChildActivityState;
 
 public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerViewAdapter.StepRecyclerViewHolder> implements ChildActivityList {
     private StepItemClickListener stepItemClickListener;

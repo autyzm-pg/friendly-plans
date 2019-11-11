@@ -22,8 +22,9 @@ import database.repository.ChildPlanRepository;
 import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.child_app.utility.ChildActivityExecutor;
+import pg.autyzm.friendly_plans.child_app.utility.ChildActivityState;
 import pg.autyzm.friendly_plans.child_app.utility.Consts;
-import pg.autyzm.friendly_plans.child_app.view.common.ChildActivityState;
+import pg.autyzm.friendly_plans.child_app.utility.StepsDisplayUtils;
 
 import static android.view.View.VISIBLE;
 
@@ -34,7 +35,7 @@ public class TaskSlidesActivity extends AppCompatActivity {
 
     private List<TaskTemplate> tasks;
     private String imageDirectory;
-    private Integer currentTask;
+    private Integer currentTaskIndex;
     private ChildActivityState currentTaskStatus;
 
     TextView taskName;
@@ -60,7 +61,7 @@ public class TaskSlidesActivity extends AppCompatActivity {
     }
 
     private void setCurrentTask(int index){
-        currentTask = index;
+        currentTaskIndex = index;
         TaskTemplate task = tasks.get(index);
         setupTaskView(task);
         currentTaskStatus = task.getDurationTime() == null ?
@@ -70,6 +71,7 @@ public class TaskSlidesActivity extends AppCompatActivity {
     private void setupTaskView(TaskTemplate task){
         taskName.setText(task.getName());
 
+
         Integer duration = task.getDurationTime();
         if(duration != null) {
             taskDuration.setText(String.format("%d %s", duration, Consts.DURATION_UNIT_SECONDS));
@@ -77,8 +79,8 @@ public class TaskSlidesActivity extends AppCompatActivity {
             displayTimerControls(true);
         }
         else {
-            displayNavigationControls(true);
             displayTimerControls(false);
+            displayNavigationControls(true);
         }
 
         if (task.getPicture() != null) {
@@ -114,13 +116,13 @@ public class TaskSlidesActivity extends AppCompatActivity {
     }
 
     private void setUpView() {
-        setContentView(R.layout.activity_step_slides);
+        setContentView(R.layout.activity_child_activity_slides);
         imageDirectory = getApplicationContext().getFilesDir().toString();
 
-        taskName = (TextView)findViewById(R.id.id_tv_step_name);
-        taskImage = (ImageView)findViewById(R.id.id_iv_step_image);
-        taskDuration = (TextView)findViewById(R.id.id_tv_step_duration_time);
-        taskTimerIcon = (ImageView)findViewById(R.id.id_iv_step_duration_icon);
+        taskName = (TextView)findViewById(R.id.id_tv_child_activity_name);
+        taskImage = (ImageView)findViewById(R.id.id_iv_child_activity_image);
+        taskDuration = (TextView)findViewById(R.id.id_tv_child_activity_duration_time);
+        taskTimerIcon = (ImageView)findViewById(R.id.id_iv_child_activity_duration_icon);
         backButton = (ImageButton)findViewById(R.id.id_bv_back_button);
         nextButton = (ImageButton)findViewById(R.id.id_bv_next_button);
 
@@ -132,17 +134,31 @@ public class TaskSlidesActivity extends AppCompatActivity {
     View.OnClickListener backButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(currentTask > 0)
+            if(currentTaskIndex > 0)
                 showPreviousTask();
-            else
+            else {
+                Intent intentWithResult = new Intent();
+                intentWithResult.putExtra(Consts.RETURN_MESSAGE_KEY, Consts.MESSAGE_TASKS_NOT_COMPLETED);
+                setResult(Consts.RETURN_MESSAGE_CODE, intentWithResult);
                 finish();
+            }
         }
     };
 
     View.OnClickListener nextButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            currentTaskCompleted();
+            if(!tasks.get(currentTaskIndex).getStepTemplates().isEmpty()){
+                Intent intent = StepsDisplayUtils.getStepsDisplayIntent(
+                        getApplicationContext(),
+                        tasks.get(currentTaskIndex).getId(),
+                        childPlanRepository.getActivePlan().getChild().isDisplayModeSlide()
+                );
+                startActivityForResult(intent, Consts.RETURN_MESSAGE_CODE);
+            }
+            else{
+                currentTaskCompleted();
+            }
         }
     };
 
@@ -157,19 +173,20 @@ public class TaskSlidesActivity extends AppCompatActivity {
     };
 
     private void goToNextTask(){
-        setCurrentTask(++currentTask);
+        setCurrentTask(++currentTaskIndex);
     }
 
     private void showPreviousTask(){
-        setCurrentTask(--currentTask);
+        setCurrentTask(--currentTaskIndex);
     }
 
     private void currentTaskCompleted(){
-        if (currentTask + 1 < tasks.size())
+        if (currentTaskIndex + 1 < tasks.size()) {
             goToNextTask();
+        }
         else {
             Intent intentWithResult = new Intent();
-            intentWithResult.putExtra(Consts.RETURN_MESSAGE_KEY, Consts.MESSAGE_STEPS_COMPLETED);
+            intentWithResult.putExtra(Consts.RETURN_MESSAGE_KEY, Consts.MESSAGE_TASKS_COMPLETED);
             setResult(Consts.RETURN_MESSAGE_CODE, intentWithResult);
             finish();
         }
@@ -190,5 +207,19 @@ public class TaskSlidesActivity extends AppCompatActivity {
 
         timerHandler.post(updater);
         currentTaskStatus = ChildActivityState.IN_PROGRESS;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data != null && data.getStringExtra(Consts.RETURN_MESSAGE_KEY) != null)
+            currentTaskCompleted();
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent intentWithResult = new Intent();
+        intentWithResult.putExtra(Consts.RETURN_MESSAGE_KEY, Consts.MESSAGE_TASKS_NOT_COMPLETED);
+        setResult(Consts.RETURN_MESSAGE_CODE, intentWithResult);
+        super.onBackPressed();
     }
 }
