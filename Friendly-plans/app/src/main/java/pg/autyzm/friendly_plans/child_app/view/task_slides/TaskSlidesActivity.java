@@ -53,8 +53,10 @@ public class TaskSlidesActivity extends AppCompatActivity {
         ChildPlan activePlan = childPlanRepository.getActivePlan();
         tasks = activePlan.getPlanTemplate().getTasksWithThisPlan();
 
-        if (tasks.isEmpty())
+        if (tasks.isEmpty()) {
             finish();
+            return;
+        }
 
         setUpView();
         setCurrentTask(0);

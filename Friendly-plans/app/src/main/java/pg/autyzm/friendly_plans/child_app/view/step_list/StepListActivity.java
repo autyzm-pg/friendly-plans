@@ -60,14 +60,15 @@ public class StepListActivity extends AppCompatActivity {
                 return;
 
             if (stepRecyclerViewAdapter.getCurrentStepState() == ChildActivityState.FINISHED){
-                if (clickPosition < stepRecyclerViewAdapter.getItemCount() - 1) {
+                if (clickPosition < stepRecyclerViewAdapter.getItemCount() - 1)
                     stepRecyclerViewAdapter.setCurrentStep(clickPosition + 1);
-                    return;
+                else {
+                    Intent intentWithResult = new Intent();
+                    intentWithResult.putExtra(Consts.RETURN_MESSAGE_KEY, Consts.MESSAGE_STEPS_COMPLETED);
+                    setResult(Consts.RETURN_MESSAGE_CODE, intentWithResult);
+                    finish();
                 }
-                Intent intentWithResult = new Intent();
-                intentWithResult.putExtra(Consts.RETURN_MESSAGE_KEY, Consts.MESSAGE_STEPS_COMPLETED);
-                setResult(Consts.RETURN_MESSAGE_CODE, intentWithResult);
-                finish();
+                return;
             }
 
             startChildActivityExecution(durationLabel);
