@@ -1,6 +1,7 @@
 package pg.autyzm.friendly_plans.child_app.view.task_slides;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.child_app.utility.ChildActivityExecutor;
 import pg.autyzm.friendly_plans.child_app.utility.ChildActivityState;
 import pg.autyzm.friendly_plans.child_app.utility.Consts;
+import pg.autyzm.friendly_plans.child_app.utility.SoundHelper;
 import pg.autyzm.friendly_plans.child_app.utility.StepsDisplayUtils;
 
 import static android.view.View.VISIBLE;
@@ -44,6 +46,8 @@ public class TaskSlidesActivity extends AppCompatActivity {
     ImageView taskTimerIcon;
     ImageButton backButton;
     ImageButton nextButton;
+    MediaPlayer startSound;
+    MediaPlayer endSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +60,14 @@ public class TaskSlidesActivity extends AppCompatActivity {
         if (tasks.isEmpty())
             finish();
 
+        setUpSounds();
         setUpView();
         setCurrentTask(0);
+    }
+
+    private void setUpSounds(){
+        startSound = MediaPlayer.create(this, R.raw.beep);
+        endSound = SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).prepareLoopSound();
     }
 
     private void setCurrentTask(int index){
@@ -70,8 +80,6 @@ public class TaskSlidesActivity extends AppCompatActivity {
 
     private void setupTaskView(TaskTemplate task){
         taskName.setText(task.getName());
-
-
         Integer duration = task.getDurationTime();
         if(duration != null) {
             taskDuration.setText(String.format("%d %s", duration, Consts.DURATION_UNIT_SECONDS));
@@ -167,8 +175,11 @@ public class TaskSlidesActivity extends AppCompatActivity {
         public void onClick(View v) {
             if (currentTaskStatus == ChildActivityState.PENDING_START)
                 startChildActivityExecution(taskDuration);
-            else if(currentTaskStatus == ChildActivityState.FINISHED)
+            else if(currentTaskStatus == ChildActivityState.FINISHED) {
                 displayNavigationControls(true);
+                endSound.stop();
+                SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).resetLoopSound(endSound);
+            }
         }
     };
 
@@ -196,12 +207,13 @@ public class TaskSlidesActivity extends AppCompatActivity {
         final Handler timerHandler = new Handler();
         String durationStr = durationLabel.getText().toString();
         Integer duration = Integer.parseInt(durationStr.replaceAll("[^0-9]", ""));
-
+        startSound.start();
         Runnable updater = new ChildActivityExecutor(duration, durationLabel, timerHandler,
                 new ChildActivityExecutor.ActivityCompletedListener(){
                     @Override
                     public void onActivityCompleted() {
                         currentTaskStatus = ChildActivityState.FINISHED;
+                        endSound.start();
                     }
                 });
 

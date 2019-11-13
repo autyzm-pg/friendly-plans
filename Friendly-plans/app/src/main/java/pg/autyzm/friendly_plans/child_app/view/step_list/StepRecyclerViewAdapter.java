@@ -2,6 +2,7 @@ package pg.autyzm.friendly_plans.child_app.view.step_list;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,8 @@ public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerVi
 
     protected interface StepItemClickListener {
         void selectStepListener(int position, TextView stepName);
+        void setStartSound(MediaPlayer sound);
+        void setEndSound(MediaPlayer sound);
     }
 
     static class StepRecyclerViewHolder extends RecyclerView.ViewHolder {

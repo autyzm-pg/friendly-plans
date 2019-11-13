@@ -13,6 +13,7 @@ import database.repository.TaskTemplateRepository;
 import javax.inject.Singleton;
 import pg.autyzm.friendly_plans.asset.AssetsHelper;
 import pg.autyzm.friendly_plans.asset.AssetsHelperModule;
+import pg.autyzm.friendly_plans.child_app.utility.SoundHelper;
 import pg.autyzm.friendly_plans.child_app.view.MainActivity;
 import pg.autyzm.friendly_plans.file_picker.FilePickerModule;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
@@ -118,4 +119,6 @@ public interface AppComponent {
     void inject(pg.autyzm.friendly_plans.child_app.view.step_slides.StepSlidesActivity stepSlidesActivity);
 
     void inject(pg.autyzm.friendly_plans.child_app.view.task_slides.TaskSlidesActivity taskSlidesActivity);
+
+    void inject(SoundHelper soundHelper);
 }
