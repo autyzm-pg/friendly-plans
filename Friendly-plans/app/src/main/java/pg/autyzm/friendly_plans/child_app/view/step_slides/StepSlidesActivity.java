@@ -26,6 +26,7 @@ import pg.autyzm.friendly_plans.child_app.utility.ChildActivityExecutor;
 import pg.autyzm.friendly_plans.child_app.utility.Consts;
 import pg.autyzm.friendly_plans.child_app.utility.ChildActivityState;
 import pg.autyzm.friendly_plans.child_app.utility.SoundHelper;
+import pg.autyzm.friendly_plans.child_app.view.common.SoundIconListener;
 
 import static android.view.View.VISIBLE;
 
@@ -47,6 +48,7 @@ public class StepSlidesActivity extends AppCompatActivity {
     ImageButton nextButton;
     MediaPlayer startSound;
     MediaPlayer endSound;
+    ImageView soundImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,16 @@ public class StepSlidesActivity extends AppCompatActivity {
                     .into(stepImage);
         } else
             stepImage.setVisibility(View.INVISIBLE);
+
+        if(step.getSound() == null){
+            soundImage.setVisibility(View.INVISIBLE);
+        }
+        else{
+            soundImage.setVisibility(View.VISIBLE);
+            MediaPlayer sound = SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).getSound(step.getSoundId());
+            SoundIconListener soundClickListener = new SoundIconListener(sound);
+            soundImage.setOnClickListener(soundClickListener);
+        }
     }
 
     private void displayNavigationControls(boolean shouldDisplay){
@@ -134,7 +146,7 @@ public class StepSlidesActivity extends AppCompatActivity {
         stepTimerIcon = (ImageView)findViewById(R.id.id_iv_child_activity_duration_icon);
         backButton = (ImageButton)findViewById(R.id.id_bv_back_button);
         nextButton = (ImageButton)findViewById(R.id.id_bv_next_button);
-
+        soundImage = (ImageView)findViewById(R.id.id_iv_child_activity_sound);
         backButton.setOnClickListener(backButtonListener);
         nextButton.setOnClickListener(nextButtonListener);
         stepTimerIcon.setOnClickListener(timerButtonListener);

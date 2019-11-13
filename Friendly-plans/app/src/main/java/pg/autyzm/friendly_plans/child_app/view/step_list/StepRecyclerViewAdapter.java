@@ -16,15 +16,19 @@ import java.io.File;
 import java.util.List;
 
 import database.entities.StepTemplate;
+import pg.autyzm.friendly_plans.AppComponent;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.child_app.utility.Consts;
+import pg.autyzm.friendly_plans.child_app.utility.SoundHelper;
 import pg.autyzm.friendly_plans.child_app.view.common.ChildActivityList;
 import pg.autyzm.friendly_plans.child_app.utility.ChildActivityState;
+import pg.autyzm.friendly_plans.child_app.view.common.SoundIconListener;
 
 public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerViewAdapter.StepRecyclerViewHolder> implements ChildActivityList {
     private StepItemClickListener stepItemClickListener;
     private List<StepTemplate> steps;
     private String imageDirectory;
+    AppComponent appComponent;
 
     private Integer currentStepPosition = 0;
     Integer getCurrentStepPosition() { return currentStepPosition; }
@@ -41,23 +45,23 @@ public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerVi
     static class StepRecyclerViewHolder extends RecyclerView.ViewHolder {
         StepItemClickListener stepItemClickListener;
         TextView stepName;
-
+        ImageView soundImage;
         ImageView stepImage;
         String imageDirectory;
-
         TextView durationLabel;
 
         StepRecyclerViewHolder(View itemView, String imageDirectory, StepItemClickListener stepItemClickListener) {
             super(itemView);
             this.stepName = (TextView) itemView.findViewById(R.id.id_tv_step_name);
             this.stepImage = (ImageView) itemView.findViewById(R.id.id_iv_step_image);
+            this.soundImage = (ImageView) itemView.findViewById(R.id.id_step_sound_icon);
             this.durationLabel = (TextView) itemView.findViewById(R.id.id_tv_step_duration_time);
             this.imageDirectory = imageDirectory;
             this.stepItemClickListener = stepItemClickListener;
             itemView.setOnClickListener(stepItemListener);
         }
 
-        void setUpHolder(StepTemplate step) {
+        void setUpHolder(StepTemplate step, AppComponent appComponent) {
             stepName.setText(step.getName());
             if (step.getPicture() != null) {
                 String imageName = step.getPicture().getFilename();
@@ -66,6 +70,14 @@ public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerVi
                         .into(stepImage);
             } else {
                 stepImage.setVisibility(View.INVISIBLE);
+            }
+            if(step.getSound() == null){
+                soundImage.setVisibility(View.INVISIBLE);
+            }
+            else{
+                MediaPlayer sound = SoundHelper.getSoundHelper(appComponent).getSound(step.getSoundId());
+                SoundIconListener soundClickListener = new SoundIconListener(sound);
+                soundImage.setOnClickListener(soundClickListener);
             }
         }
 
@@ -77,11 +89,16 @@ public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerVi
         };
     }
 
-    StepRecyclerViewAdapter(List<StepTemplate> steps, String imageDirectory, StepItemClickListener stepItemClickListener)
+    StepRecyclerViewAdapter(List<StepTemplate> steps,
+                            String imageDirectory,
+                            StepItemClickListener stepItemClickListener,
+                            AppComponent appComponent
+    )
     {
         this.steps = steps;
         this.imageDirectory = imageDirectory;
         this.stepItemClickListener = stepItemClickListener;
+        this.appComponent = appComponent;
     }
 
     @Override
@@ -96,7 +113,7 @@ public class StepRecyclerViewAdapter extends RecyclerView.Adapter<StepRecyclerVi
     public void onBindViewHolder(StepRecyclerViewAdapter.StepRecyclerViewHolder holder, int position) {
         if (steps != null && !steps.isEmpty()) {
             StepTemplate step = steps.get(position);
-            holder.setUpHolder(step);
+            holder.setUpHolder(step, appComponent);
         }
         holder.itemView.setBackgroundColor(Color.TRANSPARENT);
 

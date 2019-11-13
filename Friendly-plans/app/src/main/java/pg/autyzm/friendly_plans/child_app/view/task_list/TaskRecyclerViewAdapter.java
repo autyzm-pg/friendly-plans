@@ -19,13 +19,16 @@ import database.entities.TaskTemplate;
 import pg.autyzm.friendly_plans.AppComponent;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.child_app.utility.Consts;
+import pg.autyzm.friendly_plans.child_app.utility.SoundHelper;
 import pg.autyzm.friendly_plans.child_app.view.common.ChildActivityList;
 import pg.autyzm.friendly_plans.child_app.utility.ChildActivityState;
+import pg.autyzm.friendly_plans.child_app.view.common.SoundIconListener;
 
 public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerViewAdapter.TaskRecyclerViewHolder> implements ChildActivityList {
     private List<TaskTemplate> tasks;
     private TaskItemClickListener taskItemClickListener;
     private String imageDirectory;
+    private AppComponent appComponent;
 
     private Integer currentTaskPosition = 0;
     Integer getCurrentTaskPosition() { return currentTaskPosition; }
@@ -47,6 +50,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         TextView taskDuration;
         ImageView taskImage;
         ImageView actionPicture;
+        ImageView soundImage;
         TaskItemClickListener taskItemClickListener;
         String imageDirectory;
         boolean hasTimer = false;
@@ -62,6 +66,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
             this.actionPicture = (ImageView) itemView.findViewById(R.id.id_task_activity_icon);
             this.taskDuration = (TextView) itemView.findViewById(R.id.id_tv_task_duration_time);
             this.taskImage = (ImageView) itemView.findViewById(R.id.id_iv_task_image);
+            this.soundImage = (ImageView) itemView.findViewById(R.id.id_task_sound_icon);
             itemView.setOnClickListener(actionIconListener);
             this.taskItemClickListener = taskItemClickListener;
             this.imageDirectory = imageDirectory;
@@ -80,7 +85,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
             }
         };
 
-        void setUpHolder(TaskTemplate task){
+        void setUpHolder(TaskTemplate task, AppComponent appComponent){
             taskName.setText(task.getName());
 
             if (task.getPicture() != null) {
@@ -110,17 +115,28 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
                 actionPicture.setVisibility(View.INVISIBLE);
                 taskDuration.setVisibility(View.INVISIBLE);
             }
+
+            if(task.getSound() == null){
+                soundImage.setVisibility(View.INVISIBLE);
+            }
+            else{
+                MediaPlayer sound = SoundHelper.getSoundHelper(appComponent).getSound(task.getSoundId());
+                SoundIconListener soundClickListener = new SoundIconListener(sound);
+                soundImage.setOnClickListener(soundClickListener);
+            }
         }
     }
 
     TaskRecyclerViewAdapter(
         List<TaskTemplate> tasks,
         TaskItemClickListener taskItemClickListener,
-        final String imageDirectory
+        final String imageDirectory,
+        AppComponent appComponent
     ) {
         this.tasks = tasks;
         this.taskItemClickListener = taskItemClickListener;
         this.imageDirectory = imageDirectory;
+        this.appComponent = appComponent;
     }
 
     @Override
@@ -135,7 +151,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     public void onBindViewHolder(TaskRecyclerViewHolder holder, int position) {
         if (tasks != null && !tasks.isEmpty()) {
             TaskTemplate task = tasks.get(position);
-            holder.setUpHolder(task);
+            holder.setUpHolder(task, appComponent);
         }
         holder.itemView.setBackgroundColor(Color.TRANSPARENT);
 

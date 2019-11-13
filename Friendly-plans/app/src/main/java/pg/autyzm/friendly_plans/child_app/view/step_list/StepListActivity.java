@@ -48,7 +48,7 @@ public class StepListActivity extends AppCompatActivity {
         MediaPlayer endSound = SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).prepareLoopedSound();
         stepListener.setStartSound(startSound);
         stepListener.setEndSound(endSound);
-        stepRecyclerViewAdapter = new StepRecyclerViewAdapter(steps, filesDirectory, stepListener);
+        stepRecyclerViewAdapter = new StepRecyclerViewAdapter(steps, filesDirectory, stepListener, ((App) getApplication()).getAppComponent());
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_child_app_step_list);
         recyclerView.setHasFixedSize(true);

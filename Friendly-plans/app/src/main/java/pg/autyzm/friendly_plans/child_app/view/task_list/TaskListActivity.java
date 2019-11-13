@@ -137,7 +137,7 @@ public class TaskListActivity extends AppCompatActivity {
         ChildPlan activePlan = childPlanRepository.getActivePlan();
         List<TaskTemplate> tasks = activePlan.getPlanTemplate().getTasksWithThisPlan();
         String filesDirectory = getApplicationContext().getFilesDir().toString();
-        taskRecyclerViewAdapter = new TaskRecyclerViewAdapter(tasks, taskItemClickListener, filesDirectory);
+        taskRecyclerViewAdapter = new TaskRecyclerViewAdapter(tasks, taskItemClickListener, filesDirectory, appComponent);
 
         recyclerView.setAdapter(taskRecyclerViewAdapter);
     }
