@@ -66,9 +66,10 @@ public class TaskListActivity extends AppCompatActivity {
                         SoundHelper.getSoundHelper(appComponent).resetLoopSound(endSound);
                         if (clickPosition < taskRecyclerViewAdapter.getItemCount() - 1) {
                             taskRecyclerViewAdapter.setCurrentTask(clickPosition + 1);
-                            return;
                         }
-                        goToPlanFinishedScreen();
+                        else
+                            goToPlanFinishedScreen();
+                        return;
                     }
                     startChildActivityExecution(durationLabel);
                 }
@@ -101,12 +102,13 @@ public class TaskListActivity extends AppCompatActivity {
                     final Handler timerHandler = new Handler();
                     String durationStr = durationLabel.getText().toString();
                     Integer duration = Integer.parseInt(durationStr.replaceAll("[^0-9]", ""));
+                    startSound.start();
                     Runnable updater = new ChildActivityExecutor(duration, durationLabel, timerHandler,
                             new ChildActivityExecutor.ActivityCompletedListener() {
                                 @Override
                                 public void onActivityCompleted() {
                                     taskRecyclerViewAdapter.activityCompleted();
-//                                    endSound.start();
+                                    endSound.start();
                                 }
                             });
                     timerHandler.post(updater);

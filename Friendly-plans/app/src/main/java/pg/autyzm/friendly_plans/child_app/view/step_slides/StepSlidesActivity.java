@@ -56,8 +56,10 @@ public class StepSlidesActivity extends AppCompatActivity {
         steps = stepTemplateRepository.getAll(
                 getIntent().getExtras().getLong(ActivityProperties.TASK_ID)
         );
-        if (steps.isEmpty())
+        if (steps.isEmpty()) {
             finish();
+            return;
+        }
 
         setUpSounds();
         setUpView();

@@ -68,17 +68,19 @@ public class StepListActivity extends AppCompatActivity {
                     || stepRecyclerViewAdapter.getCurrentStepState() == ChildActivityState.IN_PROGRESS)
                 return;
 
-            if (stepRecyclerViewAdapter.getCurrentStepState() == ChildActivityState.FINISHED){
+            if (stepRecyclerViewAdapter.getCurrentStepState() == ChildActivityState.FINISHED) {
                 endSound.stop();
                 SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).resetLoopSound(endSound);
                 if (clickPosition < stepRecyclerViewAdapter.getItemCount() - 1) {
                     stepRecyclerViewAdapter.setCurrentStep(clickPosition + 1);
-                    return;
                 }
-                Intent intentWithResult = new Intent();
-                intentWithResult.putExtra(Consts.RETURN_MESSAGE_KEY, Consts.MESSAGE_STEPS_COMPLETED);
-                setResult(Consts.RETURN_MESSAGE_CODE, intentWithResult);
-                finish();
+                else {
+                    Intent intentWithResult = new Intent();
+                    intentWithResult.putExtra(Consts.RETURN_MESSAGE_KEY, Consts.MESSAGE_STEPS_COMPLETED);
+                    setResult(Consts.RETURN_MESSAGE_CODE, intentWithResult);
+                    finish();
+                }
+                return;
             }
 
             startChildActivityExecution(durationLabel);
