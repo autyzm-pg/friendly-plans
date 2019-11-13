@@ -30,8 +30,7 @@ public class SoundHelper {
 
     private void setLoopedSoundPath() {
         Long soundId = childPlanRepository.getActivePlan().getChild().getTimerSoundId();
-        loopedSoundPath = assetsHelper.getFileFullPath(assetRepository.get(soundId));
-
+        loopedSoundPath = soundId != null ? assetsHelper.getFileFullPath(assetRepository.get(soundId)): null;
     }
 
     public MediaPlayer prepareLoopedSound() {
@@ -57,5 +56,18 @@ public class SoundHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public MediaPlayer getSound(long soundId){
+        MediaPlayer sound = new MediaPlayer();
+        String path = assetsHelper.getFileFullPath(assetRepository.get(soundId));
+        try {
+            sound.setDataSource(path);
+            sound.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            sound.prepare();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sound;
     }
 }
