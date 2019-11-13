@@ -69,7 +69,7 @@ public class TaskSlidesActivity extends AppCompatActivity {
 
     private void setUpSounds(){
         startSound = MediaPlayer.create(this, R.raw.beep);
-        endSound = SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).prepareLoopSound();
+        endSound = SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).prepareLoopedSound();
     }
 
     private void setCurrentTask(int index){
@@ -180,7 +180,7 @@ public class TaskSlidesActivity extends AppCompatActivity {
             else if(currentTaskStatus == ChildActivityState.FINISHED) {
                 displayNavigationControls(true);
                 endSound.stop();
-                SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).resetLoopSound(endSound);
+                SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).resetLoopedSound(endSound);
             }
         }
     };

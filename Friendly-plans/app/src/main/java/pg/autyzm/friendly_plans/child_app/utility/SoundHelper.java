@@ -19,25 +19,25 @@ public class SoundHelper {
     AssetsHelper assetsHelper;
     @Inject
     AssetRepository assetRepository;
-    String loopSoundPath;
+    private String loopedSoundPath;
     public static SoundHelper getSoundHelper(AppComponent appComponent)
     {
         SoundHelper soundHelper = new SoundHelper();
         appComponent.inject(soundHelper);
-        soundHelper.setLoopSoundPath();
+        soundHelper.setLoopedSoundPath();
         return soundHelper;
     }
 
-    void setLoopSoundPath() {
+    private void setLoopedSoundPath() {
         Long soundId = childPlanRepository.getActivePlan().getChild().getTimerSoundId();
-        loopSoundPath = assetsHelper.getFileFullPath(assetRepository.get(soundId));
+        loopedSoundPath = assetsHelper.getFileFullPath(assetRepository.get(soundId));
 
     }
 
-    public MediaPlayer prepareLoopSound() {
+    public MediaPlayer prepareLoopedSound() {
         MediaPlayer sound = new MediaPlayer();
         try {
-            sound.setDataSource(loopSoundPath);
+            sound.setDataSource(loopedSoundPath);
             sound.setAudioStreamType(AudioManager.STREAM_MUSIC);
             sound.setLooping(true);
             sound.prepare();
@@ -47,10 +47,10 @@ public class SoundHelper {
         return sound;
     }
 
-    public void resetLoopSound(MediaPlayer sound){
+    public void resetLoopedSound(MediaPlayer sound){
         sound.reset();
         try {
-            sound.setDataSource(loopSoundPath);
+            sound.setDataSource(loopedSoundPath);
             sound.setAudioStreamType(AudioManager.STREAM_MUSIC);
             sound.setLooping(true);
             sound.prepare();

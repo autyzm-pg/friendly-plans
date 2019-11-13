@@ -45,7 +45,7 @@ public class StepListActivity extends AppCompatActivity {
         );
         String filesDirectory = getApplicationContext().getFilesDir().toString();
         MediaPlayer startSound = MediaPlayer.create(this, R.raw.beep);
-        MediaPlayer endSound = SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).prepareLoopSound();
+        MediaPlayer endSound = SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).prepareLoopedSound();
         stepListener.setStartSound(startSound);
         stepListener.setEndSound(endSound);
         stepRecyclerViewAdapter = new StepRecyclerViewAdapter(steps, filesDirectory, stepListener);
@@ -70,7 +70,7 @@ public class StepListActivity extends AppCompatActivity {
 
             if (stepRecyclerViewAdapter.getCurrentStepState() == ChildActivityState.FINISHED) {
                 endSound.stop();
-                SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).resetLoopSound(endSound);
+                SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).resetLoopedSound(endSound);
                 if (clickPosition < stepRecyclerViewAdapter.getItemCount() - 1) {
                     stepRecyclerViewAdapter.setCurrentStep(clickPosition + 1);
                 }

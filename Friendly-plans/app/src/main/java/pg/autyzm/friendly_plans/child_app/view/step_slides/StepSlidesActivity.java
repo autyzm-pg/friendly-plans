@@ -68,7 +68,7 @@ public class StepSlidesActivity extends AppCompatActivity {
 
     private void setUpSounds(){
         startSound = MediaPlayer.create(this, R.raw.beep);
-        endSound = SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).prepareLoopSound();
+        endSound = SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).prepareLoopedSound();
     }
 
     private void setCurrentStep(int index){
@@ -164,7 +164,7 @@ public class StepSlidesActivity extends AppCompatActivity {
                 startChildActivityExecution(stepDuration);
             else if(currentStepStatus == ChildActivityState.FINISHED) {
                 endSound.stop();
-                SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).resetLoopSound(endSound);
+                SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).resetLoopedSound(endSound);
                 displayNavigationControls(true);
             }
         }

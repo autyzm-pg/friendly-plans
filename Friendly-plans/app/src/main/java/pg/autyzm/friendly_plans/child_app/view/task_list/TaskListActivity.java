@@ -61,9 +61,9 @@ public class TaskListActivity extends AppCompatActivity {
                         return;
 
                     if (taskRecyclerViewAdapter.getCurrentTaskState() == ChildActivityState.FINISHED) {
-                        SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).resetLoopSound(endSound);
+                        SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).resetLoopedSound(endSound);
                         endSound.stop();
-                        SoundHelper.getSoundHelper(appComponent).resetLoopSound(endSound);
+                        SoundHelper.getSoundHelper(appComponent).resetLoopedSound(endSound);
                         if (clickPosition < taskRecyclerViewAdapter.getItemCount() - 1) {
                             taskRecyclerViewAdapter.setCurrentTask(clickPosition + 1);
                         }
@@ -126,7 +126,7 @@ public class TaskListActivity extends AppCompatActivity {
     void setRecyclerView() {
         AppComponent appComponent = ((App) getApplication()).getAppComponent();
         MediaPlayer startSound = MediaPlayer.create(this, R.raw.beep);
-        MediaPlayer endSound = SoundHelper.getSoundHelper(appComponent).prepareLoopSound();
+        MediaPlayer endSound = SoundHelper.getSoundHelper(appComponent).prepareLoopedSound();
         taskItemClickListener.setStartSound(startSound);
         taskItemClickListener.setEndSound(endSound);
         taskItemClickListener.setAppComponent(appComponent);
