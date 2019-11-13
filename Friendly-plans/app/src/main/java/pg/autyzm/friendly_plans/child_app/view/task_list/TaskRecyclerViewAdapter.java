@@ -2,6 +2,7 @@ package pg.autyzm.friendly_plans.child_app.view.task_list;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.util.List;
 
 import database.entities.TaskTemplate;
+import pg.autyzm.friendly_plans.AppComponent;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.child_app.utility.Consts;
 import pg.autyzm.friendly_plans.child_app.view.common.ChildActivityList;
@@ -35,6 +37,9 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         void stepsIconListener(int position);
         void timerIconClickListener(int position, final TextView durationLabel);
         void blankChildActivityListener(int position);
+        void setStartSound(MediaPlayer startSound);
+        void setEndSound(MediaPlayer startSound);
+        void setAppComponent(AppComponent appComponent);
     }
 
     static class TaskRecyclerViewHolder extends RecyclerView.ViewHolder {

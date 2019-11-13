@@ -1,6 +1,7 @@
 package pg.autyzm.friendly_plans.child_app.view.step_slides;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.child_app.utility.ChildActivityExecutor;
 import pg.autyzm.friendly_plans.child_app.utility.Consts;
 import pg.autyzm.friendly_plans.child_app.utility.ChildActivityState;
+import pg.autyzm.friendly_plans.child_app.utility.SoundHelper;
 
 import static android.view.View.VISIBLE;
 
@@ -43,6 +45,8 @@ public class StepSlidesActivity extends AppCompatActivity {
     ImageView stepTimerIcon;
     ImageButton backButton;
     ImageButton nextButton;
+    MediaPlayer startSound;
+    MediaPlayer endSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +61,14 @@ public class StepSlidesActivity extends AppCompatActivity {
             return;
         }
 
+        setUpSounds();
         setUpView();
         setCurrentStep(0);
+    }
+
+    private void setUpSounds(){
+        startSound = MediaPlayer.create(this, R.raw.beep);
+        endSound = SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).prepareLoopedSound();
     }
 
     private void setCurrentStep(int index){
@@ -71,7 +81,6 @@ public class StepSlidesActivity extends AppCompatActivity {
 
     private void setupStepView(StepTemplate step){
         stepName.setText(step.getName());
-
         Integer duration = step.getDuration();
         if(duration != null) {
             stepDuration.setText(String.format("%d %s", duration, Consts.DURATION_UNIT_SECONDS));
@@ -153,8 +162,11 @@ public class StepSlidesActivity extends AppCompatActivity {
         public void onClick(View v) {
             if (currentStepStatus == ChildActivityState.PENDING_START)
                 startChildActivityExecution(stepDuration);
-            else if(currentStepStatus == ChildActivityState.FINISHED)
+            else if(currentStepStatus == ChildActivityState.FINISHED) {
+                endSound.stop();
+                SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).resetLoopedSound(endSound);
                 displayNavigationControls(true);
+            }
         }
     };
 
@@ -181,12 +193,13 @@ public class StepSlidesActivity extends AppCompatActivity {
         final Handler timerHandler = new Handler();
         String durationStr = durationLabel.getText().toString();
         Integer duration = Integer.parseInt(durationStr.replaceAll("[^0-9]", ""));
-
+        startSound.start();
         Runnable updater = new ChildActivityExecutor(duration, durationLabel, timerHandler,
                 new ChildActivityExecutor.ActivityCompletedListener(){
                     @Override
                     public void onActivityCompleted() {
                         currentStepStatus = ChildActivityState.FINISHED;
+                        endSound.start();
                     }
                 });
 

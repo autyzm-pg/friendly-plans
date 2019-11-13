@@ -30,7 +30,6 @@ public final class SoundComponent {
     @Inject
     AssetsHelper assetsHelper;
 
-
     private Long soundId;
     private ImageButton playSoundIcon;
     private Context context;

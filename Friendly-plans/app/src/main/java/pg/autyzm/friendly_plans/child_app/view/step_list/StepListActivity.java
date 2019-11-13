@@ -1,6 +1,7 @@
 package pg.autyzm.friendly_plans.child_app.view.step_list;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.child_app.utility.ChildActivityExecutor;
 import pg.autyzm.friendly_plans.child_app.utility.Consts;
 import pg.autyzm.friendly_plans.child_app.utility.ChildActivityState;
+import pg.autyzm.friendly_plans.child_app.utility.SoundHelper;
 
 public class StepListActivity extends AppCompatActivity {
 
@@ -42,6 +44,10 @@ public class StepListActivity extends AppCompatActivity {
                 getIntent().getExtras().getLong(ActivityProperties.TASK_ID)
         );
         String filesDirectory = getApplicationContext().getFilesDir().toString();
+        MediaPlayer startSound = MediaPlayer.create(this, R.raw.beep);
+        MediaPlayer endSound = SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).prepareLoopedSound();
+        stepListener.setStartSound(startSound);
+        stepListener.setEndSound(endSound);
         stepRecyclerViewAdapter = new StepRecyclerViewAdapter(steps, filesDirectory, stepListener);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_child_app_step_list);
@@ -53,15 +59,21 @@ public class StepListActivity extends AppCompatActivity {
 
 
     StepRecyclerViewAdapter.StepItemClickListener stepListener = new StepRecyclerViewAdapter.StepItemClickListener() {
+        MediaPlayer startSound;
+        MediaPlayer endSound;
+
         @Override
         public void selectStepListener(int clickPosition, final TextView durationLabel) {
             if (clickPosition != stepRecyclerViewAdapter.getCurrentStepPosition()
                     || stepRecyclerViewAdapter.getCurrentStepState() == ChildActivityState.IN_PROGRESS)
                 return;
 
-            if (stepRecyclerViewAdapter.getCurrentStepState() == ChildActivityState.FINISHED){
-                if (clickPosition < stepRecyclerViewAdapter.getItemCount() - 1)
+            if (stepRecyclerViewAdapter.getCurrentStepState() == ChildActivityState.FINISHED) {
+                endSound.stop();
+                SoundHelper.getSoundHelper(((App) getApplication()).getAppComponent()).resetLoopedSound(endSound);
+                if (clickPosition < stepRecyclerViewAdapter.getItemCount() - 1) {
                     stepRecyclerViewAdapter.setCurrentStep(clickPosition + 1);
+                }
                 else {
                     Intent intentWithResult = new Intent();
                     intentWithResult.putExtra(Consts.RETURN_MESSAGE_KEY, Consts.MESSAGE_STEPS_COMPLETED);
@@ -74,17 +86,26 @@ public class StepListActivity extends AppCompatActivity {
             startChildActivityExecution(durationLabel);
         }
 
+        public void setStartSound(MediaPlayer sound) {
+            startSound = sound;
+        }
+
+        public void setEndSound(MediaPlayer sound) {
+            endSound = sound;
+        }
+
         private void startChildActivityExecution(final TextView durationLabel){
             stepRecyclerViewAdapter.setCurrentStepState(ChildActivityState.IN_PROGRESS);
             final Handler timerHandler = new Handler();
             String durationStr = durationLabel.getText().toString();
             Integer duration = Integer.parseInt(durationStr.replaceAll("[^0-9]", ""));
-
+            startSound.start();
             Runnable updater = new ChildActivityExecutor(duration, durationLabel, timerHandler,
                     new ChildActivityExecutor.ActivityCompletedListener(){
                         @Override
                         public void onActivityCompleted() {
                             stepRecyclerViewAdapter.activityCompleted();
+                            endSound.start();
                         }
                     });
 
