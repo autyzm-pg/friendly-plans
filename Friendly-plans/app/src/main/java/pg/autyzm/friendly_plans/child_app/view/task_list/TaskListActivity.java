@@ -51,11 +51,11 @@ public class TaskListActivity extends AppCompatActivity {
                         return;
 
                     if (taskRecyclerViewAdapter.getCurrentTaskState() == ChildActivityState.FINISHED){
-                        if (clickPosition < taskRecyclerViewAdapter.getItemCount() - 1) {
+                        if (clickPosition < taskRecyclerViewAdapter.getItemCount() - 1)
                             taskRecyclerViewAdapter.setCurrentTask(clickPosition + 1);
-                            return;
-                        }
-                        goToPlanFinishedScreen();
+                        else
+                            goToPlanFinishedScreen();
+                        return;
                     }
                     startChildActivityExecution(durationLabel);
                 }
