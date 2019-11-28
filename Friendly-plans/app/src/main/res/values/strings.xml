@@ -129,6 +129,6 @@
 
   <!--Child app-->
   <string name="tasks_finished_message">Gratulacje, wszystkie zadania zostały ukończone!</string>
-  <string name="plan_not_chosen_message">Nie wykryto aktywnego planu. Przejdź do aplikacji Plan Manager i upewnij się, że któryś z planów został wybrany."</string>
+  <string name="plan_not_chosen_message">Nie wykryto aktywnego planu. Przejdź do aplikacji Przyjazny Plan Ustawienia i upewnij się, że któryś z planów został wybrany."</string>
 
 </resources>
