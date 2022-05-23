@@ -1,9 +1,13 @@
 package pg.autyzm.friendly_plans.manager_app.view.view_fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -59,20 +63,43 @@ public abstract class CreateFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (filePickerProxy.isFilePicked(resultCode)) {
-            if (filePickerProxy.isPickFileRequested(requestCode, AssetType.PICTURE)) {
+//            if (filePickerProxy.isPickFileRequested(requestCode, AssetType.PICTURE)) {
                 handleAssetSelecting(data, AssetType.PICTURE);
-            } else if (filePickerProxy.isPickFileRequested(requestCode, AssetType.SOUND)) {
-                handleAssetSelecting(data, AssetType.SOUND);
+//            } else if (filePickerProxy.isPickFileRequested(requestCode, AssetType.SOUND)) {
+//                handleAssetSelecting(data, AssetType.SOUND);
+//            }
+        }
+    }
+
+    @SuppressLint("Range")
+    private String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                cursor.close();
             }
         }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
     }
 
     protected void handleAssetSelecting(Intent data, AssetType assetType) {
         Context context = getActivity().getApplicationContext();
-        String filePath = filePickerProxy.getFilePath(data);
+        Uri fileUri = filePickerProxy.getFilePath(data);
         AssetsHelper assetsHelper = new AssetsHelper(context);
         try {
-            String assetName = assetsHelper.makeSafeCopy(filePath);
+            String assetName = assetsHelper.makeSafeCopy(fileUri, getFileName(fileUri));
             Long assetId = assetRepository
                     .create(AssetType.getTypeByExtension(assetName), assetName);
             setAssetValue(assetType, assetName, assetId);

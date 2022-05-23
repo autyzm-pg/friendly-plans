@@ -68,7 +68,7 @@ public class AssetsHelperTest {
     @Test
     public void whenMakingSafeCopyExpectNewFilePathBeReturned()
             throws IOException {
-        String safeCopyName = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath());
+        String safeCopyName = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath(), getFileName(fileUri));
         addToTestFiles(safeCopyName);
         assertThat(safeCopyName, matchesPattern(jpgFileSafeCopyNamePattern));
     }
@@ -76,7 +76,7 @@ public class AssetsHelperTest {
     @Test
     public void whenMakingSafeCopyJPGExpectNewFilePathBeReturned()
             throws IOException {
-        String safeCopyName = assetsHelper.makeSafeCopy(jpgUpperFile.getAbsolutePath());
+        String safeCopyName = assetsHelper.makeSafeCopy(jpgUpperFile.getAbsolutePath(), getFileName(fileUri));
         addToTestFiles(safeCopyName);
         assertThat(safeCopyName, matchesPattern(jpgFileSafeCopyNamePattern));
     }
@@ -84,7 +84,7 @@ public class AssetsHelperTest {
     @Test
     public void whenMakingSafeCopyJPEGExpectNewFilePathBeReturned()
             throws IOException {
-        String safeCopyName = assetsHelper.makeSafeCopy(jpegFile.getAbsolutePath());
+        String safeCopyName = assetsHelper.makeSafeCopy(jpegFile.getAbsolutePath(), getFileName(fileUri));
         addToTestFiles(safeCopyName);
         assertThat(safeCopyName, matchesPattern(jpgFileSafeCopyNamePattern));
     }
@@ -92,7 +92,7 @@ public class AssetsHelperTest {
     @Test
     public void whenMakingSafeCopyPNGExpectNewFilePathBeReturned()
             throws IOException {
-        String safeCopyName = assetsHelper.makeSafeCopy(pngFile.getAbsolutePath());
+        String safeCopyName = assetsHelper.makeSafeCopy(pngFile.getAbsolutePath(), getFileName(fileUri));
         addToTestFiles(safeCopyName);
         assertThat(safeCopyName, matchesPattern(pngFileSafeCopyNamePattern));
     }
@@ -100,7 +100,7 @@ public class AssetsHelperTest {
     @Test
     public void whenMakingSafeCopyExpectFileCopyHasBeenCreated()
             throws IOException {
-        String safeCopyName = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath());
+        String safeCopyName = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath(), getFileName(fileUri));
         addToTestFiles(safeCopyName);
         assertThat(new File(pathToInternalStorage, safeCopyName).exists(), is(true));
     }
@@ -108,7 +108,7 @@ public class AssetsHelperTest {
     @Test
     public void whenMakingSafeCopyJPEGExpectFileCopyHasBeenCreated()
             throws IOException {
-        String safeCopyName = assetsHelper.makeSafeCopy(jpegFile.getAbsolutePath());
+        String safeCopyName = assetsHelper.makeSafeCopy(jpegFile.getAbsolutePath(), getFileName(fileUri));
         addToTestFiles(safeCopyName);
         assertThat(new File(pathToInternalStorage, safeCopyName).exists(), is(true));
     }
@@ -116,7 +116,7 @@ public class AssetsHelperTest {
     @Test
     public void whenMakingSafeCopyPNGExpectFileCopyHasBeenCreated()
             throws IOException {
-        String safeCopyName = assetsHelper.makeSafeCopy(pngFile.getAbsolutePath());
+        String safeCopyName = assetsHelper.makeSafeCopy(pngFile.getAbsolutePath(), getFileName(fileUri));
         addToTestFiles(safeCopyName);
         assertThat(new File(pathToInternalStorage, safeCopyName).exists(), is(true));
     }
@@ -124,8 +124,8 @@ public class AssetsHelperTest {
     @Test
     public void whenMakingSafeCopyExpectEachFilePathBeDifferent()
             throws IOException {
-        String safeCopyName = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath());
-        String secondSafeCopyName = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath());
+        String safeCopyName = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath(), getFileName(fileUri));
+        String secondSafeCopyName = assetsHelper.makeSafeCopy(jpgFile.getAbsolutePath(), getFileName(fileUri));
         addToTestFiles(safeCopyName);
         addToTestFiles(secondSafeCopyName);
         assertThat(safeCopyName, is(not(equalTo(secondSafeCopyName))));
