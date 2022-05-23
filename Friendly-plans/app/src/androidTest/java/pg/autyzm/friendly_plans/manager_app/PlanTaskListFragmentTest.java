@@ -1,13 +1,17 @@
 package pg.autyzm.friendly_plans.manager_app;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.test.espresso.contrib.RecyclerViewActions;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-import android.support.v7.widget.RecyclerView;
 
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -24,15 +28,13 @@ import pg.autyzm.friendly_plans.resource.PlanTemplateRule;
 import pg.autyzm.friendly_plans.resource.TaskTemplateRule;
 import pg.autyzm.friendly_plans.view_actions.ViewClicker;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static pg.autyzm.friendly_plans.matcher.RecyclerViewMatcher.withRecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.runner.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class PlanTaskListFragmentTest {
@@ -159,7 +161,7 @@ public class PlanTaskListFragmentTest {
         onView(withId(R.id.rv_create_plan_task_list))
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(testedInteractionPosition,
-                                new ViewClicker(R.id.id_remove_task)));
+                                (ViewAction) new ViewClicker(R.id.id_remove_task)));
 
         onView(withId(R.id.rv_create_plan_task_list)).perform(
                 RecyclerViewActions.scrollToPosition(testedInteractionPosition));

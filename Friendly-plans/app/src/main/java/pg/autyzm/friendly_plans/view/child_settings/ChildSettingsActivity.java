@@ -1,9 +1,10 @@
 package pg.autyzm.friendly_plans.view.child_settings;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import database.repository.PlanTemplateRepository;
 import javax.inject.Inject;
 import pg.autyzm.friendly_plans.App;

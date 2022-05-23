@@ -1,10 +1,13 @@
 package pg.autyzm.friendly_plans.manager_app.view.main_screen;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.ActivityMainBinding;
 import pg.autyzm.friendly_plans.manager_app.view.activate_plan.ActivatePlanActivity;

@@ -2,16 +2,19 @@ package pg.autyzm.friendly_plans.manager_app.view.plan_create_task_list;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import javax.inject.Inject;
 
 import database.repository.PlanTemplateRepository;

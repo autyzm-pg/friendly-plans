@@ -9,6 +9,8 @@ import static org.mockito.Mockito.when;
 import android.app.Fragment;
 import android.content.Intent;
 import android.widget.Button;
+
+import com.nbsp.materialfilepicker.BuildConfig;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import database.repository.TaskTemplateRepository;
 import org.junit.Before;
@@ -24,7 +26,6 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowToast;
 import pg.autyzm.friendly_plans.AppComponent;
-import pg.autyzm.friendly_plans.BuildConfig;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.asset.AssetType;
 import pg.autyzm.friendly_plans.file_picker.FilePickerProxy;
@@ -99,7 +100,7 @@ public class TaskCreateActivityTest {
     public void whenActivityResultIsCalledWithNonExistingPictureDataExpectToastWithErrorMessageIsShown() {
         fragment.onActivityResult(
                 AssetType.PICTURE.ordinal(),
-                FilePickerActivity.RESULT_OK,
+                1,
                 new Intent()
         );
         String expectedMessage = activity.getResources().getString(R.string.picking_file_error);
@@ -119,7 +120,7 @@ public class TaskCreateActivityTest {
     public void whenActivityResultIsCalledWithNonExistingSoundDataExpectToastWithErrorMessageIsShown() {
         fragment.onActivityResult(
                 AssetType.SOUND.ordinal(),
-                FilePickerActivity.RESULT_OK,
+                1,
                 new Intent()
         );
         String expectedMessage = activity.getResources().getString(R.string.picking_file_error);

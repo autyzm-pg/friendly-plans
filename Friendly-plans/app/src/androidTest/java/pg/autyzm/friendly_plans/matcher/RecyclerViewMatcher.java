@@ -1,8 +1,9 @@
 package pg.autyzm.friendly_plans.matcher;
 
 import android.content.res.Resources;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;

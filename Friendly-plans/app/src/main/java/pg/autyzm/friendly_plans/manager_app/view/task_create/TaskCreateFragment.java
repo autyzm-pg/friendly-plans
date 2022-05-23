@@ -2,7 +2,6 @@ package pg.autyzm.friendly_plans.manager_app.view.task_create;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import androidx.databinding.DataBindingUtil;
 
 import database.repository.StepTemplateRepository;
 import javax.inject.Inject;

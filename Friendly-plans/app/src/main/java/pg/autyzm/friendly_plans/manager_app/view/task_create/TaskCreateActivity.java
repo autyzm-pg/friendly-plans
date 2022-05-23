@@ -5,7 +5,8 @@ import android.app.FragmentManager.OnBackStackChangedListener;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+
+import androidx.fragment.app.FragmentActivity;
 
 import javax.inject.Inject;
 
@@ -66,6 +67,7 @@ public class TaskCreateActivity extends FragmentActivity {
     @Override
     public void onRequestPermissionsResult(int permsRequestCode, String[] permissions,
             int[] grantResults) {
+        super.onRequestPermissionsResult(permsRequestCode, permissions, grantResults);
         if (permsRequestCode == 1) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

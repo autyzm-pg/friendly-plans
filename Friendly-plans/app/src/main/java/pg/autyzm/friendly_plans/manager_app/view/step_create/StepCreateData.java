@@ -1,8 +1,8 @@
 package pg.autyzm.friendly_plans.manager_app.view.step_create;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import pg.autyzm.friendly_plans.BR;
 
 public class StepCreateData extends BaseObservable {
@@ -21,6 +21,8 @@ public class StepCreateData extends BaseObservable {
     public String getStepName() {
         return stepName;
     }
+
+    @Bindable
     public void setStepName(String stepName) {
         this.stepName = stepName;
         notifyPropertyChanged(BR.stepName);
@@ -30,6 +32,8 @@ public class StepCreateData extends BaseObservable {
     public String getPictureName() {
         return pictureName;
     }
+
+    @Bindable
     public void setPictureName(String pictureName) {
         this.pictureName = pictureName;
         notifyPropertyChanged(BR.pictureName);
@@ -39,6 +43,8 @@ public class StepCreateData extends BaseObservable {
     public String getSoundName() {
         return soundName;
     }
+
+    @Bindable
     public void setSoundName(String soundName) {
         this.soundName = soundName;
         notifyPropertyChanged(BR.soundName);

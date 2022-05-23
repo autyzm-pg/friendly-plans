@@ -1,7 +1,8 @@
 package pg.autyzm.friendly_plans.manager_app.view.plan_create;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
+
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 
 import pg.autyzm.friendly_plans.BR;
 

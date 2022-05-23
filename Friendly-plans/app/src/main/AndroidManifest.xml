@@ -13,7 +13,8 @@
     android:theme="@style/AppTheme">
     <activity
       android:name=".manager_app.view.main_screen.MainActivity"
-      android:screenOrientation="landscape">
+      android:screenOrientation="landscape"
+        android:exported="true">
 
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
@@ -49,7 +50,8 @@
         android:name=".child_app.view.MainActivity"
         android:screenOrientation="landscape"
         android:label="@string/child_app_name"
-        android:taskAffinity="pg.autyzm.friendly_plans.ChildTask">
+        android:taskAffinity="pg.autyzm.friendly_plans.ChildTask"
+        android:exported="true">
 
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>

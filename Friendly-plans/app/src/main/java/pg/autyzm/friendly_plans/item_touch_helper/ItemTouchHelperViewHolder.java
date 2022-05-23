@@ -16,8 +16,6 @@
 
 package pg.autyzm.friendly_plans.item_touch_helper;
 
-import android.support.v7.widget.helper.ItemTouchHelper;
-
 /**
  * Interface to notify an item ViewHolder of relevant callbacks from {@link
  * android.support.v7.widget.helper.ItemTouchHelper.Callback}.

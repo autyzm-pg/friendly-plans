@@ -23,7 +23,7 @@
       android:stretchMode="columnWidth">
 
     </GridLayout>
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/rv_child_settings_plan_list"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
@@ -32,7 +32,7 @@
       android:layout_alignEnd="@+id/gridLayout"
       android:layout_alignTop="@+id/gridLayout"
       android:scrollbars="vertical"
-      tools:listitem="@layout/item_active_plan"></android.support.v7.widget.RecyclerView>
+      tools:listitem="@layout/item_active_plan"></androidx.recyclerview.widget.RecyclerView>
 
     <ScrollView
       android:id="@+id/ScrollView01"

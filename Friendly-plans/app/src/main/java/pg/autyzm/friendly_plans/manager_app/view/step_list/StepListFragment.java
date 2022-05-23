@@ -3,15 +3,15 @@ package pg.autyzm.friendly_plans.manager_app.view.step_list;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import javax.inject.Inject;
 
@@ -22,10 +22,9 @@ import pg.autyzm.friendly_plans.App;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.databinding.FragmentStepListBinding;
 import pg.autyzm.friendly_plans.item_touch_helper.SimpleItemTouchHelperCallback;
+import pg.autyzm.friendly_plans.manager_app.view.step_create.StepCreateFragment;
 import pg.autyzm.friendly_plans.notifications.DialogUserNotifier;
 import pg.autyzm.friendly_plans.notifications.ToastUserNotifier;
-import pg.autyzm.friendly_plans.manager_app.view.main_screen.MainActivity;
-import pg.autyzm.friendly_plans.manager_app.view.step_create.StepCreateFragment;
 
 public class StepListFragment extends Fragment implements StepListEvents {
 

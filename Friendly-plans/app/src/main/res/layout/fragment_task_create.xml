@@ -247,9 +247,9 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginStart="60dp"
-          android:orientation="horizontal"
-          android:onCheckedChanged="@{events::eventChangeButtonStepsVisibility}"
-          >
+          android:orientation="horizontal">
+<!--          android:onCheckedChanged="@{events::eventChangeButtonStepsVisibility}"-->
+
 
           <RadioButton
             android:id="@+id/id_rb_type_task"

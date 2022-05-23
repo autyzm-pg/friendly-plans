@@ -2,8 +2,13 @@ package pg.autyzm.friendly_plans.resource;
 
 import android.content.Context;
 import android.support.test.rule.ActivityTestRule;
+
+import androidx.test.rule.ActivityTestRule;
+
 import database.repository.StepTemplateRepository;
 import database.repository.TaskTemplateRepository;
+import pg.autyzm.friendly_plans.manager_app.view.plan_create.PlanCreateActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.rules.ExternalResource;
@@ -19,7 +24,7 @@ public class TaskTemplateRule extends ExternalResource {
     private List<Long> stepIds = new ArrayList<>();
     private List<Long> taskIds = new ArrayList<>();
 
-    public TaskTemplateRule(DaoSessionResource daoSessionResource, ActivityTestRule activityRule) {
+    public TaskTemplateRule(DaoSessionResource daoSessionResource, ActivityTestRule<PlanCreateActivity> activityRule) {
         this.daoSessionResource = daoSessionResource;
         this.activityRule = activityRule;
     }

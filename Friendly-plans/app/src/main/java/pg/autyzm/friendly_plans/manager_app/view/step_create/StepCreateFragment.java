@@ -1,7 +1,6 @@
 package pg.autyzm.friendly_plans.manager_app.view.step_create;
 
 import android.annotation.TargetApi;
-import android.databinding.DataBindingUtil;
 import android.media.MediaPlayer;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
@@ -12,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import androidx.databinding.DataBindingUtil;
 
 import javax.inject.Inject;
 

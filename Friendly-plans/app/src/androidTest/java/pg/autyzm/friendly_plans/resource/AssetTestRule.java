@@ -91,7 +91,7 @@ public class AssetTestRule extends ExternalResource {
         activityRule.getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 fragment.onActivityResult(assetType.ordinal(),
-                        FilePickerActivity.RESULT_OK, data);
+                        1, data);
             }
         });
         Thread.sleep(CHOOSE_FILE_TIMEOUT);

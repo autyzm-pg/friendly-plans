@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-kapt"
 
 buildscript {
     repositories {
@@ -7,18 +9,19 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.3.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
     }
 }
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '26.0.2'
+    compileSdk 32
+    buildToolsVersion '32.0.0'
 
     defaultConfig {
         applicationId "pg.autyzm.friendly_plans"
-        minSdkVersion 18
-        targetSdkVersion 24
+        minSdk 29
+        targetSdk 32
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -56,48 +59,61 @@ greendao {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'org.greenrobot:greendao:3.2.0'
-    compile 'com.android.support:appcompat-v7:24.2.0'
-    compile "com.google.dagger:dagger:2.9"
-    compile 'com.nbsp:library:1.2'
-    compile 'commons-io:commons-io:2.4'
-    compile 'org.hamcrest:hamcrest-core:1.3'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.android.databinding:library:1.3.1'
-    compile 'com.android.databinding:adapters:1.3.1'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'org.greenrobot:greendao:3.2.0'
+//    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
 
-    annotationProcessor "com.google.dagger:dagger-compiler:2.9"
-    provided 'javax.annotation:jsr250-api:1.0'
+//    implementation 'com.google.dagger:dagger-android-support:2.9'
 
-    testCompile "org.robolectric:robolectric:3.5.1"
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile 'org.hamcrest:java-hamcrest:2.0.0.0'
-    testCompile 'com.github.fabioCollini:DaggerMock:0.6.4'
-    testCompile "org.powermock:powermock-module-junit4:1.6.4"
-    testCompile "org.powermock:powermock-module-junit4-rule:1.6.4"
-    testCompile "org.powermock:powermock-api-mockito:1.6.4"
-    testCompile "org.powermock:powermock-classloading-xstream:1.6.4"
-    testCompile "com.google.dagger:dagger:2.9"
+//    implementation 'com.nbsp:library:1.2'
+    implementation 'com.nbsp:materialfilepicker:1.9.1'
+    implementation 'commons-io:commons-io:2.4'
+    implementation 'org.hamcrest:hamcrest-core:1.3'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+
+
+    annotationProcessor 'com.android.databinding:compiler:3.1.4'
+
+    testImplementation "org.robolectric:robolectric:3.5.1"
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+    testImplementation 'org.hamcrest:java-hamcrest:2.0.0.0'
+    testImplementation 'com.github.fabioCollini:DaggerMock:0.6.4'
+    testImplementation "org.powermock:powermock-module-junit4:1.6.4"
+    testImplementation "org.powermock:powermock-module-junit4-rule:1.6.4"
+    testImplementation "org.powermock:powermock-api-mockito:1.6.4"
+    testImplementation "org.powermock:powermock-classloading-xstream:1.6.4"
     testAnnotationProcessor "com.google.dagger:dagger-compiler:2.9"
-    testProvided 'javax.annotation:jsr250-api:1.0'
+//    testProvided 'javax.annotation:jsr250-api:1.0'
 
-    androidTestCompile 'org.mockito:mockito-core:1.10.19'
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.1'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.1'
-    androidTestCompile 'com.android.support:support-annotations:25.1.0'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
-    androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.+'
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2') {
+    androidTestImplementation 'org.mockito:mockito-core:1.10.19'
+    androidTestImplementation 'com.google.dexmaker:dexmaker:1.1'
+    androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.1'
+    androidTestImplementation 'com.android.support:support-annotations:28.0.0'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation 'org.hamcrest:hamcrest-library:1.3'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:3.0.2') {
         // Necessary to avoid version conflicts
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude module: 'recyclerview-v7'
     }
+
+    def daggerVer = 2.27 // or latest version
+
+    implementation "com.google.dagger:dagger:$daggerVer"
+    implementation "com.google.dagger:dagger-android-support:$daggerVer"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVer"
+    kapt "com.google.dagger:dagger-compiler:$daggerVer"
+    testImplementation "com.google.dagger:dagger:$daggerVer"
+
 }
 
 android.applicationVariants.all { variant ->

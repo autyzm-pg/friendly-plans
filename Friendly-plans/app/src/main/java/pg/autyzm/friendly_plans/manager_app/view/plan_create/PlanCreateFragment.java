@@ -1,13 +1,14 @@
 package pg.autyzm.friendly_plans.manager_app.view.plan_create;
 
 import android.app.FragmentTransaction;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import androidx.databinding.DataBindingUtil;
 
 import javax.inject.Inject;
 

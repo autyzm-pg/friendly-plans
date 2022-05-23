@@ -1,7 +1,8 @@
 package pg.autyzm.friendly_plans.child_app.view;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import pg.autyzm.friendly_plans.R;
 

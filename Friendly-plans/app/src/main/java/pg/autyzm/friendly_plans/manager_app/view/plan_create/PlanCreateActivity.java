@@ -4,7 +4,9 @@ import android.app.Fragment;
 import android.app.FragmentManager.OnBackStackChangedListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+
+import androidx.fragment.app.FragmentActivity;
+
 import pg.autyzm.friendly_plans.ActivityProperties;
 import pg.autyzm.friendly_plans.R;
 import pg.autyzm.friendly_plans.manager_app.view.task_type_enum.TaskType;

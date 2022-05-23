@@ -16,8 +16,6 @@
 
 package pg.autyzm.friendly_plans.item_touch_helper;
 
-import android.support.v7.widget.RecyclerView;
-
 /**
  * Interface to listen for a move or dismissal event from a ItemTouchHelper.Callback.
  *
